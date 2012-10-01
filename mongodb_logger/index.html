@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MongodbLogger: logger for Rails 3</title>
+    <meta charset='utf-8'>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+    <script src='slides.js'></script>
+  </head>
+
+  <body style='display: none'>
+
+    <section class='slides layout-regular template-io2011'>      
+      <article class='biglogo'>
+      </article>
+
+      <article>
+        <h1>
+          MongodbLogger:
+          <br />
+          logger for Rails 3
+        </h1>
+        <p>
+          Alexey Vasyliev
+          <br>
+          Dec 7, 2011
+        </p>
+      </article>
+      
+      <article class='smaller'>
+        <p>
+          <img class='centered' style='height: 200px' src='images/mongodb.png'>
+        </p>
+        <p>
+          <strong>MongoDB</strong> is an open source, high-performance, schema-free, 
+          document-oriented database. 
+          Features:
+          <ul>
+            <li>Consistent UTF-8 encoding;</li>
+            <li>Cross-platform support;</li>
+            <li>Efficient storage for large binary data;</li>
+            <li>Replication and failover;</li>
+            <li>MapReduce;</li>
+          </ul>
+        </p>
+      </article>
+      
+      <article>
+        <h3>
+          Why application should log to DB?
+        </h3>
+        <p>
+          <img class='centered' style='height: 300px' src='images/schema.png'>
+        </p>
+        <ul>
+          <li>
+            Centralized application logging;
+          </li>
+          <li>
+            Easy remote access, compared to files;
+          </li>
+          <li>
+            Can be fast and scalable;
+          </li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>
+          What are the advantages appear logging in MongoDB?
+        </h3> 
+        <ul>
+          <li>
+            Flexible schema;
+          </li>
+          <li>
+            Asynchronous inserts;
+          </li>
+          <li>
+            Capped collection;
+          </li>
+          <li>
+            Fast enough compared to files;
+          </li>
+          <li>
+            Indexed and searched;
+          </li>
+          <li>
+            Analyze data in-place;
+          </li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>
+          MongodbLogger: gem for Rails 3
+        </h3> 
+        <p>
+          <img class='centered' style='height: 200px' src='images/github.png'>
+        </p>
+        <p>
+          MongodbLogger is a logger for Rails 3, which log all requests of you application into MongoDB database.
+          <br />
+          <a href="https://github.com/le0pard/mongodb_logger">https://github.com/le0pard/mongodb_logger</a>
+        </p>
+      </article>
+      
+      <article class='smaller'>
+        <h3>
+          MongodbLogger: Installation
+        </h3> 
+        <ul>
+          <li>
+            Add to Gemfile
+            <br />
+            <pre>gem "mongodb_logger"</pre>
+          </li>
+          <li>
+            Add to ApplicationController
+            <br />
+            <pre>include MongodbLogger::Base</pre>
+          </li>
+          <li>
+            Setup config for MongoDB;
+          </li>
+          <li>
+            Setup front end. Add to config/routes.rb
+            <pre>require 'mongodb_logger/server'
+mount MongodbLogger::Server.new, :at => "/mongodb"</pre>
+          </li>
+        </ul>
+      </article>
+      
+      <article class='smaller'>
+        <h3>
+          MongodbLogger: log structure
+        </h3> 
+        <section>
+        <pre>{
+    'action'           : action_name,
+    'application_name' : application_name (rails project name),
+    'controller'       : controller_name,
+    'ip'               : ip_address,
+    'messages'         : {
+                           'info'  : [ ],
+                           'debug' : [ ],
+                           'error' : [ ],
+                           'warn'  : [ ],
+                           'fatal' : [ ]
+                         },
+    'params'           : { },
+    'path'             : path,
+    'request_time'     : date_of_request,
+    'runtime'          : elapsed_execution_time_in_milliseconds,
+    'url'              : full_url,
+    'method'           : request method (GET, POST, OPTIONS),
+    'is_exception'     : true only for exceptions (in other cases this field miss)
+}</pre>
+        </section>
+      </article>
+      
+      <article class='smaller'>
+        <h3>
+          MongodbLogger: add extra information to log
+        </h3> 
+        <p>
+          <img class='centered' style='height: 300px' src='images/homer_work.png'>
+        </p>
+        <section>
+        <pre># make sure we're using the MongodbLogger in this environment
+if Rails.logger.respond_to?(:add_metadata)
+ Rails.logger.add_metadata(:user_id => @current_user.id)
+end</pre>
+        </section>
+      </article>
+
+      <article class='smaller'>
+        <h3>
+          MongodbLogger: querying via the Rails console
+        </h3> 
+        <section>
+        <pre>>> db = Rails.logger.mongo_connection
+>> collection = db[Rails.logger.mongo_collection_name]</pre>
+        </section>
+        <p>
+          Find all requests for a specific user (with id):
+        </p>
+        <section>
+        <pre>>> cursor = collection.find(:user_id => '12355')
+>> cursor.count
+=> 5</pre>
+        </section>
+        <p>
+          Find all requests that took more that one second to complete:
+        </p>
+        <section>
+        <pre>>> collection.find({:runtime => {'$gt' => 1000}}).count
+=> 3</pre>
+        </section>
+      </article>      
+      
+      <article class='smaller'>
+        <h3>
+          MongodbLogger: querying via the Rails console
+        </h3> 
+        <p>
+          Find all requests with an exception that contains "RoutingError":
+        </p>
+        <section>
+        <pre>>> collection.find({"messages.error" => /RoutingError/})</pre>
+        </section>
+        <p>
+          Find all requests with errors:
+        </p>
+        <section>
+        <pre>>> collection.find({"is_exception" => true})</pre>
+        </section>
+        <p>
+          Find all requests by params in request
+        </p>
+        <section>
+        <pre>>> collection.find({"params.activity" => {'$exists' => true}})</pre>
+        </section>
+      </article>
+  
+      <article>
+        <h3>
+          MongodbLogger: Front End
+        </h3>
+        <p>
+          <img class='centered' style='height: 400px' src='images/screen1.png'>
+        </p>
+        <p>
+          Demo: <a href="http://demo-mongodb-logger.catware.org/">http://demo-mongodb-logger.catware.org/</a>
+        </p>
+      </article>
+      
+      <article class='smaller'>
+        <h3>
+          MongodbLogger: Restrictions
+        </h3>
+        <p>
+          <img class='centered' style='height: 250px' src='images/homer-simpson-5.jpg'>
+        </p>
+        <ul>
+          <li>
+            The database doesn't allow update the existing objects in the collection (for logging this is plus!);
+          </li>
+          <li>
+            The database doesn't allow deleting objects from a capped collection (for logging this is plus!);
+          </li>
+          <li>
+            Capped collection are not shardable;
+          </li>
+          <li>
+            More indexes - slower inserts (common case for all databases :));
+          </li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>
+          Thank you!
+        </h3>
+        <p>Thanks a lot for people:</p>
+        <ul>
+          <li>Timur Prokopiev (UI + design)</li>
+          <li>Vasiliy Gamov (HTML + CSS)</li>
+          <li>Tanya Lyashenko (Logo)</li>
+        </ul>
+      </article>
+  
+    </section>
+
+  </body>
+</html>
