@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PostgreSQL in Highload Projects - PyCon 2012</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/pycon-logo.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/python.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Me</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>6+ years experience
+            <ul>
+              <li>Linux and Databases administrator</li>
+              <li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++)</li>
+            </ul>
+          </li>
+          <li>Open-Source developer
+            <ul>
+              <li>MongodbLogger for Rails</li>
+              <li>SMTRails and SHTRails (shared templates for rails)</li>
+              <li>SkypeKit for Ruby</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="centered">
+          <img src="images/photo.jpeg" alt="me" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>PostgreSQL</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p><b>PostgreSQL</b> is an object-relational database management system.</p>
+          <p>We have two question:</p>
+          <ul style="font-size:2em">
+            <li>Why?</li>
+            <li>How?</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/postgresql_logo.png" alt="PostgreSQL" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/python.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Why PostgreSQL</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Flexible Datatypes</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/datatypes.png" alt="PostgreSQL" style="width: 600px" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li>Multiversion concurrency control</li>
+        </ul>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>MVCC</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/mvcc.png" alt="MVCC" style="width: 600px" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li>Tables can be set to inherit their characteristics from a "parent" table</li>
+          <li>Data in child tables will appear to exist in the parent tables, unless data is selected from the parent table using the ONLY keyword</li>
+        </ul>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Table Inheritance</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <br />
+        <br />
+        <br />
+        <br />
+        <img src="images/inheritance.png" alt="Table Inheritance" style="width: 600px" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li>As of version 9.1, PostgreSQL can link to other systems to retrieve data via foreign data wrappers (FDWs).</li>
+          <li>These can take the form of any data source, such as a file system, another RDBMS, or a web service. This means regular database queries can use these data sources like regular tables, and even join multiple data sources together.</li>
+        </ul>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Foreign Data Wrappers (FDWs)</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/fdws.png" alt="FDWs" style="width: 600px" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Extensions</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <ul>
+            <li>PostGIS</li>
+            <li>PostPic</li>
+            <li>PL/Proxy</li>
+            <li>PgMemcache</li>
+            <li>Prefix</li>
+            <li>pgSphere</li>
+            <li>Multicorn</li>
+            <li>Hstore</li>
+            <li>Intarray</li>
+            <li>Dblink </li>
+            <li>many others...</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/extensions.png" alt="Extensions" style="width: 460px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/python.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>How PostgreSQL</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>The Base for the Begin</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <ul>
+            <li>Do not use the default settings</li>
+            <li>Use the latest version</li>
+            <li>EXPLAIN ANALYZE and indexes, indexes, indexes</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/homer616.jpeg" alt="Homer" style="width: 415px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Functional Indexes</h2>
+      <h3>Functional and Partial Indexes</h3>
+    </hgroup>
+    <article>
+      <p>Index on expression</p>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX foo_name_first_idx
+        ON foo <b>((lower(substr(foo_name, 1, 1))));</b>
+      </pre>
+      <p>for selects</p>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT * FROM foo
+        <b>WHERE lower(substr(foo_name, 1, 1)) = 's';</b>
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Partial Indexes</h2>
+      <h3>Functional and Partial Indexes</h3>
+    </hgroup>
+    <article>
+      <p>Index refers to the predicate WHERE</p>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX access_log_client_ip_ix ON access_log (client_ip)
+        <b>WHERE NOT (client_ip > inet '192.168.100.0' AND
+                   client_ip < inet '192.168.100.255');</b>
+      </pre>
+      <p>for selects</p>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT * FROM access_log
+        <b>WHERE client_ip = '192.168.100.45';</b>
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Create Index Concurrently</h2>
+    </hgroup>
+    <article>
+      <p>Instead</p>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX sales_quantity_index ON sales_table (quantity);
+      </pre>
+      <p>this better for huge table</p>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX <b>CONCURRENTLY</b> sales_quantity_index ON sales_table (quantity);
+      </pre>
+      <p>but be careful</p>
+      <pre class="prettyprint" data-lang="sql">
+        Indexes:
+            "idx" btree (col) <b>INVALID</b>
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Vertical and Horizontal Scaling</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/scaling_vertical.png" alt="Vertical scaling" style="width: 250px" />
+        </div>
+        <div class="centered">
+          <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 450px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/icon_128.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>Buying a bigger box is quick(ish). Redesigning software is not.</q>
+      <div class="author">
+        Cal Henderson<br>
+        Flickr
+      </div>
+    </article>
+  </slide>
+  
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar"><img src="images/icon_128.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>37 Signals Basecamp upgraded to 128 GB DB server: don’t need to pay the complexity tax yet</q>
+      <div class="author">
+        David Heinemeier Hansson<br>
+        Ruby on Rails
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>How to use Partitioning</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE TABLE my_logs(
+          id SERIAL PRIMARY KEY,
+          logdate TIMESTAMP NOT NULL,
+          data JSON
+        );
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE TABLE my_logs2012m10 (
+        <b>CHECK ( logdate >= DATE '2012−10−01' AND logdate < DATE '2012−11−01' )
+        ) INHERITS (my_logs)</b>;
+        CREATE INDEX my_logs2012m10_logdate ON my_logs2012m10 (logdate);
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Management Partition</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <p>Simple cleanup</p>
+      <pre class="prettyprint" data-lang="sql">
+        DROP TABLE my_logs2012m06;
+      </pre>
+      <p>or remove partition from partitioning</p>
+      <pre class="prettyprint" data-lang="sql">
+        ALTER TABLE my_logs2012m06 
+        <b>NO INHERIT</b> my_logs;
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Smart Query Optimization</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        partitioning_test=# EXPLAIN SELECT ∗ FROM my_logs WHERE logdate > '2012−08−01';
+                                  QUERY PLAN
+        −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+        Result ( cost =6.81..41.87 rows=660 width=52)
+          −> Append ( cost =6.81..41.87 rows=660 width=52)
+            −> Bitmap Heap Scan on <b>my_logs</b> ( cost =6.81..20.93 rows=330 width=52)
+              Recheck Cond: ( logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+                −> Bitmap Index Scan on <b>my_logs_logdate</b> ( cost =0.00..6.73 rows=330 width=0)
+                  Index Cond: (logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+            −> Bitmap Heap Scan on <b>my_logs2012m08</b> my_logs ( cost =6.81..20.93 rows=330 width=52)
+              Recheck Cond: ( logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+                −> Bitmap Index Scan on <b>my_logs2012m08_logdate</b> ( cost =0.00..6.73 rows=330 width=0)
+                  Index Cond: (logdate > '2010−08−01 00:00:00' : : timestamp without time zone)
+        (10 rows)
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Replication Solutions</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Streaming Replication (build in)</li>
+          <li>Slony-I</li>
+          <li>Pgpool-I/II</li>
+          <li>Bucardo</li>
+          <li>Londiste</li>
+          <li>RubyRep</li>
+          <li>Postgres-R</li>
+          <li>many others...</li>
+        </ul>
+        <div class="centered">
+          <img src="images/homer_clones.png" alt="Homer" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Streaming Replication</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/streamin_replication.png" alt="PostgreSQL" style="width: 440px" />
+        </div>
+        <ul>
+          <li>Advantages:
+            <ul>
+              <li>Log-shipping instead triggers</li>
+              <li>Multiple standbys</li>
+              <li>Continuous recovery</li>
+              <li>Easy monitoring</li>
+            </ul>
+          </li>
+          <li>Disadvantages:
+            <ul>
+              <li>You can replicate only full database</li>
+              <li><b>No failover</b></li>
+              <li><b>No load balancing</b></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Pgpool-II + Streaming Replication = &lt;3</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Ease of setup and maintenance</li>
+          <li>Adding slaves without sacrificing performance</li>
+          <li>More slaves - more performance on reading (load balancing)</li>
+          <li>Automatic switch to slave if master fail (failover)</li>
+        </ul>
+        <div class="centered">
+          <img src="images/pgpool.png" alt="pgpool" style="width: 300px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>PostgreSQL as document store</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p>What I want?</p>
+          <ul>
+            <li>easily store semi-structured data</li>
+            <li>efficiency query on that data</li>
+          </ul>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </div>
+        <div>
+          <p>How about <b>hstore</b>?</p>
+          <p>Advantages:</p>
+          <ul>
+            <li>already in contrib</li>
+            <li>support index</li>
+          </ul>
+          <p>Disadvantages:</p>
+          <ul>
+            <li>no nesting</li>
+            <li>only strings</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>plv8</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/v8.png" alt="v8" style="width: 450px" />
+        </div>
+        <div>
+          <div>
+            <p>why javascript?</p>
+            <ul>
+              <li>everywhere</li>
+              <li>good parts</li>
+              <li>trusted language</li>
+            </ul>
+          </div>
+          <div>
+            <p>v8 javascript engine</p>
+            <ul>
+              <li>google</li>
+              <li>compiles to native code (really fast)</li>
+              <li>generational gc</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Fibonacci</h2>
+      <h3>plv8</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+
+        CREATE OR REPLACE FUNCTION
+        psqlfib(n int) RETURNS int AS $$
+         BEGIN
+             IF n < 2 THEN
+                 RETURN n;
+             END IF;
+             RETURN psqlfib(n-1) + psqlfib(n-2);
+         END;
+        $$ <b>LANGUAGE plpgsql</b> IMMUTABLE STRICT;
+      
+          </pre>
+          <br />
+          <br />
+          <br />
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+            select n, psqlfib(n)
+            from generate_series(0,30,5) as n;
+               n  | psqlfib 
+              ----+---------
+                0 |       0
+                5 |       5
+               10 |      55
+               15 |     610
+               20 |    6765
+               25 |   75025
+               30 |  832040
+              (7 rows)
+
+              <b>Time: 34014.299 ms</b>
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Fibonacci</h2>
+      <h3>plv8</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+
+        CREATE OR REPLACE FUNCTION
+        fib(n int) RETURNS int as $$
+
+          function fib(n) {
+            return n<2 ? n : fib(n-1) + fib(n-2)
+          }
+          return fib(n)
+
+        $$ <b>LANGUAGE plv8</b> IMMUTABLE STRICT;
+      
+          </pre>
+          <br />
+          <br />
+          <br />
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+            select n, fib(n)
+            from generate_series(0,30,5) as n;
+               n  |  fib   
+              ----+--------
+                0 |      0
+                5 |      5
+               10 |     55
+               15 |    610
+               20 |   6765
+               25 |  75025
+               30 | 832040
+              (7 rows)
+
+              <b>Time: 33.430 ms</b>
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Fibonacci (with cache in js object)</h2>
+      <h3>plv8</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+        CREATE OR REPLACE FUNCTION
+        fib2(n int) RETURNS int as $$
+
+          var memo = {0: 0, 1: 1}
+          function fib(n) {
+            if(!(n in memo))
+              memo[n] = fib(n-1) + fib(n-2)
+            return memo[n]
+          }
+          return fib(n);
+
+        $$ <b>LANGUAGE plv8</b> IMMUTABLE STRICT;
+          </pre>
+          <br />
+          <br />
+          <br />
+          <br />
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+            select n, fib2(n)
+            from generate_series(0,30,5) as n;
+               n  |  fib2  
+              ----+--------
+                0 |      0
+                5 |      5
+               10 |     55
+               15 |    610
+               20 |   6765
+               25 |  75025
+               30 | 832040
+              (7 rows)
+
+              <b>Time: 0.535 ms</b>
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>JSON datatype! (9.2)</h2>
+      <h3>JSON datatype</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+         {                                  +
+           "name": "Litzy Satterfield",     +
+           "age": 24,                       +
+           "siblings": 2,                   +
+           "faculty": false,                +
+           "numbers": [                     +
+             {                              +
+               "type":   "work",            +
+               "number": "684.573.3783 x368"+
+             },                             +
+             {                              +
+               "type":   "home",            +
+               "number": "625.112.6081"     +
+             }                              +
+           ]                                +
+         }
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>JSON datatype! (9.2)</h2>
+      <h3>JSON datatype</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+       CREATE TABLE members ( profile json);
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT count(*) FROM members;
+          count  
+        ---------
+         1000000
+        (1 row)
+
+        Time: 201.109 ms
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>JSON datatype! (9.2)</h2>
+      <h3>JSON datatype</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE OR REPLACE FUNCTION get_numeric(json_raw json, key text)
+        RETURNS numeric AS $$
+          var o = JSON.parse(json_raw);
+          return o[key];
+        $$ LANGUAGE plv8 IMMUTABLE STRICT;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT * FROM members WHERE get_numeric(profile, 'age') = 36;
+        <b>Time: 9340.142 ms</b>
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX member_age ON members (get_numeric(profile, 'age'));
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+         SELECT * FROM members WHERE get_numeric(profile, 'age') = 36;
+         <b>Time: 57.429 ms</b>
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>JSON datatype in PostgreSQL &lt; 9.2 </h2>
+      <h3>JSON datatype</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+    CREATE OR REPLACE FUNCTION 
+    valid_json(json text)
+    RETURNS BOOLEAN AS $$
+      try { 
+        JSON.parse(json); return true; 
+      } catch(e) { 
+        return false;
+      }
+    $$ LANGUAGE plv8 IMMUTABLE STRICT;
+    
+    CREATE DOMAIN json AS TEXT 
+    CHECK(valid_json(VALUE));
+          </pre>
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+    $ INSERT INTO members 
+    VALUES(<b>'not good json'</b>);
+    ERROR:  value for domain json 
+    violates check constraint "json_check"
+    $ INSERT INTO members 
+    VALUES(<b>'{"good": "json", "is": true}'</b>);
+    INSERT 0 1
+    $ select * from members;
+               profile            
+    ------------------------------
+     {"good": "json", "is": true}
+    (1 row)
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>JSON datatype + plv8 = CouchDB</h2>
+      <h3>JSON datatype</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/couch.png" alt="CouchDB" style="width: 300px" />
+      </div>
+      <ul>
+        <li>Almost the same as CouchDB (without HTTP <a href="http://wiki.postgresql.org/wiki/HTTP_API">wiki.postgresql.org/wiki/HTTP_API</a>)</li>
+        <li>But PostgreSQL can combine indexes :)</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>JSON datatype + plv8 = CouchDB</h2>
+      <h3>JSON datatype</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+explain analyze select count(*) from members where 
+get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
+                                                                  QUERY PLAN                                                                   
+-----------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=301.38..301.39 rows=1 width=0) (actual time=106.420..106.420 rows=1 loops=1)
+   ->  Bitmap Heap Scan on members  (cost=190.46..301.31 rows=25 width=0) (actual time=92.641..104.634 rows=6911 loops=1)
+         Recheck Cond: ((get_numeric(profile, 'siblings'::text) = 1::numeric) AND (get_numeric(profile, 'age'::text) = 26::numeric))
+         ->  BitmapAnd  (cost=190.46..190.46 rows=25 width=0) (actual time=89.192..89.192 rows=0 loops=1)
+            <b>->  Bitmap Index Scan on member_siblings  (cost=0.00..95.10 rows=5000 width=0) (actual time=72.387..72.387 rows=339432 loops=1)
+                     Index Cond: (get_numeric(profile, 'siblings'::text) = 1::numeric)
+               ->  Bitmap Index Scan on member_age  (cost=0.00..95.10 rows=5000 width=0) (actual time=7.725..7.725 rows=13732 loops=1)
+                     Index Cond: (get_numeric(profile, 'age'::text) = 26::numeric)</b>
+ Total runtime: 106.492 ms
+(9 rows)
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Mustache.js in PostgreSQL</h2>
+      <h3>plv8</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/mustache.jpeg" alt="Mustache" style="width: 400px" />
+      </div>
+      <div class="centered">Logic-less templates.</div>
+      <div class="centered"><a href="http://mustache.github.com">mustache.github.com</a></div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Mustache.js in PostgreSQL</h2>
+      <h3>plv8</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        create or replace function mustache(template text, view json)
+        returns text as $$
+          // …400 lines of mustache.js…
+          return Mustache.to_html(template, JSON.parse(view))
+        $$ LANGUAGE plv8 IMMUTABLE STRICT;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        select mustache(
+          'hello {{#things}}{{.}} {{/things}}:) {{#data}}{{key}}{{/data}}',
+          '{"things": ["world", "from", "postgresql"], "data": {"key": "and me"}}'
+        );
+                         mustache                
+          ---------------------------------------
+           hello world from postgresql :) and me
+          (1 row)
+
+          Time: 0.837 ms
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Clustering solutions</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Pl/Proxy</li>
+          <li>Postgres-XC</li>
+          <li>GridSQL</li>
+          <li>Greenplum</li>
+        </ul>
+        <div class="centered">
+          <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Radical Additional Options</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p>"NoSQL" database</p>
+          <ul>
+            <li>CouchDB, MongoDB, HBase, Cassandra, Redis</li>
+            <li>Document store</li>
+            <li>Map/Reduce querying</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/nosql-logos.png" alt="NoSQL" style="width: 450px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue dark nobackground">
+    <aside class="gdbar right"><img src="images/icon_128.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Contact information</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
