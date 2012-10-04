@@ -125,7 +125,7 @@
           <li>Hosted Chef (Chef Server by Opscode)</li>
         </ul>
         <div class="centered">
-          <img src="images/chef_fun.jpg" alt="Chef" style="width: 350px" />
+          <img src="images/pastry-chef.jpg" alt="Chef" style="width: 400px" />
         </div>
       </div>
     </article>
@@ -582,6 +582,23 @@
   
   <slide>
     <hgroup>
+      <h2>Chef-Solo + Caphub = &lt;3</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article class="smaller">
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/chef_logo.png" alt="Chef" style="width: 300px" />
+        </div>
+        <div class="centered">
+          <img src="images/caphub.png" alt="caphub" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
       <h2>Summary</h2>
     </hgroup>
     <article>
@@ -619,6 +636,20 @@
 gem install celluloid
         </pre>
       </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Main features</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Automatic "deadlock-free" synchronization</li>
+        <li>Fault-tolerance</li>
+        <li>Futures: Ever wanted to call a method "in the background" and retrieve the value it returns later?</li>
+      </ul>
     </article>
   </slide>
   
@@ -834,6 +865,132 @@ gem install celluloid
     </article>
   </slide>
   
+  
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/ruby.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Useful gems</h2>
+      <h3>Bonus for you</h3>
+    </hgroup>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>rack-mini-profiler</h2>
+      <h3>Useful gems</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/rack-mini-profiler.png" alt="rack-mini-profiler" style="width: 700px" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>strong_parameters</h2>
+      <h3>Useful gems</h3>
+    </hgroup>
+    <article>
+      <p>Not perfect way:</p>
+      <pre class="prettyprint" data-lang="ruby">
+        config.active_record.whitelist_attributes = true
+        attr_accessible :name, :age
+      </pre>
+      <p>Usage:</p>
+      <pre class="prettyprint" data-lang="ruby">
+        params.require(:person).permit(:name, :age)
+      </pre>
+      <pre class="prettyprint" data-lang="ruby">
+        ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>rabl</h2>
+      <h3>Useful gems</h3>
+    </hgroup>
+    <article>
+      <p>app/views/articles/show.rabl</p>
+      <pre class="prettyprint" data-lang="ruby">
+        object @article
+        attributes :id, :name, :published_at
+        if current_user.admin?
+          node(:edit_url) { |article| edit_article_url(article) }
+        end
+        child :author do
+          attributes :id, :name
+          node(:url) { |author| author_url(author) }
+        end
+      </pre>
+      <p>app/views/articles/index.rabl</p>
+      <pre class="prettyprint" data-lang="ruby">
+        collection @articles
+        extends "articles/show"
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>smt_rails</h2>
+      <h3>Useful gems</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/mustache.jpeg" alt="mustache" style="width: 400px" />
+      </div>
+      <pre class="prettyprint" data-lang="ruby">
+        <%= render "tests/test", :mustache => {msg: "Test"} %> s
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+        var content = SMT['tests/test']({msg: "Test"});
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>mailcatcher</h2>
+      <h3>Useful gems</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/mailcatcher.png" alt="mailcatcher" style="width: 700px;margin-top: -50px;" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>guard</h2>
+      <h3>Useful gems</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/guard.png" alt="guard" style="width: 300px" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Other gems</h2>
+      <h3>Useful gems</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li><b>spork</b> and <b>zeus</b> - Boot rails app and tests in under a second</li>
+        <li><b>brakeman</b> - a static analysis security vulnerability scanner for Ruby on Rails</li>
+        <li><b>oj</b> and <b>multi_json</b> - optimized JSON and back-end for JSON handling</li>
+        <li><b>bullet</b> - a rails plugin/gem to kill N+1 queries and unused eager loading</li>
+        <li><b>js-routes</b> - brings Rails named routes to javascript</li>
+        <li>...</li>
+      </ul>
+    </article>
+  </slide>
   
 
   <slide class="thank-you-slide segue dark nobackground">
