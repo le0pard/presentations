@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chef, Celluloid and other buzzwords - Lviv Ruby User Group 2012</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/ruby.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/ruby.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Me</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>6+ years experience
+            <ul>
+              <li>Linux and Databases administrator</li>
+              <li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++)</li>
+            </ul>
+          </li>
+          <li>Open-Source developer
+            <ul>
+              <li>MongodbLogger for Rails</li>
+              <li>SMTRails and SHTRails (shared templates for rails)</li>
+              <li>SkypeKit for Ruby</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="centered">
+          <img src="images/photo.jpeg" alt="me" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/ruby.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Chef</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Chef</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/chef_logo.png" alt="Chef" style="width: 400px" />
+      </div>
+      <div class="centered" style="margin-top: 20px">
+        <p><b>Chef</b> is an open-source systems integration framework built specifically for automating the cloud.</p>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Why Chef?</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Efficiency</li>
+          <li>Scalability</li>
+          <li>Economics</li>
+        </ul>
+        <div class="centered">
+          <img src="images/chef_fun.jpg" alt="Chef" style="width: 350px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Why Chef?</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/automate-all-the-things.png" alt="Chef" style="width: 700px" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Chef Types</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Chef Solo</li>
+          <li>Chef Server</li>
+          <li>Hosted Chef (Chef Server by Opscode)</li>
+        </ul>
+        <div class="centered">
+          <img src="images/chef_fun.jpg" alt="Chef" style="width: 350px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Chef Solo</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Chef Solo</li>
+        <li>Chef Server</li>
+        <li>Hosted Chef (Chef Server by Opscode)</li>
+      </ul>
+      <div class="centered" style="margin-top: 20px">
+        <img src="images/chef_server.png" alt="Chef" style="width: 700px" />
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Knife</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p><b>Knife</b> is a powerful command-line interface (CLI) that comes with Chef.</p>
+        <pre class="prettyprint" data-lang="bash">
+  gem install knife-solo
+        </pre>
+        </div>
+        <div class="centered">
+          <img src="images/chef_knife.jpg" alt="Chef" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Knife commands</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <ul>
+            <li>
+              <b>kitchen</b> - command is used to create a new directory structure that fits with chef’s standard structure and can be used to build and store recipes.
+            </li>
+            <li>
+              <b>prepare</b> - command installs Ruby, RubyGems and Chef on a given host. It’s structured to auto-detect the target OS and change the installation process accordingly.
+            </li>
+            <li>
+              <b>cook</b> - command uploads the current kitchen (chef repo) to the target host and runs chef-solo on that host.
+            </li>
+            <li>
+              <b>wash_up</b> - command removes the uploaded kitchen from the host.
+            </li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/chef-knife2.jpg" alt="Chef" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Kitchen</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p><b>Kitchen</b> is a place where you build and store recipes. And cook!</p>
+          <pre class="prettyprint" data-lang="bash">
+  knife kitchen mychefrepo
+          </pre>
+          <p>The kitchen command simply takes a name of the directory to store the kitchen structure.</p>
+          <br />
+          <br />
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="bash">
+            
+      mykitchen/
+      ├── cookbooks
+      ├── data_bags
+      ├── nodes
+      ├── roles
+      ├── site-cookbooks
+      └── solo.rb
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Prepare</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+  knife prepare ubuntu@10.0.0.201
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+  knife bootstrap --template-file bootstrap.centos.erb -u root 10.0.0.201
+  echo '{"run_list":[]}' > nodes/10.0.0.201.json
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Cook</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+  knife cook ubuntu@10.0.0.201
+      </pre>
+      <div class="centered" style="margin-top: 20px">
+        <h2>That's it!</h2>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Librarian</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="bash">
+  gem install librarian
+  librarian-chef init
+          </pre>
+        </div>
+        <div class="centered">
+          <img src="images/librarian.jpg" alt="librarian" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Librarian</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+  librarian-chef install
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    ├── Cheffile
+    ├── Cheffile.lock
+    ├── chefignore
+    ├── cookbooks
+    ├── data_bags
+    ├── files
+    ├── nodes
+    ├── roles
+    ├── site-cookbooks
+    ├── solo.rb
+    └── tmp
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Librarian</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+  $ cat Cheffile
+  #!/usr/bin/env ruby
+  #^syntax detection
+
+  site 'http://community.opscode.com/api/v1'
+
+  cookbook 'nginx', 
+    :git => 'git://github.com/opscode-cookbooks/nginx.git'
+  cookbook 'rvm'
+  cookbook 'ruby_build'
+  cookbook 'rbenv',
+    :git => 'https://github.com/fnichol/chef-rbenv'
+  cookbook 'postgresql', 
+    :git => 'git://github.com/opscode-cookbooks/postgresql.git'
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Recipe</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+    ├── CHANGELOG.md
+    ├── CONTRIBUTING
+    ├── Gemfile
+    ├── LICENSE
+    ├── README.md
+    ├── attributes
+    ├── definitions
+    ├── files
+    ├── metadata.rb
+    ├── recipes
+    ├── templates
+    └── test
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Recipe attributes</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+        $ cat attributes/default.rb 
+        default['nginx']['version'] = "1.2.3"
+        default['nginx']['dir'] = "/etc/nginx"
+        default['nginx']['log_dir'] = "/var/log/nginx"
+        default['nginx']['binary'] = "/usr/sbin/nginx"
+
+        case node['platform']
+        when "debian","ubuntu"
+          default['nginx']['user']       = "www-data"
+          default['nginx']['init_style'] = "runit"
+        when "redhat","centos","scientific","amazon","oracle","fedora"
+          default['nginx']['user']       = "nginx"
+          default['nginx']['init_style'] = "init"
+        else
+          default['nginx']['user']       = "www-data"
+          default['nginx']['init_style'] = "init"
+        end
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Recipe definitions</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+        $ cat definitions/nginx_site.rb
+        define :nginx_site, :enable => true do
+          if params[:enable]
+            execute "nxensite #{params[:name]}" do
+              command "/usr/sbin/nxensite #{params[:name]}"
+              notifies :reload, resources(:service => "nginx")
+              not_if do ::File.symlink?("#{node['nginx']['dir']}/sites-enabled/#{params[:name]}") end
+            end
+          else
+            execute "nxdissite #{params[:name]}" do
+              command "/usr/sbin/nxdissite #{params[:name]}"
+              notifies :reload, resources(:service => "nginx")
+              only_if do ::File.symlink?("#{node['nginx']['dir']}/sites-enabled/#{params[:name]}") end
+            end
+          end
+        end
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Recipe definitions</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+        template "#{node[:nginx][:dir]}/sites-available/#{node[:app][:name]}.conf" do
+          source "nginx.conf.erb"
+          mode "0644"
+        end
+        nginx_site "#{node[:app][:name]}.conf"
+      </pre>
+      <pre class="prettyprint" data-lang="ruby">
+        $ cat nginx.conf.erb
+        upstream prod_unicorn {
+          server unix:<%= node[:app][:web_dir] %>/shared/tmp/sockets/unicorn.sock fail_timeout=0;
+        }
+        server {
+            listen 80 default;
+            ...
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Recipe execution</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+        ├── authorized_ips.rb
+        ├── commons.rb
+        ├── default.rb
+        ├── http_echo_module.rb
+        ├── http_geoip_module.rb
+        ├── http_gzip_static_module.rb
+        ├── http_realip_module.rb
+        ├── http_ssl_module.rb
+        ├── http_stub_status_module.rb
+        ├── naxsi_module.rb
+        ├── ohai_plugin.rb
+        ├── passenger.rb
+        ├── source.rb
+        └── upload_progress_module.rb
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Recipe execution</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+        $ cat source.rb
+        nginx_url = node['nginx']['source']['url'] ||
+          "http://nginx.org/download/nginx-#{node['nginx']['version']}.tar.gz"
+
+        unless(node['nginx']['source']['default_configure_flags'])
+          node.set['nginx']['source']['default_configure_flags'] = [
+            "--prefix=#{node['nginx']['source']['prefix']}",
+            "--conf-path=#{node['nginx']['dir']}/nginx.conf"
+          ]
+        end
+
+        include_recipe "nginx::ohai_plugin"
+        include_recipe "build-essential"
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Recipe execution</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="json">
+        "run_list": [
+          "nginx[source]"
+        ]
+      </pre>
+      <p>or</p>
+      <pre class="prettyprint" data-lang="ruby">
+        include_recipe "nginx::source"
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Simple example of recipe</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+        ├── recipes
+        │   └── default.rb
+        └── templates
+            └── default
+                ├── database.yml.erb
+                ├── nginx.conf.erb
+                └── unicorn.rb.erb
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Simple example of recipe (default.rb)</h2>
+      <h3>Chef Solo</h3>
+    </hgroup>
+    <article class="smaller">
+      <div class="columns-2">
+      <pre class="prettyprint" data-lang="ruby">
+        # packages
+        package "git-core"
+        # curb gem
+        package "libcurl3"
+        package "libcurl3-gnutls"
+        package "libcurl4-openssl-dev"
+        # rmagick gem
+        package "imagemagick" 
+        package "libmagickcore-dev"
+        package "libmagickwand-dev"
+        # ruby
+        include_recipe "ruby_build"
+        include_recipe "rbenv::system"
+        # nginx
+        include_recipe "nginx::source"
+        # gems
+        gem_package "bundler"
+        # nginx config
+        template "#{node[:nginx][:dir]}/sites-available/#{node[:app][:name]}.conf" do
+          source "nginx.conf.erb"
+          mode "0644"
+        end
+        nginx_site "#{node[:app][:name]}.conf"
+        
+        
+        # dirs
+        web_dir = node[:app][:web_dir]
+        directory web_dir do
+          owner node[:user][:name]
+          mode "0755"
+        end
+        %w{shared shared/log shared/config}.each do |dir|
+          directory "#{web_dir}/#{dir}" do
+            owner node[:user][:name]
+            mode "0755"
+          end
+        end
+
+        # folders
+        shared_config_dir = "#{node[:app][:web_dir]}/shared/config"
+
+        template "#{shared_config_dir}/database.yml" do
+          source "database.yml.erb"
+          mode "0644"
+        end
+        template "#{shared_config_dir}/unicorn.rb" do
+          source "unicorn.rb.erb"
+          mode "0644"
+        end
+      </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Summary</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>All configs and steps to setup your cloud in one place - in your git repository</li>
+        <li>Easy to maintain and update your servers</li>
+        <li>Easy to create the same copy of instances</li>
+        <li>Ruby language - perfect choice for such task!</li>
+      </ul>
+    </article>
+  </slide>
+  
+  
+  
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/ruby.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Celluloid</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Celluloid</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/celluloid.png" alt="Celluloid" />
+      </div>
+      <div class="centered" style="margin-top: 50px">
+        <p><b>Celluloid</b> is a concurrent object oriented programming framework for Ruby which lets you build multithreaded programs out of concurrent objects just as easily as you build sequential programs out of regular objects</p>
+        <p><a href="http://celluloid.io/">celluloid.io</a></p>
+        <pre class="prettyprint" data-lang="bash">
+gem install celluloid
+        </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Basic Usage</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+      <pre class="prettyprint" data-lang="ruby">
+    require 'rss'
+    require 'open-uri'
+
+    class FeedParser
+      def initialize(url)
+        @url = url
+      end
+
+      def count
+        open(@url) do |f|
+          rss = RSS::Parser.parse(f.read, false)
+          count = rss.items.size
+          puts "#{count} in #{@url}"
+          count
+        end
+      end
+    end
+
+    counts = $*.map { |url| FeedParser.new(url).count }
+    total = counts.inject(:+)
+    puts "#{total} total" if total
+      </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Basic Usage</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+    $ ruby 1.rb http://feeds2.feedburner.com/Rubyflow http://feeds.feedburner.com/ualeopard http://feeds2.feedburner.com/Rubyflow http://feeds.feedburner.com/ualeopard http://feeds2.feedburner.com/Rubyflow http://feeds.feedburner.com/ualeopard http://feeds2.feedburner.com/Rubyflow http://feeds.feedburner.com/ualeopard http://feeds2.feedburner.com/Rubyflow http://feeds.feedburner.com/ualeopard
+    10 in http://feeds2.feedburner.com/Rubyflow
+    49 in http://feeds.feedburner.com/ualeopard
+    10 in http://feeds2.feedburner.com/Rubyflow
+    49 in http://feeds.feedburner.com/ualeopard
+    10 in http://feeds2.feedburner.com/Rubyflow
+    49 in http://feeds.feedburner.com/ualeopard
+    10 in http://feeds2.feedburner.com/Rubyflow
+    49 in http://feeds.feedburner.com/ualeopard
+    10 in http://feeds2.feedburner.com/Rubyflow
+    49 in http://feeds.feedburner.com/ualeopard
+    295 total
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Basic Usage</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+      <pre class="prettyprint" data-lang="ruby">
+    require 'rss'
+    require 'open-uri'
+    require 'celluloid'
+    class FeedParser
+      include Celluloid
+      def initialize(url)
+        @url = url
+      end
+      def count
+        open(@url) do |f|
+          rss = RSS::Parser.parse(f.read, false)
+          count = rss.items.size
+          puts "#{count} in #{@url}"
+          count
+        end
+      end
+    end
+    counts = $*.map { |url| FeedParser.new(url).future(:count) }
+    total = counts.map(&:value).inject(:+)
+    puts "#{total} total" if total
+      </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Basic Usage</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <h1>Problem: N * 10^3 links</h1>
+      <pre class="prettyprint" data-lang="ruby">
+    Thread.list.count ~ N * 10^3
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Pool</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+      <pre class="prettyprint" data-lang="ruby">
+        require 'rss'
+        require 'open-uri'
+        require 'celluloid'
+
+        class FeedParser
+          include Celluloid
+
+          def count(url)
+            open(url) do |f|
+              rss = RSS::Parser.parse(f.read, false)
+              count = rss.items.size
+              puts "#{count} in #{url}"
+              count
+            end
+          end
+        end
+
+        pool = FeedParser.pool(size: 6)
+        futures = $*.map { |url| pool.future(:count, url) }
+        total = futures.map(&:value).inject(:+)
+        puts "#{total} total" if total
+      </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Gotchas</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>NEVER RETURN self (or pass self as an argument to other actors)</li>
+        <li>Don't mutate the state of objects you've passed as arguments in calls to other actors</li>
+        <li>Don't mix Ruby thread primitives and calls to other actors</li>
+        <li>Use Fibers at your own risk</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Linking</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+      <pre class="prettyprint" data-lang="ruby">
+        require 'celluloid'
+
+        class HardWorker
+          include Celluloid
+          def initialize(autolaunch = false)
+            run! if autolaunch
+          end
+          def run
+            puts "do something"
+            raise "111" if Random.rand(3) == 2
+          end
+        end
+        class Launcher
+          include Celluloid
+          trap_exit :relaunch
+
+          def launch_worker
+            HardWorker.new_link.run!
+          end
+
+          def relaunch(actor, reason)
+            launch_worker
+          end
+        end
+        
+        Launcher.new.launch_worker
+      </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Sidekiq</h2>
+      <h3>Celluloid</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+        # app/workers/hard_worker.rb
+        class HardWorker
+          include Sidekiq::Worker
+
+          def perform(name, count)
+            puts 'Doing hard work'
+          end
+        end
+        
+        HardWorker.perform_async('bob', 5)
+      </pre>
+    </article>
+  </slide>
+  
+  
+
+  <slide class="thank-you-slide segue dark nobackground">
+    <aside class="gdbar right"><img src="images/ruby.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Contact information</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
