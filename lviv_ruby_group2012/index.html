@@ -766,7 +766,7 @@ gem install celluloid
     </hgroup>
     <article>
       <ul>
-        <li>NEVER RETURN self (or pass self as an argument to other actors)</li>
+        <li><b>NEVER RETURN self</b> (or pass self as an argument to other actors)</li>
         <li>Don't mutate the state of objects you've passed as arguments in calls to other actors</li>
         <li>Don't mix Ruby thread primitives and calls to other actors</li>
         <li>Use Fibers at your own risk</li>
