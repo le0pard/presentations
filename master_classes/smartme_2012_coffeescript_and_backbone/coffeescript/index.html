@@ -794,16 +794,32 @@ for (coffee in coffees) {
     </article>
   </slide>
   
-  
-  
-  
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/coffee_cup.png"></aside>
     <hgroup class="auto-fadein">
-      <h2>Classes</h2>
+      <h2>Object Orientation</h2>
       <h3></h3>
     </hgroup>
   </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Constructor and Properties</h2>
+      <h3>Object Orientation</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  class Base
+    constructor: (@name) ->
+    run: (value) ->
+      alert "#{@name} run #{value}"
+
+  base = new Base("John")
+  base.run(20)
+      </pre>
+    </article>
+  </slide>
+  
   
   
 
