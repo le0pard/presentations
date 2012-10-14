@@ -883,6 +883,229 @@ for (coffee in coffees) {
     </article>
   </slide>
   
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/coffee_cup.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Possible problems</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Call methods</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  doSomething "123"
+    
+  doSomething # <- invalid
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+  doSomething("123");
+
+  doSomething;
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Optional parenthesis</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+  
+    doSomething () ->  'hello'
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+  
+    doSomething(function() {
+      return 'hello';
+    });
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+    doSomething() ->  'hello'
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+    doSomething()(function() {
+      return 'hello';
+    });
+        </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Implicit parenthesis</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+
+action = (token, i) ->
+      @tokens.splice i, 0, @generate 'CALL_END', ')', token[2]
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+var action;
+
+action = function(token, i) {
+  return this.tokens.splice(i, 0, this.generate('CALL_END', ')', token[2]));
+};
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Optional commas</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+  
+  doSomething 1,
+    2
+    3
+    4
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+  
+  doSomething(1, 2, 3, 4);
+  
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+  doSomething 1,
+  2
+  3
+  4
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  doSomething(1, 2);
+  3;
+  4;
+        </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Optional commas</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+  
+  doSomething (->
+  'hello'), 1
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+  
+  doSomething((function() {}, 'hello'), 1);
+  
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+  doSomething (->
+    'hello'), 1
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  doSomething((function() {
+    return 'hello';
+  }), 1);
+        </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Optional curly brackets</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="javascript">
+
+  action({key: value}, {option: value}, otherValue);
+      </pre>
+      <pre class="prettyprint" data-lang="coffescript">
+
+  action(key: value, option: value, otherValue)
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+  action({
+    key: value,
+    option: value
+  }, otherValue);
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Tricky if</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+  # in one line
+  @detectEnd i + 1, condition, action 
+    if token[0] is 'CALL_START'
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+  
+  if (token[0] === 'CALL_START') {
+    this.detectEnd(i + 1, condition, action);
+  }
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+  # in one line
+  @detectEnd i + 1, condition, action 
+    if token[0] is 'CALL_START' else false
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+  // in one line
+  this.detectEnd(i + 1, condition, 
+    action(token[0] === 'CALL_START' ? void 0 : false));
+  
+        </pre>
+      </div>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Nested made flat</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+
+  js = (parser.parse lexer.tokenize code).compile options
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+  var js;
+
+  js = (parser.parse(lexer.tokenize(code))).compile(options);
+      </pre>
+    </article>
+  </slide>
   
   
 
