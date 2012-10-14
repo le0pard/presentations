@@ -520,6 +520,20 @@
   
   <slide>
    <hgroup>
+     <h2>Assembly and organization of the code</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li>Asynchronous Module Definitions (AMD) by require.js</li>
+      <li>Sprockets: Rack-based asset packaging</li>
+      <li>...</li>
+    </ul>
+   </article>
+  </slide>
+  
+  <slide>
+   <hgroup>
      <h2>Frameworks</h2>
      <h3>Bonus</h3>
    </hgroup>
@@ -531,6 +545,126 @@
       <li><a href="http://walmartlabs.github.com/thorax/">Thorax</a></li>
       <li>...</li>
     </ul>
+   </article>
+  </slide>
+  
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/backbone.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>HTML5 Storages</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+  
+  <slide>
+   <hgroup>
+     <h2>localStorage</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li>Key / value pairs - hash table</li>
+      <li>Persistent on page reloads</li>
+      <li>Avoids HTTP overhead of cookies</li>
+      <li>Great for storing user preferences</li>
+    </ul>
+   </article>
+  </slide>
+  
+  <slide>
+   <hgroup>
+     <h2>sessionStorage</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+    <p>Same as localStorage but...</p>
+     <ul>
+       <li>Lasts as long as browser is open</li>
+       <li>Opening page in new window or tab starts new session</li>
+       <li>Great for sensitive data (e.g. banking sessions)</li>
+     </ul>
+   </article>
+  </slide>
+  
+  <slide>
+   <hgroup>
+     <h2>Web SQL Database</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li>Client-side SQL database</li>
+      <li>Asynchronous & Synchronous* API</li>
+      <li>Basically wrapper around SQLite</li>
+      <li>Put processing (sorting, filtering, etc.) on client</li>
+      <li>Deprecated (!!!)</li>
+    </ul>
+   </article>
+  </slide>
+  
+  <slide>
+   <hgroup>
+     <h2>IndexedDB</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li>
+        Best of localStorage/sessionStorage and Web SQL DB:
+        <ul>
+          <li>Object based data store</li>
+          <li>In-order retrieval by index or locate by key</li>
+        </ul>
+      </li>
+      <li>
+        Asynchronous & Synchronous API:
+        <ul>
+          <li>For the browser and for Web Workers</li>
+        </ul>
+      </li>
+    </ul>
+   </article>
+  </slide>
+  
+  <slide>
+   <hgroup>
+     <h2>Application Cache</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+     <pre class="prettyprint" data-lang="html">
+
+  &lt;html manifest=&quot;example.appcache&quot;&gt;... &lt;/html&gt;
+     </pre>
+     <pre class="prettyprint" data-lang="html">
+   CACHE MANIFEST
+   # Explicitly cached entries
+   CACHE:
+   index.html
+   stylesheet.css
+   images/logo.png
+   scripts/main.js
+   # static.html will be served if the user is offline
+   FALLBACK:
+   / /static.html
+   # Resources that require the user to be online.
+   NETWORK:
+   *
+      </pre>
+   </article>
+  </slide>
+  
+  <slide>
+   <hgroup>
+     <h2>File API</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+     <ul>
+       <li>File / FileList</li>
+       <li>FileReader</li>
+       <li>Drag & Drop Files</li>
+     </ul>
    </article>
   </slide>
 
