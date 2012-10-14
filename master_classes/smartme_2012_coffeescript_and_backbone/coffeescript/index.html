@@ -811,11 +811,74 @@ for (coffee in coffees) {
       <pre class="prettyprint" data-lang="coffescript">
   class Base
     constructor: (@name) ->
-    run: (value) ->
-      alert "#{@name} run #{value}"
+    eat: (count) ->
+      alert "I eat #{count} #{@name}"
 
-  base = new Base("John")
-  base.run(20)
+  base = new Base("apple")
+  base.eat(5)
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>-&gt; or =&gt;?</h2>
+      <h3>Object Orientation</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  class Base
+    constructor: (@name) ->
+    eat: (count) <b>=></b>
+      alert "I eat #{count} #{@name}"
+    notEat: =>
+      $.ajax
+        url: "some url"
+        success: (data) =>
+          @eat(data)
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Inheritance</h2>
+      <h3>Object Orientation</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  class Base
+    constructor: (@name) ->
+    eat: (count) =>
+      alert "I eat #{count} #{@name}"
+
+  class Apple extends Base
+    constructor: (@name) ->
+    eat: (count) =>
+      alert "Apple method"
+      super(count)
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>:: is prototype</h2>
+      <h3>Object Orientation</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  String::dasherize = ->
+    this.replace /_/g, "-"
+    
+  alert "one_two".dasherize()
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+  String.prototype.dasherize = function() {
+    return this.replace(/_/g, "-");
+  };
+
+  alert("one_two".dasherize());
       </pre>
     </article>
   </slide>
