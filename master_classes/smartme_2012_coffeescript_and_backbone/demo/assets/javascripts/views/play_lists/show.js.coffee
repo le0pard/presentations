@@ -1,6 +1,8 @@
 class SmartmeExample.Views.PlayListsShow extends Backbone.View
   tagName: 'div'
   template: SHT['play_list/show']
+  events:
+    "click .destroy"      : "destroyModel"
   
   initialize: =>
     @model.on 'change', @render
@@ -12,6 +14,11 @@ class SmartmeExample.Views.PlayListsShow extends Backbone.View
 
   remove: =>
     $(@el).remove()
+    
+  destroyModel: (e) =>
+    e.preventDefault()
+    @model.trigger('destroy', @model, @model.collection, {})
+    Backbone.history.navigate("", {trigger: true, replace: false})
 
   onDestroyView: =>
     @model.off 'change', @render
