@@ -62,7 +62,11 @@
       </div>
     </article>
   </slide>
-  
+
+
+  <slide class="fill nobackground" style="background-image: url(images/pg.png)">
+  </slide>
+
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/ruby.png"></aside>
     <hgroup class="auto-fadein">
@@ -215,39 +219,16 @@
         <pre class="prettyprint" data-lang="bash">
   gem install knife-solo
         </pre>
+        <p>Main commands:</p>
+        <ul>
+          <li>kitchen</li>
+          <li>prepare</li>
+          <li>cook</li>
+          <li>wash_up</li>
+        </ul>
         </div>
         <div class="centered">
           <img src="images/chef_knife.jpg" alt="Chef" style="width: 400px" />
-        </div>
-      </div>
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>Knife commands</h2>
-      <h3>Chef Solo</h3>
-    </hgroup>
-    <article>
-      <div class="columns-2">
-        <div>
-          <ul>
-            <li>
-              <b>kitchen</b> - command is used to create a new directory structure that fits with chef’s standard structure and can be used to build and store recipes.
-            </li>
-            <li>
-              <b>prepare</b> - command installs Ruby, RubyGems and Chef on a given host. It’s structured to auto-detect the target OS and change the installation process accordingly.
-            </li>
-            <li>
-              <b>cook</b> - command uploads the current kitchen (chef repo) to the target host and runs chef-solo on that host.
-            </li>
-            <li>
-              <b>wash_up</b> - command removes the uploaded kitchen from the host.
-            </li>
-          </ul>
-        </div>
-        <div class="centered">
-          <img src="images/chef-knife2.jpg" alt="Chef" style="width: 400px" />
         </div>
       </div>
     </article>
@@ -287,7 +268,7 @@
   
   <slide>
     <hgroup>
-      <h2>Prepare</h2>
+      <h2>Prepare &amp; Cook</h2>
       <h3>Chef Solo</h3>
     </hgroup>
     <article>
@@ -298,15 +279,6 @@
   knife bootstrap --template-file bootstrap.centos.erb -u root 10.0.0.201
   echo '{"run_list":[]}' > nodes/10.0.0.201.json
       </pre>
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>Cook</h2>
-      <h3>Chef Solo</h3>
-    </hgroup>
-    <article>
       <pre class="prettyprint" data-lang="bash">
   knife cook ubuntu@10.0.0.201
       </pre>
@@ -346,8 +318,6 @@
       <pre class="prettyprint" data-lang="ruby">
   $ cat Cheffile
   #!/usr/bin/env ruby
-  #^syntax detection
-
   site 'http://community.opscode.com/api/v1'
 
   cookbook 'nginx', 
@@ -387,61 +357,6 @@
   
   <slide>
     <hgroup>
-      <h2>Recipe attributes</h2>
-      <h3>Chef Solo</h3>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="ruby">
-        $ cat attributes/default.rb 
-        default['nginx']['version'] = "1.2.3"
-        default['nginx']['dir'] = "/etc/nginx"
-        default['nginx']['log_dir'] = "/var/log/nginx"
-        default['nginx']['binary'] = "/usr/sbin/nginx"
-
-        case node['platform']
-        when "debian","ubuntu"
-          default['nginx']['user']       = "www-data"
-          default['nginx']['init_style'] = "runit"
-        when "redhat","centos","scientific","amazon","oracle","fedora"
-          default['nginx']['user']       = "nginx"
-          default['nginx']['init_style'] = "init"
-        else
-          default['nginx']['user']       = "www-data"
-          default['nginx']['init_style'] = "init"
-        end
-      </pre>
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>Recipe definitions</h2>
-      <h3>Chef Solo</h3>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="ruby">
-        $ cat definitions/nginx_site.rb
-        define :nginx_site, :enable => true do
-          if params[:enable]
-            execute "nxensite #{params[:name]}" do
-              command "/usr/sbin/nxensite #{params[:name]}"
-              notifies :reload, resources(:service => "nginx")
-              not_if do ::File.symlink?("#{node['nginx']['dir']}/sites-enabled/#{params[:name]}") end
-            end
-          else
-            execute "nxdissite #{params[:name]}" do
-              command "/usr/sbin/nxdissite #{params[:name]}"
-              notifies :reload, resources(:service => "nginx")
-              only_if do ::File.symlink?("#{node['nginx']['dir']}/sites-enabled/#{params[:name]}") end
-            end
-          end
-        end
-      </pre>
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
       <h2>Recipe definitions</h2>
       <h3>Chef Solo</h3>
     </hgroup>
@@ -471,55 +386,6 @@
       <h3>Chef Solo</h3>
     </hgroup>
     <article>
-      <pre class="prettyprint" data-lang="ruby">
-        ├── authorized_ips.rb
-        ├── commons.rb
-        ├── default.rb
-        ├── http_echo_module.rb
-        ├── http_geoip_module.rb
-        ├── http_gzip_static_module.rb
-        ├── http_realip_module.rb
-        ├── http_ssl_module.rb
-        ├── http_stub_status_module.rb
-        ├── naxsi_module.rb
-        ├── ohai_plugin.rb
-        ├── passenger.rb
-        ├── source.rb
-        └── upload_progress_module.rb
-      </pre>
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>Recipe execution</h2>
-      <h3>Chef Solo</h3>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="ruby">
-        $ cat source.rb
-        nginx_url = node['nginx']['source']['url'] ||
-          "http://nginx.org/download/nginx-#{node['nginx']['version']}.tar.gz"
-
-        unless(node['nginx']['source']['default_configure_flags'])
-          node.set['nginx']['source']['default_configure_flags'] = [
-            "--prefix=#{node['nginx']['source']['prefix']}",
-            "--conf-path=#{node['nginx']['dir']}/nginx.conf"
-          ]
-        end
-
-        include_recipe "nginx::ohai_plugin"
-        include_recipe "build-essential"
-      </pre>
-    </article>
-  </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>Recipe execution</h2>
-      <h3>Chef Solo</h3>
-    </hgroup>
-    <article>
       <pre class="prettyprint" data-lang="json">
         "run_list": [
           "nginx[source]"
@@ -534,7 +400,7 @@
   
   <slide>
     <hgroup>
-      <h2>Simple example of recipe</h2>
+      <h2>Simple example of own recipe</h2>
       <h3>Chef Solo</h3>
     </hgroup>
     <article>
@@ -549,7 +415,37 @@
       </pre>
     </article>
   </slide>
-  
+
+  <slide>
+    <hgroup>
+      <h2>Chef Server</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/chef_server.png" alt="chef" style="width: 550px" />
+      </div>
+      <p>Requirements:</p>
+      <ul>
+        <li>Ruby (of cource!)</li>
+        <li>Merb</li>
+        <li>CouchDB</li>
+        <li>Java</li>
+        <li>RabbitMQ</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Chef Server</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/chef-server-node-list.png" alt="chef" style="width: 650px" />
+      </div>
+    </article>
+  </slide>
+
   <slide>
     <hgroup>
       <h2>Vagrant</h2>
