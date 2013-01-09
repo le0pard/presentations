@@ -79,6 +79,20 @@
   
   <slide>
     <hgroup>
+      <h2>Why Ember.js?</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Data bindings to synchronize changes across objects, models and views</li>
+        <li>Ember includes more 'magic': two-way data binding, computed properties, template auto-updates</li>
+        <li>Ember defaults to Handlebars for templating</li>
+        <li>Ember's views include support for establishing nested/hierarchical views</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
       <h2>Who's using Ember.js?</h2>
     </hgroup>
     <article>
@@ -152,12 +166,225 @@
   
   <slide>
     <hgroup>
-      <h2>Why Ember.js?</h2>
+      <h2>First app on Ember.js</h2>
     </hgroup>
     <article>
-      <div class="centered">
-        <img src="images/automate-all-the-things.png" alt="Chef" style="width: 700px" />
-      </div>
+      <pre class="prettyprint" data-lang="javascript">
+App = Ember.Application.create();
+
+App.ApplicationView = Ember.View.extend({
+  templateName: 'application'
+});
+App.ApplicationController = Ember.Controller.extend();
+
+
+App.Router = Ember.Router.extend({
+  root: Ember.Route.extend({
+    index: Ember.Route.extend({
+      route: '/'
+    })
+  })
+});
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>First app on Ember.js</h2>
+    </hgroup>
+    <article>
+      <p>And Handlebars template</p>
+      <pre class="prettyprint" data-lang="html">
+&lt;script type="text/x-handlebars" data-template-name="application"&gt;
+  Hello RW!
+&lt;/script&gt;
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>First app on Ember.js</h2>
+    </hgroup>
+    <article>
+      <p>And Handlebars template</p>
+      <pre class="prettyprint" data-lang="html">
+&lt;script type="text/x-handlebars" data-template-name="application"&gt;
+  Hello RW!
+&lt;/script&gt;
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Backbone.js vs Ember.js</h2>
+    </hgroup>
+    <article>
+      <h1>Backbone.js</h1>
+      <ul>
+        <li>Data lies in JavaScript objects, not the DOM</li>
+        <li>Event handling lies in JavaScript objects, not jQuery event bindings</li>
+        <li>The way you save data in a backend server is done through the objects that contain the data</li>
+      </ul>
+      <h1>Ember.js</h1>
+      <ul>
+        <li>Two-way data binding: objects in Ember are able to register bindings between one another. That way, whenever a bound property changes, the other one is updated automatically</li>
+        <li>Computed properties: if you wish to have a property that is a result of a function, you can create them and assign a property as computed by that function</li>
+        <li>Template auto-updates: when an object is updated in your app, all the views currently displayed in the screen that are bound to that object automatically reflect the change, with no boilerplate</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Views</h2>
+      <h3>Backbone.js vs Ember.js</h3>
+    </hgroup>
+    <article>
+      <p><b>Backbone.js</b></p>
+      <pre class="prettyprint" data-lang="javascript">
+var AppView = Backbone.View.extend({
+  tagName : "div"
+, template : "app"
+, render : function() {
+    // your code to render here.
+  }
+, events : {
+    "click .linkme" : "mark_as_done"
+  , "change .body"     : "update_body"
+  }
+, mark_as_done : function() { /* code here */ }
+, update_body  : function() { /* code here */ }
+});
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Views</h2>
+      <h3>Backbone.js vs Ember.js</h3>
+    </hgroup>
+    <article>
+      <p><b>Ember.js</b></p>
+      <pre class="prettyprint" data-lang="javascript">
+var AppView = Ember.View.extend({
+  templateName : "app"
+, mark_as_done : function() { /* code here */ }
+, update_body  : function() { /* code here */ }
+});
+      </pre>
+      <p>Search templates be script DOM id or in "Ember.TEMPLATES" array.</p>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Models</h2>
+      <h3>Backbone.js vs Ember.js</h3>
+    </hgroup>
+    <article>
+      <p><b>Backbone.js</b></p>
+      <pre class="prettyprint" data-lang="javascript">
+var Group = Backbone.Model.extend();
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Models</h2>
+      <h3>Backbone.js vs Ember.js</h3>
+    </hgroup>
+    <article>
+      <p><b>Ember.js</b></p>
+      <pre class="prettyprint" data-lang="javascript">
+var Group = Ember.Object.extend();
+      </pre>
+      <p>also exist "Ember.Data"</p>
+      <pre class="prettyprint" data-lang="javascript">
+var Group = DS.Model.extend({
+  name: DS.attr('string'),
+  url: DS.attr('string'),
+  isActive: DS.attr('boolean')
+});
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Controllers</h2>
+      <h3>Backbone.js vs Ember.js</h3>
+    </hgroup>
+    <article>
+      <p><b>Backbone.js</b></p>
+      <ul>
+        <li>A Collection to store the users.</li>
+        <li>A Model to store a user's information.</li>
+        <li>A View to represent the collection.</li>
+        <li>Another View to represent each user.</li>
+        <li>A Router to manage URLs.</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Controllers</h2>
+      <h3>Backbone.js vs Ember.js</h3>
+    </hgroup>
+    <article>
+      <p><b>Ember.js</b></p>
+      <ul>
+        <li>Instead of a Collection, you would have an ArrayController, which works very much alike.</li>
+        <li>You would have an extra ObjectController for managing a single task.</li>
+        <li>Instead of a Model, you would have an Object/DS.Model, which work alike.</li>
+        <li>You would have the same kind of Views.</li>
+        <li>A Router is also responsible for managing URLs.</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Controllers</h2>
+      <h3>Backbone.js vs Ember.js</h3>
+    </hgroup>
+    <article>
+      <p><b>Differences</b></p>
+      <ul>
+        <li>The controller is responsible for interacting with the data objects, not the View.</li>
+        <li>The views are responsible for handling the DOM, not the controller.</li>
+        <li>The views communicate with the controller, not directly to the data objects.</li>
+        <li>The data that feeds the view template is actually a binding to the controller's data.</li>
+        <li>The router is more of a state manager, which includes much more than handling URLs.</li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Ember.js extend the prototypes</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Array is extended to implement the Ember.Enumerable, Ember.MutableEnumerable, Ember.MutableArray and Ember.Array interfaces.</li>
+        <li>String is extended to add convenience methods, such as camelize() and fmt().</li>
+        <li>Function is extended with methods to annotate functions as computed properties.</li>
+      </ul>
+      <p>You can block this:</p>
+      <pre class="prettyprint" data-lang="javascript">
+window.Ember = {};
+Ember.EXTEND_PROTOTYPES = false;
+      </pre>
+      <p>In this case you will need to manually extend or create the objects</p>
+      <pre class="prettyprint" data-lang="javascript">
+Ember.A(array); // arrays
+Ember.String(string); // string
+      </pre>
     </article>
   </slide>
 
