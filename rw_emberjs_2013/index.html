@@ -205,14 +205,36 @@ App.Router = Ember.Router.extend({
   
   <slide>
     <hgroup>
+      <h2>Handlebars</h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="html">
+{{! Don't do it! }}
+&lt;div {{#if isUrgent}}class="urgent"{{/if}}&gt;
+      </pre>
+      <pre class="prettyprint" data-lang="html">
+{{unbound color}}
+// of better
+{{bindAttr src="url"}}
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
       <h2>First app on Ember.js</h2>
     </hgroup>
     <article>
-      <p>And Handlebars template</p>
+      <p>Handlebars template</p>
       <pre class="prettyprint" data-lang="html">
-&lt;script type="text/x-handlebars" data-template-name="application"&gt;
-  Hello RW!
-&lt;/script&gt;
+{{! Don't do it! }}
+&lt;div {{#if isUrgent}}class="urgent"{{/if}}&gt;
+      </pre>
+      <p>Handlebars template</p>
+      <pre class="prettyprint" data-lang="html">
+{{unbound color}}
+// of better
+{{bindAttr src="url"}}
       </pre>
     </article>
   </slide>
@@ -385,6 +407,21 @@ Ember.EXTEND_PROTOTYPES = false;
 Ember.A(array); // arrays
 Ember.String(string); // string
       </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Example</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <a href="https://github.com/le0pard/moscow_yammer">github.com/le0pard/moscow_yammer</a>
+      </div>
+      <br />
+      <div class="centered">
+        <img src="images/moscow.png" alt="moscow" style="height: 500px" />
+      </div>
     </article>
   </slide>
 
