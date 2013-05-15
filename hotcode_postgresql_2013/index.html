@@ -131,55 +131,6 @@
 
 
   <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>Multiversion concurrency control</li>
-        </ul>
-      </section>
-    </aside>
-    <hgroup>
-      <h2>MVCC</h2>
-    </hgroup>
-    <article>
-      <div class="centered">
-        <img src="images/mvcc.png" alt="MVCC" style="width: 600px" />
-      </div>
-    </article>
-  </slide>
-
-  <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>Tables can be set to inherit their characteristics from a "parent" table</li>
-          <li>Data in child tables will appear to exist in the parent tables, unless data is selected from the parent table using the ONLY keyword</li>
-        </ul>
-      </section>
-    </aside>
-    <hgroup>
-      <h2>Table Inheritance</h2>
-    </hgroup>
-    <article>
-      <div class="centered">
-        <br />
-        <br />
-        <br />
-        <br />
-        <img src="images/inheritance.png" alt="Table Inheritance" style="width: 600px" />
-      </div>
-    </article>
-  </slide>
-
-  <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>As of version 9.1, PostgreSQL can link to other systems to retrieve data via foreign data wrappers (FDWs).</li>
-          <li>These can take the form of any data source, such as a file system, another RDBMS, or a web service. This means regular database queries can use these data sources like regular tables, and even join multiple data sources together.</li>
-        </ul>
-      </section>
-    </aside>
     <hgroup>
       <h2>Foreign Data Wrappers (FDWs)</h2>
     </hgroup>
@@ -217,6 +168,13 @@
       </div>
     </article>
   </slide>
+
+
+
+
+
+
+
 
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/python.png"></aside>
