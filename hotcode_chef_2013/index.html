@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chef Solo and Chef Server for "cloud" automation - HotCode Conf 2013</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/title.jpg"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/ops.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Alexey Vasiliev</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>6+ years experience
+            <ul>
+              <li>Linux and Databases administrator</li>
+              <li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++)</li>
+            </ul>
+          </li>
+          <li>Open-Source developer
+            <ul>
+              <li>MongodbLogger for Rails</li>
+              <li>Piro - Chrome extension for PivotalTracker</li>
+              <li>SMTRails and SHTRails (shared templates for rails)</li>
+              <li>SkypeKit for Ruby</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="centered">
+          <img src="images/photo.jpeg" alt="me" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+
+  <slide class="fill nobackground" style="background-image: url(images/pg.png)">
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/ops.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Chef</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Chef</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/chef_logo.png" alt="Chef" style="width: 400px" />
+      </div>
+      <div class="centered" style="margin-top: 20px">
+        <p><b>Chef</b> is an open-source systems integration framework built specifically for automating the cloud.</p>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Why Chef?</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Efficiency</li>
+          <li>Scalability</li>
+          <li>Reusing</li>
+          <li>Save money</li>
+          <li>Documentation</li>
+        </ul>
+        <div class="centered">
+          <img src="images/chef_fun.jpg" alt="Chef" style="width: 350px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Why Chef?</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/automate-all-the-things.png" alt="Chef" style="width: 700px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/ops.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>Chef is like unit tests for your servers.</q>
+      <div class="author">
+        Ezra Zygmuntowicz
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Main idea of Chef: Idempotence</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/looks_like.jpg" alt="Chef" style="width: 400px" />
+        </div>
+        <div>
+          <h1>Idempotence</h1>
+          <p>It can safely be run multiple times. Once you develop your configuration, your machines will apply the configuration and Chef will only make any changes to the system if the system state does not match the configured state.</p>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>What doesn't Chef do?</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>"Magically" configure your server</li>
+          <li>Blindly reuse cookbooks and recipes</li>
+          <li>Monitor your servers or softwares</li>
+          <li>Undoing concept</li>
+        </ul>
+        <div class="centered">
+          <img src="images/chef_not.jpg" alt="Chef" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Chef Types</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Chef Solo</li>
+          <li>Chef Server</li>
+          <li>Hosted Chef (Chef Server by Opscode)</li>
+        </ul>
+        <div class="centered">
+          <img src="images/pastry-chef.jpg" alt="Chef" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Terminology</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/chef_term.gif" alt="Chef" style="width: 300px" />
+        </div>
+        <ul>
+          <li>Node</li>
+          <li>Chef Server</li>
+          <li>Chef Client</li>
+          <li>recipe</li>
+          <li>cookbook</li>
+          <li>role</li>
+          <li>run list</li>
+          <li>attribute</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Knife</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p><b>Knife</b> is a powerful command-line interface (CLI) that comes with Chef.</p>
+        <pre class="prettyprint" data-lang="bash">
+  gem install knife-solo
+        </pre>
+        <p>Main commands:</p>
+        <ul>
+          <li>kitchen</li>
+          <li>prepare</li>
+          <li>cook</li>
+          <li>wash_up</li>
+        </ul>
+        </div>
+        <div class="centered">
+          <img src="images/chef_knife.jpg" alt="Chef" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Kitchen</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p><b>Kitchen</b> is a place where you build and store recipes. And cook!</p>
+          <pre class="prettyprint" data-lang="bash">
+  knife kitchen mychefrepo
+          </pre>
+          <p>The kitchen command simply takes a name of the directory to store the kitchen structure.</p>
+          <br />
+          <br />
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="bash">
+
+      mykitchen/
+      ├── cookbooks
+      ├── data_bags
+      ├── nodes
+      ├── roles
+      ├── site-cookbooks
+      └── solo.rb
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Prepare &amp; Cook</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+  knife prepare ubuntu@10.0.0.201
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+  knife bootstrap --template-file bootstrap.centos.erb -u root 10.0.0.201
+  echo '{"run_list":[]}' > nodes/10.0.0.201.json
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+  knife cook ubuntu@10.0.0.201
+      </pre>
+      <div class="centered" style="margin-top: 20px">
+        <h2>That's it!</h2>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Librarian</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="bash">
+  gem install librarian
+  librarian-chef init
+  librarian-chef install
+          </pre>
+        </div>
+        <div class="centered">
+          <img src="images/librarian.jpg" alt="librarian" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Librarian</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+  $ cat Cheffile
+  #!/usr/bin/env ruby
+  site 'http://community.opscode.com/api/v1'
+
+  cookbook 'nginx',
+    :git => 'git://github.com/opscode-cookbooks/nginx.git'
+  cookbook 'rvm'
+  cookbook 'ruby_build'
+  cookbook 'rbenv',
+    :git => 'https://github.com/fnichol/chef-rbenv'
+  cookbook 'postgresql',
+    :git => 'git://github.com/opscode-cookbooks/postgresql.git'
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Berkshelf</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="bash">
+  gem install berkshelf
+  berks install
+          </pre>
+        </div>
+        <div class="centered">
+          <img src="images/riot.png" alt="Berkshelf" style="width: 300px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Berkshelf</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+  $ cat Berksfile
+  #!/usr/bin/env ruby
+  site :opscode
+
+  cookbook 'mysql'
+  cookbook 'nginx', '~> 0.101.5'
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Recipe</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+    ├── CHANGELOG.md
+    ├── CONTRIBUTING
+    ├── Gemfile
+    ├── LICENSE
+    ├── README.md
+    ├── attributes
+    ├── definitions
+    ├── files
+    ├── metadata.rb
+    ├── recipes
+    ├── templates
+    └── test
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Recipe definitions</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="ruby">
+        template "#{node[:nginx][:dir]}/sites-available/#{node[:app][:name]}.conf" do
+          source "nginx.conf.erb"
+          mode "0644"
+        end
+        nginx_site "#{node[:app][:name]}.conf"
+      </pre>
+      <pre class="prettyprint" data-lang="ruby">
+        $ cat nginx.conf.erb
+        upstream prod_unicorn {
+          server unix:<%= node[:app][:web_dir] %>/shared/tmp/sockets/unicorn.sock fail_timeout=0;
+        }
+        server {
+            listen 80 default;
+            ...
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Recipe execution</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="json">
+        "run_list": [
+          "nginx[source]"
+        ]
+      </pre>
+      <p>or</p>
+      <pre class="prettyprint" data-lang="ruby">
+        include_recipe "nginx::source"
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Simple example of own recipe</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+        ├── recipes
+        │   └── default.rb
+        └── templates
+            └── default
+                ├── database.yml.erb
+                ├── nginx.conf.erb
+                └── unicorn.rb.erb
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Chef Server</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/chef_server.png" alt="chef" style="width: 550px" />
+      </div>
+      <ul>
+        <li>Ruby (of course!)</li>
+        <li>Erlang</li>
+        <li>PostgreSQL</li>
+        <li>RabbitMQ</li>
+      </ul>
+      <p>You can setup Chef Server by Chef Solo: <br /><a href="https://github.com/opscode-cookbooks/chef-server">github.com/opscode-cookbooks/chef-server</a></p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Chef Server</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/chef-server-node-list.png" alt="chef" style="width: 650px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Vagrant</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Download VirtualBox</li>
+          <li>Download OS image</li>
+          <li>Initialize virtual mashine</li>
+          <li>Test your kitchen!</li>
+        </ul>
+        <div class="centered">
+          <img src="images/vagrant_chilling.png" alt="vagrant" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Chef-Solo (or Server) + Caphub = &lt;3</h2>
+      <h3>Chef</h3>
+    </hgroup>
+    <article class="smaller">
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/chef_logo.png" alt="Chef" style="width: 300px" />
+        </div>
+        <div class="centered">
+          <img src="images/caphub.png" alt="caphub" style="width: 400px" /><br />
+          <a href="https://github.com/railsware/caphub">github.com/railsware/caphub</a>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Summary</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>All configs and steps to setup your cloud in one place - in your git repository</li>
+        <li>Easy to maintain and update your servers</li>
+        <li>Easy to create the same copy of instances</li>
+        <li>Ruby language - perfect choice as DSL for cookbooks!</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Summary</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/ops_problem.jpg" alt="Chef" />
+      </div>
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue dark nobackground">
+    <aside class="gdbar right"><img src="images/ops.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Contact information</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
