@@ -109,6 +109,28 @@
   </slide>
 
   <slide>
+    <hgroup>
+      <h2>Arrays</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        select <b>array_agg(id)</b> from endpoints <b>group by application_id</b>;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        select (array['hi', 'there', 'everyone', 'hotcode'])[random()*2 + 1];
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        select name, tags from posts where <b>tags @> array['it', 'sql']</b>;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        select <b>unnest(tags)</b> as tag from posts where title = 'About PostgreSQL';
+      </pre>
+    </article>
+  </slide>
+
+
+  <slide>
     <aside class="note">
       <section>
         <ul>
