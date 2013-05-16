@@ -118,7 +118,7 @@
         select <b>array_agg(id)</b> from endpoints <b>group by application_id</b>;
       </pre>
       <pre class="prettyprint" data-lang="sql">
-        select (array['hi', 'there', 'everyone', 'hotcode'])[random()*2 + 1];
+        select (array['hi', 'there', 'everyone', 'at', 'hotcode'])[random()*2 + 1];
       </pre>
       <pre class="prettyprint" data-lang="sql">
         select name, tags from posts where <b>tags @> array['it', 'sql']</b>;
@@ -128,6 +128,96 @@
       </pre>
     </article>
   </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Ranges (9.2+)</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT int4range(10, 20) @> 3;
+        SELECT daterange('["Jan 1 2013", "Jan 15 2013")') @> 'Jan 10 2013'::date;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        $ ALTER TABLE reservation ADD EXCLUDE USING gist (during WITH &&);
+
+        $ INSERT INTO reservation VALUES (1108, '[2010-01-01 11:30, 2010-01-01 13:00)');
+        INSERT 0 1
+
+        $ INSERT INTO reservation VALUES (1108, '[2010-01-01 14:45, 2010-01-01 15:45)');
+        ERROR:  conflicting key value violates exclusion constraint "reservation_during_excl"
+        DETAIL:  Key (during)=([ 2010-01-01 14:45:00, 2010-01-01 15:45:00 )) conflicts
+        with existing key (during)=([ 2010-01-01 14:30:00, 2010-01-01 15:30:00 )).
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>XML and JSON (9.2+)</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        $ SELECT xpath('/my:a/text()', '<my:a xmlns:my="http://example.com">test</my:a>', ARRAY[ARRAY['my', 'http://example.com']]);
+         xpath
+        --------
+         {test}
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        $ SELECT * from json_demo;
+          id | username |       email       | posts_count
+         ----+----------+-------------------+-------------
+           1 | john     | john@gmail.com    |          10
+           2 | mickael  | mickael@gmail.com |          50
+         $ SELECT row_to_json(json_demo) FROM json_demo;
+                                         row_to_json
+         ----------------------------------------------------------------------------
+          {"id":1,"username":"john","email":"john@gmail.com","posts_count":10}
+          {"id":2,"username":"mickael","email":"mickael@gmail.com","posts_count":50}
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>JSON and PLV8 for "schemaless" sql</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE OR REPLACE FUNCTION get_numeric(json_raw json, key text)
+        RETURNS numeric AS $$
+          var o = JSON.parse(json_raw);
+          return o[key];
+        $$ LANGUAGE plv8 IMMUTABLE STRICT;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT * FROM members WHERE get_numeric(profile, 'age') = 36;
+        <b>Time: 9340.142 ms</b>
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX member_age ON members (get_numeric(profile, 'age'));
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+         SELECT * FROM members WHERE get_numeric(profile, 'age') = 36;
+         <b>Time: 57.429 ms</b>
+      </pre>
+    </article>
+  </slide>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   <slide>
