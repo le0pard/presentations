@@ -1,0 +1,21 @@
+Let's Go
+
+Alexey Vasiliev
+Railsware
+http://leopard.in.ua
+@leopard_me
+http://github.com/le0pard
+
+* Hello world!
+
+.play lets_go/hello_world.go
+
+	go run hello_world.go
+
+* Race detector
+
+A major addition to the tools is a race detector, a way to find bugs in concurrent programs. To enable it, set the `-race` flag when building or testing your program.
+
+.play lets_go/race.go
+
+For now, it is only available on 64-bit Linux, OS X, and Windows systems.
