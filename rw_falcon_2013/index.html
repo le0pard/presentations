@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Getting Started with Ember.js - Railsware 2013</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/logo.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/logo.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Mailtrap</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/mailtrap_screen.png" alt="mailtrap_screen" style="width: 90%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Our reason?</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <h1 style="font-size: 3em">Because we can do this in better way!</h1>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>First try</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/dbmail.png" alt="dbmail" style="width: 90%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Problems</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Have own database structure</li>
+        <li>Almoust not maintained</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Let's begin another way</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/develop.gif" alt="develop" style="height: 90%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Golang</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/golang.jpg" alt="golang" style="height: 90%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Golang</h2>
+    </hgroup>
+    <article>
+      <h1>Advantages</h1>
+      <ul>
+        <li>Quick as C code</li>
+        <li>Very simple work with threads</li>
+        <li>Concurrency</li>
+      </ul>
+      <h1>Disadvantages</h1>
+      <ul>
+        <li>You should almoust all write yourself (Linux way)</li>
+        <li>It isn't Ruby</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Golang</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/gophers.jpg" alt="golang" style="height: 90%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Go-falcon</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Own SMTP server</li>
+        <li>Plain, login and CRAM-md5 auth, TLS support</li>
+        <li>Proxy with nginx</li>
+        <li>Build in mail parser</li>
+        <li>Work directly with database</li>
+        <li>Autocleanup of old messages</li>
+        <li>Integrations with spamassasin, clamav</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Own SMTP server - own database structure</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>We use Postgresql</li>
+        <li>We partitioning messages and attachments tables</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>In this case let's build own beautifull web!</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/mark.gif" alt="mark" style="width: 40%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Web</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>All infrastructure setuped by Chef Solo</li>
+        <li>Rails: only REST API for database (and landing pages) and assets pipeline</li>
+        <li>Web interface: Marionette.js, which work with the same API</li>
+        <li>We give for users the same API!</li>
+        <li>Looks good on Mobile and Tablet devices (!!!)</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>And we did this!</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/like.gif" alt="mark" style="width: 90%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Several words about frontend</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/alex.gif" alt="alex" style="width: 70%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Demo</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <a href="http://falcon.rw.rw/" target="_blank">Demo</a>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>What is not finished</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Optional TLS and HTTPS with SPDY (also for WWS) - need SSL cert</li>
+        <li>No Sendgrid account for real forwarding</li>
+        <li>Pages with texts</li>
+        <li>Tests in web on JS</li>
+        <li>...</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue dark nobackground">
+    <aside class="gdbar right"><img src="images/ruby.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Contact information</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
