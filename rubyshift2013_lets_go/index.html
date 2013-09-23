@@ -45,338 +45,482 @@
 
   <slide>
     <hgroup>
-      <h2>Slide with Bullets</h2>
+      <h2>Ruby Infrastructure</h2>
     </hgroup>
     <article>
-      <ul>
-        <li>Titles are formatted as Open Sans with bold applied and font size is set at 45</li>
-        <li>Title capitalization is title case
-          <ul>
-            <li>Subtitle capitalization is title case</li>
-          </ul>
-        </li>
-        <li>Subtitle capitalization is title case</li>
-        <li>Titles and subtitles should never have a period at the end</li>
-      </ul>
+
     </article>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>Slide with Bullets that Build</h2>
-      <h3>Subtitle Placeholder</h3>
-    </hgroup>
-    <article>
-      <p>A list where items build:</p>
-      <ul class="build">
-        <li>Pressing 'h' highlights code snippets</li>
-        <li>Pressing 'p' toggles speaker notes (if they're on the current slide)</li>
-        <li>Pressing 'f' toggles fullscreen viewing</li>
-        <li>Pressing 'w' toggles widescreen</li>
-        <li>Pressing 'o' toggles overview mode</li>
-        <li>Pressing 'ESC' toggles off these goodies</li>
-      </ul>
-      <p>Another list, but items fade as they build:</p>
-      <ul class="build fade">
-        <li>Hover over me!</li>
-        <li>Hover over me!</li>
-        <li>Hover over me!</li>
-      </ul>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Slide with (Smaller Font)</h2>
-    </hgroup>
-    <article class="smaller">
-      <ul>
-        <li>All <a href="http://google.com">links</a> open in new tabs.</li>
-        <li>To change that this, add <code>target="_self"</code> to the link.</li>
-      </ul>
-    </article>
-  </slide>
-
-  <slide hidden>
-    Hidden slides are left out of the presentation.
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Code Slide (with Subtitle Placeholder)</h2>
-      <h3>Subtitle Placeholder</h3>
-    </hgroup>
-    <article>
-      <p>Press 'h' to highlight important sections of code (wrapped in <code>&lt;b&gt;</code>).</p>
-      <pre class="prettyprint" data-lang="javascript">
-&lt;script type='text/javascript'&gt;
-  // Say hello world until the user starts questioning
-  // the meaningfulness of their existence.
-  function helloWorld(world) {
-    <b>for (var i = 42; --i &gt;= 0;) {
-      alert('Hello ' + String(world));
-    }</b>
-  }
-&lt;/script&gt;
-</pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Code Slide (Smaller Font)</h2>
-    </hgroup>
-    <article class="smaller">
-      <pre class="prettyprint" data-lang="javascript">
-// Say hello world until the user starts questioning
-// the meaningfulness of their existence.
-function helloWorld(world) {
-  for (var i = 42; --i &gt;= 0;) {
-    alert('Hello ' + String(world));
-  }
-}
-</pre>
-<pre class="prettyprint" data-lang="css">
-&lt;style&gt;
-  p { color: pink }
-  b { color: blue }
-&lt;/style&gt;
-</pre>
-<pre class="prettyprint" data-lang="html">
-&lt;!DOCTYPE html>
-&lt;html>
-&lt;head>
-  &lt;title>My Awesome Page&lt;/title>
-&lt;/head>
-&lt;body>
-  &lt;p&gt;Hello world&lt;/p&gt;
-&lt;body>
-&lt;/html>
-</pre>
-    </article>
-  </slide>
-
-  <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>Point I wanted to make #1</li>
-          <li>Point I wanted to make #2</li>
-          <li>Point I wanted to make #3</li>
-          <li>Example <a href="#">link</a> in notes.</li>
-        </ul>
-        <p><b>Remember to say this tag line!</b></p>
-      </section>
-    </aside>
-    <hgroup>
-      <h2>Slide with Speaker Notes</h2>
-    </hgroup>
-    <article>
-      <p>Press 'p' to toggle speaker notes.</p>
-    </article>
-  </slide>
-
-  <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>See this amazing link: <a href="http://www.google.com">link</a>.</li>
-        </ul>
-        <p><b>Remember to say this tag line!</b></p>
-      </section>
-    </aside>
-    <hgroup>
-      <h2>Presenter Mode</h2>
-    </hgroup>
-    <article>
-      <p>Add <code><a href="?presentme=true" target="_self">?presentme=true</a></code> to the URL to enabled presenter mode.
-      This setting is sticky, meaning refreshing the page will persist presenter
-      mode.</p>
-      <p>Hit <code><a href="?presentme=false" target="_self">?presentme=false</a></code> to disable presenter mode.</p>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Slide with Image</h2>
-    </hgroup>
-    <article>
-      <img src="images/chart.png" class="reflect" alt="Description" title="Description">
-      <footer class="source">source: place source info here</footer>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Slide with Image (Centered horz/vert)</h2>
+      <h2>Golang</h2>
     </hgroup>
     <article class="flexbox vcenter">
-      <img src="images/barchart.png" alt="Description" title="Description">
-      <footer class="source">source: place source info here</footer>
+      <img src="images/gopher.jpg" alt="gopher" />
     </article>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>Table Option A</h2>
-      <h3>Subtitle Placeholder</h3>
+      <h2>Golang</h2>
     </hgroup>
     <article>
-      <table>
-        <tr>
-          <th></th><th>Column 1</th><th>Column 2</th><th>Column 3</th><th>Column 4</th>
-        </tr>
-        <tr>
-          <td>Row 1</td><td>placeholder</td><td class="highlight">placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 2</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 3</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 4</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 5</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-      </table>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Table Option A (Smaller Text)</h2>
-      <h3>Subtitle Placeholder</h3>
-    </hgroup>
-    <article class="smaller">
-      <table>
-        <tr>
-          <th></th><th>Column 1</th><th>Column 2</th><th>Column 3</th><th>Column 4</th>
-        </tr>
-        <tr>
-          <td>Row 1</td><td>placeholder</td><td class="highlight">placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 2</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 3</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 4</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <td>Row 5</td><td>placeholder</td><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-      </table>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Table Option B</h2>
-      <h3>Subtitle Placeholder</h3>
-    </hgroup>
-    <article>
-      <table class="rows">
-        <tr>
-          <th>Header 1</th><td>placeholder</td><td class="highlight">placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <th>Header 2</th><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <th>Header 3</th><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <th>Header 4</th><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-        <tr>
-          <th>Header 5</th><td>placeholder</td><td>placeholder</td><td>placeholder</td>
-        </tr>
-      </table>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Slide Styles</h2>
-    </hgroup>
-    <article class="smaller">
       <div class="columns-2">
         <ul>
-          <li class="red">class="red"</li>
-          <li class="red2">class="red2"</li>
-          <li class="red3">class="red3"</li>
-          <li class="blue">class="blue"</li>
-          <li class="blue2">class="blue2"</li>
-          <li class="blue3">class="blue3"</li>
-          <li class="green">class="green"</li>
-          <li class="green2">class="green2"</li>
+          <li>A better C (2 compiler (gc, gcc), one interpreter)</li>
+          <li>Memory management is handled for you, but don’t be wreckless</li>
+          <li>Explicit is better than implicit</li>
+          <li>Rich built-in functionality</li>
+          <li>Fast.. everything (from compilation to execution)</li>
+          <li>Concurrency built-in and made easy</li>
+          <li>Documentation is critical</li>
+          <li>And ... nothing new (from the point of view of science)</li>
         </ul>
-        <ul>
-          <li class="green3">class="green3"</li>
-          <li class="yellow">class="yellow"</li>
-          <li class="yellow2">class="yellow2"</li>
-          <li class="yellow3">class="yellow3"</li>
-          <li class="gray">class="gray"</li>
-          <li class="gray2">class="gray2"</li>
-          <li class="gray3">class="gray3"</li>
-          <li class="gray4">class="gray4"</li>
-        </ul>
+        <div>
+          <img src="images/gopherbw.png" alt="gopher" style="width:100%" />
+        </div>
       </div>
-      <div class="centered" style="margin-top:2em">
-        I am centered text with a <button>Button</button> and <button disabled>Disabled</button> button.
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/rs_icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>
+        Although we expected C++ programmers to see Go as an alternative, instead most Go programmers come from languages like Python and Ruby. Very few come from C++.
+      </q>
+      <div class="author">
+        Robert C. Pike<br>
+        Google
       </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/rs_icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>
+        Python and Ruby programmers come to Go because they don't have to surrender much expressiveness, but gain performance and get to play with concurrency.
+      </q>
+      <div class="author">
+        Robert C. Pike<br>
+        Google
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Hello, RubyShift!</h2>
+      <h3>Golang</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="golang">
+package main
+
+import (
+  "fmt"
+)
+
+func main() {
+  fmt.Println("Привет, RubyShift!")
+}
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Hello, HTTP/1.1 RubyShift!</h2>
+      <h3>Golang</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="golang">
+package main
+import (
+  "net/http"
+  "fmt"
+)
+
+func HelloServer(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprint(w, "Привет, RubyShift!")
+}
+
+func main() {
+	http.HandleFunc("/", HelloServer)
+	http.ListenAndServe(":6789", nil)
+}
+      </pre>
     </article>
   </slide>
 
   <slide class="segue dark nobackground">
-    <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
+    <aside class="gdbar"><img src="images/rs_icon.png"></aside>
     <hgroup class="auto-fadein">
-      <h2>Segue Slide</h2>
-      <h3>Subtitle Placeholder</h3>
+      <h2>A quick introduction</h2>
+      <h3>Golang</h3>
     </hgroup>
   </slide>
 
-  <slide class="fill nobackground" style="background-image: url(images/sky.jpg)">
+  <slide>
     <hgroup>
-      <h2 class="white">Full Image (with Optional Header)</h2>
+      <h2>Packages, imports and exported names</h2>
+      <h3>A quick introduction</h3>
     </hgroup>
-    <footer class="source white">www.flickr.com/photos/25797459@N06/5438799763/</footer>
+    <article>
+      <pre class="prettyprint" data-lang="golang">
+package main
+
+import (
+  "fmt"
+  "math/rand"
+)
+
+func main() {
+  fmt.Println("My favorite number is", rand.Intn(10))
+}
+      </pre>
+    </article>
   </slide>
 
-  <slide class="segue dark quote nobackground">
-    <aside class="gdbar right bottom"><img src="images/google_developers_icon_128.png"></aside>
-    <article class="flexbox vleft auto-fadein">
-      <q>
-        This is an example of quote text.
-      </q>
-      <div class="author">
-        Name<br>
-        Company
+  <slide>
+    <hgroup>
+      <h2>Basic types</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
+    <article class="smaller">
+      <div class="columns-2">
+        <ul>
+          <li>bool</li>
+          <li>string</li>
+          <li>int  int8  int16  int32  int64</li>
+          <li>uint uint8 uint16 uint32 uint64 uintptr</li>
+          <li>byte // alias for uint8</li>
+          <li>rune // alias for int32, represents a Unicode code point</li>
+          <li>float32 float64</li>
+          <li>complex64 complex128</li>
+          <li>bool</li>
+        </ul>
+        <br />
+        <div>
+          <pre class="prettyprint" data-lang="golang">  package main
+  import (
+      "fmt"
+      "math/cmplx"
+  )
+  var (
+      ToBe   bool       = false
+      MaxInt uint64     = 1&lt;&lt;64 - 1
+      z      complex128 = cmplx.Sqrt(-5 + 12i)
+  )
+  func main() {
+      const f = "%T(%v)\n"
+      fmt.Printf(f, ToBe, ToBe)
+      fmt.Printf(f, MaxInt, MaxInt)
+      fmt.Printf(f, z, z)
+  }</pre>
+        </div>
       </div>
     </article>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>Slide with Iframe</h2>
+      <h2>Structs</h2>
+      <h3>A quick introduction</h3>
     </hgroup>
     <article>
-      <iframe data-src="http://www.google.com/doodle4google/resources/history.html"></iframe>
+      <pre class="prettyprint" data-lang="golang">
+package main
+
+import "fmt"
+
+type Vertex struct {
+    X int
+    Y int
+}
+
+func main() {
+    fmt.Println(Vertex{1, 2})
+}
+      </pre>
     </article>
   </slide>
 
   <slide>
+    <hgroup>
+      <h2>Pointers</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
     <article>
-      <iframe data-src="http://www.google.com/doodle4google/resources/history.html"></iframe>
+      <pre class="prettyprint" data-lang="golang">
+package main
+import "fmt"
+
+type Vertex struct {
+    X int
+    Y int
+}
+
+func main() {
+    p := Vertex{1, 2}
+    q := &p
+    q.X = 1e9
+    fmt.Println(p)
+}
+      </pre>
     </article>
   </slide>
 
-  <slide class="thank-you-slide segue nobackground">
+  <slide>
+    <hgroup>
+      <h2>Slices</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="golang">
+package main
+
+import "fmt"
+
+func main() {
+    p := []int{2, 3, 5, 7, 11, 13}
+    fmt.Println("p ==", p)
+
+    for i := 0; i < len(p); i++ {
+        fmt.Printf("p[%d] == %d\n",
+            i, p[i])
+    }
+}
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Maps</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="golang">
+package main
+import "fmt"
+
+type Vertex struct {
+    Lat, Long float64
+}
+var m map[string]Vertex
+
+func main() {
+    m = make(map[string]Vertex)
+    m["Bell Labs"] = Vertex{
+        40.68433, -74.39967,
+    }
+    fmt.Println(m["Bell Labs"])
+}
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Interfaces</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
+    <article class="smaller">
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="golang">
+  package main
+
+  import (
+      "fmt"
+      "math"
+  )
+
+  type Abser interface {
+      Abs() float64
+  }
+
+  func main() {
+      var a Abser
+      f := MyFloat(-math.Sqrt2)
+      v := Vertex{3, 4}
+
+      a = f  // a MyFloat implements Abser
+      a = &v // a *Vertex implements Abser
+      a = v  // a Vertex, does NOT
+      // implement Abser
+
+      fmt.Println(a.Abs())
+  }
+
+  type MyFloat float64
+
+  func (f MyFloat) Abs() float64 {
+      if f < 0 {
+          return float64(-f)
+      }
+      return float64(f)
+  }
+
+  type Vertex struct {
+      X, Y float64
+  }
+
+  func (v *Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+  }
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Errors</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
+    <article class="smaller">
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="golang">
+  package main
+
+  import (
+      "fmt"
+      "time"
+  )
+
+  type MyError struct {
+      When time.Time
+      What string
+  }
+
+  func (e *MyError) Error() string {
+      return fmt.Sprintf("at %v, %s",
+          e.When, e.What)
+  }
+
+  func run() error {
+      return &MyError{
+          time.Now(),
+          "it didn't work",
+      }
+  }
+
+  func main() {
+      if err := run(); err != nil {
+          fmt.Println(err)
+      }
+  }
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Goroutines</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="golang">
+  package main
+  import (
+      "fmt"
+      "time"
+  )
+
+  func say(s string) {
+      for i := 0; i < 5; i++ {
+          time.Sleep(100 * time.Millisecond)
+          fmt.Println(s)
+      }
+  }
+  func main() {
+      <b>go say("world")</b>
+      say("hello")
+  }
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Channels</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="golang">
+  package main
+
+  import "fmt"
+
+  func sum(a []int, c chan int) {
+      sum := 0
+      for _, v := range a {
+          sum += v
+      }
+      c <- sum // send sum to c
+  }
+
+  func main() {
+      a := []int{7, 2, 8, -9, 4, 0}
+
+      c := make(chan int)
+      go sum(a[:len(a)/2], c)
+      go sum(a[len(a)/2:], c)
+      x, y := <-c, <-c // receive from c
+
+      fmt.Println(x, y, x+y)
+  }
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Select</h2>
+      <h3>A quick introduction</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+      <pre class="prettyprint" data-lang="golang">
+  package main
+
+  import "fmt"
+
+  func fibonacci(c, quit chan int) {
+      x, y := 0, 1
+      for {
+          select {
+          case c <- x:
+              x, y = y, x+y
+          case <-quit:
+              fmt.Println("quit")
+              return
+          }
+      }
+  }
+
+  func main() {
+      c := make(chan int)
+      quit := make(chan int)
+      go func() {
+          for i := 0; i < 10; i++ {
+              fmt.Println(<-c)
+          }
+          quit <- 0
+      }()
+      fibonacci(c, quit)
+  }
+      </pre>
+      </div>
+    </article>
+  </slide>
+
+
+  <slide class="thank-you-slide segue dark nobackground">
     <aside class="gdbar right"><img src="images/rs_icon.png"></aside>
     <article class="flexbox vleft auto-fadein">
       <h2>&lt;Thank You!&gt;</h2>
@@ -385,12 +529,6 @@ function helloWorld(world) {
     <p class="auto-fadein" data-config-contact>
       <!-- populated from slide_config.json -->
     </p>
-  </slide>
-
-  <slide class="logoslide dark nobackground">
-    <article class="flexbox vcenter">
-      <span><img src="images/google_developers_logo_white.png"></span>
-    </article>
   </slide>
 
   <slide class="backdrop"></slide>
