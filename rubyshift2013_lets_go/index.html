@@ -527,6 +527,58 @@ func main() {
     </hgroup>
   </slide>
 
+  <slide>
+    <hgroup>
+      <h2>HTTP Server</h2>
+      <h3>GO and Web</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="golang">
+  package main
+
+  import (
+    "fmt"
+    "net/http"
+  )
+  type Hello struct{}
+
+  func (h Hello) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, "Hello!")
+  }
+
+  func main() {
+    var h Hello
+    http.ListenAndServe("localhost:4000", h)
+  }
+
+      </pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Web frameworks and packages</h2>
+      <h3>GO and Web</h3>
+    </hgroup>
+    <article>
+    <div class="columns-2">
+      <div>
+        <ul>
+          <li><a href="http://robfig.github.io/revel/">Revel</a></li>
+          <li><a href="http://www.gorillatoolkit.org/">Gorilla</a></li>
+          <li><a href="http://webgo.io/">WebGo</a></li>
+          <li><a href="http://beego.me/">Beego</a></li>
+          <li><a href="https://github.com/rcrowley/go-tigertonic">Tiger Tonic</a></li>
+          <li><a href="http://code.google.com/p/gorest/">GoRest</a></li>
+        </ul>
+      </div>
+      <div>
+        <img src="images/RevelBlackLines.png" alt="go" style="width:70%" />
+      </div>
+    </div>
+    </article>
+  </slide>
+
 
   <slide class="thank-you-slide segue dark nobackground">
     <aside class="gdbar right"><img src="images/rs_icon.png"></aside>
