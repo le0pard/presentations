@@ -75,7 +75,7 @@
           <li>Fast.. everything (from compilation to execution)</li>
           <li>Concurrency built-in and made easy</li>
           <li>Documentation is critical</li>
-          <li>And ... nothing new (from the point of view of science)</li>
+          <li>And ... nothing new</li>
         </ul>
         <div>
           <img src="images/gopherbw.png" alt="gopher" style="width:100%" />
@@ -554,7 +554,7 @@ func main() {
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Web frameworks and packages</h2>
@@ -570,6 +570,7 @@ func main() {
           <li><a href="http://beego.me/">Beego</a></li>
           <li><a href="https://github.com/rcrowley/go-tigertonic">Tiger Tonic</a></li>
           <li><a href="http://code.google.com/p/gorest/">GoRest</a></li>
+          <li>...</li>
         </ul>
       </div>
       <div>
@@ -579,6 +580,91 @@ func main() {
     </article>
   </slide>
 
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/rs_icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Practical use of GO</h2>
+      <h3>Golang</h3>
+    </hgroup>
+  </slide>
+
+
+  <slide>
+    <hgroup>
+      <h2>Good and Bad choices</h2>
+      <h3>Practical use of GO</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <h3>Good choice:</h3>
+          <ul>
+            <li>Background workers</li>
+            <li>Websocket servers</li>
+            <li>SMTP, POP3 servers</li>
+            <li>REST API backend</li>
+            <li>System daemons (monitoring, etc.)</li>
+          </ul>
+          <br />
+        </div>
+        <div>
+          <h3>Bad choice:</h3>
+          <ul>
+            <li>Low level programming (drivers, etc.)</li>
+            <li>Rich web service</li>
+            <li>Complex business logic with huge amount of external libraries</li>
+            <li>Replace Rails, Ruby, Python, etc.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/rs_icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>
+        Benchmarks is bullshit! Benchmarks are mainly used to promote specific products as the "fastest".
+      </q>
+      <div class="author">
+        Me
+      </div>
+    </article>
+  </slide>
+
+  <slide class="fill nobackground" style="background-image: url(images/bench1.png)">
+    <hgroup>
+      <h2 class="black">Benchmarks</h2>
+    </hgroup>
+    <footer class="source" style="color: #F00 !important">http://www.techempower.com/benchmarks/#section=data-r6</footer>
+  </slide>
+
+  <slide class="fill nobackground" style="background-image: url(images/bench2.png)">
+    <hgroup>
+      <h2 class="black">Benchmarks</h2>
+    </hgroup>
+    <footer class="source" style="color: #F00 !important">http://benchmarksgame.alioth.debian.org/u32/performance.php?test=threadring</footer>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Conclusion</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Cool language with cool mascot!</li>
+          <li>Very fast language (faster then Ruby and Python)</li>
+          <li>But it is not intended as a substitute for Ruby or Python</li>
+          <li>Poor infrastructure</li>
+          <li>Don't believe in my words - just try it!</li>
+        </ul>
+        <div>
+          <img src="images/golangru.jpeg" alt="gopher" style="width:100%" />
+        </div>
+      </div>
+    </article>
+  </slide>
 
   <slide class="thank-you-slide segue dark nobackground">
     <aside class="gdbar right"><img src="images/rs_icon.png"></aside>
