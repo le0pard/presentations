@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Marionette - SmartMe 2014</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/marionette_logo.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/marionette_logo.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Alexey Vasiliev</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>8+ years experience
+            <ul>
+              <li>Linux and Databases administrator</li>
+              <li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++)</li>
+            </ul>
+          </li>
+          <li>Open-Source developer
+            <ul>
+              <li>Webp-ffi for Ruby</li>
+              <li>MongodbLogger for Rails</li>
+              <li>SMTRails and SHTRails (shared templates for rails)</li>
+              <li>SkypeKit for Ruby</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="centered">
+          <img src="images/photo.jpeg" alt="me" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/marionette_logo.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Before Backbone.js</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>JS templates</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Mustache.js</li>
+          <li>Handlebars.js</li>
+          <li>Hogan.js</li>
+          <li>JsRender</li>
+          <li>Underscore.js</li>
+          <li>doT.js</li>
+          <li>MaskJS</li>
+          <li>others...</li>
+        </ul>
+        <div class="centered">
+          <img src="images/mustache.jpeg" alt="mustache" style="height: 300px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>JS templates comparison</h2>
+      <h3>JS templates</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li><a href="http://jsperf.com/javascript-template-engine-compare/83">jsperf.com/javascript-template-engine-compare/83</a></li>
+        <li><a href="http://jsperf.com/mustache-vs-hogan-js-vs-handlebars-js/15">jsperf.com/mustache-vs-hogan-js-vs-handlebars-js/15</a></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Scalable JavaScript Application Architecture</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/toolbox.jpg" alt="toolbox" style="height: 400px" />
+      </div>
+      <div class="centered" style="margin-top: 20px">
+        <h2>A JavaScript library is like a toolbox</h2>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="fill nobackground" style="background-image: url(images/mks.jpg); background-position: 0 -150px">
+    <hgroup>
+      <h2 class="white">International Space Station</h2>
+    </hgroup>
+    <footer class="source white">http://www.csulb.edu/colleges/coe/ae/engr370i/ch09/chap5_2n3/image9.jpg</footer>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Web Application Module</h2>
+      <h3>Scalable JavaScript Application Architecture</h3>
+    </hgroup>
+    <article>
+      <h2>an independent unit of functionality that is part of the total structure of a web application</h2>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Web Application Module</h2>
+      <h3>Scalable JavaScript Application Architecture</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Each module has its own sandbox</li>
+        <li>Each part of the architecture is like a puzzle piece</li>
+        <li>The web application is created as a result of all parts doing their job</li>
+        <li>Modules must stay within their own sandboxes</li>
+        <li>Modules only know the sandbox</li>
+        <li>The sandbox also acts like a security guard</li>
+        <li>When modules are loosely coupled, removing a module doesn't break the others</li>
+        <li>The application core handles errors</li>
+        <li>Each part can be tested separately</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/marionette_logo.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Backbone.js</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>backbonejs.org</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/backbone_site.png" alt="backbonejs" style="height: 600px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Dependency</h2>
+      <h3>Backbone.js</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Underscore.js</li>
+        <li>json2.js</li>
+        <li>jQuery or Zepto</li>
+        <li>Template engine (if not will be use Underscore.js template)</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Backbone.Events</h2>
+      <h3>Backbone.js</h3>
+    </hgroup>
+    <article>
+      <p>Events is a module that can be mixed in to any object, giving the object the ability to bind and trigger custom named events</p>
+      <p>Methods:</p>
+      <ul>
+        <li>on</li>
+        <li>off</li>
+        <li>trigger</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Backbone.View</h2>
+      <h3>Backbone.js</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>initialize</li>
+        <li>el</li>
+        <li>render</li>
+        <li>remove</li>
+      </ul>
+      <p>this.el properties:</p>
+      <ul>
+        <li>tagName</li>
+        <li>className</li>
+        <li>id</li>
+        <li>attributes</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Backbone.Model</h2>
+      <h3>Backbone.js</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>initialize</li>
+        <li>get/set/has/unset</li>
+        <li>defaults</li>
+        <li>toJSON</li>
+        <li>fetch</li>
+        <li>save/destroy</li>
+        <li>validate</li>
+        <li>url/urlRoot</li>
+        <li>isNew</li>
+        <li>hasChanged</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Backbone.Collection</h2>
+      <h3>Backbone.js</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>initialize</li>
+        <li>model</li>
+        <li>models</li>
+        <li>toJSON</li>
+        <li>Underscore Methods</li>
+        <li>add/get/remove/reset/fetch</li>
+        <li>at</li>
+        <li>length</li>
+        <li>comparator</li>
+        <li>url</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Backbone.Router &amp;&amp; Backbone.History</h2>
+      <h3>Backbone.js</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>initialize</li>
+        <li>routes</li>
+        <li>route</li>
+        <li>navigate</li>
+        <li>Backbone.history.start()</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Naming convention</h2>
+     <h3>Backbone patterns</h3>
+   </hgroup>
+   <article>
+     <div class="columns-2">
+       <pre class="prettyprint" data-lang="javascript">
+
+
+   window.App = {
+       ...
+   };
+
+   App.Photo = Backbone.Model.extend({
+       ...
+   };
+
+
+       </pre>
+       <pre class="prettyprint" data-lang="javascript">
+
+   Models:                    App.Photo
+   Collections:               App.Photos
+   Views:                     App.PhotoView
+   Main router:               App.Router
+   Custom routers:            App.SpecialRouter
+
+   Router instance:           App.router
+   View instances:            App.photoView
+   Singleton model instances: App.photo
+   Collection instances:      App.photos
+       </pre>
+     </div>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Naming convention: two-level namespace</h2>
+     <h3>Backbone patterns</h3>
+   </hgroup>
+   <article>
+     <pre class="prettyprint" data-lang="javascript">
+
+ Models:                    App.Models.Photo
+ Collections:               App.Collections.Photos
+ Views:                     App.Views.Photo
+ Routes:                    App.Routes.Photo
+
+     </pre>
+   </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Bootstrapping data</h2>
+      <h3>Backbone patterns</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="html">
+  &lt;body&gt;
+      ...
+
+      &lt;script&gt;
+        App.photos = new Photos([
+          { id: 2, name: &quot;My dog&quot;, filename: &quot;IMG_0392.jpg&quot; },
+          { id: 3, name: &quot;Our house&quot;, filename: &quot;IMG_0393.jpg&quot; },
+          { id: 4, name: &quot;My favorite food&quot;, filename: &quot;IMG_0394.jpg&quot; },
+          { id: 5, name: &quot;His bag&quot;, filename: &quot;IMG_0394.jpg&quot; },
+          ...
+        ]);
+      &lt;/script&gt;
+    &lt;/body&gt;
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Inline templates</h2>
+      <h3>Backbone patterns</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="html">
+  &lt;script type=&quot;text/html&quot; id=&quot;template-contact&quot;&gt;
+    &lt;div class='contact'&gt;
+      &lt;strong&gt;&lt;%= name %&gt;&lt;/strong&gt;
+      &lt;span&gt;&lt;%= email %&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/script&gt;
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>JST templates</h2>
+      <h3>Backbone patterns</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="javascript">
+  window.JST = {};
+
+  window.JST['person/contact'] = _.template(
+      &quot;&lt;div class='contact'&gt;&lt;%= name %&gt; ...&quot;
+  );
+
+  window.JST['person/edit'] = _.template(
+      &quot;&lt;form method='post'&gt;&lt;input type...&quot;
+  );
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Mixins</h2>
+      <h3>Backbone patterns</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="javascript">
+  mergeMixin: (view, mixin) ->
+    _.defaults view::, mixin
+    _.defaults view::events, mixin.events
+    if mixin.initialize isnt `undefined`
+      oldInitialize = view::initialize
+      view::initialize = ->
+        mixin.initialize.apply this
+        oldInitialize.apply this
+
+ mergeMixin(Test.Views.PollsShow, Test.Mixin.PollsTabs)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Mixins</h2>
+     <h3>Backbone patterns</h3>
+   </hgroup>
+   <article>
+     <pre class="prettyprint" data-lang="javascript">
+  Test.Mixin.PollsTabs =
+  events:
+   'click .poll_tab_link'              : 'pollTabOpen'
+   'click .voters_tab_link'            : 'votersTabOpen'
+
+  pollTabOpen: (e) ->
+   e.preventDefault()
+   Backbone.history.navigate("admin/polls/#{@model.get('id')}", true)
+
+  votersTabOpen: (e) ->
+   e.preventDefault()
+   Backbone.history.navigate("admin/polls/#{@model.get('id')}/voters", true)
+     </pre>
+   </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/marionette_logo.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Common problems</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Things outside views</h2>
+     <h3>Common problems</h3>
+   </hgroup>
+   <article>
+     <h3>Put things in your view class code as much as possible.</h3>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Event handlers outside views</h2>
+     <h3>Common problems</h3>
+   </hgroup>
+   <article>
+     <h3>Every time you make an event handler outside a view class, consider making a new view class.</h3>
+    <pre class="prettyprint" data-lang="javascript">
+
+      App.PhotoView = Backbone.View.extend({
+        ...
+      });
+
+      // AVOID this!
+      $("a.photo").click(function() { ... });
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Zombie Views</h2>
+     <h3>Common problems</h3>
+   </hgroup>
+   <article>
+    <pre class="prettyprint" data-lang="coffescript">
+
+  Backbone.View::destroyView = ->
+    @remove()
+    @unbind()
+    @onDestroyView()  if @onDestroyView
+    </pre>
+    <pre class="prettyprint" data-lang="coffescript">
+  class PiroPopup.Views.PopupIndex extends Backbone.View
+    initialize: (options) ->
+      @collection.on 'add', @render
+      @collection.on 'reset', @render
+      PiroPopup.globalEvents.on "update:pivotal:data", @updatePivotalState
+    onDestroyView: =>
+      @collection.off 'add', @render
+      @collection.off 'reset', @render
+      PiroPopup.globalEvents.off "update:pivotal:data", @updatePivotalState
+    </pre>
+   </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/marionette_logo.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Marionette.js</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>What is Marionette.js?</h2>
+     <h3>Marionette.js</h3>
+   </hgroup>
+   <article>
+    <p>Backbone.Marionette is a composite application library for Backbone.js that aims to simplify the construction of large scale JavaScript applications.</p>
+    <p>It is a collection of common design and implementation patterns found in the applications that we have been building with Backbone, and includes pieces inspired by composite application architectures, event-driven architectures, messaging architectures, and more.</p>
+    <p>Requirements:</p>
+    <ul>
+      <li>jQuery v1.8+</li>
+      <li>Underscore v1.4.4+</li>
+      <li>Backbone v1.1.x</li>
+      <li>Backbone.Wreqr</li>
+      <li>Backbone.BabySitter</li>
+    </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Components</h2>
+     <h3>Marionette.js</h3>
+   </hgroup>
+   <article>
+    <div class="columns-2">
+      <ul>
+        <li>Marionette.Application</li>
+        <li>Marionette.AppRouter</li>
+        <li>Marionette.Callbacks</li>
+        <li>Marionette.CollectionView</li>
+        <li>Marionette.CompositeView</li>
+        <li>Marionette.Controller</li>
+        <li>Marionette.ItemView</li>
+        <li>Marionette.Layout</li>
+        <li>Marionette.Region</li>
+        <li>Marionette.RegionManager</li>
+        <li>Marionette.Renderer</li>
+        <li>Marionette.RequestResponse</li>
+        <li>Marionette.TemplateCache</li>
+        <li>Marionette.View</li>
+      </ul>
+    </div>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Marionette.Application</h2>
+     <h3>Marionette.js</h3>
+   </hgroup>
+   <article>
+    <pre class="prettyprint" data-lang="coffescript">
+  (exports ? this).FalconApp =
+    Regions:     {}
+    Routers:     {}
+    Mixins:      {}
+    Views:       {}
+    Models:      {}
+    Collections: {}
+    Layouts:     {}
+    Utils:       {}
+  class FalconApp.Application extends Backbone.Marionette.Application
+    onStart: (options) =>
+  # start app
+  FalconApp.application = new FalconApp.Application
+
+  $ -> FalconApp.application.start()
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Marionette.Renderer</h2>
+     <h3>Marionette.js</h3>
+   </hgroup>
+   <article>
+    <pre class="prettyprint" data-lang="coffescript">
+  # templates
+  Backbone.Marionette.Renderer.render = (template, data) ->
+    throw "Template '#{template}' not found!" unless HandlebarsTemplates[template]
+    HandlebarsTemplates[template](data)
+  # custom
+  myTemplate = _.template("&lt;div&gt;foo&lt;/div&gt;")
+  Backbone.Marionette.ItemView.extend template: myTemplate
+    </pre>
+   </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/marionette_logo.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Bonus</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Assembly and organization of the code</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li>Asynchronous Module Definitions (AMD) by require.js</li>
+      <li>Sprockets: Rack-based asset packaging</li>
+      <li>...</li>
+    </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Frameworks</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li><a href="https://github.com/chaplinjs/chaplin">Chaplin</a></li>
+      <li><a href="http://marionettejs.com/">Marionettejs</a></li>
+      <li><a href="http://addyosmani.github.com/aura/">Backbone Aura</a></li>
+      <li><a href="http://walmartlabs.github.com/thorax/">Thorax</a></li>
+      <li>...</li>
+    </ul>
+   </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/marionette_logo.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>HTML5 Storages</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>localStorage</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li>Key / value pairs - hash table</li>
+      <li>Persistent on page reloads</li>
+      <li>Avoids HTTP overhead of cookies</li>
+      <li>Great for storing user preferences</li>
+    </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>sessionStorage</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+    <p>Same as localStorage but...</p>
+     <ul>
+       <li>Lasts as long as browser is open</li>
+       <li>Opening page in new window or tab starts new session</li>
+       <li>Great for sensitive data (e.g. banking sessions)</li>
+     </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Web SQL Database</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li>Client-side SQL database</li>
+      <li>Asynchronous & Synchronous* API</li>
+      <li>Basically wrapper around SQLite</li>
+      <li>Put processing (sorting, filtering, etc.) on client</li>
+      <li>Deprecated (!!!)</li>
+    </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>IndexedDB</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+    <ul>
+      <li>
+        Best of localStorage/sessionStorage and Web SQL DB:
+        <ul>
+          <li>Object based data store</li>
+          <li>In-order retrieval by index or locate by key</li>
+        </ul>
+      </li>
+      <li>
+        Asynchronous & Synchronous API:
+        <ul>
+          <li>For the browser and for Web Workers</li>
+        </ul>
+      </li>
+    </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Application Cache</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+     <pre class="prettyprint" data-lang="html">
+
+  &lt;html manifest=&quot;example.appcache&quot;&gt;... &lt;/html&gt;
+     </pre>
+     <pre class="prettyprint" data-lang="html">
+   CACHE MANIFEST
+   # Explicitly cached entries
+   CACHE:
+   index.html
+   stylesheet.css
+   images/logo.png
+   scripts/main.js
+   # static.html will be served if the user is offline
+   FALLBACK:
+   / /static.html
+   # Resources that require the user to be online.
+   NETWORK:
+   *
+      </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>File API</h2>
+     <h3>HTML5 Storages</h3>
+   </hgroup>
+   <article>
+     <ul>
+       <li>File / FileList</li>
+       <li>FileReader</li>
+       <li>Drag & Drop Files</li>
+     </ul>
+   </article>
+  </slide>
+
+  <slide class="thank-you-slide segue dark nobackground">
+    <aside class="gdbar right"><img src="images/marionette_logo.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Contact information</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>

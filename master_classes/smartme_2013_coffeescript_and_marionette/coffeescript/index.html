@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CoffeeScript - SmartMe 2014</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/coffee_cups.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/coffee_cup.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Alexey Vasiliev</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>8+ years experience
+            <ul>
+              <li>Linux and Databases administrator</li>
+              <li>Web and Mobile developer (Ruby, Golang, Java, JavaScript, Objective-C, C/C++)</li>
+            </ul>
+          </li>
+          <li>Open-Source developer
+            <ul>
+              <li>Webp-ffi for Ruby</li>
+              <li>MongodbLogger for Rails</li>
+              <li>SMTRails and SHTRails (shared templates for rails)</li>
+              <li>SkypeKit for Ruby</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="centered">
+          <img src="images/photo.jpeg" alt="me" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/coffee_cup.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Basic</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>A Beautiful Programming Language</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Least amount of code to solve problems</li>
+        <li>Readable and Understandable</li>
+        <li>Easy to Maintain</li>
+      </ul>
+      <div class="centered" style="margin-top: 20px">
+        <h2>JavaScript?</h2>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>CoffeeScript</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>JavaScript's less ostentatious kid brother</li>
+        <li>one-to-one with JavaScript</li>
+        <li>better functional syntax</li>
+        <li>compiles to the good parts</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>coffeescript.org</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/coffe_site.png" alt="coffe_site" style="height: 500px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>The CoffeeScript Compiler</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Install Node.js</li>
+        <li>Install npm</li>
+        <li>
+          <pre class="prettyprint" data-lang="bash">
+npm install -g coffee-script
+          </pre>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>The CoffeeScript Compiler</h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+        coffee -h
+        Usage: coffee [options] path/to/script.coffee -- [args]
+
+          -b, --bare         compile without a top-level function wrapper
+          -c, --compile      compile to JavaScript and save as .js files
+          -e, --eval         pass a string from the command line as input
+          -h, --help         display this help message
+          -i, --interactive  run an interactive CoffeeScript REPL
+          -j, --join         concatenate the source CoffeeScript before compiling
+          -l, --lint         pipe the compiled JavaScript through JavaScript Lint
+          -n, --nodes        print out the parse tree that the parser produces
+              --nodejs       pass options directly to the "node" binary
+          -o, --output       set the output directory for compiled JavaScript
+          -p, --print        print out the compiled JavaScript
+          -r, --require      require a library before executing your script
+          -s, --stdio        listen for and compile scripts over stdio
+          -t, --tokens       print out the tokens that the lexer/rewriter produce
+          -v, --version      display the version number
+          -w, --watch        watch scripts for changes and rerun commands
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>The CoffeeScript Compiler</h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+        $ coffee -c path/to/script.coffee
+
+        $ coffee --watch experimental.coffee
+
+        $ coffee --print *.coffee > all.js
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Variables</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+        someText = "Hello folks!"
+        alert someText
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+        var someText;
+        someText = "Hello folks!";
+        alert(someText);
+      </pre>
+      <ul>
+        <li>No variable declarations</li>
+        <li>No semicolons</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Variables</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+        if ViktorTsoi?
+          alert "I know it!"
+      </pre>
+      <p>or</p>
+      <pre class="prettyprint" data-lang="coffescript">
+        alert "I know it!" if ViktorTsoi?
+      </pre>
+      <p>converted</p>
+      <pre class="prettyprint" data-lang="javascript">
+        if (typeof ViktorTsoi !== "undefined" && ViktorTsoi !== null) {
+          alert("I know it!");
+        }
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>2 way to create functions</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li> Named Functions
+          <pre class="prettyprint" data-lang="javascript">
+            function oneCoffee() {
+              return alert("One coffee ready!");
+            }
+          </pre>
+        </li>
+        <li> Function Expressions
+          <pre class="prettyprint" data-lang="javascript">
+            var oneCoffee = function() {
+              return alert("One coffee ready!");
+            }
+          </pre>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Function Expressions in CoffeeScript</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+        oneCoffee = ->
+          alert "One coffee ready!"
+      </pre>
+      <p>or</p>
+      <pre class="prettyprint" data-lang="coffescript">
+        oneCoffee = -> alert "One coffee ready!"
+      </pre>
+      <p>converted</p>
+      <pre class="prettyprint" data-lang="javascript">
+        var oneCoffee;
+        oneCoffee = function() {
+          return alert("One coffee ready!");
+        };
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Returning in function</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+  oneCoffee = ->
+   answer = confirm "Ready for some Coffee?"
+   "Your answer is " + answer
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+  oneCoffee = ->
+   answer = confirm "Ready for some Coffee?"
+   "Your answer is #{answer}"
+        </pre>
+        <p>converted</p>
+        <pre class="prettyprint" data-lang="javascript">
+  var oneCoffee;
+  oneCoffee = function() {
+    var answer;
+    answer = confirm("Ready for some Coffee?");
+    return "Your answer is " + answer;
+  };
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Function parameters</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+        <pre class="prettyprint" data-lang="coffescript">
+  oneCoffee = (msg = "Ready for some Coffee?") ->
+   answer = confirm msg
+   "Your answer is #{answer}"
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+  var oneCoffee;
+  oneCoffee = function(msg) {
+    var answer;
+    if (msg == null) {
+      msg = "Ready for some Coffee?";
+    }
+    answer = confirm(msg);
+    return "Your answer is " + answer;
+  };
+        </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Function examples</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+        <pre class="prettyprint" data-lang="coffescript">
+    square = (x) -> x * x
+
+    area = (x, y) -> x * y
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+    var area, square;
+
+    square = function(x) {
+      return x * x;
+    };
+
+    area = function(x, y) {
+      return x * y;
+    };
+        </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>JQuery to CoffeeScript</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+
+  $("#tabs #error a").click (e) ->
+    e.preventDefault()
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  $("#tabs #error a").click(function(e) {
+    return e.preventDefault();
+  });
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+  $("#confirm").queue ->
+    $(@).dequeue()
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  $("#confirm").queue(function() {
+    return $(this).dequeue();
+  });
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>If Statement</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+
+  if age < 18
+    alert 'Under age'
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+  alert 'Under age' if age < 18
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+  if age < 18 then alert 'Under age'
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  if (age < 18) {
+    alert('Under age');
+  };
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>If Else Statement</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+if age < 18
+  alert "Under age"
+else
+  alert "of age"
+      </pre>
+      <pre class="prettyprint" data-lang="coffescript">
+
+if age < 18 then alert 'Under age' else alert 'of age'
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+if (age < 18) {
+  alert("Under age");
+} else {
+  alert("of age");
+}
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Operators</h2>
+    </hgroup>
+    <article class="smaller">
+      <table>
+        <tbody>
+        <tr>
+          <th>CoffeeScript</th>
+          <th>JavaScript</th>
+        </tr>
+        <tr><td><tt>is</tt></td><td><tt>===</tt></td></tr>
+        <tr><td><tt>isnt</tt></td><td><tt>!==</tt></td></tr>
+        <tr><td><tt>not</tt></td><td><tt>!</tt></td></tr>
+        <tr><td><tt>and</tt></td><td><tt>&amp;&amp;</tt></td></tr>
+        <tr><td><tt>or</tt></td><td><tt>||</tt></td></tr>
+        <tr><td><tt>true, yes, on</tt></td><td><tt>true</tt></td></tr>
+        <tr><td><tt>false, no, off</tt></td><td><tt>false</tt></td></tr>
+        <tr><td><tt>@, this</tt></td><td><tt>this</tt></td></tr>
+        <tr><td><tt>of</tt></td><td><tt>in</tt></td></tr>
+        <tr><td><tt>in</tt></td><td><i><small>no JS equivalent</small></i></td></tr>
+        </tbody>
+      </table>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Operator Examples</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+
+    if paid() and coffee() is on then pour()
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+    if (paid() && coffee() === true) {
+      pour();
+    }
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+    coffee() unless paid()
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+    if (!paid()) {
+      coffee();
+    }
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Chained Comparisons</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+
+if 2 < newLevel < 5
+  alert "In Range!"
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+if ((2 < newLevel && newLevel < 5)) {
+  alert("In Range!");
+}
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Switch Statement</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+
+    message = switch state
+      when 0 then 'good'
+      when 1 then 'bad'
+      when 2 then 'cat'
+      else 'I dont know'
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+    var message;
+
+    message = (function() {
+      switch (state) {
+        case 0:
+          return 'good';
+        case 1:
+          return 'bad';
+        case 2:
+          return 'cat';
+        default:
+          return 'I dont know';
+      }
+    })();
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Ranges</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+
+    range0 = [1..4]
+    range1 = [1...4]
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+    var range0, range1;
+
+    range0 = [1, 2, 3, 4];
+
+    range1 = [1, 2, 3];
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+    range = [1..4]
+    alert range[1..-1]
+    alert range[1...range.length]
+    alert range[2..]
+    alert range[..]
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+    var range;
+    range = [1, 2, 3, 4];
+    alert(range.slice(1));
+    alert(range.slice(1, range.length));
+    alert(range.slice(2));
+    alert(range.slice(0));
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Arrays</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+
+fruit = ['apple', 'pear', 'orange']
+fruit = [
+  'apple'
+  'pear'
+  'orange'
+]
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+var fruit;
+
+fruit = ['apple', 'pear', 'orange'];
+
+fruit = ['apple', 'pear', 'orange'];
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Loops</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+
+  fruit = ['apple', 'pear', 'orange']
+  for fr in fruit
+    alert "Fruit: #{fr}"
+  alert "Fruit: #{fr}" for fr in fruit
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+  var fr, fruit, _i, _j, _len, _len1;
+
+  fruit = ['apple', 'pear', 'orange'];
+
+  for (_i = 0, _len = fruit.length; _i < _len; _i++) {
+    fr = fruit[_i];
+    alert("Fruit: " + fr);
+  }
+  ...
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Loops</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  fruit = ['apple', 'pear', 'orange']
+  withoutApple = (name for name in fruit when name isnt "apple")
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+  var fruit, name, withoutApple;
+  fruit = ['apple', 'pear', 'orange'];
+  withoutApple = (function() {
+    var _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = fruit.length; _i < _len; _i++) {
+      name = fruit[_i];
+      if (name !== "apple") {
+        _results.push(name);
+      }
+    }
+    return _results;
+  })();
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Splats</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  race = (winner, runners...) ->
+    print winner, runners
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+  var race,
+    __slice = [].slice;
+
+  race = function() {
+    var runners, winner;
+    winner = arguments[0], runners = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+    return print(winner, runners);
+  };
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Objects</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+          kids =
+            brother:
+              name: "Max"
+              age: 11
+            sister:
+              name: "Ida"
+              age: 9
+        </pre>
+        <br /><br /><br /><br /><br /><br />
+        <pre class="prettyprint" data-lang="javascript">
+          var kids;
+
+          kids = {
+            brother: {
+              name: "Max",
+              age: 11
+            },
+            sister: {
+              name: "Ida",
+              age: 9
+            }
+          };
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Objects</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+  ￼obj =
+    name: 'French'
+    strength: 1
+    brew: -> alert("brewing #{@name}")
+    pour: (amount = 1) ->
+      if amount is 1
+         "Poured a single cup"
+      else
+         "Poured #{amount} cups"
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+  var ￼￼obj;
+
+  ￼￼obj = {
+    name: 'French',
+    strength: 1,
+    brew: function() {
+      return alert("brewing " + this.name);
+    },
+    pour: function(amount) {
+      if (amount == null) {
+        amount = 1;
+      }
+      if (amount === 1) {
+        return "Poured a single cup";
+      } else {
+        return "Poured " + amount + " cups";
+      }
+    }
+  };
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Object Iteration with of</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+"#{coffee} has #{attrs.in_stock}" for coffee, attrs of coffees
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+var attrs, coffee;
+
+for (coffee in coffees) {
+  attrs = coffees[coffee];
+  "" + coffee + " has " + attrs.in_stock;
+}
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Object Iteration with hasOwnProperty</h2>
+      <h3>CoffeeScript</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+
+objects = { test: 1, apple: true }
+hasApple = (value for own key, value of objects when value isnt true)
+      </pre>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="javascript">
+
+var hasApple, key, objects, value,
+  __hasProp = {}.hasOwnProperty;
+
+objects = {
+  test: 1,
+  apple: true
+};
+
+hasApple = (function() {
+  var _results;
+  _results = [];
+  for (key in objects) {
+    if (!__hasProp.call(objects, key)) continue;
+    value = objects[key];
+    if (value !== true) {
+      _results.push(value);
+    }
+  }
+  return _results;
+})();
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/coffee_cup.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Object Orientation</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Constructor and Properties</h2>
+      <h3>Object Orientation</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  class Base
+    constructor: (@name) ->
+    eat: (count) ->
+      alert "I eat #{count} #{@name}"
+
+  base = new Base("apple")
+  base.eat(5)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>-&gt; or =&gt;?</h2>
+      <h3>Object Orientation</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  class Base
+    constructor: (@name) ->
+    eat: (count) <b>=></b>
+      alert "I eat #{count} #{@name}"
+    notEat: =>
+      $.ajax
+        url: "some url"
+        success: (data) =>
+          @eat(data)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Inheritance</h2>
+      <h3>Object Orientation</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  class Base
+    constructor: (@name) ->
+    eat: (count) =>
+      alert "I eat #{count} #{@name}"
+
+  class Apple extends Base
+    constructor: (@name) ->
+    eat: (count) =>
+      alert "Apple method"
+      super(count)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>:: is prototype</h2>
+      <h3>Object Orientation</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  String::dasherize = ->
+    this.replace /_/g, "-"
+
+  alert "one_two".dasherize()
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+  String.prototype.dasherize = function() {
+    return this.replace(/_/g, "-");
+  };
+
+  alert("one_two".dasherize());
+      </pre>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/coffee_cup.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Possible problems</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Call methods</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+  doSomething "123"
+
+  doSomething # <- invalid
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+  doSomething("123");
+
+  doSomething;
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Optional parenthesis</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+
+    doSomething () ->  'hello'
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+    doSomething(function() {
+      return 'hello';
+    });
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+    doSomething() ->  'hello'
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+    doSomething()(function() {
+      return 'hello';
+    });
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Implicit parenthesis</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+
+action = (token, i) ->
+      @tokens.splice i, 0, @generate 'CALL_END', ')', token[2]
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+var action;
+
+action = function(token, i) {
+  return this.tokens.splice(i, 0, this.generate('CALL_END', ')', token[2]));
+};
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Optional commas</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+
+  doSomething 1,
+    2
+    3
+    4
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  doSomething(1, 2, 3, 4);
+
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+  doSomething 1,
+  2
+  3
+  4
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  doSomething(1, 2);
+  3;
+  4;
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Optional commas</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+
+  doSomething (->
+  'hello'), 1
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  doSomething((function() {}, 'hello'), 1);
+
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+
+  doSomething (->
+    'hello'), 1
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  doSomething((function() {
+    return 'hello';
+  }), 1);
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Optional curly brackets</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="javascript">
+
+  action({key: value}, {option: value}, otherValue);
+      </pre>
+      <pre class="prettyprint" data-lang="coffescript">
+
+  action(key: value, option: value, otherValue)
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+  action({
+    key: value,
+    option: value
+  }, otherValue);
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Tricky if</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <pre class="prettyprint" data-lang="coffescript">
+  # in one line
+  @detectEnd i + 1, condition, action
+    if token[0] is 'CALL_START'
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+
+  if (token[0] === 'CALL_START') {
+    this.detectEnd(i + 1, condition, action);
+  }
+        </pre>
+        <pre class="prettyprint" data-lang="coffescript">
+  # in one line
+  @detectEnd i + 1, condition, action
+    if token[0] is 'CALL_START' else false
+        </pre>
+        <pre class="prettyprint" data-lang="javascript">
+  // in one line
+  this.detectEnd(i + 1, condition,
+    action(token[0] === 'CALL_START' ? void 0 : false));
+
+        </pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Nested made flat</h2>
+      <h3>Possible problems</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="coffescript">
+
+  js = (parser.parse lexer.tokenize code).compile options
+      </pre>
+      <pre class="prettyprint" data-lang="javascript">
+
+  var js;
+
+  js = (parser.parse(lexer.tokenize(code))).compile(options);
+      </pre>
+    </article>
+  </slide>
+
+
+
+  <slide class="thank-you-slide segue dark nobackground">
+    <aside class="gdbar right"><img src="images/coffee_cup.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Contact information</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
