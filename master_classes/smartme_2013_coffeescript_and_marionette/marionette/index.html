@@ -794,24 +794,175 @@
     <ul>
       <li>Asynchronous Module Definitions (AMD) by require.js</li>
       <li>Sprockets: Rack-based asset packaging</li>
-      <li>...</li>
+      <li>Yeoman (Node.js)</li>
     </ul>
    </article>
   </slide>
 
   <slide>
    <hgroup>
-     <h2>Frameworks</h2>
+     <h2>Automation</h2>
      <h3>Bonus</h3>
    </hgroup>
    <article>
-    <ul>
-      <li><a href="https://github.com/chaplinjs/chaplin">Chaplin</a></li>
-      <li><a href="http://marionettejs.com/">Marionettejs</a></li>
-      <li><a href="http://addyosmani.github.com/aura/">Backbone Aura</a></li>
-      <li><a href="http://walmartlabs.github.com/thorax/">Thorax</a></li>
-      <li>...</li>
-    </ul>
+     <ul>
+       <li>Time is a key factor in staying productive.</li>
+       <li>Automate repetitive tasks to stay effective.</li>
+       <li>Automation isn’t about being lazy. It’s about being efficient.</li>
+       <li>The right tools make the difference between an artist and a craftsman.</li>
+     </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>The average front-end workflow today</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+     <div class="columns-2">
+       <ul>
+         <li>
+           <h1>Setup</h1>
+           <ul>
+             <li>Scaffolding</li>
+             <li>Download libraries</li>
+             <li>Download templates</li>
+             <li>Download frameworks</li>
+           </ul>
+         </li>
+         <li>
+           <h1>Develop</h1>
+           <ul>
+             <li>Watch Sass / Less / Stylus</li>
+             <li>Watch CoffeeScript</li>
+             <li>Watch Jade / Haml</li>
+             <li>LiveReload</li>
+             <li>JS / CSS Linting</li>
+           </ul>
+         </li>
+         <li>
+           <h1>Build</h1>
+           <ul>
+             <li>Code linting</li>
+             <li>Running unit tests</li>
+             <li>Compile everything</li>
+             <li>Minify and concatenate</li>
+             <li>Generate images / icons</li>
+             <li>Optimize performance</li>
+             <li>HTTP Server</li>
+             <li>Deployment</li>
+             <li>PROFIT!!!</li>
+           </ul>
+         </li>
+       </ul>
+     </div>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Automate this workflow for simple projects</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+     <ul>
+       <li><a href="http://incident57.com/codekit/">CodeKit (Mac)</a></li>
+       <li><a href="http://hammerformac.com/">Hammer (Mac)</a></li>
+       <li><a href="http://alphapixels.com/prepros/">Prepros App (Mac, Win)</a></li>
+       <li><a href="http://koala-app.com/">Koala App (Mac, Win, Linux)</a></li>
+       <li><a href="http://mixture.io/">Mixture (Mac, Win)</a></li>
+       <li><a href="http://compass.kkbox.com/">Compass App (Mac, Win, Linux)</a></li>
+       <li><a href="http://mhs.github.io/scout-app/">Scout App (Mac, Win)</a></li>
+     </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Iterative improvement</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+     <div class="centered">
+       <h2 class="black">First do it.</h2>
+       <h2 class="red">Then do it right.</h2>
+       <h2 class="blue">Then do it better.</h2>
+     </div>
+   </article>
+  </slide>
+
+  <slide class="fill nobackground current" style="background-image: url(images/automating-workflow.png); background-position: center;">
+   <hgroup>
+   </hgroup>
+   <article>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Automate workflow for all types of projects</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+     <ul>
+       <li>Scaffold, write less with Yo</li>
+       <li>Build, preview and test with Grunt</li>
+       <li>Manage dependencies with Bower</li>
+     </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Grunt</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+     <p>Helps run repetitive tasks</p>
+     <p>Alternative to Rake/Cake/Make/Ant</p>
+     <ul>
+       <li><b>grunt-responsive-images</b> - Create multi-resolution images from a directory for src-set/srcN</li>
+       <li><b>grunt-contrib-imageoptim</b> - Lower page-weight by applying optimizations to JPG/PNG/Gif</li>
+       <li><b>grunt-concurrent</b> - Speed up build time by concurrently running tasks like Sass and Coffee</li>
+       <li><b>grunt-newer</b> - Run tasks on only source files modified since the last run</li>
+       <li><b>grunt-uncss</b> - Remove unused CSS across your project at build time</li>
+     </ul>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Bower</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+     <p>A package manager for the web</p>
+     <pre class="prettyprint" data-lang="bash">
+ $ npm install -g bower
+ $ bower search
+ $ bower search angular
+ $ bower install
+ $ bower install angular --save-dev
+ $ bower list
+     </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Yo</h2>
+     <h3>Bonus</h3>
+   </hgroup>
+   <article>
+     <p>It scaffolds out boilerplate</p>
+     <pre class="prettyprint" data-lang="bash">
+ $ npm install -g yo
+ $ yo jquery-boilerplate
+ $ yo bootstrap
+ $ npm install generator-angular -g
+ $ yo angular
+     </pre>
    </article>
   </slide>
 
