@@ -568,7 +568,6 @@
   <slide>
    <hgroup>
      <h2>Marionette.Application</h2>
-     <h3>Marionette.js</h3>
    </hgroup>
    <article>
     <pre class="prettyprint" data-lang="coffescript">
@@ -594,7 +593,6 @@
   <slide>
    <hgroup>
      <h2>Marionette.Renderer</h2>
-     <h3>Marionette.js</h3>
    </hgroup>
    <article>
     <pre class="prettyprint" data-lang="coffescript">
@@ -605,6 +603,176 @@
   # custom
   myTemplate = _.template("&lt;div&gt;foo&lt;/div&gt;")
   Backbone.Marionette.ItemView.extend template: myTemplate
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Marionette.ItemView</h2>
+   </hgroup>
+   <article>
+    <pre class="prettyprint" data-lang="coffescript">
+
+  class FalconApp.Views.InboxesItem extends Backbone.Marionette.ItemView
+    template: 'inboxes/item'
+    tagName: "tr"
+    className: "state-switcher"
+    modelEvents:
+      'change:name': '_setName'
+    events:
+      'click .inbox_link': 'openInbox'
+    serializeData: =>
+      _.extend @model.toJSON(),
+        'last_message_sent_at': @model.lastMessageSentAt()
+    openInbox: (e) =>
+      e.preventDefault()
+      Backbone.history.navigate("inboxes/#{@model.get('id')}/messages", { trigger: true })
+    _setName: =>
+      @$('span.inbox_name').text(@model.get('name'))
+      @$('input.edit_inbox_form_name').val(@model.get('name'))
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Marionette.CollectionView</h2>
+   </hgroup>
+   <article>
+    <pre class="prettyprint" data-lang="coffescript">
+
+  class FalconApp.Views.CompaniesList extends Backbone.Marionette.CollectionView
+    itemView: FalconApp.Views.CompaniesItem
+    emptyView: FalconApp.Views.CompaniesEmptyItem
+
+    initialize: ->
+      # empty
+
+    onDomRefresh: =>
+      # empty
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Marionette.CompositeView</h2>
+   </hgroup>
+   <article>
+    <pre class="prettyprint" data-lang="coffescript">
+
+  class FalconApp.Views.CompaniesItem extends Backbone.Marionette.CompositeView
+    itemView: FalconApp.Views.InboxesItem
+    getItemView: (item) => FalconApp.Views.InboxesItem
+    itemViewContainer: "tbody.inboxes_list"
+    template: 'companies/item'
+
+    modelEvents:
+      'change:name': 'changedName'
+    events:
+      'submit form.create_inbox_form':        'createInbox'
+
+    initialize: ->
+      @collection = @model.inboxes
+    changedName: =>
+      @$('.company_name').text(@model.get('name'))
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Marionette.Region</h2>
+   </hgroup>
+   <article>
+     <p>Regions provide consistent methods to manage, show and close views in your applications and layouts. They use a jQuery selector to show your views in the correct place.</p>
+    <pre class="prettyprint" data-lang="coffescript">
+
+  MyApp.addRegions
+    mainRegion: "#main-content"
+    navigationRegion: "#navigation"
+  # basic
+  myView = new MyView()
+  # render and display the view
+  MyApp.mainRegion.show myView
+  # closes the current view
+  MyApp.mainRegion.close()
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Marionette.RegionManager</h2>
+   </hgroup>
+   <article>
+     <p>Region managers provide a consistent way to manage a number of Marionette.Region objects within an application. The RegionManager is intended to be used by other objects, to facilitate the addition, storage, retrieval, and removal of regions from that object.</p>
+    <pre class="prettyprint" data-lang="coffescript">
+
+  rm = new Marionette.RegionManager()
+  region = rm.addRegion("foo", "#bar")
+  regions = rm.addRegions(
+    baz: "#baz"
+    quux: "ul.quux"
+  )
+  regions.baz.show myView
+  rm.removeRegion "foo"
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Marionette.Layout</h2>
+   </hgroup>
+   <article>
+     <p>A Layout is a hybrid of an ItemView and a collection of Region objects. They are ideal for rendering application layouts with multiple sub-regions managed by specified region managers.</p>
+    <pre class="prettyprint" data-lang="coffescript">
+
+  class FalconApp.Layouts.Messages extends Marionette.Layout
+    template: 'layout/messages'
+    className: 'page_body page-body row'
+
+    regions:
+      listRegion: '.list_region'
+      detailsRegion: '.details_region'
+
+    initialize: ->
+      # empty
+
+    onDomRefresh: ->
+      # empty
+    </pre>
+   </article>
+  </slide>
+
+  <slide>
+   <hgroup>
+     <h2>Backbone.Router</h2>
+   </hgroup>
+   <article>
+    <pre class="prettyprint" data-lang="coffescript">
+  class FalconApp.Routers.Base extends Backbone.Router
+    initialize: ->
+      @on 'route', @_trackPageview
+    _trackPageview: (trigger, args) =>
+      return if window._gaq is `undefined`
+      url = Backbone.history.getFragment()
+      url = "/#{url}" unless /^\//.test(url)
+      window._gaq.push ['_setSiteSpeedSampleRate', 100]
+      window._gaq.push ['_trackPageview', url]
+
+  class FalconApp.Routers.Inboxes extends FalconApp.Routers.Base
+    routes:
+      'inboxes': 'index'
+    initialize: ->
+      super()
+    index: =>
+      companies = new FalconApp.Collections.Companies
+      @companiesList = new FalconApp.Views.CompaniesList(collection: companies)
+      @layout.mainRegion.show @companiesList
+      companies.fetch()
     </pre>
    </article>
   </slide>
