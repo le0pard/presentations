@@ -3,7 +3,8 @@ define [
   "hbs"
   "routers/inbox"
   "layouts/header"
-], (Marionette, HandlebarsTemplates, InboxRouter, HeaderLayout) ->
+  "layouts/footer"
+], (Marionette, HandlebarsTemplates, InboxRouter, HeaderLayout, FooterLayout) ->
   "use strict"
   # templates
   Backbone.Marionette.Renderer.render = (template, data) ->
@@ -22,18 +23,17 @@ define [
         footer: "#footer"
         main: "#main"
       @_initHeader()
-      #@_initFooter()
+      @_initFooter()
 
     _initHeader: =>
       @header.show(new HeaderLayout)
 
     _initFooter: =>
-      #@footerView = new FalconApp.Layouts.Footer
-      #@footer.show(@footerView)
+      @footer.show(new FooterLayout)
 
     _initRoutes: =>
       # routes
-      new InboxRouter
+      new InboxRouter(@main)
       # history
       if Modernizr.history
         Backbone.history.start

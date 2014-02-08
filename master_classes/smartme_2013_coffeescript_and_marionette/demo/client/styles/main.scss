@@ -2,7 +2,6 @@ $icon-font-path: "/components/sass-bootstrap/fonts/";
 
 @import "sass-bootstrap/lib/bootstrap";
 
-.panel-default {
-  margin: 50px auto 0;
-  width: 300px;
+body {
+  padding-top: 50px;
 }
