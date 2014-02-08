@@ -33,7 +33,7 @@ define [
 
     _initRoutes: =>
       # routes
-      new InboxRouter(@main)
+      new InboxRouter(@)
       # history
       if Modernizr.history
         Backbone.history.start

@@ -4,11 +4,13 @@ define ["routers/base", "layouts/main"], (BaseRouter, MainLayout) ->
       '':             'index'
       'a*':           'index'
 
-    initialize: (@mainRegion) ->
+    initialize: (@app) ->
       super()
+      @layout = new MainLayout
 
     index: ->
-      @mainRegion.show(new MainLayout)
+      @app.main.show(@layout)
+      # render
 
     _renderInboxes: =>
       #companies = new FalconApp.Collections.Companies
