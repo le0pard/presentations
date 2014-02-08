@@ -1,4 +1,7 @@
-define ["routers/base", "layouts/main"], (BaseRouter, MainLayout) ->
+define [
+  "routers/base"
+  "layouts/main"
+], (BaseRouter, MainLayout) ->
   class InboxRouter extends BaseRouter
     routes:
       '':             'index'
@@ -6,16 +9,10 @@ define ["routers/base", "layouts/main"], (BaseRouter, MainLayout) ->
 
     initialize: ->
       super()
-      @app = null
-      @layout = new MainLayout
+      @layoutClass = MainLayout
 
     index: ->
-      @_getApp().main.show(@layout)
-
-    _getApp: ->
-      return @app if @app?
-      @app = require('app')
-      @app
+      @_beforeRouting()
 
     _renderInboxes: =>
       #companies = new FalconApp.Collections.Companies
