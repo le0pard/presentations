@@ -54,6 +54,10 @@ module.exports = function(grunt) {
       jst: {
         files: ['<%= config.app %>/scripts/templates/{,*/}*.ejs'],
         tasks: ['jst']
+      },
+      handlebars: {
+        files: ['<%= config.app %>/scripts/templates/{,*/}*.hbs'],
+        tasks: ['handlebars']
       }
     },
     connect: {
@@ -92,7 +96,21 @@ module.exports = function(grunt) {
       },
       compile: {
         files: {
-          '.tmp/scripts/templates.js': ['<%= config.app %>/scripts/templates/{,*/}*.ejs']
+          '.tmp/scripts/templates-jst.js': ['<%= config.app %>/scripts/templates/{,*/}*.ejs']
+        }
+      }
+    },
+    handlebars: {
+      options: {
+        amd: true,
+        wrapped: true,
+        processName: function(filename) {
+          return filename.replace(/^client\/scripts\/templates\//, '').replace(/\.hbs$/, '');
+        }
+      },
+      compile: {
+        files: {
+          '.tmp/scripts/templates-hbs.js': ['<%= config.app %>/scripts/templates/{,*/}*.hbs']
         }
       }
     },
@@ -359,6 +377,7 @@ module.exports = function(grunt) {
     grunt.task.run([
       'clean:server',
       'jst',
+      'handlebars',
       'concurrent:server',
       'autoprefixer',
       'express:server',
@@ -369,6 +388,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', [
     'clean:server',
     'jst',
+    'handlebars',
     'concurrent:test',
     'autoprefixer',
     'connect:test',
@@ -378,6 +398,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'jst',
+    'handlebars',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
