@@ -4,13 +4,18 @@ define ["routers/base", "layouts/main"], (BaseRouter, MainLayout) ->
       '':             'index'
       'a*':           'index'
 
-    initialize: (@app) ->
+    initialize: ->
       super()
+      @app = null
       @layout = new MainLayout
 
     index: ->
-      @app.main.show(@layout)
-      # render
+      @_getApp().main.show(@layout)
+
+    _getApp: ->
+      return @app if @app?
+      @app = require('app')
+      @app
 
     _renderInboxes: =>
       #companies = new FalconApp.Collections.Companies
