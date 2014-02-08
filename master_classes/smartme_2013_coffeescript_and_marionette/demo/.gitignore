@@ -3,4 +3,5 @@
 dist
 client/components
 test/bower_components
+server/*.js
 node_modules
