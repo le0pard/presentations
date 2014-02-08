@@ -1,9 +1,11 @@
 define ["marionette"], (Marionette) ->
   class Main extends Marionette.Layout
     template: 'layouts/main'
+    className: 'container-fluid'
 
     regions:
-      mainRegion: '.main_region'
+      leftRegion: '.left_region'
+      rightRegion: '.right_region'
 
     initialize: ->
       # empty
