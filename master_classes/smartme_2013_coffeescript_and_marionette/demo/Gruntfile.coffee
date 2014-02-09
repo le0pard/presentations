@@ -97,7 +97,7 @@ module.exports = (grunt) ->
     handlebars:
       options:
         amd: true
-        wrapped: true
+        handlebarsModule: 'handlebars.runtime'
         processName: (filename) ->
           filename.replace(/^client\/scripts\/templates\//, "").replace(/\.hbs$/, "")
 
@@ -201,14 +201,22 @@ module.exports = (grunt) ->
     requirejs:
       dist:
         options:
-          baseUrl: ".tmp/scripts"
-          paths:
-            templates: "templates"
-
-          optimize: "none"
           preserveLicenseComments: false
           useStrict: true
           wrap: true
+
+          almond: true
+          replaceRequireScript: [{
+            files: ['<%= config.dist %>/<%= config.app %>/index.html']
+            module: 'main'
+            modulePath: 'scripts/main-build'
+          }]
+          include: ['main']
+          insertRequire: ['main']
+          baseUrl: ".tmp/scripts"
+          mainConfigFile: ".tmp/scripts/main.js"
+          out: "<%= config.dist %>/<%= config.app %>/scripts/main-build.js"
+          optimize: "none"
 
     rev:
       dist:
@@ -308,14 +316,16 @@ module.exports = (grunt) ->
         filter: "isDirectory"
 
     modernizr:
-      devFile: "<%= config.app %>/components/modernizr/modernizr.js"
-      outputFile: "<%= config.dist %>/<%= config.app %>/components/modernizr/modernizr.js"
-      files: [
-        "<%= config.dist %>/<%= config.app %>/scripts/{,*/}*.js"
-        "<%= config.dist %>/<%= config.app %>/styles/{,*/}*.css"
-        "!<%= config.dist %>/<%= config.app %>/scripts/vendor/*"
-      ]
-      uglify: true
+      dist:
+        devFile: "<%= config.app %>/components/modernizr/modernizr.js"
+        outputFile: "<%= config.dist %>/<%= config.app %>/components/modernizr/modernizr.js"
+        files:
+          src: [
+            "<%= config.dist %>/<%= config.app %>/scripts/{,*/}*.js"
+            "<%= config.dist %>/<%= config.app %>/styles/{,*/}*.css"
+            "!<%= config.dist %>/<%= config.app %>/scripts/vendor/*"
+          ]
+        uglify: true
 
     concurrent:
       server: [

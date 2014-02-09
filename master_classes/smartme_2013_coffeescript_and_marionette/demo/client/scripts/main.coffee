@@ -5,7 +5,7 @@ require.config
     jquery: "../components/jquery/jquery"
     underscore: "../components/underscore-amd/underscore"
     backbone: "../components/backbone-amd/backbone"
-    handlebars: "../components/handlebars/handlebars.runtime"
+    "handlebars.runtime": "../components/handlebars/handlebars.runtime.amd"
     marionette: "../components/backbone.marionette/lib/core/amd/backbone.marionette"
     "backbone.wreqr": "../components/backbone.wreqr/lib/amd/backbone.wreqr"
     "backbone.babysitter": "../components/backbone.babysitter/lib/amd/backbone.babysitter"
@@ -20,7 +20,7 @@ require.config
     underscore:
       exports: "_"
 
-    handlebars:
+    "handlebars.runtime":
       exports: "Handlebars"
 
     backbone:
