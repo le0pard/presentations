@@ -11,26 +11,26 @@ module.exports = (grunt) ->
 
     watch:
       coffee:
-        files: ["<%= config.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}"]
+        files: ["<%= config.app %>/scripts/**/*.{coffee,litcoffee,coffee.md}"]
         tasks: ["coffee:dist"]
 
       coffeeServer:
-        files: ["<%= config.server %>/{,*/}*.{coffee,litcoffee,coffee.md}"]
+        files: ["<%= config.server %>/**/*.{coffee,litcoffee,coffee.md}"]
         tasks: ["coffee:server"]
 
       coffeeTest:
-        files: ["test/spec/{,*/}*.{coffee,litcoffee,coffee.md}"]
+        files: ["test/spec/**/*.{coffee,litcoffee,coffee.md}"]
         tasks: ["coffee:test"]
 
       compass:
-        files: ["<%= config.app %>/styles/{,*/}*.{scss,sass}"]
+        files: ["<%= config.app %>/styles/**/*.{scss,sass}"]
         tasks: [
           "compass:server"
           "autoprefixer"
         ]
 
       styles:
-        files: ["<%= config.app %>/styles/{,*/}*.css"]
+        files: ["<%= config.app %>/styles/**/*.css"]
         tasks: [
           "copy:styles"
           "autoprefixer"
@@ -55,11 +55,11 @@ module.exports = (grunt) ->
         tasks: ["express:server"]
 
       jst:
-        files: ["<%= config.app %>/scripts/templates/{,*/}*.ejs"]
+        files: ["<%= config.app %>/scripts/templates/**/*.ejs"]
         tasks: ["jst"]
 
       handlebars:
-        files: ["<%= config.app %>/scripts/templates/{,*/}*.hbs"]
+        files: ["<%= config.app %>/scripts/templates/**/*.hbs"]
         tasks: ["handlebars"]
 
     connect:
@@ -140,7 +140,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "<%= config.app %>/scripts"
-          src: "{,*/}*.{coffee,litcoffee,coffee.md}"
+          src: "**/*.{coffee,litcoffee,coffee.md}"
           dest: ".tmp/scripts"
           ext: ".js"
         ]
@@ -149,7 +149,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "<%= config.server %>"
-          src: "{,*/}*.{coffee,litcoffee,coffee.md}"
+          src: "**/*.{coffee,litcoffee,coffee.md}"
           dest: "<%= config.server %>"
           ext: ".js"
         ]
@@ -158,7 +158,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "test/spec"
-          src: "{,*/}*.{coffee,litcoffee,coffee.md}"
+          src: "**/*.{coffee,litcoffee,coffee.md}"
           dest: ".tmp/spec"
           ext: ".js"
         ]
@@ -209,14 +209,14 @@ module.exports = (grunt) ->
           replaceRequireScript: [{
             files: ['<%= config.dist %>/<%= config.app %>/index.html']
             module: 'main'
-            modulePath: 'scripts/main-build'
+            modulePath: '/scripts/main-build'
           }]
           include: ['main']
           insertRequire: ['main']
           baseUrl: ".tmp/scripts"
           mainConfigFile: ".tmp/scripts/main.js"
           out: "<%= config.dist %>/<%= config.app %>/scripts/main-build.js"
-          optimize: "none"
+          optimize: "uglify"
 
     rev:
       dist:

@@ -17,6 +17,8 @@ app.use express.favicon()
 app.use express.static(path.join(__dirname, "../.tmp"))
 app.use express.static(path.join(__dirname, "../client"))
 
+# fixtures
+
 INBOXES = [
   {id: 1, name: 'Overview', description: 'Overview message'}
   {id: 2, name: 'Reports', description: 'Reports message'}
@@ -32,9 +34,12 @@ app.get "/api/inboxes/:id", (req, res) ->
     res.send(404, 'Not found')
 
 app.get "/api/inboxes", (req, res) ->
-  res.json(INBOXES )
+  res.json(INBOXES)
 
 # Route index.html
+app.get "*", (req, res) ->
+  res.sendfile path.join(__dirname, "../client/index.html")
+
 app.get "/", (req, res) ->
   res.sendfile path.join(__dirname, "../client/index.html")
 
