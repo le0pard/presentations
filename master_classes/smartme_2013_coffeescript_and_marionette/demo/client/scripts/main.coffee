@@ -10,6 +10,7 @@ require.config
     "backbone.wreqr": "../components/backbone.wreqr/lib/amd/backbone.wreqr"
     "backbone.babysitter": "../components/backbone.babysitter/lib/amd/backbone.babysitter"
     bootstrap: "../components/sass-bootstrap/dist/js/bootstrap"
+    holderjs: "../components/holderjs/holder"
     hbs: "templates-hbs"
     jst: "templates-jst"
 
@@ -19,6 +20,9 @@ require.config
 
     underscore:
       exports: "_"
+
+    holderjs:
+      exports: "Holder"
 
     "handlebars.runtime":
       exports: "Handlebars"

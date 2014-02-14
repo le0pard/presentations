@@ -5,6 +5,7 @@ express = require("express")
 colors = require("colors")
 http = require("http")
 path = require("path")
+Faker = require('Faker')
 
 # Create server
 app = express()
@@ -20,10 +21,26 @@ app.use express.static(path.join(__dirname, "../client"))
 # fixtures
 
 INBOXES = [
-  {id: 1, name: 'Overview', description: 'Overview message'}
-  {id: 2, name: 'Reports', description: 'Reports message'}
-  {id: 3, name: 'Analytics', description: 'Analytics message'}
-  {id: 4, name: 'Export', description: 'Export message'}
+  {id: 1, name: 'Overview', description: Faker.Lorem.paragraph(), image_type: 'lava', messages: [
+    { id: 1, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+    { id: 2, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+    { id: 3, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+  ]}
+  {id: 2, name: 'Reports', description: Faker.Lorem.paragraph(), image_type: 'vine', messages: [
+    { id: 1, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+    { id: 2, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+    { id: 3, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+  ]}
+  {id: 3, name: 'Analytics', description: Faker.Lorem.paragraph(), image_type: 'industrial', messages: [
+    { id: 1, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+    { id: 2, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+    { id: 3, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+  ]}
+  {id: 4, name: 'Export', description: Faker.Lorem.paragraph(), image_type: 'social', messages: [
+    { id: 1, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+    { id: 2, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+    { id: 3, subject: Faker.Name.findName(), body: Faker.Lorem.words(), size: Faker.random.number(100) }
+  ]}
 ]
 
 # Route API
