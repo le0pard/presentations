@@ -21,9 +21,6 @@ require.config
     underscore:
       exports: "_"
 
-    holderjs:
-      exports: "Holder"
-
     "handlebars.runtime":
       exports: "Handlebars"
 
