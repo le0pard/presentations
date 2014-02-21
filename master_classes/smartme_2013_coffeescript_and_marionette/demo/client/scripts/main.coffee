@@ -2,7 +2,7 @@
 
 require.config
   paths:
-    jquery: "../components/jquery/jquery"
+    jquery: "../components/jquery/dist/jquery"
     underscore: "../components/underscore-amd/underscore"
     backbone: "../components/backbone-amd/backbone"
     "handlebars.runtime": "../components/handlebars/handlebars.runtime.amd"
