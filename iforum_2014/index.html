@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/icon.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Alexey Vasiliev</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>7+ years experience
+            <ul>
+              <li>Linux and Databases administrator</li>
+              <li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang)</li>
+            </ul>
+          </li>
+          <li>Open-Source developer
+            <ul>
+              <li>pgtune online</li>
+              <li>rwprecise64</li>
+              <li>webp-ffi</li>
+              <li>MongodbLogger for Rails</li>
+              <li>Piro - Chrome extension for PivotalTracker</li>
+              <li>SMTRails and SHTRails (shared templates for rails)</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="centered">
+          <img src="images/photo.png" alt="me" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="fill nobackground" style="background-image: url(images/pg.png)">
+  </slide>
+
+  <slide class="segue dark quote nobackground current">
+    <aside class="gdbar right bottom"><img src="images/icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>an abstraction in which software providing generic functionality can be selectively changed by additional user-written code, thus providing application-specific software</q>
+      <div class="author">Framework</div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Main features</h2>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <h3>Framework features</h3>
+        <ul>
+          <li>Inversion of control</li>
+          <li>Default behavior</li>
+          <li>Extensibility</li>
+          <li>Non-modifiable framework code</li>
+        </ul>
+        <br /><br />
+      </div>
+      <div>
+        <h3>MV* js features</h3>
+        <ul>
+          <li>Selectors</li>
+          <li>DOM traversal</li>
+          <li>DOM manipulation</li>
+          <li>Utility functions</li>
+          <li>Event handling</li>
+          <li>Ajax</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Why do you need js framework?</h2>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <ul>
+          <li>You need structure for your web app</li>
+          <li>Binding data to view (model to HTML)</li>
+          <li>Useful features (history, validation, etc.)</li>
+          <li>You need Single Page Application (SPA)</li>
+          <li>Don't Reinvent The Wheel!!!</li>
+        </ul>
+      </div>
+      <div>
+        <img src="images/needit.jpg" alt="need it" style="width: 100%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>JavaScript MV* Patterns</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>MVC</h2>
+      <h3>JavaScript MV* Patterns</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <ul>
+          <li><b>Models</b> - represent the domain-specific knowledge and data in an application</li>
+          <li><b>Views</b> - typically considered the User-interface in an application</li>
+          <li><b>Controllers</b> - handle the input (e.g clicks, user actions) in an application and Views can be considered as handling the output</li>
+        </ul>
+      </div>
+      <div>
+        <img src="images/mvc.png" alt="mvc" style="width: 100%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>What does MVC give us?</h2>
+      <h3>JavaScript MV* Patterns</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Easier overall maintenance. When updates need to be made to the application it is very clear whether the changes are data-centric, meaning changes to models and possibly controllers, or merely visual, meaning changes to views.</li>
+        <li>Decoupling models and views means that it is significantly more straight-forward to write unit tests for business logic</li>
+        <li>Duplication of low-level model and controller code (i.e what we may have been using instead) is eliminated across the application</li>
+        <li>Depending on the size of the application and separation of roles, this modularity allows developers responsible for core logic and developers working on the user-interfaces to work simultaneously</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>MVP</h2>
+      <h3>JavaScript MV* Patterns</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/mvp.png" alt="mvp" style="width: 80%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>MVVM</h2>
+      <h3>JavaScript MV* Patterns</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <ul>
+          <li>Model</li>
+          <li>View</li>
+          <li>ViewModel</li>
+        </ul>
+      </div>
+      <div>
+        <img src="images/mvvm.png" alt="mvp" style="width: 100%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>MVC vs MVP vs MVVM</h2>
+      <h3>JavaScript MV* Patterns</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <ul>
+          <li>Both MVP and MVVM are derivatives of MVC</li>
+          <li>In MVC, the View sits on top of our architecture with the controller beside it</li>
+          <li>In MVP, the role of the controller is replaced with a Presenter</li>
+          <li>MVVM consequently allows us to create View-specific subsets of a Model which can contain state and logic information, avoiding the need to expose the entire Model to a View</li>
+        </ul>
+      </div>
+      <div>
+        <img src="images/mvpvsmvvm.png" alt="mvpvsmvvm" style="width: 100%" />
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>JavaScript Frameworks</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Backbone.js</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/backbone.png" alt="backbone" style="width: 80%" />
+      </div>
+      <div>
+        <ul>
+          <li>Simplicity</li>
+          <li>Extremely easy to get into</li>
+          <li>Huge community (ecosystem) and lots of solutions</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="note">
+      <section>
+        <p>I want something flexible which offers a minimalist solution to separating concerns in my application. It should support a persistence layer and RESTful sync, models, views (with controllers), event-driven communication, templating and routing. It should be imperative, allowing one to update the View when a model changes. I'd like some decisions about the architecture left up to me. Ideally, many large companies have used the solution to build non-trivial applications. As I may be building something complex, I’d like there to be an active extension community around the framework that have already tried addressing larger problems (Marionette, Chaplin, Aura, Thorax). Ideally, there are also scaffolding tools (grunt-bbb, brunch) available for the solution.</p>
+      </section>
+    </aside>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Spine</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/spine.png" alt="spine" style="width: 90%" />
+      </div>
+      <div>
+        <ul>
+          <li>Simplicity</li>
+          <li>Extremely easy to get into</li>
+          <li>Good documentation</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="note">
+      <section>
+        <p>I want something simple that values asynchronous interfaces and lack any dependencies. It should be opinionated but flexible on how to build applications. The framework should provide bare-bones essentials like model, view, controller, events, and routing, while still being tiny. It should be optimized for use with CoffeeScript and come with comprehensive documentation.</p>
+      </section>
+    </aside>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Ember.js</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/emberjs.png" alt="emberjs" style="width: 80%" />
+      </div>
+      <div>
+        <ul>
+          <li>Desktop-level application development for the web</li>
+          <li>Convention over configuration</li>
+          <li>Composed views</li>
+          <li>Lot of boilerplate (bindings, computer properties, handlebars, magics)</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="note">
+      <section>
+        <p>I want something that tries to tackle desktop-level application development for the web. It should be opinionated, modular, support a variation of MVC, avoid the need to wire everything in my application together manually, support persistence, computed properties and have auto-updating (live) templates. It should support proper state management rather than the manual routing solution many other frameworks advocate being used. It should also come with extensive docs and of course, templating. It should also have scaffolding tools available (ember.gem, ember for brunch).</p>
+      </section>
+    </aside>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>AngularJS</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/angularjs.png" alt="angularjs" style="width: 80%" />
+      </div>
+      <div>
+        <ul>
+          <li>DSL in HTML</li>
+          <li>Dependency Injection</li>
+          <li>Directives</li>
+          <li>Easy testing</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="note">
+      <section>
+        <p>I want something declarative that uses the View to derive behavior. It focuses on achieving this through custom HTML tags and components that specify your application intentions. It should support being easily testable, URL management (routing) and a separation of concerns through a variation of MVC. It takes a different approach to most frameworks, providing a HTML compiler for creating your own DSL in HTML. It may be inspired by upcoming Web platform features such as Web Components and also has its own scaffolding tools available (angular-seed).</p>
+      </section>
+    </aside>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>KnockoutJS</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/knockout.png" alt="knockout" style="width: 90%" />
+      </div>
+      <div>
+        <ul>
+          <li>DSL in HTML</li>
+          <li>Good for non complex workflow</li>
+          <li>Extremely easy to get into</li>
+          <li>Easy testing</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="note">
+      <section>
+        <p>I want something that will make it easy to build complex dynamic UIs with a clean underlying data model and declarative bindings. It should automatically update my UI on model changes using two-way bindings and support dependency tracking of model data. I should be able to use it with whatever framework I prefer, or even an existing app. It should also come with templating built-in and be easily extensible.</p>
+      </section>
+    </aside>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>CanJS</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/canjs.png" alt="canjs" style="width: 70%" />
+      </div>
+      <div>
+        <ul>
+          <li>Lightweight</li>
+          <li>Flexible</li>
+          <li>Designed for plugins</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="note">
+      <section>
+        <p>I want something more lightweight which supports live-binding templates, routing, integration with major libraries (like jQuery and Dojo) and is optimized for performance. It should also support a way to implement models, views and controllers. It may not be used on as many large public applications just yet, but has potential. Ideally, the solution should be built by people who have previous experience creating many complex applications.</p>
+      </section>
+    </aside>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Dojo</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/dojo.png" alt="dojo" style="width: 90%" />
+      </div>
+      <div>
+        <ul>
+          <li>Mature widget infrastructure</li>
+          <li>Strong support for internationalization</li>
+          <li>For large scale applications</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="note">
+      <section>
+        <p>I want something that offers me an excellent base for building large scale applications. It should support a mature widget infrastructure, modules which support lazy-loading and can be asynchronous, simple integration with CDNs, a wide array of widget modules (graphics, charting, grids, etc) and strong support for internationalization (i18n, l10n). It should have support for OOP, MVC and the building blocks to create more complex architectures.</p>
+      </section>
+    </aside>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>YUI</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/YUI.png" alt="YUI" style="width: 90%" />
+      </div>
+      <div>
+        <ul>
+          <li>YUI extension infrastructure</li>
+          <li>Includes widgets/components</li>
+        </ul>
+      </div>
+    </article>
+    <aside class="note">
+      <section>
+        <p>I want something which benefits from the YUI extension infrastructure. It should support models, views and routers and make it simple to write multi-view applications supporting routing, View transitions and more. Whilst larger, it is a complete solution that includes widgets/components as well as the tools needed to create an organized application architecture. It may have scaffolding tools (yuiproject), but these need to be updated.</p>
+      </section>
+    </aside>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>React/Polymer/X-Tags</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/p-logo.png" alt="p-logo" style="width: 90%" />
+      </div>
+      <div>
+        <ul>
+          <li>Isn't an MVC framework</li>
+          <li>Components</li>
+          <li>Need to fix HTML</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Criteria For Selecting A Framework</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <img src="images/choices.png" alt="choices" style="width: 100%" />
+      </div>
+      <div>
+        <ul>
+          <li>Has the framework been proved in production?</li>
+          <li>What is the framework really capable of?</li>
+          <li>Is the framework mature?</li>
+          <li>Is the framework flexible or opinionated?</li>
+          <li>Have you really played with the framework?</li>
+          <li>Does the framework have a comprehensive set of documentation?</li>
+          <li>Have you reviewed the community around the framework?</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>TodoMVC</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <h2>How to select framework/library?</h2>
+        <br />
+        <a href="http://todomvc.com/" target="_blank">
+          <img src="images/todomvc.png" alt="todomvc" style="width: 60%" />
+        </a>
+        <br />
+        <h3>but even then you are lost in the choice :)</h3>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Yet Another Framework Syndrome (YAFS)</h2>
+      <h3>JavaScript Frameworks</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <div class="centered">
+          <img src="images/yafs.png" alt="yafs" style="width: 60%" />
+        </div>
+      </div>
+      <div>
+        <ul>
+          <li>Research</li>
+          <li>Document</li>
+          <li>Support</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>SPA</h2>
+      <h3>Single Page Application</h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Advantages and disadvantages</h2>
+      <h3>Single Page Application</h3>
+    </hgroup>
+    <article class="columns-2">
+      <div>
+        <h2>Advantages</h2>
+        <br />
+        <ul>
+          <li>All data has to be available via some sort of API, which can provided for developers (DRY!)</li>
+          <li>Reduce rendering of HTML on backend</li>
+          <li>Offline support (appcache) and as mobile app</li>
+          <li>More responsive application/interaction</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Disadvantages</h2>
+        <br />
+        <ul>
+          <li>Duplication of code (validations)</li>
+          <li>Business logic in JavaScript</li>
+          <li>JavaScript memory leaks :(</li>
+        </ul>
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground current">
+    <aside class="gdbar right bottom"><img src="images/icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>The secret to building large apps is never build large apps. Break your applications into small pieces. Then, assemble those testable, bite-sized pieces into your big application</q>
+      <div class="author">Justin Meyer<br />Author JavaScriptMVC</div>
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue nobackground">
+    <aside class="gdbar right"><img src="images/icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Contact information</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
