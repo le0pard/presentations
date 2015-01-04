@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PostgreSQL: tuning and scaling - SmartMe 2015</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/title.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Alexey Vasiliev</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>8+ years experience
+            <ul>
+              <li>Linux and Databases administrator</li>
+              <li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++)</li>
+            </ul>
+          </li>
+          <li>Open-Source developer
+            <ul>
+              <li><a href="http://pgtune.leopard.in.ua/">PgTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a></li>
+              <li>RWbox, ElixirV8, Go-kinesis</li>
+              <li>WebP-ffi, Zopfli-ffi</li>
+              <li>MongodbLogger for Rails</li>
+              <li>Piro - Chrome extension for PivotalTracker</li>
+              <li>SMTRails and SHTRails (shared templates for rails)</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="centered">
+          <img src="images/photo.jpg" alt="me" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>My books</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/pg_book_cover.png" alt="Pg book" style="height: 500px" />
+        </div>
+        <div class="centered">
+          <img src="images/chef_book_cover.png" alt="Chef book" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>PostgreSQL features</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Flexible Datatypes</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/datatypes.png" alt="PostgreSQL" style="width: 600px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Arrays</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        select <b>array_agg(id)</b> from endpoints <b>group by application_id</b>;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        select (array['hi', 'there', 'everyone', 'at', 'hotcode'])[random()*2 + 1];
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        select name, tags from posts where <b>tags @> array['it', 'sql']</b>;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        select <b>unnest(tags)</b> as tag from posts where title = 'About PostgreSQL';
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Ranges (9.2+)</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT int4range(10, 20) @> 3;
+        SELECT daterange('["Jan 1 2013", "Jan 15 2013")') @> 'Jan 10 2013'::date;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        $ ALTER TABLE reservation ADD EXCLUDE USING gist (during WITH &&);
+
+        $ INSERT INTO reservation VALUES (1108, '[2010-01-01 11:30, 2010-01-01 13:00)');
+        INSERT 0 1
+
+        $ INSERT INTO reservation VALUES (1108, '[2010-01-01 14:45, 2010-01-01 15:45)');
+        ERROR:  conflicting key value violates exclusion constraint "reservation_during_excl"
+        DETAIL:  Key (during)=([ 2010-01-01 14:45:00, 2010-01-01 15:45:00 )) conflicts
+        with existing key (during)=([ 2010-01-01 14:30:00, 2010-01-01 15:30:00 )).
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>XML and JSON (9.2+)</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        $ SELECT xpath('/my:a/text()', '<my:a xmlns:my="http://example.com">test</my:a>', ARRAY[ARRAY['my', 'http://example.com']]);
+         xpath
+        --------
+         {test}
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        $ SELECT * from json_demo;
+          id | username |       email       | posts_count
+         ----+----------+-------------------+-------------
+           1 | john     | john@gmail.com    |          10
+           2 | mickael  | mickael@gmail.com |          50
+         $ SELECT row_to_json(json_demo) FROM json_demo;
+                                         row_to_json
+         ----------------------------------------------------------------------------
+          {"id":1,"username":"john","email":"john@gmail.com","posts_count":10}
+          {"id":2,"username":"mickael","email":"mickael@gmail.com","posts_count":50}
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>JSON and PLV8 for "schemaless" sql</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE OR REPLACE FUNCTION get_numeric(json_raw json, key text)
+        RETURNS numeric AS $$
+          var o = JSON.parse(json_raw);
+          return o[key];
+        $$ LANGUAGE plv8 IMMUTABLE STRICT;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT * FROM members WHERE get_numeric(profile, 'age') = 36;
+        <b>Time: 9340.142 ms</b>
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX member_age ON members (get_numeric(profile, 'age'));
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+         SELECT * FROM members WHERE get_numeric(profile, 'age') = 36;
+         <b>Time: 57.429 ms</b>
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>JSON functions (comming in 9.3)</h2>
+      <h3>Flexible Datatypes</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>array_to_json (present in 9.2)</li>
+          <li>row_to_json (present in 9.2)</li>
+          <li>to_json</li>
+          <li>json_array_length</li>
+          <li>json_each</li>
+          <li>json_each_text</li>
+          <li>json_extract_path</li>
+          <li>json_extract_path_text</li>
+          <li>json_object_keys</li>
+          <li>json_populate_record</li>
+          <li>json_populate_recordset</li>
+          <li>json_array_elements</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>WITH</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>WITH examples</h2>
+      <h3>WITH</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        WITH a AS ( SELECT 'a' as a ) SELECT * FROM a;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        WITH
+          prepared_data AS ( ... )
+        SELECT data, count(data),
+               min(data), max(data)
+        FROM prepared_data
+        GROUP BY data;
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>WITH examples</h2>
+      <h3>WITH</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+      $ WITH RECURSIVE t(n) AS (
+          VALUES (1)
+        UNION ALL
+          SELECT n+1 FROM t WHERE n < 100
+        )
+        SELECT sum(n) FROM t;
+
+         sum
+        ------
+         5050
+        (1 row)
+      </pre>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>LISTEN / NOTIFY</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Example</h2>
+      <h3>LISTEN / NOTIFY</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        $ <b>LISTEN delay_worker;</b>
+        LISTEN
+        $ <b>NOTIFY delay_worker, '44924';</b>
+        NOTIFY
+        Asynchronous notification "delay_worker"
+        with payload "44924" received from server process with PID 29118.
+        $ <b>SELECT pg_notify('delay_worker', '44924');</b>
+         pg_notify
+        -----------
+
+        (1 row)
+
+        Asynchronous notification "delay_worker"
+        with payload "44924" received from server process with PID 29118.
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>What is this?</h2>
+      <h3>LISTEN / NOTIFY</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>LISTEN on a channel</li>
+        <li>NOTIFY messages are delivered asynchronously w/payload</li>
+        <li>useful to fan out messages to other clients</li>
+      </ul>
+      <h3>Great for</h3>
+      <ul>
+        <li>broadcasting events to other clients</li>
+        <li>work distribution</li>
+        <li>cache busting</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Window functions</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Example</h2>
+      <h3>Window functions</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        $ <b>SELECT depname, empno, salary, avg(salary)
+          OVER (PARTITION BY depname) FROM empsalary;</b>
+         depname  | empno | salary |          avg
+        -----------+-------+--------+-----------------------
+         develop   |    11 |   5200 | 5020.0000000000000000
+         develop   |     7 |   4200 | 5020.0000000000000000
+         develop   |     9 |   4500 | 5020.0000000000000000
+         develop   |     8 |   6000 | 5020.0000000000000000
+         develop   |    10 |   5200 | 5020.0000000000000000
+         personnel |     5 |   3500 | 3700.0000000000000000
+         personnel |     2 |   3900 | 3700.0000000000000000
+         sales     |     3 |   4800 | 4866.6666666666666667
+         sales     |     1 |   5000 | 4866.6666666666666667
+         sales     |     4 |   4800 | 4866.6666666666666667
+        (10 rows)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Example</h2>
+      <h3>Window functions</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        $ <b>SELECT salary, sum(salary) OVER () FROM empsalary;</b>
+         salary |  sum
+        --------+-------
+           5200 | 47100
+           5000 | 47100
+           3500 | 47100
+           4800 | 47100
+           3900 | 47100
+           4200 | 47100
+           4500 | 47100
+           4800 | 47100
+           6000 | 47100
+           5200 | 47100
+        (10 rows)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Example</h2>
+      <h3>Window functions</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        $ <b>SELECT salary, sum(salary) OVER (ORDER BY salary) FROM empsalary;</b>
+         salary |  sum
+        --------+-------
+           3500 |  3500
+           3900 |  7400
+           4200 | 11600
+           4500 | 16100
+           4800 | 25700
+           4800 | 25700
+           5000 | 30700
+           5200 | 41100
+           5200 | 41100
+           6000 | 47100
+        (10 rows)
+      </pre>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Table Inheritance</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>How to use Partitioning</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE TABLE my_logs(
+          id SERIAL PRIMARY KEY,
+          logdate TIMESTAMP NOT NULL,
+          data JSON
+        );
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE TABLE my_logs2012m10 (
+        <b>CHECK ( logdate >= DATE '2012−10−01' AND logdate < DATE '2012−11−01' )
+        ) INHERITS (my_logs)</b>;
+        CREATE INDEX my_logs2012m10_logdate ON my_logs2012m10 (logdate);
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Management Partition</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <p>Simple cleanup</p>
+      <pre class="prettyprint" data-lang="sql">
+        DROP TABLE my_logs2012m06;
+      </pre>
+      <p>or remove partition from partitioning</p>
+      <pre class="prettyprint" data-lang="sql">
+        ALTER TABLE my_logs2012m06
+        <b>NO INHERIT</b> my_logs;
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Smart Query Optimization</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        partitioning_test=# EXPLAIN SELECT ∗ FROM my_logs WHERE logdate > '2012−08−01';
+                                  QUERY PLAN
+        −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+        Result ( cost =6.81..41.87 rows=660 width=52)
+          −> Append ( cost =6.81..41.87 rows=660 width=52)
+            −> Bitmap Heap Scan on <b>my_logs</b> ( cost =6.81..20.93 rows=330 width=52)
+              Recheck Cond: ( logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+                −> Bitmap Index Scan on <b>my_logs_logdate</b> ( cost =0.00..6.73 rows=330 width=0)
+                  Index Cond: (logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+            −> Bitmap Heap Scan on <b>my_logs2012m08</b> my_logs ( cost =6.81..20.93 rows=330 width=52)
+              Recheck Cond: ( logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+                −> Bitmap Index Scan on <b>my_logs2012m08_logdate</b> ( cost =0.00..6.73 rows=330 width=0)
+                  Index Cond: (logdate > '2010−08−01 00:00:00' : : timestamp without time zone)
+        (10 rows)
+      </pre>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Indexes</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Functional Indexes</h2>
+      <h3>Functional and Partial Indexes</h3>
+    </hgroup>
+    <article>
+      <p>Index on expression</p>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX foo_name_first_idx
+        ON foo <b>((lower(substr(foo_name, 1, 1))));</b>
+      </pre>
+      <p>for selects</p>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT * FROM foo
+        <b>WHERE lower(substr(foo_name, 1, 1)) = 's';</b>
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Partial Indexes</h2>
+      <h3>Functional and Partial Indexes</h3>
+    </hgroup>
+    <article>
+      <p>Index refers to the predicate WHERE</p>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX access_log_client_ip_ix ON access_log (client_ip)
+        <b>WHERE NOT (client_ip > inet '192.168.100.0' AND
+                   client_ip < inet '192.168.100.255');</b>
+      </pre>
+      <p>for selects</p>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT * FROM access_log
+        <b>WHERE client_ip = '192.168.100.45';</b>
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Create Index Concurrently</h2>
+    </hgroup>
+    <article>
+      <p>Instead</p>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX sales_quantity_index ON sales_table (quantity);
+      </pre>
+      <p>this better for huge table</p>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE INDEX <b>CONCURRENTLY</b> sales_quantity_index ON sales_table (quantity);
+      </pre>
+      <p>but be careful</p>
+      <pre class="prettyprint" data-lang="sql">
+        Indexes:
+            "idx" btree (col) <b>INVALID</b>
+      </pre>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Foreign Data Wrappers</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Foreign Data Wrappers (FDWs)</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/fdws.png" alt="FDWs" style="width: 600px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Wrappers</h2>
+      <h3>Foreign Data Wrappers (FDWs)</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>oracle_fdw</li>
+          <li>mysql_fdw</li>
+          <li>odbc_fdw</li>
+          <li>jdbc_fdw</li>
+          <li>couchdb_fdw</li>
+          <li>mongo_fdw</li>
+          <li>redis_fdw</li>
+          <li>file_fdw, file_text_array_fdw, file_fixed_length_record_fdw</li>
+          <li>twitter_fdw</li>
+          <li>ldap_fdw</li>
+          <li>s3_fdw</li>
+          <li>www_fdw</li>
+          <li>Multicorn (CSV, FS, RSS, Hive)</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Wrappers support</h2>
+      <h3>Foreign Data Wrappers (FDWs)</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>From PostgreSQL 9.1 - wrappers can only read</li>
+        <li>From PostgreSQL 9.3 - wrappers can read and write</li>
+      </ul>
+    </article>
+  </slide>
+
+
+
+
+  <slide>
+    <hgroup>
+      <h2>Extensions</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <ul>
+            <li>PostGIS</li>
+            <li>PostPic</li>
+            <li>PL/Proxy</li>
+            <li>PgMemcache</li>
+            <li>Prefix</li>
+            <li>pgSphere</li>
+            <li>Multicorn</li>
+            <li>Hstore</li>
+            <li>PLV8</li>
+            <li>Intarray</li>
+            <li>Dblink </li>
+            <li>Smlar</li>
+            <li>many others...</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/extensions.png" alt="Extensions" style="width: 460px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>PostgreSQL 9.3 is comming</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Configuration directive 'include_dir'</li>
+          <li>COPY FREEZE for more efficient bulk loading</li>
+          <li>Custom Background Workers</li>
+          <li>JSON: Additional functionality</li>
+          <li>LATERAL JOIN</li>
+          <li>Switch to Posix shared memory and mmap() (No need SHMMAX and SHMALL)</li>
+          <li>Parallel pg_dump for faster backups</li>
+          <li>'pg_isready' server monitoring tool</li>
+          <li>Materialized Views</li>
+          <li>Recursive View Syntax</li>
+          <li>Updatable Views</li>
+          <li>Writeable Foreign Tables</li>
+          <li>Streaming-Only Remastering</li>
+          <li>Fast Failover</li>
+          <li>Architecture-Independent Streaming</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue dark nobackground">
+    <aside class="gdbar right"><img src="images/db-icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Contact information</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
