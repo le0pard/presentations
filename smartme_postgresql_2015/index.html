@@ -454,7 +454,7 @@
         select <b>array_agg(id)</b> from endpoints <b>group by application_id</b>;
       </pre>
       <pre class="prettyprint" data-lang="sql">
-        select (array['hi', 'there', 'everyone', 'at', 'hotcode'])[random()*2 + 1];
+        select (array['hi', 'there', 'everyone', 'at', 'smartme'])[random()*2 + 1];
       </pre>
       <pre class="prettyprint" data-lang="sql">
         select name, tags from posts where <b>tags @> array['it', 'sql']</b>;
