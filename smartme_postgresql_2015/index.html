@@ -84,6 +84,194 @@
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/db-icon.png"></aside>
     <hgroup class="auto-fadein">
+      <h2>SQL and NoSQL</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Relational database management system</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p>Edgar Codd is the author of the 'relational' concept</p>
+          <ul>
+            <li>each element of the table is a data element;</li>
+            <li>all cells in the column homogeneous: all elements in the column are the same type (numeric, character, etc.);</li>
+            <li>each column has a unique name;</li>
+            <li>identical rows in the table are not available;</li>
+            <li>the order of the rows and columns can be arbitrary.</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/Edgar_F_Codd.jpg" alt="Edgar_F_Codd" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>NoSQL</h2>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p>For the first time the term "NoSQL" was used in the late 90's. The real meaning of the form used now got only in the middle 2009. Originally, it was a title of the open-source database created by Carlo Strozzi, which stores all data as ASCII files and used shell scripts instead of SQL to access data.</p>
+          <p>The term "NoSQL" has absolutely natural origin and has no universally accepted definition or scientific institution behind. This title is rather characterized by the vector of development of IT away from relational databases</p>
+        </div>
+        <div class="centered">
+          <img src="images/carlo-strozzi.jpg" alt="carlo-strozzi" style="height: 500px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Wide Column Store / Column Families</h2>
+      <h3>NoSQL</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <h3>Advantages</h3>
+          <ul>
+            <li>It is possible to compress data significantly, because in a single column of the table, the data is usually in the same type;</li>
+            <li>Allows on a cheap and low-powered hardware to boost the speed for the query performance in the 5, 10 and sometimes even 100 times, thus, due to compression, the data on the drive will take 5-10 times less space than in the case of the traditional RDBMS</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Disadvantages</h3>
+          <ul>
+            <li>In general there are no transactions;</li>
+            <li>Have a number of limitations for the developer who is used to the developed traditional RDBMS</li>
+          </ul>
+          <br /><br /><br /><br /><br />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Key Value / Tuple Store</h2>
+      <h3>NoSQL</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <h3>Advantages</h3>
+          <ul>
+            <li>RDBMS are too slow, have heavy layer of SQL cursors;</li>
+            <li>Solutions of RDBMS to store small amounts of data too much cost;</li>
+            <li>There are no need for SQL queries, indexes, triggers, stored procedures, temporary tables, forms, views, etc;</li>
+            <li>Key/value database is easily scalable and high-performance due to its lightness.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Disadvantages</h3>
+          <ul>
+            <li>Limitations of relational databases ensure data integrity at the lowest level. In stores key/value no such restriction. Data integrity controled by applications. In this case data integrity may be compromised due to errors in the application code;</li>
+            <li>In an RDBMS if the model is well designed, the database will contain a logical structure that fully reflects the structure of the stored data. For a key/value storage it is harder to achieve.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Document Store</h2>
+      <h3>NoSQL</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <h3>Advantages</h3>
+          <ul>
+            <li>Sufficiently flexible language for querying;</li>
+            <li>Easy horizontally scalable.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Disadvantages</h3>
+          <ul>
+            <li>Atomicity in most cases is conditional.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Graph Databases</h2>
+      <h3>NoSQL</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <h3>Advantages</h3>
+          <ul>
+            <li>Often faster for associative data sets;</li>
+            <li>Can scale more naturally to large data sets as they do not typically require expensive join operations.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Disadvantages</h3>
+          <ul>
+            <li>RDBMS can be used in more general cases. Graph databases are suitable for graph-like data.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Object Databases</h2>
+      <h3>NoSQL</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <h3>Advantages</h3>
+          <ul>
+            <li>The object model is the best display of the real world, rather than relational tuples. This is especially true for complex and multi-faceted objects;</li>
+            <li>Organize your data with hierarchical characteristics;</li>
+            <li>Separate query language is not required for accessing the data, because access is directly to objects. Nevertheless, the possibility exists to use the queries.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Disadvantages</h3>
+          <ul>
+            <li>In the RDBMS schema change as a result of the creation, modification or deletion of tables usually do not depend on the application;</li>
+            <li>Object database usually tied to a particular language with a separate API and data are available only through the API. RDBMS in this regard is a great opportunity, thanks to the common query language.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>... and many others</h2>
+      <h3>NoSQL</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <h3>Now there are about <a href="http://nosql-database.org/">150 kinds of NoSQL databases</a></h3>
+        <img src="images/nosql-logos.png" alt="nosql" />
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
       <h2>What is PostgreSQL?</h2>
       <h3></h3>
     </hgroup>
@@ -180,6 +368,71 @@
     </article>
   </slide>
 
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>PostgreSQL features</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>SQL:2011 standard</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="sql">
+  mysql> SELECT 124124/0;
+  +----------+
+  | 124124/0 |
+  +----------+
+  |     NULL |
+  +----------+
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+  mysql> (SELECT * FROM moo LIMIT 1) LIMIT 2;
+  +------+
+  | a    |
+  +------+
+  |    1 |
+  |    2 |
+  +------+
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+  mysql> SELECT 'aaa' = 'aaa ';
+  +----------------+
+  | 'aaa' = 'aaa ' |
+  +----------------+
+  |              1 |
+  +----------------+
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>SQL:2011 standard</h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+  mysql> CREATE TABLE enums(a ENUM('c', 'a', 'b'), b INT, KEY(a));
+  mysql> INSERT INTO enums VALUES('a', 1), ('b', 1), ('c', 1);
+  mysql> SELECT MIN(a), MAX(a) FROM enums;
+  +--------+--------+
+  | MIN(a) | MAX(a) |
+  +--------+--------+
+  | c      | b      |
+  +--------+--------+
+  mysql> SELECT MIN(a), MAX(a) FROM enums WHERE b = 1;
+  +--------+--------+
+  | MIN(a) | MAX(a) |
+  +--------+--------+
+  | a      | c      |
+  +--------+--------+
+      </pre>
+    </article>
+  </slide>
+
   <slide>
     <hgroup>
       <h2>Flexible Datatypes</h2>
@@ -238,7 +491,7 @@
 
   <slide>
     <hgroup>
-      <h2>XML and JSON (9.2+)</h2>
+      <h2>XML, JSON and JSONB</h2>
       <h3>Flexible Datatypes</h3>
     </hgroup>
     <article>
@@ -265,7 +518,7 @@
 
   <slide>
     <hgroup>
-      <h2>JSON and PLV8 for "schemaless" sql</h2>
+      <h2>JSON/JSONB and PLV8 for "schemaless" sql</h2>
       <h3>Flexible Datatypes</h3>
     </hgroup>
     <article>
@@ -292,7 +545,7 @@
 
   <slide>
     <hgroup>
-      <h2>JSON functions (comming in 9.3)</h2>
+      <h2>JSON functions (9.3+)</h2>
       <h3>Flexible Datatypes</h3>
     </hgroup>
     <article>
@@ -315,12 +568,28 @@
     </article>
   </slide>
 
-  <slide class="segue dark nobackground">
-    <aside class="gdbar"><img src="images/db-icon.png"></aside>
-    <hgroup class="auto-fadein">
-      <h2>WITH</h2>
-      <h3></h3>
+  <slide>
+    <hgroup>
+      <h2>JSONB (9.4+)</h2>
+      <h3>Flexible Datatypes</h3>
     </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        SELECT '[1, 2, 3]'::jsonb @> '[1, 3]'::jsonb;
+         ?column?
+        ----------
+         t
+        (1 row)
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+
+        SELECT '{"product": "PostgreSQL", "version": 9.4, "jsonb":true}'::jsonb @> '{"version":9.4}'::jsonb;
+         ?column?
+        ----------
+         t
+        (1 row)
+      </pre>
+    </article>
   </slide>
 
   <slide>
@@ -365,17 +634,9 @@
     </article>
   </slide>
 
-  <slide class="segue dark nobackground">
-    <aside class="gdbar"><img src="images/db-icon.png"></aside>
-    <hgroup class="auto-fadein">
-      <h2>LISTEN / NOTIFY</h2>
-      <h3></h3>
-    </hgroup>
-  </slide>
-
   <slide>
     <hgroup>
-      <h2>Example</h2>
+      <h2>LISTEN / NOTIFY example</h2>
       <h3>LISTEN / NOTIFY</h3>
     </hgroup>
     <article>
@@ -418,17 +679,9 @@
     </article>
   </slide>
 
-  <slide class="segue dark nobackground">
-    <aside class="gdbar"><img src="images/db-icon.png"></aside>
-    <hgroup class="auto-fadein">
-      <h2>Window functions</h2>
-      <h3></h3>
-    </hgroup>
-  </slide>
-
   <slide>
     <hgroup>
-      <h2>Example</h2>
+      <h2>Window functions example</h2>
       <h3>Window functions</h3>
     </hgroup>
     <article>
@@ -454,7 +707,7 @@
 
   <slide>
     <hgroup>
-      <h2>Example</h2>
+      <h2>Window functions example</h2>
       <h3>Window functions</h3>
     </hgroup>
     <article>
@@ -479,7 +732,7 @@
 
   <slide>
     <hgroup>
-      <h2>Example</h2>
+      <h2>Window functions example</h2>
       <h3>Window functions</h3>
     </hgroup>
     <article>
@@ -501,6 +754,59 @@
       </pre>
     </article>
   </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>PostgreSQL settings</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>At beginning</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Do not use a default settings</li>
+        <li>Use the latest version of a PostgreSQL server</li>
+        <li>Do not rely on performance tests</li>
+      </ul>
+    </article>
+  </slide>
+
+
+  <slide>
+    <hgroup>
+      <h2>At beginning</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Do not use a default settings</li>
+        <li>Use the latest version of a PostgreSQL server</li>
+        <li>Do not rely on performance tests</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>PgTune</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <h3><a href="http://pgtune.leopard.in.ua/">pgtune.leopard.in.ua</a></h3>
+        <img src="images/pgtune.png" alt="Pgtune" style="height: 400px" />
+      </div>
+    </article>
+  </slide>
+
+
+
 
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/db-icon.png"></aside>
