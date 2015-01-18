@@ -324,8 +324,8 @@
     <article>
       <div class="columns-2">
         <div>
-          <table>
-            <tbody>
+        <table>
+          <tbody>
             <tr>
               <th>Limit</th>
               <th>Value</th>
@@ -758,25 +758,226 @@
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/db-icon.png"></aside>
     <hgroup class="auto-fadein">
-      <h2>PostgreSQL settings</h2>
+      <h2>PostgreSQL Internals</h2>
       <h3></h3>
     </hgroup>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>At beginning</h2>
-      <h3>PostgreSQL settings</h3>
+      <h2>Backend Flowchart</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <a href="images/backend_flowchart.png">
+          <img src="images/backend_flowchart.png" alt="backend_flowchart" style="height: 450px" />
+        </a>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Optimizer</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <h3>Optimizer</h3>
+          <ul>
+            <li>Scan Methods</li>
+            <li>Join Methods</li>
+            <li>Join Order</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Scan Methods</h3>
+          <ul>
+            <li>Sequential Scan</li>
+            <li>Index Scan</li>
+            <li>Bitmap Index Scan</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Sequential Scan</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/sequential_scan.png" alt="sequential_scan" style="height: 400px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Btree Index Scan</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/btree_index_scan.png" alt="btree_index_scan" style="height: 400px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Bitmap Index Scan</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/bitmap_index_scan.png" alt="bitmap_index_scan" style="height: 400px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Join Methods</h2>
+      <h3>PostgreSQL Internals</h3>
     </hgroup>
     <article>
       <ul>
-        <li>Do not use a default settings</li>
-        <li>Use the latest version of a PostgreSQL server</li>
-        <li>Do not rely on performance tests</li>
+        <li>
+          Nested Loop
+          <ul>
+            <li>With Inner Sequential Scan</li>
+            <li>With Inner Index Scan</li>
+          </ul>
+        </li>
+        <li>Hash Join</li>
+        <li>Merge Join</li>
       </ul>
     </article>
   </slide>
 
+  <slide>
+    <hgroup>
+      <h2>Nested Loop Join with Inner Sequential Scan</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/nested_loop_join_with.png" alt="nested_loop_join_with" style="height: 400px" /><br />
+        <p>Used For Small Tables</p>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Nested Loop Join with Inner Index Scan</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/nested_loop_join_with_index.png" alt="nested_loop_join_with_index" style="height: 400px" /><br />
+        <p>Index Must Already Exist</p>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Hash Join</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/hash_join.png" alt="hash_join" style="height: 400px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Merge Join</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/merge_join.png" alt="merge_join" style="height: 400px" /><br />
+        <p>Ideal for Large Tables, An Index Can Be Used to Eliminate the Sort</p>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Learn SQL Joins</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <h3><a href="http://sql-joins.leopard.in.ua/">sql-joins.leopard.in.ua</a></h3>
+        <img src="images/sql_joins_app.png" alt="sql_joins_app" style="height: 400px" />
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Lock Modes</h2>
+      <h3>PostgreSQL Internals</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <table>
+          <tbody>
+            <tr>
+              <th>Mode</th>
+              <th>Used</th>
+            </tr>
+            <tr>
+              <td>Access Share Lock</td>
+              <td>SELECT</td>
+            </tr>
+            <tr>
+              <td>Row Share Lock</td>
+              <td>SELECT FOR UPDATE</td>
+            </tr>
+            <tr>
+              <td>Row Exclusive Lock</td>
+              <td>INSERT, UPDATE, DELETE</td>
+            </tr>
+            <tr>
+              <td>Share Lock</td>
+              <td>CREATE INDEX</td>
+            </tr>
+            <tr>
+              <td>Share Row Exclusive Lock</td>
+              <td>EXCLUSIVE MODE but allows ROW SHARE LOCK</td>
+            </tr>
+            <tr>
+              <td>Exclusive Lock</td>
+              <td>Blocks ROW SHARE LOCK and SELECT...FOR UPDATE</td>
+            </tr>
+            <tr>
+              <td>Access Exclusive Lock</td>
+              <td>ALTER TABLE, DROP TABLE, VACUUM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>PostgreSQL settings</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
 
   <slide>
     <hgroup>
@@ -804,6 +1005,73 @@
       </div>
     </article>
   </slide>
+
+  <slide>
+    <hgroup>
+      <h2>shared_buffers и work_mem</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <h3>shared_buffers</h3>
+      <p>Sets the amount of memory the database server uses for shared memory buffers. Larger settings for shared_buffers usually require a corresponding increase in checkpoint_segments, in order to spread out the process of writing large quantities of new or changed data over a longer period of time.</p>
+      <h3>work_mem</h3>
+      <p>Specifies the amount of memory to be used by internal sort operations and hash tables before writing to temporary disk files. Note that for a complex query, several sort or hash operations might be running in parallel; each operation will be allowed to use as much memory as this value specifies before it starts to write data into temporary files.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>maintenance_work_mem и temp_buffers</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <h3>maintenance_work_mem</h3>
+      <p>Specifies the maximum amount of memory to be used by maintenance operations, such as VACUUM, CREATE INDEX, and ALTER TABLE ADD FOREIGN KEY.</p>
+      <h3>temp_buffers</h3>
+      <p>Sets the maximum number of temporary buffers used by each database session. These are session-local buffers used only for access to temporary tables.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>checkpoint_segments и checkpoint_completion_target</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <h3>checkpoint_segments</h3>
+      <p>Maximum number of log file segments between automatic WAL checkpoints (each segment is normally 16 megabytes).</p>
+      <h3>checkpoint_completion_target</h3>
+      <p>Specifies the target of checkpoint completion, as a fraction of total time between checkpoints.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>synchronous_commit и fsync</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <h3>synchronous_commit</h3>
+      <p>Specifies whether transaction commit will wait for WAL records to be written to disk before the command returns a "success" indication to the client. Valid values are on, remote_write, local, and off.</p>
+      <h3>fsync</h3>
+      <p>If this parameter is on, the PostgreSQL server will try to make sure that updates are physically written to disk, by issuing fsync() system calls or various equivalent methods.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>default_statistics_target и effective_cache_size</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <h3>default_statistics_target</h3>
+      <p>Sets the default statistics target for table columns without a column-specific target set via ALTER TABLE SET STATISTICS. Larger values increase the time needed to do ANALYZE, but might improve the quality of the planner's estimates.</p>
+      <h3>effective_cache_size</h3>
+      <p>Sets the planner's assumption about the effective size of the disk cache that is available to a single query. This is factored into estimates of the cost of using an index; a higher value makes it more likely index scans will be used, a lower value makes it more likely sequential scans will be used.</p>
+    </article>
+  </slide>
+
+
 
 
 
