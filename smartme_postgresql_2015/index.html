@@ -995,19 +995,6 @@
 
   <slide>
     <hgroup>
-      <h2>PgTune</h2>
-      <h3>PostgreSQL settings</h3>
-    </hgroup>
-    <article>
-      <div class="centered">
-        <h3><a href="http://pgtune.leopard.in.ua/">pgtune.leopard.in.ua</a></h3>
-        <img src="images/pgtune.png" alt="Pgtune" style="height: 400px" />
-      </div>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
       <h2>shared_buffers и work_mem</h2>
       <h3>PostgreSQL settings</h3>
     </hgroup>
@@ -1071,7 +1058,35 @@
     </article>
   </slide>
 
+  <slide>
+    <hgroup>
+      <h2>PgTune</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <h3><a href="http://pgtune.leopard.in.ua/">pgtune.leopard.in.ua</a></h3>
+        <img src="images/pgtune.png" alt="Pgtune" style="height: 400px" />
+      </div>
+    </article>
+  </slide>
 
+  <slide>
+    <hgroup>
+      <h2>Filesystem and swap</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>barrier=0, noatime</li>
+        <li>xfs или ext4</li>
+        <li>vm.swappiness = 0</li>
+        <li>On large amounts of memory swap still almost useless</li>
+        <li>Transfer of the transaction log on a separate disk</li>
+        <li>huge_pages = try|on|of (9.4+)</li>
+      </ul>
+    </article>
+  </slide>
 
 
 
