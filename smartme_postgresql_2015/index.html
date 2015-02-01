@@ -1008,6 +1008,30 @@
 
   <slide>
     <hgroup>
+      <h2>shared_buffers (&lt;= 9.3)</h2>
+      <h3>PostgreSQL settings</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+  #!/bin/bash
+  # simple shmsetup script
+  page_size=`getconf PAGE_SIZE`
+  phys_pages=`getconf _PHYS_PAGES`
+  shmall=`expr $phys_pages / 2`
+  shmmax=`expr $shmall \* $page_size`
+  echo kernel.shmmax = $shmmax
+  echo kernel.shmall = $shmall
+      </pre>
+      <p>Example for 2GB:</p>
+      <pre class="prettyprint" data-lang="bash">
+  kernel.shmmax = 1055092736
+  kernel.shmall = 257591
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>maintenance_work_mem и temp_buffers</h2>
       <h3>PostgreSQL settings</h3>
     </hgroup>
@@ -1083,83 +1107,27 @@
         <li>vm.swappiness = 0</li>
         <li>On large amounts of memory swap still almost useless</li>
         <li>Transfer of the transaction log on a separate disk</li>
-        <li>huge_pages = try|on|of (9.4+)</li>
       </ul>
     </article>
   </slide>
 
-
-
-
-  <slide class="segue dark nobackground">
-    <aside class="gdbar"><img src="images/db-icon.png"></aside>
-    <hgroup class="auto-fadein">
-      <h2>Table Inheritance</h2>
-      <h3></h3>
-    </hgroup>
-  </slide>
-
   <slide>
     <hgroup>
-      <h2>How to use Partitioning</h2>
-      <h3>Partitioning</h3>
+      <h2>Huge Pages (9.4+, linux only)</h2>
+      <h3>PostgreSQL settings</h3>
     </hgroup>
     <article>
-      <pre class="prettyprint" data-lang="sql">
-        CREATE TABLE my_logs(
-          id SERIAL PRIMARY KEY,
-          logdate TIMESTAMP NOT NULL,
-          data JSON
-        );
-      </pre>
-      <pre class="prettyprint" data-lang="sql">
-        CREATE TABLE my_logs2012m10 (
-        <b>CHECK ( logdate >= DATE '2012−10−01' AND logdate < DATE '2012−11−01' )
-        ) INHERITS (my_logs)</b>;
-        CREATE INDEX my_logs2012m10_logdate ON my_logs2012m10 (logdate);
-      </pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Management Partition</h2>
-      <h3>Partitioning</h3>
-    </hgroup>
-    <article>
-      <p>Simple cleanup</p>
-      <pre class="prettyprint" data-lang="sql">
-        DROP TABLE my_logs2012m06;
-      </pre>
-      <p>or remove partition from partitioning</p>
-      <pre class="prettyprint" data-lang="sql">
-        ALTER TABLE my_logs2012m06
-        <b>NO INHERIT</b> my_logs;
-      </pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Smart Query Optimization</h2>
-      <h3>Partitioning</h3>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="sql">
-        partitioning_test=# EXPLAIN SELECT ∗ FROM my_logs WHERE logdate > '2012−08−01';
-                                  QUERY PLAN
-        −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
-        Result ( cost =6.81..41.87 rows=660 width=52)
-          −> Append ( cost =6.81..41.87 rows=660 width=52)
-            −> Bitmap Heap Scan on <b>my_logs</b> ( cost =6.81..20.93 rows=330 width=52)
-              Recheck Cond: ( logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
-                −> Bitmap Index Scan on <b>my_logs_logdate</b> ( cost =0.00..6.73 rows=330 width=0)
-                  Index Cond: (logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
-            −> Bitmap Heap Scan on <b>my_logs2012m08</b> my_logs ( cost =6.81..20.93 rows=330 width=52)
-              Recheck Cond: ( logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
-                −> Bitmap Index Scan on <b>my_logs2012m08_logdate</b> ( cost =0.00..6.73 rows=330 width=0)
-                  Index Cond: (logdate > '2010−08−01 00:00:00' : : timestamp without time zone)
-        (10 rows)
+      <ul>
+        <li>kernel with CONFIG_HUGETLBFS=y and CONFIG_HUGETLB_PAGE=y</li>
+        <li>huge_pages = try|on|of (9.4+)</li>
+        <li>echo never &gt; /sys/kernel/mm/transparent_hugepage/defrag</li>
+        <li>echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled</li>
+      </ul>
+      <pre class="prettyprint" data-lang="bash">
+  $ head -1 /path/to/data/directory/postmaster.pid
+  4170
+  $ grep ^VmPeak /proc/4170/status
+  VmPeak:  6490428 kB
       </pre>
     </article>
   </slide>
@@ -1214,6 +1182,7 @@
   <slide>
     <hgroup>
       <h2>Create Index Concurrently</h2>
+      <h3>Indexes</h3>
     </hgroup>
     <article>
       <p>Instead</p>
@@ -1229,6 +1198,197 @@
         Indexes:
             "idx" btree (col) <b>INVALID</b>
       </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>REINDEX</h2>
+      <h3>Indexes</h3>
+    </hgroup>
+    <article>
+      <p>REINDEX rebuilds an index using the data stored in the index's table, replacing the old copy of the index</p>
+      <ul>
+        <li>An index has become corrupted, and no longer contains valid data. Although in theory this should never happen, in practice indexes can become corrupted due to software bugs or hardware failures</li>
+        <li>An index has become "bloated", that it is contains many empty or nearly-empty pages. This can occur with B-tree indexes in PostgreSQL under certain uncommon access patterns</li>
+        <li>An index build with the CONCURRENTLY option failed, leaving an "invalid" index</li>
+      </ul>
+      <p>REINDEX is similar to a drop and recreate of the index in that the index contents are rebuilt from scratch</p>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Table Inheritance</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>How to use Partitioning</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE TABLE my_logs(
+          id SERIAL PRIMARY KEY,
+          logdate TIMESTAMP NOT NULL,
+          data JSON
+        );
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        CREATE TABLE my_logs2015m01 (
+        <b>CHECK ( logdate >= DATE '2015−01−01' AND logdate < DATE '2015−02−01' )
+        ) INHERITS (my_logs)</b>;
+        CREATE INDEX my_logs2015m01_logdate ON my_logs2015m01 (logdate);
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Management Partition</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <p>Simple cleanup</p>
+      <pre class="prettyprint" data-lang="sql">
+        DROP TABLE my_logs2015m01;
+      </pre>
+      <p>or remove partition from partitioning</p>
+      <pre class="prettyprint" data-lang="sql">
+        ALTER TABLE my_logs2015m01 <b>NO INHERIT</b> my_logs;
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Management Partition</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+  CREATE OR REPLACE FUNCTION my_logs_insert_trigger()
+  RETURNS TRIGGER AS $$
+  BEGIN
+      IF ( NEW.logdate >= DATE '2015-01-01' AND
+           NEW.logdate < DATE '2015-02-01' ) THEN
+          INSERT INTO my_logs2015m01 VALUES (NEW.*);
+      ELSIF ( NEW.logdate >= DATE '2015-02-01' AND
+              NEW.logdate < DATE '2015-03-01' ) THEN
+          INSERT INTO my_logs2015m02 VALUES (NEW.*);
+      ELSE
+          RAISE EXCEPTION 'Date out of range.  Fix the my_logs_insert_trigger() function!';
+      END IF;
+      RETURN NULL;
+  END;
+  $$
+  LANGUAGE plpgsql;
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Management Partition</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <p>Activate trigger:</p>
+      <pre class="prettyprint" data-lang="sql">
+  CREATE TRIGGER insert_my_logs_trigger
+      BEFORE INSERT ON my_logs
+      FOR EACH ROW EXECUTE PROCEDURE my_logs_insert_trigger();
+      </pre>
+      <p>test it:</p>
+      <pre class="prettyprint" data-lang="sql">
+  INSERT INTO my_logs (user_id, logdate, data, some_state) VALUES(1, '2015-01-30', 'some data', 1);
+  INSERT INTO my_logs (user_id, logdate, data, some_state) VALUES(2, '2015-02-10', 'some data2', 1);
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Management Partition</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <p>Results:</p>
+      <pre class="prettyprint" data-lang="sql">
+  $ SELECT * FROM ONLY my_logs;
+   id | user_id | logdate | data | some_state
+  ----+---------+---------+------+------------
+  (0 rows)
+
+  $ SELECT * FROM my_logs;
+   id | user_id |       logdate       |       data       | some_state
+  ----+---------+---------------------+------------------+------------
+    1 |       1 | 2015-10-30 00:00:00 | some data        |          1
+    2 |       2 | 2015-02-10 00:00:00 | some data2       |          1
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>PG Partition Manager</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <p><a href="https://github.com/keithf4/pg_partman">PG Partition Manager</a></p>
+      <pre class="prettyprint" data-lang="sql">
+  CREATE schema test;
+
+  CREATE TABLE test.part_test (col1 serial, col2 text, col3 timestamptz NOT NULL DEFAULT now());
+
+  SELECT partman.create_parent('test.part_test', 'col3', 'time-static', 'daily');
+      </pre>
+      <p>This will turn your table into a parent table and premake 4 future partitions and also make 4 past partitions. To make new partitions for time-based partitioning, use the run_maintenance() function. </p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Smart Query Optimization</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+  $ SET constraint_exclusion = partition;
+  $ EXPLAIN SELECT ∗ FROM my_logs WHERE logdate > '2012−08−01';
+                            QUERY PLAN
+  −−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
+  Result ( cost =6.81..41.87 rows=660 width=52)
+    −> Append ( cost =6.81..41.87 rows=660 width=52)
+      −> Bitmap Heap Scan on <b>my_logs</b> ( cost =6.81..20.93 rows=330 width=52)
+        Recheck Cond: ( logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+          −> Bitmap Index Scan on <b>my_logs_logdate</b> ( cost =0.00..6.73 rows=330 width=0)
+            Index Cond: (logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+      −> Bitmap Heap Scan on <b>my_logs2012m08</b> my_logs ( cost =6.81..20.93 rows=330 width=52)
+        Recheck Cond: ( logdate > '2012−08−01 00:00:00' : : timestamp without time zone)
+          −> Bitmap Index Scan on <b>my_logs2012m08_logdate</b> ( cost =0.00..6.73 rows=330 width=0)
+            Index Cond: (logdate > '2010−08−01 00:00:00' : : timestamp without time zone)
+  (10 rows)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Caveats</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>There is no automatic way to verify that all of the CHECK constraints are mutually exclusive</li>
+        <li>The schemes shown here assume that the partition key column(s) of a row never change, or at least do not change enough to require it to move to another partition</li>
+        <li>If you are using manual VACUUM or ANALYZE commands, don't forget that you need to run them on each partition individually</li>
+        <li>All constraints on all partitions of the master table are examined during constraint exclusion, so large numbers of partitions are likely to increase query planning time considerably. Partitioning using these techniques will work well with up to perhaps a hundred partitions; don't try to use many thousands of partitions</li>
+      </ul>
     </article>
   </slide>
 
@@ -1290,9 +1450,6 @@
     </article>
   </slide>
 
-
-
-
   <slide>
     <hgroup>
       <h2>Extensions</h2>
@@ -1323,33 +1480,6 @@
     </article>
   </slide>
 
-  <slide>
-    <hgroup>
-      <h2>PostgreSQL 9.3 is comming</h2>
-    </hgroup>
-    <article>
-      <div class="columns-2">
-        <ul>
-          <li>Configuration directive 'include_dir'</li>
-          <li>COPY FREEZE for more efficient bulk loading</li>
-          <li>Custom Background Workers</li>
-          <li>JSON: Additional functionality</li>
-          <li>LATERAL JOIN</li>
-          <li>Switch to Posix shared memory and mmap() (No need SHMMAX and SHMALL)</li>
-          <li>Parallel pg_dump for faster backups</li>
-          <li>'pg_isready' server monitoring tool</li>
-          <li>Materialized Views</li>
-          <li>Recursive View Syntax</li>
-          <li>Updatable Views</li>
-          <li>Writeable Foreign Tables</li>
-          <li>Streaming-Only Remastering</li>
-          <li>Fast Failover</li>
-          <li>Architecture-Independent Streaming</li>
-        </ul>
-      </div>
-    </article>
-  </slide>
-
   <slide class="thank-you-slide segue dark nobackground">
     <aside class="gdbar right"><img src="images/db-icon.png"></aside>
     <article class="flexbox vleft auto-fadein">
@@ -1364,18 +1494,6 @@
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script>
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
 
 <!--[if IE]>
   <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
