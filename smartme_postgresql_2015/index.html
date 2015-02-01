@@ -985,11 +985,19 @@
       <h3>PostgreSQL settings</h3>
     </hgroup>
     <article>
-      <ul>
-        <li>Do not use a default settings</li>
-        <li>Use the latest version of a PostgreSQL server</li>
-        <li>Do not rely on performance tests</li>
-      </ul>
+      <div class="columns-2">
+        <div>
+          <ul>
+            <li>Do not use the default settings</li>
+            <li>Use the latest version of a PostgreSQL server</li>
+            <li>Do not rely on performance tests</li>
+            <li>EXPLAIN ANALYZE and indexes, indexes, indexes</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/homer616.jpeg" alt="Homer" style="width: 350px">
+        </div>
+      </div>
     </article>
   </slide>
 
@@ -1227,6 +1235,45 @@
 
   <slide>
     <hgroup>
+      <h2>Vertical and Horizontal Scaling</h2>
+      <h3>Partitioning</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/scaling_vertical.png" alt="Vertical scaling" style="width: 250px">
+        </div>
+        <div class="centered">
+          <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 450px">
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/db-icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>Buying a bigger box is quick(ish). Redesigning software is not.</q>
+      <div class="author">
+        Cal Henderson<br>
+        Flickr
+      </div>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>37 Signals Basecamp upgraded to 128 GB DB server: don’t need to pay the complexity tax yet</q>
+      <div class="author">
+        David Heinemeier Hansson<br>
+        Ruby on Rails
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>How to use Partitioning</h2>
       <h3>Partitioning</h3>
     </hgroup>
@@ -1391,6 +1438,97 @@
       </ul>
     </article>
   </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Replication</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Replication Solutions</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Streaming Replication (build in)</li>
+          <li>Slony-I</li>
+          <li>Pgpool-I/II</li>
+          <li>Bucardo</li>
+          <li>Londiste</li>
+          <li>RubyRep</li>
+          <li>many others...</li>
+        </ul>
+        <div class="centered">
+          <img src="images/homer_clones.png" alt="Homer" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Streaming Replication</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/streamin_replication.png" alt="PostgreSQL" style="width: 400px" />
+          <br />
+          <br />
+          <br />
+        </div>
+        <ul>
+          <li>Advantages:
+            <ul>
+              <li>Log-shipping instead triggers</li>
+              <li>Multiple standbys</li>
+              <li>Synchronous and asynchronous</li>
+              <li>Continuous recovery</li>
+              <li>Easy monitoring</li>
+            </ul>
+          </li>
+          <li>Disadvantages:
+            <ul>
+              <li>You can replicate only full database</li>
+              <li>Replication beyond timeline</li>
+              <li><b>No failover and load balancing</b></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Pgpool-II + Streaming Replication = &lt;3</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Ease of setup and maintenance</li>
+          <li>Adding slaves without sacrificing performance</li>
+          <li>More slaves - more performance on reading (load balancing)</li>
+          <li>Automatic switch to slave if master fail (failover)</li>
+        </ul>
+        <div class="centered">
+          <img src="images/pgpool.png" alt="pgpool" style="width: 300px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+
+
+
+
 
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/db-icon.png"></aside>
