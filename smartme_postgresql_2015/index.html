@@ -1507,6 +1507,265 @@
 
   <slide>
     <hgroup>
+      <h2>Slony-I</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/slony.jpg" alt="PostgreSQL" style="width: 400px" />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </div>
+        <ul>
+          <li>Advantages:
+            <ul>
+              <li>Replicate between different version of databases</li>
+              <li>Replicate part of tables in database</li>
+              <li>Extra behaviours taking place on subscribers, for instance, populating cache management information</li>
+            </ul>
+          </li>
+          <li>Disadvantages:
+            <ul>
+              <li>Trigger replication</li>
+              <li>You're probably okay. Until slony breaks :)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Pgpool-I/II</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/pgpool.jpg" alt="PostgreSQL" style="width: 400px" />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </div>
+        <ul>
+          <li>Advantages:
+            <ul>
+              <li>Simple setup</li>
+              <li>Have additional features (Connection Pooling, Load Balancing, Limiting Exceeding Connections, Parallel Query)</li>
+            </ul>
+          </li>
+          <li>Disadvantages:
+            <ul>
+              <li>Synchronous replication (more nodes - bigger slowdown)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Bucardo</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/bucardo.jpg" alt="PostgreSQL" style="width: 400px" />
+        </div>
+        <ul>
+          <li>Advantages:
+            <ul>
+              <li>Master-master of Master-slave replication</li>
+              <li>Replicate between different version of databases</li>
+              <li>Replicate part of tables in database</li>
+              <li>Replicate to different databases (drizzle, mongo, mysql, oracle, redis и sqlite)</li>
+            </ul>
+          </li>
+          <li>Disadvantages:
+            <ul>
+              <li>Trigger replication</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Londiste</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/londiste.png" alt="PostgreSQL" style="width: 400px" />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </div>
+        <ul>
+          <li>Advantages:
+            <ul>
+              <li>Replicate between different version of databases</li>
+              <li>Replicate part of tables in database</li>
+              <li>Simple setup and monitoring</li>
+            </ul>
+          </li>
+          <li>Disadvantages:
+            <ul>
+              <li>Trigger replication</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Bi-Directional Replication (BDR)</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div class="centered">
+          <img src="images/BDR.png" alt="PostgreSQL" style="width: 400px" />
+        </div>
+        <ul>
+          <li>Advantages:
+            <ul>
+              <li>Master-master replication</li>
+              <li>Up to 48 nodes</li>
+            </ul>
+          </li>
+          <li>Disadvantages:
+            <ul>
+              <li>Conflict Resolution</li>
+              <li>Each node eventually consistent</li>
+              <li>Right now we have only patch, official should be for 9.5</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Replication comparison</h2>
+    </hgroup>
+    <article class="smaller">
+      <table>
+        <tbody>
+          <tr>
+            <td></td>
+            <th>Hot Standby</th>
+            <th>BDR</th>
+            <th>Londiste</th>
+            <th>Slony</th>
+            <th>Bucardo</th>
+          </tr>
+          <tr>
+            <th>Multi-Master</th>
+            <td>No</td>
+            <td>Yes</td>
+            <td>No<sup style="vertical-align: super; font-size: smaller;">1</sup></td>
+            <td>No</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th>Per DB Replication</th>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th>Cascading</th>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th>DDL Replication</th>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>No<sup style="vertical-align: super; font-size: smaller;">2</sup></td>
+            <td>No<sup style="vertical-align: super; font-size: smaller;">2</sup></td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th>Need external daemon</th>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th>New table added automatically</th>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th>Use triggers</th>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th>Support updates on PK columns</th>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th>Selective replication</th>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <th>Transactions applied indidualy</th>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size: 0.9rem">1 - Multi-master via handler, but only supports last update wins conflict resolution and is complicated</p>
+      <p style="font-size: 0.9rem">2 - Londiste and Slony provide facilities for executing scripts on all nodes but it's not transparent</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Pgpool-II + Streaming Replication = &lt;3</h2>
       <h3>Replication</h3>
     </hgroup>
@@ -1525,8 +1784,33 @@
     </article>
   </slide>
 
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Clustering</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
 
-
+  <slide>
+    <hgroup>
+      <h2>Clustering solutions</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Pl/Proxy</li>
+          <li>Postgres-XC</li>
+          <li>GridSQL</li>
+          <li>Greenplum</li>
+        </ul>
+        <div class="centered">
+          <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 400px">
+        </div>
+      </div>
+    </article>
+  </slide>
 
 
 
