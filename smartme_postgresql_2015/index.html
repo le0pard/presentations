@@ -2204,6 +2204,165 @@
     </article>
   </slide>
 
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/db-icon.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Backup and restore</h2>
+      <h3></h3>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>SQL backup</h2>
+      <h3>Backup and restore</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+    $ pg_dump dbname > outfile
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    $ psql dbname < infile
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    $ pg_dump -h host1 dbname | psql -h host2 dbname
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    $ pg_dumpall > outfile
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>SQL backup of a big databases (use gzip)</h2>
+      <h3>SQL backup</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+    $ pg_dump dbname | gzip > filename.gz
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    $ gunzip -c filename.gz | psql dbname
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    $ cat filename.gz | gunzip | psql dbname
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>SQL backup of a big databases (use split)</h2>
+      <h3>SQL backup</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+    $ pg_dump dbname | split -b 1m - filename
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    $ cat filename* | psql dbname
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>SQL backup of a big databases (use build-in Zlib)</h2>
+      <h3>SQL backup</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+    $ pg_dump -Fc dbname > filename
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    $ pg_restore -d dbname filename
+      </pre>
+      <p>tables can be selectively recovered</p>
+      <pre class="prettyprint" data-lang="bash">
+    $ pg_restore -d dbname -t users -t companies filename
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>File system backup</h2>
+      <h3>Backup and restore</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+    $ tar -cf backup.tar /usr/local/pgsql/data
+      </pre>
+      <p>But there are two restrictions, which makes this method impractical</p>
+      <ul>
+        <li>PostgreSQL database must be stopped in order to get the current backup. During the restoration of the backup will also need to stop PostgreSQL</li>
+        <li>Do not get restore only certain data from this backup</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>File system backup</h2>
+      <h3>Backup and restore</h3>
+    </hgroup>
+    <article>
+      <p>Working variants</p>
+      <ul>
+        <li>Filesystem snapshots (if the file system PostgreSQL is distributed on different file systems, then this method will be very unreliable)</li>
+        <li>Rsync working database and after this rsync stopped database. The second run rsync pass much faster than the first</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Continuous Archiving</h2>
+      <h3>Backup and restore</h3>
+    </hgroup>
+    <article>
+      <p>This approach is more difficult to setup than any of the previous approach, but it has some advantages:</p>
+      <ul>
+        <li>No need to coordinate the system backup files. Any internal inconsistency in the backup will be corrected by wal log replay (no different from what happens during crash recovery)</li>
+        <li>Point-in-Time Recovery (PITR)</li>
+        <li>If we will constantly "feed" WAL files to another machine that has been loaded with the same files standby database, then we will be being always up to date backup server PostgreSQL (creation of hot standby server)</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Continuous Archiving</h2>
+      <h3>Backup and restore</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="bash">
+    archive_mode = on # enable archiving
+    archive_command = 'cp -v %p /data/pgsql/archives/%f'
+    archive_timeout = 300 # timeout to close buffers
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    $ rsync -avz --delete prod1:/data/pgsql/archives/ \
+    /data/pgsql/archives/ > /dev/null
+      </pre>
+      <pre class="prettyprint" data-lang="bash">
+    restore_command = 'cp /data/pgsql/archives/%f "%p"'
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>WAL-E and Barman</h2>
+      <h3>Continuous Archiving</h3>
+    </hgroup>
+    <article>
+      <p>WAL-E is designed for continuous backup PostgreSQL WAL-logs in Amazon S3 or Windows Azure (since version 0.7) and management and pg_start_backup pg_stop_backup. Utility written in Python and is designed in the company Heroku, where it is actively used</p>
+      <p>Barman, as WAL-E, allows you to create a system backup and restore PostgreSQL-based continuous backup. Barman uses to store backups separate server that can collect as backups from one or from multiple PostgreSQL databases</p>
+    </article>
+  </slide>
+
 
 
   <slide class="thank-you-slide segue dark nobackground">
