@@ -1800,8 +1800,8 @@
     <article>
       <div class="columns-2">
         <ul>
-          <li>Pl/Proxy</li>
-          <li>Postgres-XC</li>
+          <li>Pl/Proxy (SkyTools)</li>
+          <li>Postgres-XC, Postgres-XL</li>
           <li>GridSQL</li>
           <li>Greenplum</li>
         </ul>
@@ -1812,12 +1812,32 @@
     </article>
   </slide>
 
-
+  <slide>
+    <hgroup>
+      <h2>Radical Additional Options</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p>"NoSQL" database</p>
+          <ul>
+            <li>CouchDB, MongoDB, HBase, Cassandra, Redis</li>
+            <li>Document store</li>
+            <li>Map/Reduce querying</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/nosql-logos.png" alt="NoSQL" style="width: 450px">
+        </div>
+      </div>
+    </article>
+  </slide>
 
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/db-icon.png"></aside>
     <hgroup class="auto-fadein">
-      <h2>Foreign Data Wrappers</h2>
+      <h2>Extensions</h2>
       <h3></h3>
     </hgroup>
   </slide>
@@ -1874,24 +1894,23 @@
 
   <slide>
     <hgroup>
-      <h2>Extensions</h2>
+      <h2>PostGIS and PgSphere</h2>
+      <h3>Extensions</h3>
     </hgroup>
     <article>
       <div class="columns-2">
         <div>
           <ul>
-            <li>PostGIS</li>
-            <li>PostPic</li>
-            <li>PL/Proxy</li>
-            <li>PgMemcache</li>
-            <li>Prefix</li>
-            <li>pgSphere</li>
-            <li>Multicorn</li>
+            <li>Dblink</li>
+            <li>Cube</li>
+            <li>Fuzzystrmatch</li>
             <li>Hstore</li>
-            <li>PLV8</li>
             <li>Intarray</li>
-            <li>Dblink </li>
-            <li>Smlar</li>
+            <li>Ltree</li>
+            <li>Pg_buffercache</li>
+            <li>Pgbench</li>
+            <li>Uuid-ossp</li>
+            <li>Tsearch2</li>
             <li>many others...</li>
           </ul>
         </div>
@@ -1901,6 +1920,291 @@
       </div>
     </article>
   </slide>
+
+  <slide>
+    <hgroup>
+      <h2>PostGIS and PgSphere</h2>
+      <h3>Extensions</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p>PostGIS adds support for geographic objects to the PostgreSQL. PostGIS corresponds OpenGIS and has been certified</p>
+          <p>PgSphere provides spherical PostgreSQL data types, as well as functions and operators to work with them. Used to work with geographic (can be used instead of PostGIS) or astronomical data types</p>
+        </div>
+        <div class="centered">
+          <img src="images/postgis.png" alt="Extensions" style="width: 460px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>PLV8</h2>
+      <h3>Extensions</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p>PLV8 is an extension that provides PostgreSQL procedural language with the V8 JavaScript engine</p>
+          <p>Why javascript?</p>
+          <ul>
+            <li>everywhere</li>
+            <li>good parts</li>
+            <li>trusted language</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/v8.png" alt="Extensions" style="width: 460px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+
+  <slide>
+    <hgroup>
+      <h2>Fibonacci</h2>
+      <h3>PLV8</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+
+        CREATE OR REPLACE FUNCTION
+        psqlfib(n int) RETURNS int AS $$
+         BEGIN
+             IF n < 2 THEN
+                 RETURN n;
+             END IF;
+             RETURN psqlfib(n-1) + psqlfib(n-2);
+         END;
+        $$ <b>LANGUAGE plpgsql</b> IMMUTABLE STRICT;
+
+          </pre>
+          <br />
+          <br />
+          <br />
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+            select n, psqlfib(n)
+            from generate_series(0,30,5) as n;
+               n  | psqlfib
+              ----+---------
+                0 |       0
+                5 |       5
+               10 |      55
+               15 |     610
+               20 |    6765
+               25 |   75025
+               30 |  832040
+              (7 rows)
+
+              <b>Time: 34014.299 ms</b>
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Fibonacci</h2>
+      <h3>PLV8</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+
+        CREATE OR REPLACE FUNCTION
+        fib(n int) RETURNS int as $$
+
+          function fib(n) {
+            return n<2 ? n : fib(n-1) + fib(n-2)
+          }
+          return fib(n)
+
+        $$ <b>LANGUAGE plv8</b> IMMUTABLE STRICT;
+
+          </pre>
+          <br />
+          <br />
+          <br />
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+            select n, fib(n)
+            from generate_series(0,30,5) as n;
+               n  |  fib
+              ----+--------
+                0 |      0
+                5 |      5
+               10 |     55
+               15 |    610
+               20 |   6765
+               25 |  75025
+               30 | 832040
+              (7 rows)
+
+              <b>Time: 33.430 ms</b>
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Fibonacci (with cache in js object)</h2>
+      <h3>PLV8</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+        CREATE OR REPLACE FUNCTION
+        fib2(n int) RETURNS int as $$
+
+          var memo = {0: 0, 1: 1}
+          function fib(n) {
+            if(!(n in memo))
+              memo[n] = fib(n-1) + fib(n-2)
+            return memo[n]
+          }
+          return fib(n);
+
+        $$ <b>LANGUAGE plv8</b> IMMUTABLE STRICT;
+          </pre>
+          <br />
+          <br />
+          <br />
+          <br />
+        </div>
+        <div>
+          <pre class="prettyprint" data-lang="sql">
+            select n, fib2(n)
+            from generate_series(0,30,5) as n;
+               n  |  fib2
+              ----+--------
+                0 |      0
+                5 |      5
+               10 |     55
+               15 |    610
+               20 |   6765
+               25 |  75025
+               30 | 832040
+              (7 rows)
+
+              <b>Time: 0.535 ms</b>
+          </pre>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Mustache.js in PostgreSQL</h2>
+      <h3>plv8</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/mustache.jpeg" alt="Mustache" style="width: 400px" />
+      </div>
+      <div class="centered">Logic-less templates.</div>
+      <div class="centered"><a href="http://mustache.github.com">mustache.github.com</a></div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Mustache.js in PostgreSQL</h2>
+      <h3>plv8</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+        create or replace function mustache(template text, view json)
+        returns text as $$
+          // …400 lines of mustache.js…
+          return Mustache.to_html(template, JSON.parse(view))
+        $$ LANGUAGE plv8 IMMUTABLE STRICT;
+      </pre>
+      <pre class="prettyprint" data-lang="sql">
+        select mustache(
+          'hello {{#things}}{{.}} {{/things}}:) {{#data}}{{key}}{{/data}}',
+          '{"things": ["world", "from", "postgresql"], "data": {"key": "and me"}}'
+        );
+                         mustache
+          ---------------------------------------
+           hello world from postgresql :) and me
+          (1 row)
+
+          Time: 0.837 ms
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Ltree</h2>
+      <h3>Extensions</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <p>Ways to store tree in RDBMS:</p>
+          <ul>
+            <li>Parent-child</li>
+            <li>Materialized Path</li>
+            <li>Nested Sets</li>
+          </ul>
+        </div>
+        <div>
+          <p>Ltree - an extension that allows you to store tree structures in the form of tags, as well as providing opportunities to find them</p>
+          <ul>
+            <li>Implementation of the algorithm Materialized Path (fast enough as to write and read)</li>
+            <li>Usually the decision will be faster than using the CTE (Common Table Expressions) or a recursive function (constantly be recalculated branch)</li>
+            <li>Integrated search mechanisms</li>
+            <li>Indexes</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Another list of good extensions</h2>
+      <h3>Extensions</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <div>
+          <ul>
+            <li>PostPic</li>
+            <li>Pg_repack</li>
+            <li>Smlar</li>
+            <li>Pgaudit</li>
+            <li>Texcaller</li>
+            <li>PgMemcache</li>
+            <li>Prefix</li>
+            <li>Pgloader</li>
+            <li>Cstore_fdw</li>
+            <li>Pg_shard</li>
+          </ul>
+        </div>
+        <div class="centered">
+          <img src="images/extensions.png" alt="Extensions" style="width: 460px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+
 
   <slide class="thank-you-slide segue dark nobackground">
     <aside class="gdbar right"><img src="images/db-icon.png"></aside>
