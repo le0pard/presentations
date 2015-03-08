@@ -479,83 +479,6 @@
 
   <slide>
     <hgroup>
-      <h2>Flexible Indexes</h2>
-    </hgroup>
-    <article>
-      <div class="centered">
-        <table>
-          <tbody>
-            <tr>
-              <th></th>
-              <th>MySQL</th>
-              <th>PostgreSQL</th>
-              <th>MS SQL</th>
-              <th>Oracle</th>
-            </tr>
-            <tr>
-              <th>B-Tree index</th>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-            </tr>
-            <tr>
-              <th>Spatial indexes</th>
-              <td>R-Tree</td>
-              <td>Rtree_GiST</td>
-              <td>Grid-based spatial index</td>
-              <td>R-Tree, Quadtree</td>
-            </tr>
-            <tr>
-              <th>Hash index</th>
-              <td>Only in memory tables</td>
-              <td class="highlight">Yes</td>
-              <td>No</td>
-              <td>No</td>
-            </tr>
-            <tr>
-              <th>Bitmap index</th>
-              <td>No</td>
-              <td class="highlight">Yes</td>
-              <td>No</td>
-              <td class="highlight">Yes</td>
-            </tr>
-            <tr>
-              <th>Reverse index</th>
-              <td>No</td>
-              <td>No</td>
-              <td>No</td>
-              <td class="highlight">Yes</td>
-            </tr>
-            <tr>
-              <th>Inverted index</th>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-            </tr>
-            <tr>
-              <th>Partial index</th>
-              <td>No</td>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-              <td>No</td>
-            </tr>
-            <tr>
-              <th>Function based index</th>
-              <td>No</td>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-              <td class="highlight">Yes</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
       <h2>Arrays</h2>
       <h3>Flexible Datatypes</h3>
     </hgroup>
@@ -1163,7 +1086,7 @@
 
   <slide>
     <hgroup>
-      <h2>shared_buffers (&lt;= 9.3)</h2>
+      <h2>shared_buffers (&lt; 9.3)</h2>
       <h3>PostgreSQL settings</h3>
     </hgroup>
     <article>
@@ -1369,6 +1292,83 @@
         <li>An index build with the CONCURRENTLY option failed, leaving an "invalid" index</li>
       </ul>
       <p>REINDEX is similar to a drop and recreate of the index in that the index contents are rebuilt from scratch</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Flexible Indexes</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <table>
+          <tbody>
+            <tr>
+              <th></th>
+              <th>MySQL</th>
+              <th>PostgreSQL</th>
+              <th>MS SQL</th>
+              <th>Oracle</th>
+            </tr>
+            <tr>
+              <th>B-Tree index</th>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+            </tr>
+            <tr>
+              <th>Spatial indexes</th>
+              <td>R-Tree</td>
+              <td>Rtree_GiST</td>
+              <td>Grid-based spatial index</td>
+              <td>R-Tree, Quadtree</td>
+            </tr>
+            <tr>
+              <th>Hash index</th>
+              <td>Only in memory tables</td>
+              <td class="highlight">Yes</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <th>Bitmap index</th>
+              <td>No</td>
+              <td class="highlight">Yes</td>
+              <td>No</td>
+              <td class="highlight">Yes</td>
+            </tr>
+            <tr>
+              <th>Reverse index</th>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td class="highlight">Yes</td>
+            </tr>
+            <tr>
+              <th>Inverted index</th>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+            </tr>
+            <tr>
+              <th>Partial index</th>
+              <td>No</td>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <th>Function based index</th>
+              <td>No</td>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+              <td class="highlight">Yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </article>
   </slide>
 
@@ -1647,6 +1647,29 @@
               <li><b>No failover and load balancing</b></li>
             </ul>
           </li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>The history of replication in PostgreSQL</h2>
+      <h3>Replication</h3>
+    </hgroup>
+    <article>
+      <div>
+        <ul>
+          <li><b>2001</b>: PostgreSQL 7.1: write-ahead log</li>
+          <li><b>2004</b>: Slony</li>
+          <li><b>2005</b>: PostgreSQL 8.0: point-in-time recovery</li>
+          <li><b>2008</b>: PostgreSQL 8.3: pg_standby</li>
+          <li><b>2010</b>: PostgreSQL 9.0: hot standby, streaming replication</li>
+          <li><b>2011</b>: PostgreSQL 9.1: pg_basebackup, synchronous replication</li>
+          <li><b>2012</b>: PostgreSQL 9.2: cascading replication</li>
+          <li><b>2013</b>: PostgreSQL 9.3: standby can follow timeline switch</li>
+          <li><b>2014</b>: PostgreSQL 9.4: replication slots, logical decoding</li>
+          <li><b>2015</b>? PostgreSQL 9.5? pg_rewind?</li>
         </ul>
       </div>
     </article>
@@ -1949,6 +1972,7 @@
         <ul>
           <li>Pl/Proxy (SkyTools)</li>
           <li>Postgres-XC, Postgres-XL</li>
+          <li>Pg_shard</li>
           <li>GridSQL</li>
           <li>Greenplum</li>
         </ul>
@@ -1956,6 +1980,37 @@
           <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 400px">
         </div>
       </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Pl/Proxy</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="sql">
+
+  CREATE OR REPLACE FUNCTION
+  public.get_cluster_partitions(cluster_name text)
+    RETURNS SETOF text AS
+  $BODY$
+  BEGIN
+    IF cluster_name = 'usercluster' THEN
+      RETURN NEXT 'dbname=plproxytest host=node1 user=postgres';
+      RETURN NEXT 'dbname=plproxytest host=node2 user=postgres';
+      RETURN;
+    END IF;
+    RAISE EXCEPTION 'Unknown cluster';
+  END;
+  $BODY$
+    LANGUAGE 'plpgsql' VOLATILE
+    COST 100
+    ROWS 1000;
+  ALTER FUNCTION public.get_cluster_partitions(text)
+  OWNER TO postgres;
+
+      </pre>
     </article>
   </slide>
 
