@@ -2016,6 +2016,55 @@
 
   <slide>
     <hgroup>
+      <h2>Pg_shard</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="sql">
+
+  CREATE EXTENSION pg_shard;
+
+  CREATE TABLE customer_reviews
+  (
+      customer_id TEXT NOT NULL,
+      review_date DATE,
+      review_rating INTEGER
+  );
+
+
+  SELECT master_create_distributed_table('customer_reviews', 'customer_id');
+
+  SELECT master_create_worker_shards('customer_reviews', 16, 2);
+
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Pg_shard Limitations</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <h3>Architectural decisions:</h3>
+        <ul>
+          <li>Transactional semantics for queries that span across multiple shards. For example, you're a financial institution and you sharded your data based on customer_id. You'd now like to withdraw money from one customer's account and debit it to another one's account, in a single transaction block</li>
+          <li>Unique constraints on columns other than the partition key, or foreign key constraints</li>
+          <li>Distributed JOINs also aren't supported</li>
+        </ul>
+        <h3>Unsupported features:</h3>
+        <ul>
+          <li>Table alterations are not supported: customers who do need table alterations accomplish them by using a script that propagates such changes to all worker nodes</li>
+          <li>DROP TABLE does not have any special semantics when used on a distributed table. An upcoming release will add a shard cleanup command to aid in removing shard objects from worker nodes</li>
+          <li>Queries such as INSERT INTO foo SELECT bar, baz FROM qux are not supported</li>
+        </ul>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Radical Additional Options</h2>
       <h3>Clustering</h3>
     </hgroup>
