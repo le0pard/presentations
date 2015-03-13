@@ -1973,7 +1973,7 @@
           <li>Pl/Proxy (SkyTools)</li>
           <li>Postgres-XC, Postgres-XL</li>
           <li>Pg_shard</li>
-          <li>GridSQL</li>
+          <li>Stado (sequel to GridSQL)</li>
           <li>Greenplum</li>
         </ul>
         <div class="centered">
@@ -2011,6 +2011,39 @@
   OWNER TO postgres;
 
       </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Postgres-XC</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article>
+      <div class="columns-2">
+        <ul>
+          <li>Write‐scalable PostgreSQL cluster (more than 3x scalability performance speedup with five servers, compared with pure PostgreSQL)</li>
+          <li>Synchronous multi‐master configuration (any update to any master is visible from other masters immediately)</li>
+          <li>Table location transparent</li>
+          <li>Based upon PostgreSQL</li>
+          <li>Same API to Apps as PostgreSQL</li>
+        </ul>
+        <div class="centered">
+          <img src="images/Postgers_XC.jpg" alt="postgres-xc" style="width: 400px" />
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Postgres-XC</h2>
+      <h3>Clustering</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/postgres-xc-02.png" alt="postgres-xc" style="height: 450px" />
+      </div>
     </article>
   </slide>
 
@@ -2145,7 +2178,7 @@
 
   <slide>
     <hgroup>
-      <h2>Extensions</h2>
+      <h2>Contrib Extensions</h2>
     </hgroup>
     <article>
       <div class="columns-2">
