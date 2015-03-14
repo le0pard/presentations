@@ -1197,7 +1197,7 @@
     <article>
       <ul>
         <li>kernel with CONFIG_HUGETLBFS=y and CONFIG_HUGETLB_PAGE=y</li>
-        <li>huge_pages = try|on|of (9.4+)</li>
+        <li>huge_pages = try|on|off (9.4+)</li>
         <li>echo never &gt; /sys/kernel/mm/transparent_hugepage/defrag</li>
         <li>echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled</li>
       </ul>
@@ -1246,7 +1246,7 @@
       <p>Index refers to the predicate WHERE</p>
       <pre class="prettyprint" data-lang="sql">
         CREATE INDEX access_log_client_ip_ix ON access_log (client_ip)
-        <b>WHERE NOT (client_ip > inet '192.168.100.0' AND
+        <b>WHERE (client_ip > inet '192.168.100.0' AND
                    client_ip < inet '192.168.100.255');</b>
       </pre>
       <p>for selects</p>
