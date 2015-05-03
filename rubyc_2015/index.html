@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Infrastructure Automation with Chef, Ansible, Docker</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/bright/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Infrastructure Automation with Chef, Ansible, Docker</h1>
+		<p>Alexey Vasiliev, Railsware</p>
+	</header>
+
+	<section class="slide" id="Cover"><div>
+		<h2>Infrastructure Automation with Chef, Ansible, Docker</h2>
+		<p><a href="http://leopard.in.ua">Alexey Vasiliev</a>, Railsware</p>
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin:30px 0 0;
+        text-align:center;
+				font-size:75px;
+        font-weight: bold;
+				}
+			#Cover p {
+				margin:50px 0 0;
+				text-align:center;
+				font-size:25px;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="AboutMeSlide"><div>
+		<h2>Alexey Vasiliev</h2>
+		<ul>
+			<li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), Linux and databases administrator</li>
+			<li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+      <li>Open-Source books: <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a>, <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a></li>
+      <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="InfrastructureDefSlide"><div>
+		<h2>Application Infrastructure</h2>
+		<p>A high <strong>performance</strong>, <strong>reliable</strong>, and <strong>secure</strong> integrated technology infrastructure for managing multiple hosted applications by Application Service Providers</p>
+    <p>Application infrastructure, comprised of application servers, web servers, and often database servers, is a core component in most network architectures</p>
+	</div></section>
+
+	<section class="slide" id="WhatIsDevOpsSlide"><div>
+		<h2>DevOps</h2>
+		<p><strong>DevOps</strong> is a software development method that stresses communication, collaboration, integration, automation, and measurement of cooperation between software developers and other information-technology professionals</p>
+	</div></section>
+
+	<section class="slide" id="DevOpsHelpSlide"><div>
+		<h2>Benefits of DevOps</h2>
+		<ul>
+      <li>Technical benefits:
+        <ul>
+          <li>Continuous software delivery</li>
+          <li>Less complex problems to fix</li>
+          <li>Faster resolution of problems</li>
+        </ul>
+      </li>
+      <li>Business benefits:
+        <ul>
+          <li>Faster delivery of features</li>
+          <li>More stable operating environments</li>
+          <li>More time available to add value (rather than fix/maintain)</li>
+        </ul>
+      </li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="CAMSSlide"><div>
+		<h2>Devops is About CAMS</h2>
+		<ul>
+      <li><strong>Culture</strong> - people and process first.  If you don't have culture, all automation attempts will be fruitless</li>
+      <li><strong>Automation</strong></li>
+      <li><strong>Measurement</strong> - if you can't measure, you can't improve</li>
+      <li><strong>Sharing</strong> - creating a culture where people share ideas and problems is critical</li>
+    </ul>
+    <p>Devops is not a plan, it's a reaction; Devops is not a product</p>
+	</div></section>
+
+	<section class="slide cover w h" id="AutomateAllCoverSlide"><div>
+    <img src="pictures/automate-all-the-things.png" alt="automate-all-the-things" />
+	</div></section>
+
+	<section class="slide" id="PhoenixCover"><div>
+    <img src="pictures/dev_ops_cover.png" class="place l"  alt="DevOps Cookbook" />
+    <img src="pictures/phoenixproject.png" class="place r"  alt="Phoenix Project" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#PhoenixCover img {
+				height: 90%;
+        margin: 0 10px;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="DevOpsSystemsSlide"><div>
+		<h2>Configuration management software</h2>
+		<ul>
+      <li>Chef</li>
+      <li>Puppet</li>
+      <li>Ansible</li>
+      <li>SaltStack</li>
+      <li>CFEngine</li>
+      <li>Juju</li>
+      <li>many others</li>
+		</ul>
+    <img src="pictures/DevOpsDays.png" class="place r b" alt="DevOps" />
+		<style>
+      #DevOpsSystemsSlide {
+        background: #FFF;
+      }
+			#DevOpsSystemsSlide img {
+				width: 600px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="ChefBeginningSlide"><div>
+		<h2>Chef</h2>
+		<ul>
+      <li>Chef Solo
+        <ul>
+          <li>Runs locally (push model)</li>
+          <li>Simple for beginning and small amount of nodes</li>
+        </ul>
+      </li>
+      <li>Chef Server
+        <ul>
+          <li>Server/Client model (pull model)</li>
+          <li>Good for big amount of nodes (servers)</li>
+          <li>Node data storage</li>
+          <li>Search indexes</li>
+          <li>A centralized API that interacts with and integrates infrastructure components</li>
+        </ul>
+      </li>
+		</ul>
+    <img src="pictures/chef_logo.png" class="place r t" alt="Chef" />
+		<style>
+      #ChefBeginningSlide {
+        background: #FFF;
+      }
+			#ChefBeginningSlide img {
+				width: 300px;
+        right: 100px;
+        top: 50px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover h" id="ChefFigSlide"><div>
+    <img src="pictures/overview_chef_draft.png" alt="Chef" />
+		<style>
+      #ChefFigSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="ChefBenefitsSlide"><div>
+		<h2>Chef benefits</h2>
+    <figure>
+      <blockquote>
+        <p>Chef is like unit tests for your servers</p>
+      </blockquote>
+      <figcaption>Ezra Zygmuntowicz</figcaption>
+    </figure>
+		<ul>
+      <li>Ruby DSL</li>
+      <li>Good dependency systems: Berkshelf, librarian-chef</li>
+      <li><a href="https://supermarket.chef.io/">+2000 vendor cookbooks</a></li>
+      <li>Good team workflow</li>
+      <li>Huge amount of testing tools</li>
+      <li>Support Windows</li>
+		</ul>
+    <img src="pictures/chef_logo.png" class="place r t" alt="Chef" />
+		<style>
+      #ChefBenefitsSlide {
+        background: #FFF;
+      }
+			#ChefBenefitsSlide img {
+				width: 300px;
+        right: 100px;
+        top: 50px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="ChefTestingSlide"><div>
+    <h2>Chef testing tools</h2>
+    <ul>
+      <li>ChefSpec, ServerSpec, Bats</li>
+      <li>Test Kitchen</li>
+      <li>Chef Zero</li>
+      <li>Minitest</li>
+      <li>Fauxhai</li>
+      <li>Cucumber</li>
+      <li>Foodcritic</li>
+    </ul>
+    <img src="pictures/tdd.png" class="place r b" alt="Chef TDD" />
+		<style>
+      #ChefTestingSlide {
+        background: #FFF;
+      }
+			#ChefTestingSlide img {
+				width: 400px;
+        right: 200px;
+        bottom: 100px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="ChefDisadvantagesSlide"><div>
+    <h2>Chef disadvantages</h2>
+    <ul>
+      <li>You need to know Ruby (infrastructure as code)</li>
+      <li>Need to install Chef Client on nodes</li>
+      <li>Different teams with different approaches</li>
+      <li>Chef Client can be broken (example, Rubygems Sandbox in 12 version)</li>
+      <li>Documentation is not perfect</li>
+      <li>Too many tools and options</li>
+    </ul>
+    <img src="pictures/disadvantages.jpg" class="place r t" alt="Chef TDD" />
+		<style>
+      #ChefDisadvantagesSlide {
+        background: #FFF;
+      }
+			#ChefDisadvantagesSlide img {
+				width: 300px;
+        right: 60px;
+        top: 20px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover h" id="ChefBookSlide"><div>
+    <img src="pictures/chef_book.png" alt="Chef Book" />
+		<style>
+      #ChefBookSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="AnsibleBeginningSlide"><div>
+		<h2>Ansible</h2>
+		<ul>
+      <li>Runs locally (push model, like Chef Solo)</li>
+      <li>Client-less (need only Python)</li>
+      <li>YAML configs, "command to infrastructure"</li>
+      <li>Huge community</li>
+      <li>Ansible Tower for more automation</li>
+		</ul>
+    <img src="pictures/ansible_logo.png" class="place r t" alt="Ansible" />
+		<style>
+      #AnsibleBeginningSlide {
+        background: #FFF;
+      }
+			#AnsibleBeginningSlide img {
+				width: 300px;
+        right: 100px;
+        top: 50px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover w" id="AnsibleFigSlide"><div>
+    <img src="pictures/ansible_fig.png" alt="Ansible architecture" />
+		<style>
+      #AnsibleFigSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="AnsibleDisadvantagesSlide"><div>
+    <h2>Ansible disadvantages</h2>
+    <ul>
+      <li>Bad team workflow</li>
+      <li>Small flexibility in coding</li>
+      <li>Poor development testing</li>
+      <li>No support for Windows <br />(from 1.7 can use winrm, <br />but still not perfect and small amount of modules)</li>
+    </ul>
+    <img src="pictures/halting_problem.png" class="place r t" alt="Ansible Cons" />
+		<style>
+      #AnsibleDisadvantagesSlide {
+        background: #FFF;
+      }
+			#AnsibleDisadvantagesSlide img {
+				width: 400px;
+        right: 150px;
+        top: 200px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover h" id="AnsibleBookSlide"><div>
+    <img src="pictures/ansible_book.png" alt="Ansible Book" />
+		<style>
+      #AnsibleBookSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2015 Alexey Vasiliev, Railsware -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
