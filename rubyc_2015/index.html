@@ -315,7 +315,206 @@
 		</style>
 	</div></section>
 
+	<section class="slide cover" id="DockerBeginningSlide"><div>
+		<h2>Docker</h2>
+		<ul>
+      <li>Operating system-level virtualization (cgroups + namespaces + API)</li>
+      <li>Libcontainer (default), libvirt, LXC (Linux Containers) and systemd-nspawn (multiple containers share the same kernel)</li>
+      <li>Simple configuration and distribution</li>
+      <li>Huge community, support by AWS, Google Cloud Platform, Microsoft Azure, IBM SoftLayer, Rackspace Cloud, etc.</li>
+		</ul>
+    <img src="pictures/docker-logo.png" class="place r t" alt="Docker" />
+		<style>
+      #DockerBeginningSlide {
+        background: #FFF;
+      }
+			#DockerBeginningSlide img {
+				width: 300px;
+        right: 100px;
+        top: 50px;
+			}
+		</style>
+	</div></section>
 
+	<section class="slide cover h" id="DockerFigSlide"><div>
+    <img src="pictures/docker-architecture.jpg" alt="Docker architecture" />
+		<style>
+      #DockerFigSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide cover h" id="DockerFig2Slide"><div>
+    <img src="pictures/docker-all-the-things.png" alt="Docker all the things" />
+		<style>
+      #DockerFig2Slide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide cover h" id="DockerTrendsSlide"><div>
+    <img src="pictures/docker-trends.jpg" alt="DockerTrendsSlide" />
+		<style>
+      #DockerTrendsSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="MicroservicesQuote1Slide"><div>
+		<h2>Microservices</h2>
+    <figure>
+      <blockquote>
+        <p>If you can't build a monolith, what makes you think microservices are the answer?</p>
+      </blockquote>
+      <figcaption>Simon Brown</figcaption>
+    </figure>
+		<style>
+      #MicroservicesQuote1Slide {
+        background: #FFF;
+      }
+			#MicroservicesQuote1Slide blockquote p {
+				font-size: 2.5rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover h" id="MicroservicesRailsSlide"><div>
+		<img src="pictures/rails_monolitic.png" alt="MicroservicesRailsSlide" />
+		<style>
+      #MicroservicesRailsSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="MicroservicesQuote2Slide"><div>
+		<h2>Microservices</h2>
+    <figure>
+      <blockquote>
+        <p>These services need to be able to change independently of each other, and be deployed by themselves without requiring consumers to change.</p>
+      </blockquote>
+      <figcaption>Sam Newman</figcaption>
+    </figure>
+    <figure>
+      <blockquote>
+        <p>A single deployable service should be no bigger than a bounded context, but no smaller than an aggregate.</p>
+      </blockquote>
+      <figcaption>Ben Morris</figcaption>
+    </figure>
+		<style>
+      #MicroservicesQuote2Slide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide cover h" id="DockerPaasSlide"><div>
+    <img src="pictures/docker-paas.png" alt="DockerPaasSlide" />
+		<style>
+      #DockerPaasSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="DockerUseCasesSlide"><div>
+    <h2>Docker Use Cases</h2>
+    <ul>
+      <li>Own PaaS (it is hard!!!)</li>
+      <li>Software distribution</li>
+      <li>Fast sandbox environment (CI, user defined scripts, custom workers, build systems, etc.)</li>
+      <li>Debugging capabilities (avoiding "It works on my machine" syndrome)</li>
+    </ul>
+    <img src="pictures/docker-usecases.png" class="place r t" alt="DockerUseCasesSlide" />
+		<style>
+      #DockerUseCasesSlide {
+        background: #FFF;
+      }
+			#DockerUseCasesSlide img {
+				width: 300px;
+        right: 60px;
+        top: 20px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover h" id="DockerToolsSlide"><div>
+    <img src="pictures/docker-tools.jpg" alt="DockerToolsSlide" />
+		<style>
+      #DockerToolsSlide {
+        background: #FFF;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="DockerDisadvantagesSlide"><div>
+    <h2>Docker disadvantages</h2>
+    <ul>
+      <li>Only Docker isn't enough to build PaaS</li>
+      <li>Still need configuration management (CM) tool, service discovery, etc.</li>
+      <li>Non-root operations inside container</li>
+      <li>Not good at linking across separate servers or VMs</li>
+      <li>Not good at isolating Linux Containers from each other (shared kernel)</li>
+    </ul>
+    <img src="pictures/docker-cons.png" class="place r t" alt="Docker Disadvantages" />
+		<style>
+      #DockerDisadvantagesSlide {
+        background: #FFF;
+      }
+			#DockerDisadvantagesSlide img {
+				width: 400px;
+        right: 50px;
+        top: 50px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="SummarySlide"><div>
+    <h2>Summary</h2>
+    <ul>
+      <li>DevOps isn't tool, it is process</li>
+      <li>Chef: Ruby code as infrastructure</li>
+      <li>Ansible: command to infrastructure, client-less</li>
+      <li>Docker: containers for development and distrubution</li>
+      <li>With great power comes great responsibility</li>
+    </ul>
+    <img src="pictures/devops_summary.png" class="place r t" alt="SummarySlide" />
+		<style>
+      #SummarySlide {
+        background: #FFF;
+      }
+			#SummarySlide img {
+				width: 400px;
+        right: 50px;
+        top: 50px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">github.com/le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide {
+        background: #FFF;
+      }
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
 
 	<!--
 		To hide progress bar from entire presentation
