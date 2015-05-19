@@ -51,9 +51,8 @@
     <p>Application infrastructure, comprised of application servers, web servers, and often database servers, is a core component in most network architectures</p>
 	</div></section>
 
-	<section class="slide" id="WhatIsDevOpsSlide"><div>
-		<h2>DevOps</h2>
-		<p><strong>DevOps</strong> is a software development method that stresses communication, collaboration, integration, automation, and measurement of cooperation between software developers and other information-technology professionals</p>
+	<section class="slide cover h" id="WhatIsDevOpsSlide"><div>
+    <img src="pictures/devops-fry.jpg" alt="DevOps" />
 	</div></section>
 
 	<section class="slide" id="DevOpsHelpSlide"><div>
@@ -74,6 +73,14 @@
         </ul>
       </li>
 		</ul>
+    <img src="pictures/devops_benefits.png" class="place r t" alt="Benefits of DevOps" />
+		<style>
+			#DevOpsHelpSlide img {
+				width: 400px;
+        right: 60px;
+        top: 200px;
+			}
+		</style>
 	</div></section>
 
 	<section class="slide" id="CAMSSlide"><div>
@@ -106,7 +113,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="DevOpsSystemsSlide"><div>
+	<section class="slide" id="DevOpsSystemsSlide"><div>
 		<h2>Configuration management software</h2>
 		<ul>
       <li>Chef</li>
@@ -119,16 +126,13 @@
 		</ul>
     <img src="pictures/DevOpsDays.png" class="place r b" alt="DevOps" />
 		<style>
-      #DevOpsSystemsSlide {
-        background: #FFF;
-      }
 			#DevOpsSystemsSlide img {
 				width: 600px;
 			}
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="ChefBeginningSlide"><div>
+	<section class="slide" id="ChefBeginningSlide"><div>
 		<h2>Chef</h2>
 		<ul>
       <li>Chef Solo
@@ -149,9 +153,6 @@
 		</ul>
     <img src="pictures/chef_logo.png" class="place r t" alt="Chef" />
 		<style>
-      #ChefBeginningSlide {
-        background: #FFF;
-      }
 			#ChefBeginningSlide img {
 				width: 300px;
         right: 100px;
@@ -169,7 +170,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="ChefBenefitsSlide"><div>
+	<section class="slide" id="ChefBenefitsSlide"><div>
 		<h2>Chef benefits</h2>
     <figure>
       <blockquote>
@@ -187,9 +188,6 @@
 		</ul>
     <img src="pictures/chef_logo.png" class="place r t" alt="Chef" />
 		<style>
-      #ChefBenefitsSlide {
-        background: #FFF;
-      }
 			#ChefBenefitsSlide img {
 				width: 300px;
         right: 100px;
@@ -198,7 +196,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="ChefTestingSlide"><div>
+	<section class="slide" id="ChefTestingSlide"><div>
     <h2>Chef testing tools</h2>
     <ul>
       <li>ChefSpec, ServerSpec, Bats</li>
@@ -211,9 +209,6 @@
     </ul>
     <img src="pictures/tdd.png" class="place r b" alt="Chef TDD" />
 		<style>
-      #ChefTestingSlide {
-        background: #FFF;
-      }
 			#ChefTestingSlide img {
 				width: 400px;
         right: 200px;
@@ -222,7 +217,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="ChefDisadvantagesSlide"><div>
+	<section class="slide" id="ChefDisadvantagesSlide"><div>
     <h2>Chef disadvantages</h2>
     <ul>
       <li>You need to know Ruby (infrastructure as code)</li>
@@ -232,11 +227,8 @@
       <li>Documentation is not perfect</li>
       <li>Too many tools and options</li>
     </ul>
-    <img src="pictures/disadvantages.jpg" class="place r t" alt="Chef TDD" />
+    <img src="pictures/disadvantages.jpg" class="place r t" alt="Chef Disadvantages" />
 		<style>
-      #ChefDisadvantagesSlide {
-        background: #FFF;
-      }
 			#ChefDisadvantagesSlide img {
 				width: 300px;
         right: 60px;
@@ -254,7 +246,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="AnsibleBeginningSlide"><div>
+	<section class="slide" id="AnsibleBeginningSlide"><div>
 		<h2>Ansible</h2>
 		<ul>
       <li>Runs locally (push model, like Chef Solo)</li>
@@ -265,9 +257,6 @@
 		</ul>
     <img src="pictures/ansible_logo.png" class="place r t" alt="Ansible" />
 		<style>
-      #AnsibleBeginningSlide {
-        background: #FFF;
-      }
 			#AnsibleBeginningSlide img {
 				width: 300px;
         right: 100px;
@@ -285,7 +274,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="AnsibleDisadvantagesSlide"><div>
+	<section class="slide" id="AnsibleDisadvantagesSlide"><div>
     <h2>Ansible disadvantages</h2>
     <ul>
       <li>Bad team workflow</li>
@@ -295,9 +284,6 @@
     </ul>
     <img src="pictures/halting_problem.png" class="place r t" alt="Ansible Cons" />
 		<style>
-      #AnsibleDisadvantagesSlide {
-        background: #FFF;
-      }
 			#AnsibleDisadvantagesSlide img {
 				width: 400px;
         right: 150px;
@@ -315,7 +301,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="DockerBeginningSlide"><div>
+	<section class="slide" id="DockerBeginningSlide"><div>
 		<h2>Docker</h2>
 		<ul>
       <li>Operating system-level virtualization (cgroups + namespaces + API)</li>
@@ -325,9 +311,6 @@
 		</ul>
     <img src="pictures/docker-logo.png" class="place r t" alt="Docker" />
 		<style>
-      #DockerBeginningSlide {
-        background: #FFF;
-      }
 			#DockerBeginningSlide img {
 				width: 300px;
         right: 100px;
@@ -420,7 +403,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="DockerUseCasesSlide"><div>
+	<section class="slide" id="DockerUseCasesSlide"><div>
     <h2>Docker Use Cases</h2>
     <ul>
       <li>Own PaaS (it is hard!!!)</li>
@@ -430,9 +413,6 @@
     </ul>
     <img src="pictures/docker-usecases.png" class="place r t" alt="DockerUseCasesSlide" />
 		<style>
-      #DockerUseCasesSlide {
-        background: #FFF;
-      }
 			#DockerUseCasesSlide img {
 				width: 300px;
         right: 60px;
@@ -450,7 +430,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="DockerDisadvantagesSlide"><div>
+	<section class="slide" id="DockerDisadvantagesSlide"><div>
     <h2>Docker disadvantages</h2>
     <ul>
       <li>Only Docker isn't enough to build PaaS</li>
@@ -461,9 +441,6 @@
     </ul>
     <img src="pictures/docker-cons.png" class="place r t" alt="Docker Disadvantages" />
 		<style>
-      #DockerDisadvantagesSlide {
-        background: #FFF;
-      }
 			#DockerDisadvantagesSlide img {
 				width: 400px;
         right: 50px;
@@ -472,7 +449,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="SummarySlide"><div>
+	<section class="slide" id="SummarySlide"><div>
     <h2>Summary</h2>
     <ul>
       <li>DevOps isn't tool, it is process</li>
@@ -483,9 +460,6 @@
     </ul>
     <img src="pictures/devops_summary.png" class="place r t" alt="SummarySlide" />
 		<style>
-      #SummarySlide {
-        background: #FFF;
-      }
 			#SummarySlide img {
 				width: 400px;
         right: 50px;
@@ -494,7 +468,7 @@
 		</style>
 	</div></section>
 
-	<section class="slide cover" id="QuestionsSlide"><div>
+	<section class="slide" id="QuestionsSlide"><div>
     <h2>&lt;Thank You!&gt; Questions?</h2>
     <div class="contacts">
       <h3>Contact information</h3>
@@ -506,9 +480,6 @@
     </div>
     <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
 		<style>
-      #QuestionsSlide {
-        background: #FFF;
-      }
       #QuestionsSlide .contacts {
         margin-top: 100px;
         margin-left: 450px;
