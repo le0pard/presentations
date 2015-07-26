@@ -1220,6 +1220,232 @@
 
   <slide>
     <hgroup>
+      <h2>What is index?</h2>
+      <h3>Indexes</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/pg_indexes1.png" alt="Indexes" style="height: 400px">
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Why we need indexes</h2>
+      <h3>Indexes</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Data search - all indexes support search values on equality. Some indexes also support prefix search (like "abc%"), arbitrary ranges search</li>
+        <li>Optimizer - B-Tree and R-Tree indexes represent a histogram arbitrary precision</li>
+        <li>Join - indexes can be used for Merge, Index algorithms</li>
+        <li>Relation - indexes can be used for except/intersect operations</li>
+        <li>Aggregations - indexes can effectively calculate some aggregation function (count, min, max, etc)</li>
+        <li>Grouping - indexes can effectively calculate the arbitrary grouping and aggregate functions (sort-group algorithm)</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>B-Tree index</h2>
+      <h3>Indexes</h3>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/btree1.gif" alt="B-Tree index" style="height: 400px">
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>B-Tree index</h2>
+    </hgroup>
+    <article>
+      <h3>Advantages:</h3>
+      <ul>
+        <li>Retain sorting data</li>
+        <li>Support the search for the unary and binary predicates</li>
+        <li>Allow the entire sequence of data to estimate cardinality (number of entries) for the entire index (and therefore the table), range, and with arbitrary precision without scanning</li>
+      </ul>
+      <h3>Disadvantages:</h3>
+      <ul>
+        <li>For their construction is require to perform a full sorting pairs (row, RowId) (slow operation)</li>
+        <li>Take up a lot of disk space. Index on unique "Integers" weights twice more as the column (because additionaly RowId need stored)</li>
+        <li>Recording unbalances tree constantly, and begins to store data sparsely, and the access time is increased by increasing the amount of disk information. What is why, B-Tree indexes require monitoring and periodic rebuilding</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>R-Tree index</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/pg_indexes2.jpg" alt="R-Tree index" style="height: 500px">
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>R-Tree index</h2>
+    </hgroup>
+    <article>
+      <h3>Advantages:</h3>
+      <ul>
+        <li>Search for arbitrary regions, points</li>
+        <li>Allows us to estimate the number of dots in a region without a full data scan</li>
+      </ul>
+      <h3>Disadvantages:</h3>
+      <ul>
+        <li>Significant redundancy in the data storage</li>
+        <li>Slow update</li>
+      </ul>
+      <p>In general, the pros-cons are very similar to B-Tree.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Hash index</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/hash_indexes.png" alt="Hash index" style="height: 500px">
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Hash index</h2>
+    </hgroup>
+    <article>
+      <h3>Advantages:</h3>
+      <ul>
+        <li>Very fast search O(1)</li>
+        <li>Stability - the index does not need to be rebuild</li>
+      </ul>
+      <h3>Disadvantages:</h3>
+      <ul>
+        <li>Hash is very sensitive to collisions. In the case of "bad" data distribution, most of the entries will be concentrated in a few bouquets, and in fact the search will occur through collision resolution</li>
+      </ul>
+      <p>As you can see, Hash indexes are only useful for equality comparisons, but you pretty much never want to use them since they are not transaction safe, need to be manually rebuilt after crashes, and are not replicated to followers in PostgreSQL.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Bitmap index</h2>
+    </hgroup>
+    <article>
+      <div class="centered">
+        <img src="images/bitmap.png" alt="Bitmap index" style="height: 500px">
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Bitmap index</h2>
+    </hgroup>
+    <article>
+      <h3>Advantages:</h3>
+      <ul>
+        <li>Compact representation (small amount of disk space)</li>
+        <li>Fast reading and searching for the predicate "is"</li>
+        <li>Effective algorithms for packing masks (even more compact representation, than indexed data)</li>
+      </ul>
+      <h3>Disadvantages:</h3>
+      <ul>
+        <li>You can not change the method of encoding values in the process of updating the data. From this it follows that if the distribution data has changed, it is required the index to be completely rebuild</li>
+      </ul>
+      <p>PostgreSQL is not provide persistent bitmap index. But it can be used in database to combine multiple indexes. PostgreSQL scans each needed index and prepares a bitmap in memory giving the locations of table rows that are reported as matching that index's conditions. The bitmaps are then ANDed and ORed together as needed by the query. Finally, the actual table rows are visited and returned.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>GiST index</h2>
+    </hgroup>
+    <article>
+      <p>Generalized Search Tree (GiST) indexes allow you to build general balanced tree structures, and can be used for operations beyond equality and range comparisons.</p>
+      <p>The essential difference lies in the organization of the key. B-Tree trees sharpened by search ranges, and hold a maximum subtree-child. R-Tree - the region on the coordinate plane. GiST offers as values ​​in the non-leaf nodes store the information that we consider essential, and which will determine if we are interested in values ​​(satisfying the predicate) in the subtree-child.</p>
+      <h3>Advantages:</h3>
+      <ul>
+        <li>Efficient search</li>
+      </ul>
+      <h3>Disadvantages:</h3>
+      <ul>
+        <li>Large redundancy</li>
+        <li>The specialized implementation for each query group are nessesary</li>
+      </ul>
+      <p>The rest of the pros-cons similar to B-Tree and R-Tree.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>GIN index</h2>
+    </hgroup>
+    <article>
+      <p>Generalized Inverted Indexes (GIN) are useful when an index must map many values to one row, whereas B-Tree indexes are optimized for when a row has a single key value. GINs are good for indexing array values as well as for implementing full-text search.</p>
+      <h3>Key features:</h3>
+      <ul>
+        <li>Well suited for full-text search</li>
+        <li>Look for a full match ("is", but not "less" or "more")</li>
+        <li>Well suited for semi-structured data search</li>
+        <li>Allows you to perform several different searches (queries) in a single pass</li>
+        <li>Scales much better than GiST (support large volumes of data)</li>
+        <li>Works well for frequent recurrence of elements (and therefore are perfect for full-text search)</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Block Range (BRIN) Indexes (9.5+)</h2>
+    </hgroup>
+    <article>
+      <p>BRIN stands for Block Range INdexes, and store metadata on a range of pages. At the moment this means the minimum and maximum values per block.</p>
+      <h3>Key features:</h3>
+      <ul>
+        <li>Hold "summary" data, instead of raw data</li>
+        <li>Reduce index size tremendously</li>
+        <li>Reduce creation/maintenance cost</li>
+        <li>Needs extra tuple fetch to get extra record</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Unique Indexes</h2>
+    </hgroup>
+    <article>
+      <p>A unique index guarantees that the table won’t have more than one row with the same value. It's advantageous to create unique indexes for two reasons: data integrity and performance. Lookups on a unique index are generally very fast.</p>
+      <p>There is little distinction between unique indexes and unique constraints. Unique indexes can be though of as lower level, since expression indexes and partial indexes cannot be created as unique constraints. Even partial unique indexes on expressions are possible.</p>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Multi-column Indexes</h2>
+    </hgroup>
+    <article>
+      <p>In general, you can create an index on every column that covers query conditions and in most cases Postgres will use them, so make sure to benchmark and justify the creation of a multi-column index before you create them. As always, indexes come with a cost, and multi-column indexes can only optimize the queries that reference the columns in the index in the same order, while multiple single column indexes provide performance improvements to a larger number of queries.</p>
+      <p>However there are cases where a multi-column index clearly makes sense. An index on columns (a, b) can be used by queries containing WHERE a = x AND b = y, or queries using WHERE a = x only, but will not be used by a query using WHERE b = y. So if this matches the query patterns of your application, the multi-column index approach is worth considering. Also note that in this case creating an index on a alone would be redundant.</p>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Functional Indexes</h2>
       <h3>Functional and Partial Indexes</h3>
     </hgroup>
