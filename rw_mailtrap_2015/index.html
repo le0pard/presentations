@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Mailtrap under microscope</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/bright/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Mailtrap under microscope</h1>
+		<p>Alexey Vasiliev, Railsware</p>
+	</header>
+
+	<section class="slide" id="Cover"><div>
+		<h2>Mailtrap under microscope</h2>
+		<p><a href="http://leopard.in.ua">Alexey Vasiliev</a>, Railsware</p>
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin:50px 0 0;
+        text-align:center;
+				font-size:75px;
+        font-weight: bold;
+				}
+			#Cover p {
+				margin:50px 0 0;
+				text-align:center;
+				font-size:25px;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="WhatIsMailtrap"><div>
+		<h2>What is Mailtrap?</h2>
+		<p>Mailtrap provides a fake SMTP server for your development team to test, view and share emails sent from the pre-production environments and test with real data without the risk of spamming real customers</p>
+	</div></section>
+
+	<section class="slide cover h" id="WhatIsMailtrapImg"><div>
+    <img src="pictures/mailtrap.png" alt="Mailtrap" />
+	</div></section>
+
+	<section class="slide" id="DevStack"><div>
+		<h2>Development Stack:</h2>
+		<ul>
+      <li><strong>Ruby</strong></li>
+      <li><strong>Golang</strong></li>
+      <li><strong>JavaScript</strong></li>
+      <li><strong>PostgreSQL</strong></li>
+      <li><strong>Redis</strong></li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="FrameworksStack"><div>
+		<h2>Frameworks:</h2>
+		<ul>
+      <li><strong>Ruby on Rails</strong></li>
+      <li><strong>Marionettejs (on top of backbone.js)</strong></li>
+      <li><strong>Faye for websocket, Sidekiq for background jobs</strong></li>
+      <li><strong>Chef Server(was Chef Solo)</strong></li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="WhyWeUseGolang"><div>
+		<h2>Why we use Golang?</h2>
+		<ul>
+      <li>Before we are using Ruby SMTP server and <br />Mail gem to parse emails. <br />It was simple and easy to extend</li>
+      <li>Ruby solution consume to many memory and <br />was slow to parse emails on high load</li>
+      <li>Golang provide for use speed and small <br />memory usage, but we wrote all from <br />scratch (SMTP server and parser)</li>
+		</ul>
+    <img src="pictures/gopherbw.png" class="place r t" alt="WhyWeUseGolang" />
+		<style>
+			#WhyWeUseGolang img {
+				width: 400px;
+        right: 30px;
+        top: 100px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="BenefitsOfGolang"><div>
+		<h2>Benefits of Golang</h2>
+		<ul>
+      <li>Compiled, concurrent, imperative</li>
+      <li>Structured programming language (not OOP or FP)</li>
+      <li>Simple to learn, strong static typed language</li>
+      <li>Goroutines, channels, and select</li>
+		</ul>
+    <img src="pictures/gopherbw.png" class="place r t" alt="BenefitsOfGolang" />
+		<style>
+			#BenefitsOfGolang img {
+				width: 400px;
+        right: 10px;
+        top: 100px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="HowSystemWorks"><div>
+		<h2>How system works:</h2>
+		<ul>
+      <li>Golang daemons accept emails by SMTP protocol, parse its and store to PostgreSQL database</li>
+      <li>Ruby on Rails read data from database and provide by REST API</li>
+      <li>JS SPA show for customers emails by using the same REST API</li>
+      <li>Redis is using for cache, queues, websocket communications</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="PostgreSQLTips"><div>
+		<h2>PostgreSQL tips:</h2>
+		<ul>
+      <li>For often INSETS/DELETE tables need "VACUUM FULL" (table bloating - in our case, messages table was 27GB, after "vacuum full" - 20GB). For zero downtime we can use <a href="https://github.com/reorg/pg_repack">pg_repack</a></li>
+      <li>Increase checkpoint_segments and checkpoint_completion_target=0.9 for high INSERT/UPDATE system (need more space and restore time)</li>
+      <li>Ordered need for database: memory, hard drive io, cpu</li>
+      <li>Backup database continuously (wal-e or barman)</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="RedisTips"><div>
+		<h2>Redis tips:</h2>
+		<ul>
+      <li>Tune linux kernel for allow more tcp connections</li>
+      <li>Play with "save" options for hight load: 900 1, 300 10, 60 10000</li>
+      <li>Use TTL for all operations: store sessions, cache data, etc.</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="NginxTips"><div>
+		<h2>Nginx tips:</h2>
+		<ul>
+      <li>SPDY (HTTPS) is your friend (until you not using ELB)</li>
+      <li>Proxy webscokets</li>
+      <li>Proxy Protocol + ELB</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="UnicornTips"><div>
+		<h2>Unicorn tips:</h2>
+		<ul>
+      <li>Zero downtime restart (USR2) - must</li>
+      <li>Simple to proxy by unix socket, but harder to debug</li>
+      <li>Unicorn::OobGC (ruby 2.1+) if you sure about your memory (and better use with unicorn-worker-killer)</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="PumaTips"><div>
+		<h2>Puma tips:</h2>
+		<ul>
+      <li>Puma in cluster + threads (Good for MRI, but not perfect). Using for websocket</li>
+      <li>Max websockets you can handle: number of servers * (cluster num * threads num)</li>
+      <li>Faye + redis for websocket</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="JSTips"><div>
+		<h2>JS tips:</h2>
+		<ul>
+      <li>Marionettejs (on top of backbone.js + underscore.js)</li>
+      <li>jQuery, Modernizr, FastClick, RaphaelJS, Moment.js, Nprogress, HighlightJS, Card.js</li>
+      <li>Speed up technics: AppCache, Flexbox, special gems</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="OpenSource"><div>
+		<h2>And I will make open-source</h2>
+    <h3><a href="https://github.com/le0pard/go-falcon">Go-Falcon</a> - storage of mail messages in a relational database</h3>
+    <ul>
+      <li>SMTP and POP3 server</li>
+      <li>Support master and child modes with round-robin balancing by tcp socket</li>
+      <li>Support proxy behind nginx and auth</li>
+      <li>Support TLS</li>
+      <li>Support table partitioning</li>
+    </ul>
+	</div></section>
+
+
+
+	<section class="slide" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">github.com/le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2015 Alexey Vasiliev, Railsware -->
+</body>
+</html>
