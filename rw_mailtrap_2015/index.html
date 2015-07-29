@@ -113,7 +113,7 @@
 	<section class="slide" id="PostgreSQLTips"><div>
 		<h2>PostgreSQL tips:</h2>
 		<ul>
-      <li>For often INSETS/DELETE tables need "VACUUM FULL" (table bloating - in our case, messages table was 27GB, after "vacuum full" - 20GB). For zero downtime we can use <a href="https://github.com/reorg/pg_repack">pg_repack</a></li>
+      <li>For often INSERT/DELETE tables need "VACUUM FULL" (table bloating - in our case, messages table was 27GB, after "vacuum full" - 20GB). For zero downtime we can use <a href="https://github.com/reorg/pg_repack">pg_repack</a></li>
       <li>Increase checkpoint_segments and checkpoint_completion_target=0.9 for high INSERT/UPDATE system (need more space and restore time)</li>
       <li>Ordered need for database: memory, hard drive io, cpu</li>
       <li>Backup database continuously (wal-e or barman)</li>
