@@ -40,8 +40,8 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
-          <img src="images/photo.jpg" alt="me" style="height: 525px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/photo.jpg" alt="me" style="height: 525px; display:block" />
         </div>
         <ul>
           <li>8+ years experience
@@ -56,7 +56,6 @@
               <li>RWbox, ElixirV8, Go-kinesis</li>
               <li>WebP-ffi, Zopfli-ffi</li>
               <li>MongodbLogger for Rails</li>
-              <li>Piro - Chrome extension for PivotalTracker</li>
               <li>SMTRails and SHTRails (shared templates for rails)</li>
             </ul>
           </li>
@@ -71,11 +70,13 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/pg_book_cover.png" alt="Pg book" style="height: 500px" />
+          <p></p>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/chef_book_cover.png" alt="Chef book" style="height: 500px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -95,7 +96,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <p>Edgar Codd is the author of the 'relational' concept</p>
           <ul>
             <li>each element of the table is a data element;</li>
@@ -105,8 +106,9 @@
             <li>the order of the rows and columns can be arbitrary.</li>
           </ul>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/Edgar_F_Codd.jpg" alt="Edgar_F_Codd" style="height: 500px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -118,12 +120,13 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <p>For the first time the term "NoSQL" was used in the late 90's. The real meaning of the form used now got only in the middle 2009. Originally, it was a title of the open-source database created by Carlo Strozzi, which stores all data as ASCII files and used shell scripts instead of SQL to access data.</p>
           <p>The term "NoSQL" has absolutely natural origin and has no universally accepted definition or scientific institution behind. This title is rather characterized by the vector of development of IT away from relational databases</p>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/carlo-strozzi.jpg" alt="carlo-strozzi" style="height: 500px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -136,20 +139,20 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <h3>Advantages</h3>
           <ul>
             <li>It is possible to compress data significantly, because in a single column of the table, the data is usually in the same type;</li>
             <li>Allows on a cheap and low-powered hardware to boost the speed for the query performance in the 5, 10 and sometimes even 100 times, thus, due to compression, the data on the drive will take 5-10 times less space than in the case of the traditional RDBMS</li>
           </ul>
         </div>
-        <div>
+        <div style="height: 100%">
           <h3>Disadvantages</h3>
           <ul>
             <li>In general there are no transactions;</li>
             <li>Have a number of limitations for the developer who is used to the developed traditional RDBMS</li>
           </ul>
-          <br /><br /><br /><br /><br />
+          <br /><br /><br /><br /><br /><br />
         </div>
       </div>
     </article>
@@ -162,7 +165,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <h3>Advantages</h3>
           <ul>
             <li>RDBMS are too slow, have heavy layer of SQL cursors;</li>
@@ -171,7 +174,7 @@
             <li>Key/value database is easily scalable and high-performance due to its lightness.</li>
           </ul>
         </div>
-        <div>
+        <div style="height: 100%">
           <h3>Disadvantages</h3>
           <ul>
             <li>Limitations of relational databases ensure data integrity at the lowest level. In stores key/value no such restriction. Data integrity controled by applications. In this case data integrity may be compromised due to errors in the application code;</li>
@@ -189,14 +192,14 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <h3>Advantages</h3>
           <ul>
             <li>Sufficiently flexible language for querying;</li>
             <li>Easy horizontally scalable.</li>
           </ul>
         </div>
-        <div>
+        <div style="height: 100%">
           <h3>Disadvantages</h3>
           <ul>
             <li>Atomicity in most cases is conditional.</li>
@@ -213,14 +216,14 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <h3>Advantages</h3>
           <ul>
             <li>Often faster for associative data sets;</li>
             <li>Can scale more naturally to large data sets as they do not typically require expensive join operations.</li>
           </ul>
         </div>
-        <div>
+        <div style="height: 100%">
           <h3>Disadvantages</h3>
           <ul>
             <li>RDBMS can be used in more general cases. Graph databases are suitable for graph-like data.</li>
@@ -237,7 +240,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <h3>Advantages</h3>
           <ul>
             <li>The object model is the best display of the real world, rather than relational tuples. This is especially true for complex and multi-faceted objects;</li>
@@ -245,7 +248,7 @@
             <li>Separate query language is not required for accessing the data, because access is directly to objects. Nevertheless, the possibility exists to use the queries.</li>
           </ul>
         </div>
-        <div>
+        <div style="height: 100%">
           <h3>Disadvantages</h3>
           <ul>
             <li>In the RDBMS schema change as a result of the creation, modification or deletion of tables usually do not depend on the application;</li>
@@ -283,10 +286,11 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/postgresql_logo.png" alt="Pg logo" style="height: 450px" />
+          <p></p>
         </div>
-        <div>
+        <div style="height: 100%">
           <p><b>PostgreSQL ("Postgres")</b> - is an object-relational database management system (ORDBMS) with an emphasis on extensibility and standards-compliance</p>
           <p>PostgreSQL is based on the SQL language and supports many of the features of the standard SQL:2011</p>
           <p>PostgreSQL evolved from the Ingres project at the University of California, Berkeley. In 1982 the leader of the Ingres team, Michael Stonebraker, left Berkeley to make a proprietary version of Ingres. He returned to Berkeley in 1985 and started a post-Ingres project.</p>
@@ -301,7 +305,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <ul>
             <li>database support of virtually unlimited size;</li>
             <li>powerful and reliable transaction and replication mechanisms;</li>
@@ -310,8 +314,9 @@
             <li>easy extensibility.</li>
           </ul>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/title.png" alt="Pg logo" style="height: 450px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -323,7 +328,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <table>
             <tbody>
               <tr>
@@ -361,8 +366,9 @@
             </tbody>
           </table>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/limits.png" alt="Limits" style="height: 514px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -1022,7 +1028,7 @@
       <h3>PostgreSQL settings</h3>
     </hgroup>
     <article>
-      <div class="columns-2">
+      <div class="columns-2" style="height: 100%">
         <div>
           <ul>
             <li>Do not use the default settings</li>
@@ -1031,8 +1037,9 @@
             <li>EXPLAIN ANALYZE and indexes, indexes, indexes</li>
           </ul>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/homer616.jpeg" alt="Homer" style="width: 350px">
+          <p></p>
         </div>
       </div>
     </article>
@@ -1613,11 +1620,13 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/scaling_vertical.png" alt="Vertical scaling" style="width: 250px">
+          <p></p>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 450px">
+          <p></p>
         </div>
       </div>
     </article>
@@ -1827,7 +1836,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>Streaming Replication (build in)</li>
           <li>Slony-I</li>
           <li>Pgpool-I/II</li>
@@ -1836,8 +1845,9 @@
           <li>RubyRep</li>
           <li>many others...</li>
         </ul>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/homer_clones.png" alt="Homer" style="width: 400px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -1850,13 +1860,11 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/streamin_replication.png" alt="PostgreSQL" style="width: 400px" />
-          <br />
-          <br />
-          <br />
+          <br /><br /><br /><br /><br /><br />
         </div>
-        <ul>
+        <ul style="height: 100%">
           <li>Advantages:
             <ul>
               <li>Log-shipping instead triggers</li>
@@ -1908,15 +1916,11 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/slony.jpg" alt="PostgreSQL" style="width: 400px" />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+          <br /><br /><br /><br /><br /><br /><br />
         </div>
-        <ul>
+        <ul style="height: 100%">
           <li>Advantages:
             <ul>
               <li>Replicate between different version of databases</li>
@@ -1942,15 +1946,11 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/pgpool.jpg" alt="PostgreSQL" style="width: 400px" />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+          <br /><br /><br /><br /><br /><br /><br />
         </div>
-        <ul>
+        <ul style="height: 100%">
           <li>Advantages:
             <ul>
               <li>Simple setup</li>
@@ -1974,10 +1974,11 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/bucardo.jpg" alt="PostgreSQL" style="width: 400px" />
+          <br /><br />
         </div>
-        <ul>
+        <ul style="height: 100%">
           <li>Advantages:
             <ul>
               <li>Master-master of Master-slave replication</li>
@@ -2003,15 +2004,11 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/londiste.png" alt="PostgreSQL" style="width: 400px" />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+          <br /><br /><br /><br /><br /><br /><br />
         </div>
-        <ul>
+        <ul style="height: 100%">
           <li>Advantages:
             <ul>
               <li>Replicate between different version of databases</li>
@@ -2036,10 +2033,10 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/BDR.png" alt="PostgreSQL" style="width: 400px" />
         </div>
-        <ul>
+        <ul style="height: 100%">
           <li>Advantages:
             <ul>
               <li>Master-master replication</li>
@@ -2167,14 +2164,15 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>Ease of setup and maintenance</li>
           <li>Adding slaves without sacrificing performance</li>
           <li>More slaves - more performance on reading (load balancing)</li>
           <li>Automatic switch to slave if master fail (failover)</li>
         </ul>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/pgpool.png" alt="pgpool" style="width: 300px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -2195,15 +2193,16 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>Pl/Proxy (SkyTools)</li>
           <li>Postgres-XC, Postgres-XL</li>
           <li>Pg_shard</li>
           <li>Stado (sequel to GridSQL)</li>
           <li>Greenplum</li>
         </ul>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 400px">
+          <p></p>
         </div>
       </div>
     </article>
@@ -2247,15 +2246,16 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>Write‐scalable PostgreSQL cluster (more than 3x scalability performance speedup with five servers, compared with pure PostgreSQL)</li>
           <li>Synchronous multi‐master configuration (any update to any master is visible from other masters immediately)</li>
           <li>Table location transparent</li>
           <li>Based upon PostgreSQL</li>
           <li>Same API to Apps as PostgreSQL</li>
         </ul>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/Postgers_XC.jpg" alt="postgres-xc" style="width: 400px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -2329,7 +2329,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <p>"NoSQL" database</p>
           <ul>
             <li>CouchDB, MongoDB, HBase, Cassandra, Redis</li>
@@ -2337,8 +2337,9 @@
             <li>Map/Reduce querying</li>
           </ul>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/nosql-logos.png" alt="NoSQL" style="width: 450px">
+          <p></p>
         </div>
       </div>
     </article>
@@ -2408,7 +2409,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <ul>
             <li>Dblink</li>
             <li>Cube</li>
@@ -2423,8 +2424,9 @@
             <li>many others...</li>
           </ul>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/extensions.png" alt="Extensions" style="width: 460px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -2437,12 +2439,13 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <p>PostGIS adds support for geographic objects to the PostgreSQL. PostGIS corresponds OpenGIS and has been certified</p>
           <p>PgSphere provides spherical PostgreSQL data types, as well as functions and operators to work with them. Used to work with geographic (can be used instead of PostGIS) or astronomical data types</p>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/postgis.png" alt="Extensions" style="width: 460px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -2455,7 +2458,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <p>PLV8 is an extension that provides PostgreSQL procedural language with the V8 JavaScript engine</p>
           <p>Why javascript?</p>
           <ul>
@@ -2464,8 +2467,9 @@
             <li>trusted language</li>
           </ul>
         </div>
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/v8.png" alt="Extensions" style="width: 460px" />
+          <p></p>
         </div>
       </div>
     </article>
@@ -2878,10 +2882,11 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
+        <div class="centered" style="height: 100%">
           <img src="images/alex.gif" alt="Scaling strategy" style="width: 460px" />
+          <br />
         </div>
-        <div>
+        <div style="height: 100%">
           <ul>
             <li>Bandwidth limitation of data reading;</li>
             <li>Bandwidth limitation of data recording;</li>
