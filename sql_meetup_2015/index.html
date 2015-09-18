@@ -153,28 +153,6 @@
 
 	<section class="slide cover h" id="SQLNosqlCover"><div>
 		<img src="pictures/nosq_sql_comics.jpg" alt="SQL vs NOSQL" />
-		<!--
-			To apply styles to the certain slides
-			set slide ID to get needed elements
-			-->
-		<style>
-			#Cover h2 {
-				margin: 80px 0 0;
-				color: #FFF;
-				text-align: center;
-				font-size: 70px;
-				}
-			#Cover p {
-				margin: 10px 0 0;
-				text-align: center;
-				color: #FFF;
-				font-style: italic;
-				font-size: 20px;
-				}
-				#Cover p a {
-					color: #FFF;
-				}
-		</style>
 	</div></section>
 
 	<section class="slide" id="TypesOfScaling"><div>
@@ -583,6 +561,15 @@ SELECT master_create_worker_shards('customer_reviews', 16, 2);</code></pre>
 			}
 		</style>
   </div></section>
+
+	<section class="slide cover w" id="PgClusteringPgShardRDS"><div>
+    <img src="pictures/rds-pg_shard-diagram3.png" alt="RDS pg_shard" />
+		<style>
+			#PgClusteringPgShardRDS {
+				background-color: #FFF;
+			}
+		</style>
+	</div></section>
 
   <section class="slide" id="PgClusteringPgShardLimits"><div>
     <h2>Pg_shard Limitations</h2>
