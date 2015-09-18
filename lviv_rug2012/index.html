@@ -40,7 +40,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>6+ years experience
             <ul>
               <li>Linux and Databases administrator</li>
@@ -55,13 +55,13 @@
             </ul>
           </li>
         </ul>
-        <div class="centered">
-          <img src="images/photo.jpeg" alt="me" style="height: 500px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/photo.jpeg" alt="me" style="height: 500px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/ruby.png"></aside>
     <hgroup class="auto-fadein">
@@ -69,7 +69,7 @@
       <h3></h3>
     </hgroup>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Chef</h2>
@@ -83,25 +83,25 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Why Chef?</h2>
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>Efficiency</li>
           <li>Scalability</li>
           <li>Economics</li>
         </ul>
-        <div class="centered">
-          <img src="images/chef_fun.jpg" alt="Chef" style="width: 350px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/chef_fun.jpg" alt="Chef" style="width: 350px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Why Chef?</h2>
@@ -112,7 +112,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Chef Types</h2>
@@ -130,7 +130,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Knife</h2>
@@ -138,19 +138,19 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <p><b>Knife</b> is a powerful command-line interface (CLI) that comes with Chef.</p>
         <pre class="prettyprint" data-lang="bash">
   gem install knife-solo
         </pre>
         </div>
-        <div class="centered">
-          <img src="images/chef_knife.jpg" alt="Chef" style="width: 400px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/chef_knife.jpg" alt="Chef" style="width: 400px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Knife commands</h2>
@@ -180,7 +180,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Kitchen</h2>
@@ -199,7 +199,7 @@
         </div>
         <div>
           <pre class="prettyprint" data-lang="bash">
-            
+
       mykitchen/
       ├── cookbooks
       ├── data_bags
@@ -212,7 +212,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Prepare</h2>
@@ -228,7 +228,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Cook</h2>
@@ -243,7 +243,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Librarian</h2>
@@ -251,19 +251,19 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <pre class="prettyprint" data-lang="bash">
   gem install librarian
   librarian-chef init
           </pre>
         </div>
-        <div class="centered">
-          <img src="images/librarian.jpg" alt="librarian" style="width: 400px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/librarian.jpg" alt="librarian" style="width: 400px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Librarian</h2>
@@ -288,7 +288,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Librarian</h2>
@@ -302,18 +302,18 @@
 
   site 'http://community.opscode.com/api/v1'
 
-  cookbook 'nginx', 
+  cookbook 'nginx',
     :git => 'git://github.com/opscode-cookbooks/nginx.git'
   cookbook 'rvm'
   cookbook 'ruby_build'
   cookbook 'rbenv',
     :git => 'https://github.com/fnichol/chef-rbenv'
-  cookbook 'postgresql', 
+  cookbook 'postgresql',
     :git => 'git://github.com/opscode-cookbooks/postgresql.git'
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Recipe</h2>
@@ -336,7 +336,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Recipe attributes</h2>
@@ -344,7 +344,7 @@
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="ruby">
-        $ cat attributes/default.rb 
+        $ cat attributes/default.rb
         default['nginx']['version'] = "1.2.3"
         default['nginx']['dir'] = "/etc/nginx"
         default['nginx']['log_dir'] = "/var/log/nginx"
@@ -364,7 +364,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Recipe definitions</h2>
@@ -391,7 +391,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Recipe definitions</h2>
@@ -416,7 +416,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Recipe execution</h2>
@@ -441,7 +441,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Recipe execution</h2>
@@ -465,7 +465,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Recipe execution</h2>
@@ -483,7 +483,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Simple example of recipe</h2>
@@ -501,7 +501,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Simple example of recipe (default.rb)</h2>
@@ -517,7 +517,7 @@
         package "libcurl3-gnutls"
         package "libcurl4-openssl-dev"
         # rmagick gem
-        package "imagemagick" 
+        package "imagemagick"
         package "libmagickcore-dev"
         package "libmagickwand-dev"
         # ruby
@@ -533,8 +533,8 @@
           mode "0644"
         end
         nginx_site "#{node[:app][:name]}.conf"
-        
-        
+
+
         # dirs
         web_dir = node[:app][:web_dir]
         directory web_dir do
@@ -563,7 +563,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Chef-Solo + Caphub = &lt;3</h2>
@@ -580,7 +580,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Summary</h2>
@@ -594,9 +594,9 @@
       </ul>
     </article>
   </slide>
-  
-  
-  
+
+
+
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/ruby.png"></aside>
     <hgroup class="auto-fadein">
@@ -604,7 +604,7 @@
       <h3></h3>
     </hgroup>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Celluloid</h2>
@@ -622,7 +622,7 @@ gem install celluloid
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Main features</h2>
@@ -636,7 +636,7 @@ gem install celluloid
       </ul>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Basic Usage</h2>
@@ -670,7 +670,7 @@ gem install celluloid
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Basic Usage</h2>
@@ -693,7 +693,7 @@ gem install celluloid
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Basic Usage</h2>
@@ -726,7 +726,7 @@ gem install celluloid
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Basic Usage</h2>
@@ -739,7 +739,7 @@ gem install celluloid
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Pool</h2>
@@ -773,7 +773,7 @@ gem install celluloid
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Gotchas</h2>
@@ -788,7 +788,7 @@ gem install celluloid
       </ul>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Linking</h2>
@@ -821,13 +821,13 @@ gem install celluloid
             launch_worker
           end
         end
-        
+
         Launcher.new.launch_worker
       </pre>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Sidekiq</h2>
@@ -843,13 +843,13 @@ gem install celluloid
             puts 'Doing hard work'
           end
         end
-        
+
         HardWorker.perform_async('bob', 5)
       </pre>
     </article>
   </slide>
-  
-  
+
+
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/ruby.png"></aside>
     <hgroup class="auto-fadein">
@@ -857,7 +857,7 @@ gem install celluloid
       <h3>Bonus for you</h3>
     </hgroup>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>rack-mini-profiler</h2>
@@ -869,7 +869,7 @@ gem install celluloid
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>strong_parameters</h2>
@@ -890,7 +890,7 @@ gem install celluloid
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>rabl</h2>
@@ -916,7 +916,7 @@ gem install celluloid
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>smt_rails</h2>
@@ -934,7 +934,7 @@ gem install celluloid
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>mailcatcher</h2>
@@ -946,7 +946,7 @@ gem install celluloid
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>guard</h2>
@@ -958,7 +958,7 @@ gem install celluloid
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Other gems</h2>
@@ -975,7 +975,7 @@ gem install celluloid
       </ul>
     </article>
   </slide>
-  
+
 
   <slide class="thank-you-slide segue dark nobackground">
     <aside class="gdbar right"><img src="images/ruby.png"></aside>

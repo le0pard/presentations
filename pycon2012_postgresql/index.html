@@ -40,7 +40,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>6+ years experience
             <ul>
               <li>Linux and Databases administrator</li>
@@ -55,20 +55,20 @@
             </ul>
           </li>
         </ul>
-        <div class="centered">
-          <img src="images/photo.jpeg" alt="me" style="height: 500px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/photo.jpeg" alt="me" style="height: 500px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>PostgreSQL</h2>
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <p><b>PostgreSQL</b> is an object-relational database management system.</p>
           <p>We have two question:</p>
           <ul style="font-size:2em">
@@ -76,13 +76,13 @@
             <li>How?</li>
           </ul>
         </div>
-        <div class="centered">
-          <img src="images/postgresql_logo.png" alt="PostgreSQL" style="width: 400px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/postgresql_logo.png" alt="PostgreSQL" style="width: 400px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/python.png"></aside>
     <hgroup class="auto-fadein">
@@ -90,7 +90,7 @@
       <h3></h3>
     </hgroup>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Flexible Datatypes</h2>
@@ -101,7 +101,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <aside class="note">
       <section>
@@ -119,7 +119,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <aside class="note">
       <section>
@@ -142,7 +142,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <aside class="note">
       <section>
@@ -161,7 +161,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Extensions</h2>
@@ -189,7 +189,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/python.png"></aside>
     <hgroup class="auto-fadein">
@@ -197,27 +197,27 @@
       <h3></h3>
     </hgroup>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>The Base for the Begin</h2>
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <ul>
             <li>Do not use the default settings</li>
             <li>Use the latest version</li>
             <li>EXPLAIN ANALYZE and indexes, indexes, indexes</li>
           </ul>
         </div>
-        <div class="centered">
-          <img src="images/homer616.jpeg" alt="Homer" style="width: 415px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/homer616.jpeg" alt="Homer" style="width: 415px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Functional Indexes</h2>
@@ -236,7 +236,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Partial Indexes</h2>
@@ -256,7 +256,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Create Index Concurrently</h2>
@@ -277,23 +277,23 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Vertical and Horizontal Scaling</h2>
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
-          <img src="images/scaling_vertical.png" alt="Vertical scaling" style="width: 250px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/scaling_vertical.png" alt="Vertical scaling" style="width: 250px; display: block" />
         </div>
-        <div class="centered">
-          <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 450px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 450px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide class="segue dark quote nobackground">
     <aside class="gdbar right bottom"><img src="images/python.png"></aside>
     <article class="flexbox vleft auto-fadein">
@@ -304,7 +304,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide class="segue dark quote nobackground">
     <aside class="gdbar"><img src="images/python.png"></aside>
     <article class="flexbox vleft auto-fadein">
@@ -315,7 +315,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>How to use Partitioning</h2>
@@ -337,7 +337,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Management Partition</h2>
@@ -350,12 +350,12 @@
       </pre>
       <p>or remove partition from partitioning</p>
       <pre class="prettyprint" data-lang="sql">
-        ALTER TABLE my_logs2012m06 
+        ALTER TABLE my_logs2012m06
         <b>NO INHERIT</b> my_logs;
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Smart Query Optimization</h2>
@@ -380,7 +380,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Replication Solutions</h2>
@@ -388,7 +388,7 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>Streaming Replication (build in)</li>
           <li>Slony-I</li>
           <li>Pgpool-I/II</li>
@@ -398,13 +398,13 @@
           <li>Postgres-R</li>
           <li>many others...</li>
         </ul>
-        <div class="centered">
-          <img src="images/homer_clones.png" alt="Homer" style="width: 400px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/homer_clones.png" alt="Homer" style="width: 400px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Streaming Replication</h2>
@@ -412,8 +412,8 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <div class="centered">
-          <img src="images/streamin_replication.png" alt="PostgreSQL" style="width: 440px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/streamin_replication.png" alt="PostgreSQL" style="width: 440px; display: block" />
         </div>
         <ul>
           <li>Advantages:
@@ -435,7 +435,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Pgpool-II + Streaming Replication = &lt;3</h2>
@@ -443,19 +443,19 @@
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>Ease of setup and maintenance</li>
           <li>Adding slaves without sacrificing performance</li>
           <li>More slaves - more performance on reading (load balancing)</li>
           <li>Automatic switch to slave if master fail (failover)</li>
         </ul>
-        <div class="centered">
-          <img src="images/pgpool.png" alt="pgpool" style="width: 300px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/pgpool.png" alt="pgpool" style="width: 300px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>PostgreSQL as document store</h2>
@@ -492,7 +492,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>JSON datatype! (9.2)</h2>
@@ -518,7 +518,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>JSON datatype! (9.2)</h2>
@@ -526,21 +526,21 @@
     <article>
       <pre class="prettyprint" data-lang="sql">
          $ SELECT * from json_demo;
-          id | username |       email       | posts_count 
+          id | username |       email       | posts_count
          ----+----------+-------------------+-------------
            1 | john     | john@gmail.com    |          10
            2 | mickael  | mickael@gmail.com |          50
          (2 rows)
-         
+
          $ SELECT row_to_json(json_demo) FROM json_demo;
-                                         row_to_json                                 
+                                         row_to_json
          ----------------------------------------------------------------------------
           {"id":1,"username":"john","email":"john@gmail.com","posts_count":10}
           {"id":2,"username":"mickael","email":"mickael@gmail.com","posts_count":50}
          (2 rows)
-          
+
          $ SELECT array_to_json(array_agg(json_demo)) FROM json_demo;
-                             array_to_json                                                                                                                  
+                             array_to_json
          ----------------------------------------------------------------------------
           [{"id":1,"username":"john","email":"john@gmail.com","posts_count":10},
           {"id":2,"username":"mickael","email":"mickael@gmail.com","posts_count":50}]
@@ -548,7 +548,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>plv8</h2>
@@ -579,7 +579,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Fibonacci</h2>
@@ -599,7 +599,7 @@
              RETURN psqlfib(n-1) + psqlfib(n-2);
          END;
         $$ <b>LANGUAGE plpgsql</b> IMMUTABLE STRICT;
-      
+
           </pre>
           <br />
           <br />
@@ -609,7 +609,7 @@
           <pre class="prettyprint" data-lang="sql">
             select n, psqlfib(n)
             from generate_series(0,30,5) as n;
-               n  | psqlfib 
+               n  | psqlfib
               ----+---------
                 0 |       0
                 5 |       5
@@ -626,7 +626,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Fibonacci</h2>
@@ -646,7 +646,7 @@
           return fib(n)
 
         $$ <b>LANGUAGE plv8</b> IMMUTABLE STRICT;
-      
+
           </pre>
           <br />
           <br />
@@ -656,7 +656,7 @@
           <pre class="prettyprint" data-lang="sql">
             select n, fib(n)
             from generate_series(0,30,5) as n;
-               n  |  fib   
+               n  |  fib
               ----+--------
                 0 |      0
                 5 |      5
@@ -673,7 +673,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Fibonacci (with cache in js object)</h2>
@@ -705,7 +705,7 @@
           <pre class="prettyprint" data-lang="sql">
             select n, fib2(n)
             from generate_series(0,30,5) as n;
-               n  |  fib2  
+               n  |  fib2
               ----+--------
                 0 |      0
                 5 |      5
@@ -722,7 +722,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Summary about speed of plv8</h2>
@@ -738,7 +738,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>JSON datatype + plv8</h2>
@@ -749,7 +749,7 @@
       </pre>
       <pre class="prettyprint" data-lang="sql">
         SELECT count(*) FROM members;
-          count  
+          count
         ---------
          1000000
         (1 row)
@@ -758,7 +758,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>JSON datatype + plv8</h2>
@@ -784,7 +784,7 @@
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>JSON datatype in PostgreSQL &lt; 9.2 </h2>
@@ -794,31 +794,31 @@
       <div class="columns-2">
         <div>
           <pre class="prettyprint" data-lang="sql">
-    CREATE OR REPLACE FUNCTION 
+    CREATE OR REPLACE FUNCTION
     valid_json(json text)
     RETURNS BOOLEAN AS $$
-      try { 
-        JSON.parse(json); return true; 
-      } catch(e) { 
+      try {
+        JSON.parse(json); return true;
+      } catch(e) {
         return false;
       }
     $$ LANGUAGE plv8 IMMUTABLE STRICT;
-    
-    CREATE DOMAIN json AS TEXT 
+
+    CREATE DOMAIN json AS TEXT
     CHECK(valid_json(VALUE));
           </pre>
         </div>
         <div>
           <pre class="prettyprint" data-lang="sql">
-    $ INSERT INTO members 
+    $ INSERT INTO members
     VALUES(<b>'not good json'</b>);
-    ERROR:  value for domain json 
+    ERROR:  value for domain json
     violates check constraint "json_check"
-    $ INSERT INTO members 
+    $ INSERT INTO members
     VALUES(<b>'{"good": "json", "is": true}'</b>);
     INSERT 0 1
     $ select * from members;
-               profile            
+               profile
     ------------------------------
      {"good": "json", "is": true}
     (1 row)
@@ -827,7 +827,7 @@
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>JSON datatype + plv8 = CouchDB</h2>
@@ -843,7 +843,7 @@
       </ul>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>JSON datatype + plv8 = CouchDB</h2>
@@ -851,9 +851,9 @@
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="sql">
-explain analyze select count(*) from members where 
+explain analyze select count(*) from members where
 get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
-                                                                  QUERY PLAN                                                                   
+                                                                  QUERY PLAN
 -----------------------------------------------------------------------------------------------------------------------------------------------
  Aggregate  (cost=301.38..301.39 rows=1 width=0) (actual time=106.420..106.420 rows=1 loops=1)
    ->  Bitmap Heap Scan on members  (cost=190.46..301.31 rows=25 width=0) (actual time=92.641..104.634 rows=6911 loops=1)
@@ -868,7 +868,7 @@ get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Mustache.js in PostgreSQL</h2>
@@ -882,7 +882,7 @@ get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
       <div class="centered"><a href="http://mustache.github.com">mustache.github.com</a></div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Mustache.js in PostgreSQL</h2>
@@ -901,7 +901,7 @@ get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
           'hello {{#things}}{{.}} {{/things}}:) {{#data}}{{key}}{{/data}}',
           '{"things": ["world", "from", "postgresql"], "data": {"key": "and me"}}'
         );
-                         mustache                
+                         mustache
           ---------------------------------------
            hello world from postgresql :) and me
           (1 row)
@@ -910,7 +910,7 @@ get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
       </pre>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Clustering solutions</h2>
@@ -918,19 +918,19 @@ get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
     </hgroup>
     <article>
       <div class="columns-2">
-        <ul>
+        <ul style="height: 100%">
           <li>Pl/Proxy</li>
           <li>Postgres-XC</li>
           <li>GridSQL</li>
           <li>Greenplum</li>
         </ul>
-        <div class="centered">
-          <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 400px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/scaling_horizontal.png" alt="Horizontal Scaling" style="width: 400px; display: block" />
         </div>
       </div>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Radical Additional Options</h2>
@@ -938,7 +938,7 @@ get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
     </hgroup>
     <article>
       <div class="columns-2">
-        <div>
+        <div style="height: 100%">
           <p>"NoSQL" database</p>
           <ul>
             <li>CouchDB, MongoDB, HBase, Cassandra, Redis</li>
@@ -946,8 +946,8 @@ get_numeric(profile, 'age')=26 and get_numeric(profile, 'siblings')=1;
             <li>Map/Reduce querying</li>
           </ul>
         </div>
-        <div class="centered">
-          <img src="images/nosql-logos.png" alt="NoSQL" style="width: 450px" />
+        <div class="centered" style="height: 100%">
+          <img src="images/nosql-logos.png" alt="NoSQL" style="width: 450px; display: block" />
         </div>
       </div>
     </article>
