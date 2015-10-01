@@ -1,0 +1,649 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Ruby - Alexey Vasiliev</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/bright/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Ruby</h1>
+		<p>Alexey Vasiliev</p>
+	</header>
+
+	<section class="slide cover w h" id="Cover"><div>
+		<h2>Ruby</h2>
+		<p><a href="http://leopard.in.ua">Alexey Vasiliev</a></p>
+		<img src="pictures/cover.jpg" alt="Ruby" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin: 300px 0 0;
+				color: #FFF;
+				text-align: center;
+				font-size: 70px;
+				}
+			#Cover p {
+				margin: 10px 0 0;
+				text-align: center;
+				color: #FFF;
+				font-style: italic;
+				font-size: 20px;
+				}
+				#Cover p a {
+					color: #FFF;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="AboutMeSlide"><div>
+		<h2>Alexey Vasiliev</h2>
+		<ul>
+			<li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), Linux and databases administrator</li>
+			<li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+      <li>Open-Source books: <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a>, <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a></li>
+      <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="BooksCover"><div>
+    <img src="pictures/chef_book_cover.png" class="place l"  alt="Chef Book" />
+    <img src="pictures/pg_book_cover.png" class="place r"  alt="PostgreSQL book" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#BooksCover img {
+				height: 98%;
+        margin: 0 30px;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="WhatIsPostgreSQL"><div>
+		<h2>What is PostgreSQL?</h2>
+		<p><img src="pictures/postgresql_logo.png" alt="PostgreSQL logo" />
+      <b>PostgreSQL ("Postgres")</b> - is an object-relational database management system (ORDBMS) with an emphasis on extensibility and standards-compliance. Based on the SQL language and supports many of the features of the standard SQL:2011. PostgreSQL evolved from the Ingres project at the University of California, Berkeley. In 1982 the leader of the Ingres team, Michael Stonebraker, left Berkeley to make a proprietary version of Ingres. He returned to Berkeley in 1985 and started a post-Ingres project
+    </p>
+		<style>
+			#WhatIsPostgreSQL img {
+				width: 250px;
+        float: left;
+        margin: 0 5px -10px -60px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PostgreSQLFeatures"><div>
+		<h2>PostgreSQL strengths</h2>
+    <img src="pictures/title.png" alt="PostgreSQL" />
+		<ul>
+      <li>database support of virtually unlimited size</li>
+      <li>powerful and reliable transaction and replication mechanisms</li>
+      <li>extensible embedded programming languages: are supported PL/pgSQL, PL/Perl, PL/Python and PL/Tcl, PL/Java, PL/PHP, PL/Py, PL/R, PL/Ruby, PL/Scheme, PL/sh and PL/V8 + loading C-compatible modules</li>
+      <li>inheritance</li>
+      <li>easy extensibility</li>
+		</ul>
+
+		<style>
+			#PostgreSQLFeatures img {
+				width: 200px;
+        float: right;
+        margin: -50px -10px 5px 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PostgreLimits"><div>
+		<h2>PostgreSQL limits</h2>
+    <table>
+      <tbody>
+        <tr>
+          <th>Limit</th>
+          <th>Value</th>
+        </tr>
+        <tr>
+          <td>Maximum Database Size</td>
+          <td>Unlimited</td>
+        </tr>
+        <tr>
+          <td>Maximum Table Size</td>
+          <td>32 TB</td>
+        </tr>
+        <tr>
+          <td>Maximum Row Size</td>
+          <td>1.6 TB</td>
+        </tr>
+        <tr>
+          <td>Maximum Field Size</td>
+          <td>1 GB</td>
+        </tr>
+        <tr>
+          <td>Maximum Rows per Table</td>
+          <td>Unlimited</td>
+        </tr>
+        <tr>
+          <td>Maximum Columns per Table</td>
+          <td>250-1600 depending on column types</td>
+        </tr>
+        <tr>
+          <td>Maximum Indexes per Table</td>
+          <td>Unlimited</td>
+        </tr>
+      </tbody>
+    </table>
+		<style>
+			#PostgreLimits img {
+				width: 200px;
+        float: right;
+        margin: -50px -10px 5px 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide shout" id="SQLScaleProblem"><div>
+		<h2>But does it scale?</h2>
+	</div></section>
+
+	<section class="slide cover h" id="SQLNosqlCover"><div>
+		<img src="pictures/nosq_sql_comics.jpg" alt="SQL vs NOSQL" />
+	</div></section>
+
+	<section class="slide" id="TypesOfScaling"><div>
+    <p><b>Horizontal scaling</b> means that you scale by adding more machines into your pool of resources where <b>Vertical scaling</b> means that you scale by adding more power (CPU, RAM) to your existing machine</p>
+    <img src="pictures/scaling_vertical.png" class="place l"  alt="Scaling vertical" />
+    <img src="pictures/scaling_horizontal.png" class="place r"  alt="Scaling horizontal" />
+
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#TypesOfScaling img {
+				height: 50%;
+        margin: 100px 100px 0 100px;
+				}
+		</style>
+	</div></section>
+
+  <section class="slide" id="VerticalScalingQuotes"><div>
+    <h2>Vertical scaling</h2>
+    <figure>
+      <blockquote>
+        <p>Buying a bigger box is quick(ish). Redesigning software is not</p>
+      </blockquote>
+      <figcaption>Cal Henderson, Flickr</figcaption>
+    </figure>
+    <figure>
+      <blockquote>
+        <p>37 Signals Basecamp upgraded to 128 GB DB server: don’t need to pay the complexity tax yet</p>
+      </blockquote>
+      <figcaption>David Heinemeier Hansson, 37 Signals</figcaption>
+    </figure>
+  </div></section>
+
+  <section class="slide" id="PostgreSQlScalingTypes"><div>
+    <h2>Scale PostgreSQL</h2>
+    <img src="pictures/alex.gif" alt="Scaling" />
+    <ul>
+      <li>Partitioning</li>
+      <li>Replication</li>
+      <li>Clustering</li>
+    </ul>
+
+		<style>
+			#PostgreSQlScalingTypes img {
+				height: 60%;
+        float: right;
+        margin: 0 0 0 30px;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PartitioningPg"><div>
+    <h2>Partitioning</h2>
+    <img src="pictures/inheritance.png" class="place r" alt="Partitioning" />
+    <pre><code>CREATE TABLE my_logs(
+  id SERIAL PRIMARY KEY,
+  logdate TIMESTAMP NOT NULL,
+  data JSON
+);</code></pre>
+    <pre><code>CREATE TABLE my_logs2015m01 (
+<mark class="important">CHECK ( logdate >= DATE '2015−01−01' AND logdate < DATE '2015−02−01' )
+) INHERITS (my_logs)</mark>;
+CREATE INDEX my_logs2015m01_logdate ON my_logs2015m01 (logdate);</code></pre>
+
+		<style>
+			#PartitioningPg img {
+				height: 20%;
+        margin: -30px 20px 0 0;
+			}
+
+			#PartitioningPg pre {
+				font-size: 1.1rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PartitioningPgResults"><div>
+    <h2>Partitioning Results</h2>
+    <pre><code>$ SELECT * FROM <mark class="important">ONLY my_logs</mark>;
+ id | user_id | logdate | data | some_state
+----+---------+---------+------+------------
+(0 rows)
+
+$ SELECT * FROM <mark class="important">my_logs</mark>;
+ id | user_id |       logdate       |       data       | some_state
+----+---------+---------------------+------------------+------------
+  1 |       1 | 2015-10-30 00:00:00 | some data        |          1
+  2 |       2 | 2015-02-10 00:00:00 | some data2       |          1</code></pre>
+
+		<style>
+			#PartitioningPgResults img {
+				height: 20%;
+        margin: -30px 20px 0 0;
+			}
+
+			#PartitioningPgResults pre {
+				font-size: 1.2rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PartitioningPgCaveats"><div>
+    <h2>Partitioning Caveats</h2>
+    <ul>
+      <li>There is no automatic way to verify that all of the <strong>CHECK</strong> constraints are mutually exclusive</li>
+      <li>The schemes shown here assume that the partition key column(s) of a row never change, or at least do not change enough to require it to move to another partition</li>
+      <li>All constraints on all partitions of the master table are examined during constraint exclusion, so large numbers of partitions are likely to increase query planning time considerably. Partitioning using these techniques will work well with up to perhaps a hundred partitions</li>
+    </ul>
+  </div></section>
+
+  <section class="slide" id="PgReplicationSolutions"><div>
+    <h2>Replication Solutions</h2>
+    <img src="pictures/homer_clones.png" alt="Replication" />
+    <ul>
+      <li>Streaming Replication (Hot Standby, build in)</li>
+      <li>Slony-I</li>
+      <li>Pgpool-II</li>
+      <li>Bucardo</li>
+      <li>Londiste</li>
+      <li>RubyRep</li>
+      <li>many others...</li>
+    </ul>
+		<style>
+			#PgReplicationSolutions img {
+				height: 60%;
+        float: right;
+        margin: -30px 20px 0 0;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgReplicationStreaming"><div>
+    <h2>Streaming Replication</h2>
+    <img src="pictures/streamin_replication.png" alt="Replication" />
+    <ul>
+      <li>Advantages:
+        <ul>
+          <li>Log-shipping instead triggers</li>
+          <li>Multiple standbys</li>
+          <li>Synchronous and asynchronous</li>
+          <li>Continuous recovery</li>
+          <li>Easy monitoring</li>
+        </ul>
+      </li>
+      <li>Disadvantages:
+        <ul>
+          <li>You can replicate only full database</li>
+          <li>No failover and load balancing</li>
+        </ul>
+      </li>
+    </ul>
+		<style>
+			#PgReplicationStreaming img {
+				height: 60%;
+        float: right;
+        margin: -30px 20px 0 0;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgReplicationStreamingHistory"><div>
+    <h2>The history of replication</h2>
+    <ul>
+      <li><b>2001</b>: PostgreSQL 7.1: write-ahead log</li>
+      <li><b>2004</b>: Slony</li>
+      <li><b>2005</b>: PostgreSQL 8.0: point-in-time recovery</li>
+      <li><b>2008</b>: PostgreSQL 8.3: pg_standby</li>
+      <li><b>2010</b>: PostgreSQL 9.0: hot standby, streaming replication</li>
+      <li><b>2011</b>: PostgreSQL 9.1: pg_basebackup, synchronous replication</li>
+      <li><b>2012</b>: PostgreSQL 9.2: cascading replication</li>
+      <li><b>2013</b>: PostgreSQL 9.3: standby can follow timeline switch</li>
+      <li><b>2014</b>: PostgreSQL 9.4: replication slots, logical decoding</li>
+      <li><b>2015</b>? PostgreSQL 9.5? pg_rewind?</li>
+    </ul>
+
+		<style>
+			#PgReplicationStreamingHistory li {
+				font-size: 1.3rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgReplicationBDR"><div>
+    <h2>Bi-Directional Replication (BDR)</h2>
+    <img src="pictures/BDR.png" alt="BDR" />
+    <ul>
+      <li>Advantages:
+        <ul>
+          <li>Master-master replication</li>
+          <li>Up to 48 nodes</li>
+        </ul>
+      </li>
+      <li>Disadvantages:
+        <ul>
+          <li>Conflict Resolution</li>
+          <li>Each node eventually consistent</li>
+          <li>Right now we have only patch, official should be for 9.5</li>
+        </ul>
+      </li>
+    </ul>
+
+		<style>
+			#PgReplicationBDR img {
+				height: 60%;
+        float: right;
+        margin: -30px 20px 0 0;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgReplicationComparison"><div>
+    <h2>Replication comparison</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td></td>
+          <th>Hot Standby</th>
+          <th>BDR</th>
+          <th>Londiste</th>
+          <th>Slony</th>
+          <th>Bucardo</th>
+        </tr>
+        <tr>
+          <th>Multi-Master</th>
+          <td>No</td>
+          <td>Yes</td>
+          <td>No<sup style="vertical-align: super; font-size: smaller;">1</sup></td>
+          <td>No</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <th>Per DB Replication</th>
+          <td>No</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <th>Cascading</th>
+          <td>Yes</td>
+          <td>No</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <th>DDL Replication</th>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>No<sup style="vertical-align: super; font-size: smaller;">2</sup></td>
+          <td>No<sup style="vertical-align: super; font-size: smaller;">2</sup></td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <th>Need external daemon</th>
+          <td>No</td>
+          <td>No</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <th>New table added automatically</th>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <th>Use triggers</th>
+          <td>No</td>
+          <td>No</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <th>Support updates on PK columns</th>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <th>Selective replication</th>
+          <td>No</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <th>Transactions applied indidualy</th>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+
+		<style>
+			#PgReplicationComparison table {
+				font-size: 1.1rem;
+			}
+
+			#PgReplicationComparison p {
+        margin: 0;
+				font-size: 0.8rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgClusteringSolutions"><div>
+    <h2>Clustering solutions</h2>
+    <img src="pictures/scaling_horizontal.png" alt="Horizontal Scaling" />
+    <ul>
+      <li>Pl/Proxy (SkyTools)</li>
+      <li>Postgres-XC, Postgres-XL</li>
+      <li>Pg_shard</li>
+      <li>Stado (sequel to GridSQL)</li>
+      <li>Greenplum</li>
+      <li>In application layer (many solutions for different languages)</li>
+    </ul>
+		<style>
+			#PgClusteringSolutions img {
+				height: 60%;
+        float: right;
+        margin: -30px 20px 0 0;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgClusteringPlProxy"><div>
+    <h2>Pl/Proxy</h2>
+    <pre><code>CREATE OR REPLACE FUNCTION
+public.get_cluster_partitions(cluster_name text)
+  RETURNS SETOF text AS
+$BODY$
+BEGIN
+  IF cluster_name = 'usercluster' THEN
+    RETURN NEXT 'dbname=plproxytest host=node1 user=postgres';
+    RETURN NEXT 'dbname=plproxytest host=node2 user=postgres';
+    RETURN;
+  END IF;
+  RAISE EXCEPTION 'Unknown cluster';
+END;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.get_cluster_partitions(text)
+OWNER TO postgres;</code></pre>
+
+		<style>
+			#PgClusteringPlProxy pre {
+				font-size: 0.85rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgClusteringXC"><div>
+    <h2>Postgres-XC</h2>
+    <img src="pictures/Postgers_XC.jpg" alt="Postgres-XC" />
+    <ul>
+      <li>Write‐scalable PostgreSQL cluster (more than 3x scalability performance speedup with five servers, compared with pure PostgreSQL)</li>
+      <li>Synchronous multi‐master configuration (any update to any master is visible from other masters immediately)</li>
+      <li>Table location transparent</li>
+      <li>Based upon PostgreSQL</li>
+      <li>Same API to Apps as PostgreSQL</li>
+    </ul>
+		<style>
+			#PgClusteringXC img {
+				height: 60%;
+        float: right;
+        margin: -150px 20px 0 0;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide cover w" id="PgClusteringXCImage"><div>
+    <img src="pictures/postgres-xc-02.png" alt="Postgres-XC" />
+  </div></section>
+
+  <section class="slide" id="PgClusteringPgShard"><div>
+    <h2>Pg_shard</h2>
+    <pre><code>CREATE EXTENSION pg_shard;
+CREATE TABLE customer_reviews
+(
+    customer_id TEXT NOT NULL,
+    review_date DATE,
+    review_rating INTEGER
+);
+SELECT master_create_distributed_table('customer_reviews', 'customer_id');
+SELECT master_create_worker_shards('customer_reviews', 16, 2);</code></pre>
+
+		<style>
+			#PgClusteringPgShard pre {
+				font-size: 1.2rem;
+			}
+		</style>
+  </div></section>
+
+	<section class="slide cover w" id="PgClusteringPgShardRDS"><div>
+    <img src="pictures/rds-pg_shard-diagram3.png" alt="RDS pg_shard" />
+		<style>
+			#PgClusteringPgShardRDS {
+				background-color: #FFF;
+			}
+		</style>
+	</div></section>
+
+  <section class="slide" id="PgClusteringPgShardLimits"><div>
+    <h2>Pg_shard Limitations</h2>
+      <ul>
+        <li>Transactional semantics for queries that span across multiple shards</li>
+        <li>Unique constraints on columns other than the partition key, or foreign key constraints</li>
+        <li>Distributed "JOIN"s also aren't supported</li>
+        <li>Table alterations are not supported</li>
+        <li>"DROP TABLE" does not have any special semantics when used on a distributed table</li>
+        <li>Queries such as "INSERT INTO foo SELECT bar, baz FROM qux" are not supported</li>
+      </ul>
+  </div></section>
+
+  <section class="slide" id="PgClusteringNoSQL"><div>
+    <h2>Additional Options - "NoSQL" database</h2>
+    <img src="pictures/nosql-logos.png" alt="NoSQL" />
+    <ul>
+      <li>CouchDB, MongoDB, HBase, Cassandra, Redis</li>
+      <li>Document store</li>
+      <li>Map/Reduce querying</li>
+    </ul>
+		<style>
+			#PgClusteringNoSQL img {
+				height: 60%;
+        float: right;
+        margin: -20px 20px 0 0;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide cover" id="PgSmartme"><div>
+    <h2>Do you want know more about PostgreSQL?</h2>
+    <img src="pictures/psql_smartme.jpg" alt="PostgreSQL Smartme" />
+    <p>25.10.2015 - <a href="http://smartme.university/workshop/postgresql-nastraivaem-i-masshtabiruem-na-bis/">SmartMe Master class about PostgreSQL</a></p>
+    <p>Use promo code "RWPOD_15" for 15% discount</p>
+		<style>
+			#PgSmartme h2 {
+				font-size: 4rem;
+			}
+			#PgSmartme p {
+				font-size: 2rem;
+			}
+			#PgSmartme a {
+				color: #000;
+			}
+		</style>
+  </div></section>
+
+	<section class="slide" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">github.com/le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
