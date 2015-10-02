@@ -553,6 +553,172 @@ calculate(10,20){ |a,b| a + b }</code></pre>
 	</div></section>
 
 
+  <section class="slide shout" id="section9"><div>
+    <h2>Модули</h2>
+  </div></section>
+
+	<section class="slide" id="section9Modules1"><div>
+		<h2>Модули</h2>
+    <pre><code>module WarmUp
+  def push_ups
+    "Phew, I need a break!"
+  end
+end
+
+class Gym
+  include WarmUp
+end
+
+class Dojo
+  include WarmUp
+end</code></pre>
+	<style>
+		#section9Modules1 code {
+			font-size: 1rem;
+			}
+	</style>
+	</div></section>
+
+	<section class="slide" id="section9Modules2"><div>
+		<h2>Иерархия</h2>
+    <pre><code>module WarmUp
+end
+
+puts WarmUp.class      # Module
+puts Class.superclass   # Module
+puts Module.superclass</code></pre>
+	</div></section>
+
+	<section class="slide" id="section9Modules3"><div>
+		<h2>Модули как пространства имен</h2>
+    <pre><code>module Perimeter
+  class Array
+    def initialize
+      @size = 400
+    end
+  end
+end
+our_array = Perimeter::Array.new
+ruby_array = Array.new</code></pre>
+	</div></section>
+
+	<section class="slide" id="section9Modules4"><div>
+		<h2>:: обьект</h2>
+    <pre><code>module One
+  A = 5
+  module Two
+    B = 9
+    A = 7
+
+    class Three
+      def push
+        ::A
+      end
+    end
+  end
+end
+
+A = 10</code></pre>
+	<style>
+		#section9Modules4 code {
+			font-size: 0.9rem;
+			}
+	</style>
+	</div></section>
+
+
+
+  <section class="slide shout" id="section10"><div>
+    <h2>Стримы</h2>
+  </div></section>
+
+	<section class="slide" id="section10Stream1"><div>
+		<h2>I/O стримы и IO классы</h2>
+    <pre><code># open the file "new-fd" and create a file descriptor:
+fd = IO.sysopen("new-fd", "w")
+p IO.new(fd)
+
+io_streams = Array.new
+ObjectSpace.each_object(IO) { |x| io_streams << x }
+
+p io_streams</code></pre>
+	</div></section>
+
+	<section class="slide" id="section10Stream2"><div>
+		<h2>STDOUT, STDIN и STDERR</h2>
+    <pre><code>p STDOUT.class
+p STDOUT.fileno
+
+p STDIN.class
+p STDIN.fileno
+
+p STDERR.class
+p STDERR.fileno</code></pre>
+	</div></section>
+
+	<section class="slide" id="section10Stream3"><div>
+		<h2>Kernel $stdout, $stdin и $stderr</h2>
+    <pre><code>p $stdin.object_id
+p STDIN.object_id
+
+p $stdout.object_id
+p STDOUT.object_id
+
+p $stderr.object_id
+p STDERR.object_id</code></pre>
+	</div></section>
+
+	<section class="slide" id="section10Stream4"><div>
+		<h2>StringIO</h2>
+    <pre><code>require 'stringio'
+capture = StringIO.new
+$stderr = capture
+$stderr.puts 'test'
+capture.string</code></pre>
+	</div></section>
+
+	<section class="slide" id="section10File1"><div>
+		<h2>Открытие и закрытие файла</h2>
+    <pre><code>mode = "r+"
+file = File.open("friend-list.txt", mode)
+puts file.inspect
+puts file.read
+file.close</code></pre>
+	</div></section>
+
+	<section class="slide" id="section10File2"><div>
+		<h2>Открытие и закрытие файла</h2>
+    <pre><code>what_am_i = File.open("clean-slate.txt", "w") do |file|
+  file.puts "Call me Ishmael."
+end
+
+p what_am_i
+
+File.open("clean-slate.txt", "r") {|file| puts file.read }</code></pre>
+	</div></section>
+
+	<section class="slide" id="section10File3"><div>
+		<h2>Чтение и запись файла</h2>
+    <pre><code>file = File.open("master", "r+")
+p file.read
+file.rewind
+buffer = ""
+p file.read(23, buffer)
+p buffer
+
+file.close</code></pre>
+	</div></section>
+
+	<section class="slide" id="section10File4"><div>
+		<h2>Чтение и запись файла</h2>
+    <pre><code>p File.read("monk")
+
+File.open("monk") do |f|
+  f.seek(20, IO::SEEK_SET)
+  p f.read(10)
+end</code></pre>
+	</div></section>
+
 
 	<!--
 		To hide progress bar from entire presentation
