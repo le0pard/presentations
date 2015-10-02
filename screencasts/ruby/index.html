@@ -370,6 +370,62 @@ Hash[key_value_pairs]</code></pre>
 	</div></section>
 
 
+
+  <section class="slide shout" id="section6"><div>
+    <h2>Классы</h2>
+  </div></section>
+
+	<section class="slide" id="section6Grouping"><div>
+		<h2>Групировка обьектов</h2>
+    <pre><code>puts 1.class
+puts "".class
+puts [].class</code></pre>
+    <pre><code>puts 1.is_a?(Integer)
+puts 1.is_a?(String)</code></pre>
+    <pre><code>1.class.class</code></pre>
+	</div></section>
+
+	<section class="slide" id="section6Create"><div>
+		<h2>Создаем классы</h2>
+    <pre><code>class Rectangle
+  def initialize(length, breadth)
+    @length = length
+    @breadth = breadth
+  end
+  def perimeter
+    2 * (@length + @breadth)
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section6Create2"><div>
+		<h2>Создаем классы</h2>
+    <pre><code>class Rectangle
+  def initialize(length, breadth)
+    @length, @breadth = length, breadth
+  end
+  def perimeter
+    2 * (@length + @breadth)
+  end
+  def area
+    @length * @breadth
+  end
+end</code></pre>
+	<style>
+		#section6Create2 code {
+			font-size: 1.2rem;
+			}
+	</style>
+	</div></section>
+
+
+
+
+  <section class="slide shout" id="section7"><div>
+    <h2>Ruby методы</h2>
+  </div></section>
+
+
 	<!--
 		To hide progress bar from entire presentation
 		just remove “progress” element.
