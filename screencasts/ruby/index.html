@@ -510,6 +510,50 @@ obvious_total(subtotal: 100, tax: 10, discount: 5)</code></pre>
 
 
 
+
+
+  <section class="slide shout" id="section8"><div>
+    <h2>Lambdas и Blocks</h2>
+  </div></section>
+
+	<section class="slide" id="section8Lambda1"><div>
+		<h2>Lambdas</h2>
+    <pre><code>l = lambda { "Do or do not" }
+puts l.call</code></pre>
+	</div></section>
+
+	<section class="slide" id="section8Lambda2"><div>
+		<h2>Lambdas</h2>
+    <pre><code>l = lambda do |string|
+  if string == "try"
+    return "There's no such thing"
+  else
+    return "Do or do not."
+  end
+end
+puts l.call("try")</code></pre>
+	</div></section>
+
+	<section class="slide" id="section8Blocks1"><div>
+		<h2>Blocks</h2>
+    <pre><code>def demonstrate_block(number)
+  yield(number)
+end
+
+puts demonstrate_block(1) { |number| number + 1 }</code></pre>
+	</div></section>
+
+	<section class="slide" id="section8Blocks2"><div>
+		<h2>Blocks</h2>
+    <pre><code>def calculate(a, b)
+  yield(a, b)
+end
+
+calculate(10,20){ |a,b| a + b }</code></pre>
+	</div></section>
+
+
+
 	<!--
 		To hide progress bar from entire presentation
 		just remove “progress” element.
