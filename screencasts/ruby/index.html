@@ -425,6 +425,90 @@ end</code></pre>
     <h2>Ruby методы</h2>
   </div></section>
 
+	<section class="slide" id="section7Methods"><div>
+		<h2>Что такое методы в Ruby?</h2>
+    <pre><code>puts 1.next</code></pre>
+    <pre><code>puts 1.method("next")</code></pre>
+    <pre><code>next_method_object = 1.method("next")
+puts next_method_object.call</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Methods2"><div>
+		<h2>Написание методов</h2>
+    <pre><code>def reverse_sign(an_integer)
+  return 0 - an_integer
+end
+
+puts reverse_sign(100)
+puts reverse_sign(-5)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Methods3"><div>
+		<h2>Написание методов</h2>
+    <pre><code>def add(a_number, another_number, yet_another_number = 0)
+  a_number + another_number + yet_another_number
+end
+
+puts add(1, 2)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Args1"><div>
+		<h2>Аргументы массивом</h2>
+    <pre><code>def add(*numbers)
+  numbers.inject(0) { |sum, number| sum + number }
+end
+
+puts add(1)
+puts add(1, 2)
+puts add(1, 2, 3)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Args2"><div>
+		<h2>Аргументы массивом</h2>
+    <pre><code>def add(a_number, another_number, yet_another_number)
+  a_number + another_number + yet_another_number
+end
+
+numbers_to_add = [1, 2, 3]
+puts add(*numbers_to_add)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Args3"><div>
+		<h2>Аргументы массивом</h2>
+    <pre><code>def add(*numbers)
+  numbers.inject(0) { |sum, number| sum + number }
+end
+
+def add_with_message(message, *numbers)
+  "#{message} : #{add(*numbers)}"
+end
+
+puts add_with_message("The Sum is", 1, 2, 3)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7NameArgs1"><div>
+		<h2>Именованные параметры</h2>
+    <pre><code>def add(a_number, another_number, options = {})
+  sum = a_number + another_number
+  sum = sum.abs if options[:absolute]
+  sum = sum.round(options[:precision]) if options[:round]
+  sum
+end
+puts add(1.0134, -5.568, absolute: true)
+puts add(1.0134, -5.568, absolute: true,
+  round: true, precision: 2)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7NameArgs2"><div>
+		<h2>Именованные параметры (Ruby 2.0+)</h2>
+    <pre><code>def obvious_total(subtotal:, tax:, discount: 10)
+  subtotal + tax - discount
+end
+
+obvious_total(subtotal: 100, tax: 10, discount: 5)</code></pre>
+	</div></section>
+
+
 
 	<!--
 		To hide progress bar from entire presentation
