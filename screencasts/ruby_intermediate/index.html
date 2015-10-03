@@ -1,0 +1,907 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Ruby, часть 2 - Alexey Vasiliev</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/bright/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Ruby, часть 2</h1>
+		<p>Alexey Vasiliev</p>
+	</header>
+
+	<section class="slide cover w h" id="Cover"><div>
+		<h2>Ruby</h2>
+		<p><a href="http://leopard.in.ua">Alexey Vasiliev</a></p>
+		<img src="pictures/cover.jpg" alt="Ruby" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin: 300px 0 0;
+				color: #FFF;
+				text-align: center;
+				font-size: 70px;
+				}
+			#Cover p {
+				margin: 10px 0 0;
+				text-align: center;
+				color: #FFF;
+				font-style: italic;
+				font-size: 20px;
+				}
+				#Cover p a {
+					color: #FFF;
+				}
+		</style>
+	</div></section>
+
+
+
+
+  <section class="slide shout" id="section1"><div>
+    <h2>Blocks, Procs и Lambdas</h2>
+  </div></section>
+
+	<section class="slide" id="section1Blocks1"><div>
+		<h2>Blocks, Procs и Lambdas</h2>
+    <pre><code>[1,2,3].each { |x| puts x*2 }</code></pre>
+    <pre><code>p = Proc.new { |x| puts x*2 }
+[1,2,3].each(&p)</code></pre>
+    <pre><code>lam = lambda { |x| puts x*2 }
+[1,2,3].each(&lam)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks2"><div>
+		<h2>Blocks vs Procs</h2>
+    <ul>
+      <li>Procs - объект, blocks - нет
+        <pre><code>   p = Proc.new { puts "Hello World" }</code></pre>
+      </li>
+      <li>В основном один block может быть в списке аргументов функции
+        <pre><code>   a = Proc.new { puts "First proc" }
+b = Proc.new { puts "Second proc" }
+multiple_procs(a,b)</code></pre>
+      </li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="section1Blocks3"><div>
+		<h2>Procs vs Lambdas</h2>
+    <p>Важно отметить, что оба они являются Proc объектами</p>
+    <pre><code>proc = Proc.new { puts "Hello world" }
+lam = lambda { puts "Hello World" }
+
+proc.class # returns 'Proc'
+lam.class  # returns 'Proc'</code></pre>
+    <p>Lambda просто немного "особенный" proc</p>
+	</div></section>
+
+	<section class="slide" id="section1Blocks4"><div>
+		<h2>Procs vs Lambdas</h2>
+    <p>Lambda проверить количество аргументов, в то время как Proc нет</p>
+    <pre><code>lam = lambda { |x| puts x }    # creates a lambda that takes 1 argument
+lam.call(2)     # prints out 2
+lam.call        # ArgumentError: wrong number of arguments (0 for 1)
+lam.call(1,2,3) # ArgumentError: wrong number of arguments (3 for 1)</code></pre>
+  	<style>
+      #section1Blocks4 code {
+        font-size: 1.2rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section1Blocks5"><div>
+		<h2>Procs vs Lambdas</h2>
+    <p>Lambda и Proc по разному обрабатывают return: return внутри Lambda вызывает код прямо вне кода lambda</p>
+    <pre><code>def lambda_test
+  lam = lambda { return }
+  lam.call
+  puts "Hello world"
+end
+lambda_test # calling lambda_test prints 'Hello World'</code></pre>
+  	<style>
+      #section1Blocks5 code {
+        font-size: 1.1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section1Blocks6"><div>
+		<h2>Procs vs Lambdas</h2>
+    <p>Lambda и Proc по разному обрабатывают return: return внутри Proc запускает код вне метода, где proc в настоящее время выполняется</p>
+    <pre><code>def proc_test
+  proc = Proc.new { return }
+  proc.call
+  puts "Hello world"
+end
+proc_test                 # calling proc_test prints nothing</code></pre>
+  	<style>
+      #section1Blocks6 code {
+        font-size: 1.1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section1Blocks7"><div>
+		<h2>Работа с lambdas</h2>
+    <pre><code>a = 5
+b = 6
+puts a + b</code></pre>
+    <pre><code>addition = lambda {|a, b| return a + b }
+puts addition.call(5, 6)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks8"><div>
+		<h2>Работа с lambdas</h2>
+    <pre><code>class Calculator
+  def add(a, b)
+    return a + b
+  end
+end
+puts Calculator.new.add(5, 6)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks9"><div>
+		<h2>Работа с lambdas</h2>
+    <pre><code>class Calculator
+  def add(a, b)
+    return a + b
+  end
+end
+addition_method = Calculator.new.method("add")
+addition =  addition_method.to_proc
+puts addition.call(5, 6)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks10"><div>
+		<h2>Yield в Blocks</h2>
+    <pre><code>def calculation(a, b, operation)
+  operation.call(a, b)
+end
+
+puts calculation(5, 6, lambda { |a, b| a + b }) # addition
+puts calculation(5, 6, lambda { |a, b| a - b }) # subtraction</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks11"><div>
+		<h2>Yield в Blocks</h2>
+    <pre><code>def calculation(a, b)
+  yield(a, b)
+end
+
+puts calculation(5, 6) { |a, b| a + b } # addition
+puts calculation(5, 6) { |a, b| a - b } # subtraction</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks12"><div>
+		<h2>Yield в Blocks</h2>
+    <pre><code>def foo
+ yield
+end
+foo { puts "sometimes shortcuts do get you there faster" }</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks13"><div>
+		<h2>Магия blocks</h2>
+    <p>Yield не метод</p>
+    <pre><code>def foo
+ puts yield
+ puts method(:foo)
+ puts method(:yield)
+end
+foo { "I expect to be heard." }</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks14"><div>
+		<h2>Блок передан в метод?</h2>
+    <pre><code>def foo
+  yield if block_given?
+end
+
+
+foo</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks15"><div>
+		<h2>А кто быстрее?</h2>
+    <pre><code>require "benchmark"
+
+def calculation_with_explicit_block_passing(a, b, operation)
+ operation.call(a, b)
+end
+
+def calculation_with_implicit_block_passing(a, b)
+ yield(a, b)
+end
+
+Benchmark.bmbm(10) do |report|
+ report.report("explicit") do
+   addition = lambda { |a, b| a + b }
+   1000.times { calculation_with_explicit_block_passing(5, 5, addition) }
+ end
+
+ report.report("implicit") do
+   1000.times { calculation_with_implicit_block_passing(5, 5) { |a, b| a + b } }
+ end
+end</code></pre>
+  	<style>
+      #section1Blocks15 code {
+        font-size: 0.6rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section1Blocks16"><div>
+		<h2>Преобразование передачи блока в yield</h2>
+    <pre><code>def calculation(a, b, &block)
+ block.call(a, b)
+end
+
+puts calculation(5, 5) { |a, b| a + b }</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks17"><div>
+		<h2>Преобразование передачи блока в yield</h2>
+    <pre><code>def calculation(a, b)
+  yield(a, b) # yield calls an implicit (unnamed) block
+end
+
+addition = lambda {|x, y| x + y}
+puts calculation(5, 5, &addition)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks18"><div>
+		<h2>do..end разделители</h2>
+    <pre><code>addition = lambda do |a, b|
+ a + b
+end
+puts addition.call(5, 5)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks19"><div>
+		<h2>-&gt; короткая версия lambda</h2>
+    <pre><code>short = ->(a, b) { a + b }
+puts short.call(2, 3)
+
+long = lambda { |a, b| a + b }
+puts long.call(2, 3)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Blocks20"><div>
+		<h2>Kernel#proc (proc) короткая версия Proc.new</h2>
+    <pre><code>short = proc { |a, b| a + b }
+puts short.call(2, 3)
+
+long = Proc.new { |a, b| a + b }
+puts long.call(2, 3)</code></pre>
+	</div></section>
+
+
+
+
+
+  <section class="slide shout" id="section2"><div>
+    <h2>Классы: Наследование</h2>
+  </div></section>
+
+	<section class="slide" id="section2Arrays1"><div>
+		<h2>Унаследованные поведение</h2>
+    <pre><code>puts 1.0.is_a?(Float)
+puts 1.0.is_a?(Numeric)</code></pre>
+    <pre><code>puts 1.0.class
+puts 1.0.class.superclass
+puts Float.superclass</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays2"><div>
+		<h2>Class#superclass</h2>
+    <pre><code>puts Float.superclass    # Numeric
+puts Numeric.superclass  # Object
+puts Object.superclass   # BasicObject</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays3"><div>
+    <h2>Class#superclass</h2>
+    <pre><code>puts Float.instance_methods.count
+puts (Float.instance_methods - Object.instance_methods).count
+puts (
+  Float.instance_methods -
+  Object.instance_methods -
+  Numeric.instance_methods
+).count</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays4"><div>
+    <h2>Наследование</h2>
+    <pre><code>class MyArray < Array
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays5"><div>
+    <h2>Наследование</h2>
+    <pre><code>class Rectangle
+  def initialize(length, breadth)
+    @length, @breadth = length, breadth
+  end
+
+  def perimeter
+    2 * (@length + @breadth)
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays6"><div>
+    <h2>Наследование</h2>
+    <pre><code>class Square < Rectangle
+  def initialize(side)
+    @length = @breadth = side
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays7"><div>
+    <h2>Переопределение методов</h2>
+    <pre><code>class Rectangle
+  def initialize(length, breadth)
+    @length, @breadth = length, breadth
+  end
+
+  def perimeter
+    2 * (@length + @breadth)
+  end
+
+  def area
+    @length * @breadth
+  end
+end</code></pre>
+  	<style>
+      #section2Arrays7 code {
+        font-size: 1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays8"><div>
+    <h2>Переопределение методов</h2>
+    <pre><code>class Square < Rectangle
+  def initialize(side)
+    @length = @breadth = side
+  end
+
+  def area
+    @length ** 2
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays9"><div>
+    <h2>Переопределение методов</h2>
+    <pre><code>class MyArray < Array
+  def map
+    'in soviet russia...'
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays10"><div>
+    <h2>super метод</h2>
+    <pre><code>class Animal
+  def move
+    "I can move"
+  end
+end
+
+class Bird < Animal
+  def move
+    super + " by flying"
+  end
+end
+
+puts Animal.new.move
+puts Bird.new.move</code></pre>
+	<style>
+    #section2Arrays10 code {
+      font-size: 0.9rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays11"><div>
+    <h2>Переменные экземпляра класса</h2>
+    <pre><code>class Item
+  def initialize(item_name, quantity)
+    @item_name = item_name
+    @quantity = quantity
+  end
+
+  def show
+    puts @item_name
+    puts @quantity
+  end
+end
+
+Item.new("tv",1).show
+Item.new("fridge",1).show</code></pre>
+  	<style>
+      #section2Arrays11 code {
+        font-size: 0.9rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays12"><div>
+    <h2>Переменные экземпляра класса</h2>
+    <pre><code>class Item
+  def initialize(item_name, quantity)
+    @item_name = item_name
+    @quantity = quantity
+    supplier = "Acme corp"
+  end
+
+  def show
+    puts @item_name
+    puts @quantity
+    puts supplier
+  end
+end
+
+Item.new("tv",1).show</code></pre>
+  	<style>
+      #section2Arrays12 code {
+        font-size: 0.9rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays13"><div>
+    <h2>Getter и Setter методы</h2>
+    <pre><code>class Item
+  def initialize(item_name, quantity)
+    @item_name = item_name
+    @quantity = quantity
+  end
+
+  def item_name
+    @item_name
+  end
+end
+
+item = Item.new("tv",1)
+puts item.item_name</code></pre>
+  	<style>
+      #section2Arrays13 code {
+        font-size: 1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays14"><div>
+    <h2>Getter и Setter методы</h2>
+    <pre><code>class Item
+  def initialize(item_name, quantity)
+    @item_name, @quantity = item_name, quantity
+  end
+
+  def quantity=(new_quantity)
+    @quantity = new_quantity
+  end
+
+  def quantity
+    @quantity
+  end
+end</code></pre>
+  	<style>
+      #section2Arrays14 code {
+        font-size: 1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays15"><div>
+    <h2>attr_reader</h2>
+    <pre><code>class Item
+  attr_reader :item_name
+
+  def initialize(item_name)
+    @item_name = item_name
+  end
+end
+
+item = Item.new("agragarok")
+p item.item_name</code></pre>
+  	<style>
+      #section2Arrays15 code {
+        font-size: 1.3rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays16"><div>
+    <h2>attr_reader, attr_writer, attr_accessor</h2>
+    <p><code>attr_reader :description</code> создает <code>def description; @description;</code></p>
+    <p><code>attr_writer :description</code> создает <code>def description=(new_description); @description = new_description; end</code></p>
+    <p><code>attr_accessor :description</code> создает <code>attr_reader :description; attr_writer :description</code></p>
+	</div></section>
+
+	<section class="slide" id="section2Arrays17"><div>
+    <h2>Переменные и методы класса</h2>
+        <pre><code>class Item
+  def self.show
+    puts "Class method show invoked"
+  end
+end
+
+Item.show</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays18"><div>
+    <h2>Переменные и методы класса</h2>
+        <pre><code>class Item
+
+  class << self
+    def show
+      puts "Class method show invoked"
+    end
+  end
+
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays19"><div>
+    <h2>Переменные и методы класса</h2>
+    <pre><code>class Planet
+  @@planets_count = 0
+
+  def initialize(name)
+    @name = name
+    @@planets_count += 1
+  end
+
+  def self.planets_count
+    @@planets_count
+  end
+end
+
+Planet.new("earth"); Planet.new("uranus")
+
+p Planet.planets_count</code></pre>
+  	<style>
+      #section2Arrays19 code {
+        font-size: 0.8rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays20"><div>
+    <h2>Переменные класса и наследование</h2>
+    <pre><code>class ApplicationConfiguration
+  @@configuration = {}
+
+  def self.set(property, value)
+    @@configuration[property] = value
+  end
+
+  def self.get(property)
+    @@configuration[property]
+  end
+end</code></pre>
+  	<style>
+      #section2Arrays20 code {
+        font-size: 1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays21"><div>
+    <h2>Переменные класса и наследование</h2>
+    <pre><code>class ERPApplicationConfiguration < ApplicationConfiguration
+end
+
+class WebApplicationConfiguration < ApplicationConfiguration
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Arrays22"><div>
+    <h2>Переменные класса и наследование</h2>
+    <pre><code>ERPApplicationConfiguration.set("name", "ERP Application")
+WebApplicationConfiguration.set("name", "Web Application")
+
+p ERPApplicationConfiguration.get("name")
+p WebApplicationConfiguration.get("name")
+
+p ApplicationConfiguration.get("name")</code></pre>
+  	<style>
+      #section2Arrays20 code {
+        font-size: 1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays23"><div>
+    <h2>Переменные экземпляра класса</h2>
+    <pre><code>class Foo
+  @foo_count = 0
+
+  def self.increment_counter
+    @foo_count += 1
+  end
+
+  def self.current_count
+    @foo_count
+  end
+end</code></pre>
+  	<style>
+      #section2Arrays23 code {
+        font-size: 1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section2Arrays24"><div>
+    <h2>Переменные экземпляра класса</h2>
+    <pre><code>class Bar < Foo
+  @foo_count = 100
+end
+
+Foo.increment_counter
+Bar.increment_counter
+p Foo.current_count
+p Bar.current_count</code></pre>
+  	<style>
+      #section2Arrays24 code {
+        font-size: 1rem;
+      }
+    </style>
+	</div></section>
+
+
+
+
+
+
+  <section class="slide shout" id="section3"><div>
+    <h2>Сравнение объектов и сериализация</h2>
+  </div></section>
+
+	<section class="slide" id="section3Equality1"><div>
+    <h2>Сравнение объектов</h2>
+    <pre><code>puts [1,2] == [1,2]
+puts [1,2] == [1,3]
+
+puts "a" == "xyz"</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Equality2"><div>
+    <h2>Сравнение объектов</h2>
+    <pre><code>class Item
+    def initialize(item_name, qty)
+        @item_name = item_name
+        @qty = qty
+    end
+end
+
+p Item.new("abcd",1)  == Item.new("abcd",1)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Equality3"><div>
+    <h2>Сравнение объектов</h2>
+    <pre><code>class Item
+    def initialize(item_name, qty)
+        @item_name = item_name
+        @qty = qty
+    end
+    def to_s
+        "Item (#{@item_name}, #{@qty})"
+    end
+    def ==(other_item)
+        puts "Method == called on #{self} with parameter #{other_item}"
+        false
+    end
+end
+
+puts Item.new("abcd",1) == Item.new("abcd", 1)</code></pre>
+  	<style>
+      #section3Equality3 code {
+        font-size: 0.8rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section3Equality4"><div>
+    <h2>eql? метод и хэш коды</h2>
+    <pre><code>class Item
+    attr_reader :item_name, :qty
+    def initialize(item_name, qty)
+        @item_name = item_name
+        @qty = qty
+    end
+    def to_s
+        "Item (#{@item_name}, #{@qty})"
+    end
+    def ==(other_item)
+        self.item_name == other_item.item_name && self.qty == other_item.qty
+    end
+end
+
+items = [Item.new("abcd", 1), Item.new("abcd", 1), Item.new("abcd", 1)]
+p items.uniq</code></pre>
+  	<style>
+      #section3Equality4 code {
+        font-size: 0.8rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section3Equality5"><div>
+    <h2>eql? метод и хэш коды</h2>
+    <pre><code>p 1.hash
+p "Hello".hash
+p "Hello!".hash
+p [1,2,3].hash
+p({:x => 1, :y => 2}.hash)
+
+class Item
+  def initialize(name)
+    @name = name
+  end
+end
+
+p Item.new("ruby").hash</code></pre>
+  	<style>
+      #section3Equality5 code {
+        font-size: 1rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section3Equality6"><div>
+    <h2>eql? метод и хэш коды</h2>
+    <pre><code>class Item
+  attr_reader :item_name, :qty
+  def initialize(item_name, qty)
+    @item_name, @qty = item_name, qty
+  end
+
+  def to_s
+    "Item (#{@item_name}, #{@qty})"
+  end
+
+  def hash
+    self.item_name.hash ^ self.qty.hash
+  end
+
+  def eql?(other_item)
+    puts "#eql? invoked"
+    @item_name == other_item.item_name && @qty == other_item.qty
+  end
+end
+
+p Item.new("abcd", 1).hash
+
+items = [Item.new("abcd", 1), Item.new("abcd", 1), Item.new("abcd", 1)]
+p items.uniq</code></pre>
+  	<style>
+      #section3Equality6 code {
+        font-size: 0.7rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="section3Equality7"><div>
+    <h2>eql? метод и хэш коды</h2>
+    <pre><code>p Item.new("abcd", 1).hash
+
+items = [
+  Item.new("abcd", 1),
+  Item.new("abcd", 1),
+  Item.new("abcd", 1)
+]
+p items.uniq</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Equality8"><div>
+    <h2>В заключение</h2>
+    <p>Определить метод <code>==</code> который сравнивает состояние с другим объектом и возвращает булевое значение</p>
+    <p>Определить метод <code>eql?</code> который просто вызывает <code>==</code> для сравнения</p>
+    <p>Определить метод <code>hash</code> который возвращает результат XOR-инга (^ оператор) всех переменных внутри обьекта, которые определяют его состояние</p>
+	</div></section>
+
+	<section class="slide" id="section3Equality9"><div>
+    <h2>Отображение объектов: puts и p, to_s и inspect</h2>
+    <pre><code>class Item
+  def inspect
+    "Result of inspect"
+  end
+end
+puts Item.new
+puts Item.new.to_s
+p Item.new</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Equality10"><div>
+    <h2>to_s и inspect</h2>
+    <pre><code>class Item
+  def initialize(item_name, qty)
+    @item_name = item_name
+    @qty = qty
+  end
+end
+item = Item.new("a",1)
+puts item
+p item</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Equality11"><div>
+    <h2>Cериализация</h2>
+    <pre><code>class ItemsBox
+  attr_accessor :items
+
+  def initialize(items)
+    @items = items
+  end
+
+  def self.from_s(s)
+    items = 0
+    s.each_line do |field|
+      value = field.split(":")[1].strip
+      items = value.to_i if field.include?("items")
+    end
+    ItemsBox.new(items)
+  end
+
+  def to_s
+    "items: #{@items}"
+  end
+end</code></pre>
+	<style>
+    #section3Equality11 code {
+      font-size: 0.6rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section3Equality12"><div>
+    <h2>Cериализация</h2>
+    <pre><code>class ItemsBox
+
+  def self.deserialize(yaml_string)
+    YAML::load(yaml_string)
+  end
+
+  def serialize
+    YAML::dump(self)
+  end
+
+  ...
+end</code></pre>
+	<style>
+    #section3Equality12 code {
+      font-size: 1rem;
+    }
+  </style>
+	</div></section>
+
+
+
+
+  <section class="slide shout" id="section4"><div>
+    <h2>Подробнее про массивы</h2>
+  </div></section>
+
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>

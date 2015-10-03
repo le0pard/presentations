@@ -146,7 +146,7 @@ b = 4
     <pre><code>"SmartYou".sub("You", "Me")</code></pre>
     <pre><code>"SmartYou and You".sub("You", "Me")</code></pre>
     <pre><code>"SmartYou and You".gsub("You", "Me")</code></pre>
-    <pre><code>"SmartMe for everyone".gsub(/[aio]/, "1"))</code></pre>
+    <pre><code>"SmartMe for everyone".gsub(/[aio]/, "1")</code></pre>
 	</div></section>
 
 	<section class="slide" id="section2search"><div>
@@ -627,11 +627,11 @@ A = 10</code></pre>
 
 
   <section class="slide shout" id="section10"><div>
-    <h2>Стримы</h2>
+    <h2>Потоки (streams)</h2>
   </div></section>
 
 	<section class="slide" id="section10Stream1"><div>
-		<h2>I/O стримы и IO классы</h2>
+		<h2>I/O потоки и IO классы</h2>
     <pre><code># open the file "new-fd" and create a file descriptor:
 fd = IO.sysopen("new-fd", "w")
 p IO.new(fd)
