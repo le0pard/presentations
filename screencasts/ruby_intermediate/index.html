@@ -98,7 +98,7 @@ lam.call(1,2,3) # ArgumentError: wrong number of arguments (3 for 1)</code></pre
 
 	<section class="slide" id="section1Blocks5"><div>
 		<h2>Procs vs Lambdas</h2>
-    <p>Lambda и Proc по разному обрабатывают return: return внутри Lambda вызывает код прямо вне кода lambda</p>
+    <p>Lambda и Proc по разному обрабатывают return: return внутри Lambda вызывает код прямо в кодe lambda</p>
     <pre><code>def lambda_test
   lam = lambda { return }
   lam.call
@@ -114,7 +114,7 @@ lambda_test # calling lambda_test prints 'Hello World'</code></pre>
 
 	<section class="slide" id="section1Blocks6"><div>
 		<h2>Procs vs Lambdas</h2>
-    <p>Lambda и Proc по разному обрабатывают return: return внутри Proc запускает код вне метода, где proc в настоящее время выполняется</p>
+    <p>Lambda и Proc по разному обрабатывают return: return внутри Proc запускает код в методе, где proc в настоящее время выполняется</p>
     <pre><code>def proc_test
   proc = Proc.new { return }
   proc.call
