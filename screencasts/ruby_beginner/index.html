@@ -697,7 +697,7 @@ File.open("clean-slate.txt", "r") {|file| puts file.read }</code></pre>
 
 	<section class="slide" id="section10File3"><div>
 		<h2>Чтение и запись файла</h2>
-    <pre><code>file = File.open("master", "r+")
+    <pre><code>file = File.open("friend-list.txt", "r+")
 p file.read
 file.rewind
 buffer = ""
@@ -709,9 +709,9 @@ file.close</code></pre>
 
 	<section class="slide" id="section10File4"><div>
 		<h2>Чтение и запись файла</h2>
-    <pre><code>p File.read("monk")
+    <pre><code>p File.read("friend-list.txt")
 
-File.open("monk") do |f|
+File.open("friend-list.txt") do |f|
   f.seek(20, IO::SEEK_SET)
   p f.read(10)
 end</code></pre>
