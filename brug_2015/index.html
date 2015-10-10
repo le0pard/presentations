@@ -119,9 +119,11 @@
 	<section class="slide" id="CrystalLang1"><div>
     <h2>Crystal</h2>
     <ul>
-      <li>started in 2012</li>
-      <li>written in Crystal (used to be written in Ruby)</li>
-      <li>unstable API</li>
+      <li>Started in 2012</li>
+      <li>Written in Crystal (used to be written in Ruby)</li>
+      <li>Ruby-inspired syntax</li>
+      <li>Statically type-checked but without having to specify the type of variables or method arguments</li>
+      <li>Macros</li>
     </ul>
     <img src="pictures/crystal.png" class="place r t" alt="Crystal" />
     <style>
@@ -137,10 +139,8 @@
 	<section class="slide" id="CrystalLang2"><div>
     <h2>Crystal</h2>
     <ul>
-      <li>Ruby-inspired syntax</li>
-      <li>Statically type-checked but without having to specify the type of variables or method arguments</li>
+      <li>Have compile-time evaluation and generation of code</li>
       <li>Be able to call C code by writing bindings to it in Crystal</li>
-      <li>Have compile-time evaluation and generation of code, to avoid boilerplate code</li>
       <li>Compile to efficient native code</li>
     </ul>
     <img src="pictures/crystal.png" class="place r t" alt="Crystal" />
@@ -164,6 +164,81 @@ end
 
 puts "Listening on http://0.0.0.0:8080"
 server.listen</code></pre>
+	</div></section>
+
+  <section class="slide shout" id="CrystalPerformance"><div>
+    <h2>How about performance?</h2>
+  </div></section>
+
+	<section class="slide" id="CrystalNBody"><div>
+    <h2>N-body</h2>
+    <p>Perform an N-body simulation of the Jovian planets</p>
+    <pre><code>$ time ruby nbody.rb 1000000
+ruby nbody.rb 1000000  <mark class="important">10.20s</mark> user 0.03s system 99% cpu 10.258 total
+
+$ time ./nbody 1000000
+./nbody 1000000  <mark class="important">0.91s</mark> user 0.01s system 99% cpu 0.923 total
+    </code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalFannkuchRedux"><div>
+    <h2>Fannkuch-Redux</h2>
+    <p>Repeatedly access a tiny integer-sequence</p>
+    <pre><code>$ time ruby fannkuchredux.rb 10
+73196
+Pfannkuchen(10) = 38
+ruby fannkuchredux.rb 10  <mark class="important">17.34s</mark> user 0.10s system 188% cpu 9.242 total
+
+$ time crystal fannkuchredux.cr
+73196
+Pfannkuchen(10) = 38
+crystal fannkuchredux.cr  <mark class="important">4.28s</mark> user 0.93s system 126% cpu 4.106 total
+    </code></pre>
+    <style>
+			#CrystalFannkuchRedux code {
+				font-size: 1.1rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="CrystalWrk1"><div>
+    <h2>Ruby "Hello world"</h2>
+    <pre><code>$ wrk -d 30 -c 10 http://localhost:9292
+Running 30s test @ http://localhost:9292
+  2 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     7.48ms    3.31ms  50.25ms   78.05%
+    Req/Sec   682.32     78.61   840.00     71.83%
+  <mark class="important">40780 requests</mark> in 30.02s, 3.66MB read
+Requests/sec:   <mark class="important">1358.40</mark>
+Transfer/sec:    124.70KB
+    </code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalWrk2"><div>
+    <h2>Crystal "Hello world"</h2>
+    <pre><code>$ wrk -d 30 -c 10 http://localhost:8080
+Running 30s test @ http://localhost:8080
+  2 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   505.22us  126.29us   3.77ms   82.49%
+    Req/Sec     9.86k   292.91    10.62k    75.42%
+  <mark class="important">590420 requests</mark> in 30.10s, 56.87MB read
+Requests/sec:  <mark class="important">19615.19</mark>
+Transfer/sec:      1.89MB
+    </code></pre>
+	</div></section>
+
+
+	<section class="slide cover w" id="RubyVsCrystal"><div>
+    <h2>Benchmarking reallity</h2>
+    <img src="pictures/octo_v_cat.jpg" alt="RubyVsCrystal" />
+    <style>
+			#RubyVsCrystal h2 {
+				color: #52A2DF;
+        font-weight: bold;
+			}
+		</style>
 	</div></section>
 
 
