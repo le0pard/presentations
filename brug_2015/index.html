@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Crystal: Ruby syntax and C performance - Alexey Vasiliev</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/bright/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Crystal: Ruby syntax and C performance</h1>
+		<p>Alexey Vasiliev, Railsware</p>
+	</header>
+
+
+	<section class="slide cover w h" id="Cover"><div>
+		<h2>Crystal: Ruby syntax and C performance</h2>
+		<p><a href="http://leopard.in.ua">Alexey Vasiliev</a>, Railsware</p>
+		<img src="pictures/cover.jpg" alt="Crystal" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin: 50px 0 0;
+				color: #000;
+				text-align: center;
+				font-size: 70px;
+				}
+			#Cover p {
+				margin: 10px 0 0;
+				text-align: center;
+				color: #000;
+				font-style: italic;
+				font-size: 20px;
+				}
+				#Cover p a {
+					color: #000;
+				}
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="AboutMeSlide"><div>
+		<h2>Alexey Vasiliev</h2>
+		<ul>
+			<li>Web and Mobile developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), Linux and databases administrator</li>
+			<li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+      <li>Open-Source books: <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a>, <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a></li>
+      <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="BooksCover"><div>
+    <img src="pictures/chef_book_cover.png" class="place l"  alt="Chef Book" />
+    <img src="pictures/pg_book_cover.png" class="place r"  alt="PostgreSQL book" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#BooksCover img {
+				height: 98%;
+        margin: 0 30px;
+				}
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="WhyWeLoveRuby"><div>
+    <h2>Why we love Ruby?</h2>
+    <ul>
+      <li>Syntax</li>
+      <li>Features (closures, metaprogramming, pure Object Orientation)</li>
+      <li>Conventions</li>
+      <li>Testing culture</li>
+      <li>Tools</li>
+      <li>Community</li>
+      <li>Ruby on Rails</li>
+    </ul>
+	</div></section>
+
+
+	<section class="slide cover w h" id="WhyWeLoveRubyTRex"><div>
+		<img src="pictures/t-rex_drum.png" alt="Ruby" />
+	</div></section>
+
+
+	<section class="slide" id="BestInAll"><div>
+		<h2>Language is good. But what about implementations?</h2>
+    <ul>
+      <li>MRI (Matz's Ruby Interpreter)</li>
+      <li>JRuby (Java Virtual Machine, Java)</li>
+      <li>Rubinius (C++ and Ruby)</li>
+      <li>MacRuby (C, C++ and Objective-C)</li>
+      <li>IronRuby (C#)</li>
+      <li>RubyMotion (iOS, OS X and Android)</li>
+      <li>Ruboto (Android)</li>
+    </ul>
+    <img src="pictures/ruby-lang.png" class="place r t" alt="Ruby" />
+    <style>
+			#BestInAll img {
+				width: 300px;
+        right: 100px;
+        top: 200px;
+			}
+		</style>
+	</div></section>
+
+
+	<section class="slide cover h w" id="RubyPerformance"><div>
+    <img src="pictures/performance.png" alt="Performance" />
+	</div></section>
+
+
+	<section class="slide" id="CrystalLang1"><div>
+    <h2>Crystal</h2>
+    <ul>
+      <li>started in 2012</li>
+      <li>written in Crystal (used to be written in Ruby)</li>
+      <li>unstable API</li>
+    </ul>
+    <img src="pictures/crystal.png" class="place r t" alt="Crystal" />
+    <style>
+			#CrystalLang1 img {
+				width: 200px;
+        right: 100px;
+        top: 50px;
+			}
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="CrystalLang2"><div>
+    <h2>Crystal</h2>
+    <ul>
+      <li>Ruby-inspired syntax</li>
+      <li>Statically type-checked but without having to specify the type of variables or method arguments</li>
+      <li>Be able to call C code by writing bindings to it in Crystal</li>
+      <li>Have compile-time evaluation and generation of code, to avoid boilerplate code</li>
+      <li>Compile to efficient native code</li>
+    </ul>
+    <img src="pictures/crystal.png" class="place r t" alt="Crystal" />
+    <style>
+			#CrystalLang2 img {
+				width: 200px;
+        right: 100px;
+        top: 50px;
+			}
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="CrystalExample"><div>
+    <h2>Code Example</h2>
+        <pre><code>require "http/server"
+
+server = HTTP::Server.new(8080) do |request|
+  HTTP::Response.ok "text/plain", "Hello world!"
+end
+
+puts "Listening on http://0.0.0.0:8080"
+server.listen</code></pre>
+	</div></section>
+
+
+	<section class="slide" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">github.com/le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
