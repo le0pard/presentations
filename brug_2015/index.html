@@ -156,7 +156,7 @@
 
 	<section class="slide" id="CrystalExample"><div>
     <h2>Code Example</h2>
-        <pre><code>require "http/server"
+    <pre><code>require "http/server"
 
 server = HTTP::Server.new(8080) do |request|
   HTTP::Response.ok "text/plain", "Hello world!"
@@ -165,6 +165,144 @@ end
 puts "Listening on http://0.0.0.0:8080"
 server.listen</code></pre>
 	</div></section>
+
+
+	<section class="slide" id="CrystalRubyDiff1"><div>
+    <h2>Crystal vs Ruby: Types</h2>
+    <pre><code>my_array = [] # compilation error
+my_array = [] of String | Int64
+my_array = [] of Float64
+my_array = [] of Array(Float64 | String)
+my_array = [] of String | Float64 | Char | Symbol
+my_array = [] of Bool | Nil
+my_array = [1,2,3,4]
+my_array = ["banana", "apple"]</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff2"><div>
+    <h2>Crystal vs Ruby: Types</h2>
+    <pre><code>my_hash = {} # compilation error
+my_hash = {} of Symbol => String
+my_hash = {} of Symbol | String => Float64 | String
+my_hash = {
+  :name => "Exilor",
+  "age" => 25,
+  0 => 1,
+  true => false
+}</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff3"><div>
+    <h2>Crystal vs Ruby: Block shortcut</h2>
+    <pre><code>["a", "b", "c"].map(&.upcase)
+
+["a", "b", "c"].map(&.*(3))</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff4"><div>
+    <h2>Crystal vs Ruby: Methods</h2>
+    <pre><code>def add(a: String, b: String)
+  "#{a} #{b}"
+end
+def add(a: (Int|Float), b: (Int|Float))
+  a + b
+end
+def add(a, b)
+  nil
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff5"><div>
+    <h2>Crystal vs Ruby: Struct</h2>
+    <pre><code>struct Point
+  property x
+  property y
+
+  def initialize(@x, @y)
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff6"><div>
+    <h2>Crystal Struct vs Class</h2>
+    <ul>
+      <li>Invoking new on a struct allocates it on the stack instead of the heap</li>
+      <li>A struct is passed by value while a class is passed by reference</li>
+      <li>A struct implicitly inherits from Struct, which inherits from Value. A class implicitly inherits from Reference</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff7"><div>
+    <h2>Crystal vs Ruby: getter, setter and property</h2>
+    <pre><code>class Animal
+  getter type # attr_reader
+  setter name # attr_writer
+  property age # attr_accessor
+
+  def initialize(@type, @name, @age)
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff8"><div>
+    <h2>Crystal vs Ruby: private and protected</h2>
+    <pre><code>class Animal
+  private def my_private_method
+    # stuff
+  end
+  protected def my_private_method
+    # stuff
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff9"><div>
+    <h2>Crystal vs Ruby: Tuple</h2>
+    <pre><code>tuple_example = {1, "hello", 'x'}
+tuple_example = Tuple.new
+tuple_example = Tuple.new(1, "hello", 'x')</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyDiff10"><div>
+    <h2>Crystal vs Ruby: String and Char</h2>
+    <pre><code>"This is string" # String
+'c' # Char</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyChannels"><div>
+    <h2>Channels and routines</h2>
+    <pre><code>ch = Channel(Int32).new
+spawn do
+ loop
+   num = ch.receive
+   puts "Got #{num}"
+ end
+end
+(1..10).each{ |i| ch.send i }</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyMacros1"><div>
+    <h2>Metaprogramming: Ruby</h2>
+    <pre><code>["cool", "super"].each do |obj|
+  define_method "get_#{obj}" do
+    puts "Got #{obj}"
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalRubyMacros2"><div>
+    <h2>Metaprogramming: Crystal</h2>
+    <pre><code>macro define_getters(getters)
+  {% for obj in getters %}
+    def get_{{obj.id}}
+      puts {{ "Got " + obj }}
+    end
+  {% end %}
+end
+
+define_getters ["cool", "super"]</code></pre>
+	</div></section>
+
 
   <section class="slide shout" id="CrystalPerformance"><div>
     <h2>How about performance?</h2>
@@ -239,6 +377,28 @@ Transfer/sec:      1.89MB
         font-weight: bold;
 			}
 		</style>
+	</div></section>
+
+
+	<section class="slide" id="CrystalTools"><div>
+    <h2>Libs and tools</h2>
+    <ul>
+      <li><a href="https://github.com/Codcore/amethyst" target="blank">Amethyst - a web framework written in the Crystal language</a></li>
+      <li><a href="https://github.com/dhruvrajvanshi/Moonshine" target="blank">Moonshine - a minimal sinatra like web framework for the Crystal language</a></li>
+      <li><a href="https://github.com/manastech/frank" target="blank">Frank - Sinatra clone</a></li>
+      <li><a href="https://github.com/ysbaddaden/shards" target="blank">Shards - a dependency manage</a></li>
+      <li><a href="https://github.com/veelenga/awesome-crystal" target="blank">More libs!</a></li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="CrystalCons"><div>
+    <h2>Crystal disadvantages</h2>
+    <ul>
+      <li>Unstable API (not production ready)</li>
+      <li>Lack of documentation</li>
+      <li>Poor infrastructure (compare to Ruby or Node.js)</li>
+      <li>Small community</li>
+    </ul>
 	</div></section>
 
 
