@@ -1067,6 +1067,336 @@ puts Weather.will_it_rain_on(Date.today)</code></pre>
 
 
 
+  <section class="slide shout" id="section6"><div>
+    <h2>Исключения</h2>
+  </div></section>
+
+	<section class="slide" id="section6Exception1"><div>
+    <h2>Что такое исключения?</h2>
+    <pre><code>def extract_first_name(name)
+  first = name.split(" ").first
+  puts "extracted first name #{first}"
+  first
+end
+
+def casual_names(names)
+  casual = names.map {|name| extract_first_name(name) }
+  puts "captured casual names #{casual}"
+  casual
+end
+
+puts casual_names(["Yehuda Katz", nil, "Why the lucky stiff"])
+puts "I bet you'll never see this."</code></pre>
+	<style>
+    #section6Exception1 code {
+      font-size: 0.9rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section6Exception2"><div>
+    <h2>begin, rescue и end</h2>
+    <pre><code>def start_summer
+  raise Exception.new("overheated!")
+end
+
+begin
+  start_summer
+rescue Exception
+  puts "It's cool in here, boy"
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section6Exception3"><div>
+    <h2>Rescue</h2>
+    <pre><code>def start_summer
+  raise Exception.new("overheated!")
+end
+
+begin
+  start_summer
+rescue Exception => e
+  puts "Let me tell you about heat! #{e.inspect}"
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section6Exception4"><div>
+    <h2>Ensure</h2>
+    <pre><code>class UserDataAccess
+  attr_accessor :db
+
+  def initialize
+    @db = Database.new
+  end
+
+  def find_user(name)
+  	@db.find("SELECT * FROM USERS WHERE NAME = '%'", name)
+  rescue Exception => e
+    puts "A database error occurred."
+  ensure
+  	@db.close
+  end
+end</code></pre>
+	<style>
+    #section6Exception4 code {
+      font-size: 0.9rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section6Exception5"><div>
+    <h2>Raise</h2>
+    <pre><code>raise "Rise."
+
+42 / 0
+
+raise StandardError, "Raising standard error"</code></pre>
+	</div></section>
+
+	<section class="slide" id="section6Exception6"><div>
+    <h2>Контроль выполнения</h2>
+    <pre><code>def zen
+  begin
+    p eval "(40 + 2) / 2"
+    p eval "(40 + 2) \ 2"
+    p eval "4, 8, 15, 16, 23, 42"
+  rescue SyntaxError => error
+    puts error.backtrace
+  end
+end
+
+zen</code></pre>
+	</div></section>
+
+	<section class="slide" id="section6Exception7"><div>
+    <h2>Exception класс</h2>
+    <pre><code>begin
+  eval "40 / 0"
+rescue StandardError => error
+  p error
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section6Exception8"><div>
+    <h2>Exception класс</h2>
+    <pre><code>class InfinityError < StandardError
+end
+
+ie = InfinityError.new("infinity error was raised")
+
+begin
+  if 1.0 / 0.0
+    raise ie
+  end
+rescue InfinityError => error
+  p error.message
+end</code></pre>
+	<style>
+    #section6Exception8 code {
+      font-size: 1rem;
+    }
+  </style>
+	</div></section>
+
+
+
+
+  <section class="slide shout" id="section7"><div>
+    <h2>Коллекции</h2>
+  </div></section>
+
+	<section class="slide" id="section7Enumerators1"><div>
+    <h2>Enumerators и Enumerables</h2>
+    <pre><code>[5, 3].each
+enumerator = [3, 7, 14].each
+enumerator.each { |e| puts e + 1 }</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Enumerators2"><div>
+    <h2>Enumerators и Enumerables</h2>
+    <pre><code>[4, 8, 15, 16, 23, 42].each_with_index do
+  |e, i| puts "#{e} -- #{i}"
+end
+
+[4, 8, 15, 16, 23, 42].inject(0) do |accumulator, iterated|
+  accumulator += iterated
+  accumulator
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Enumerators3"><div>
+    <h2>all?, any? и none?</h2>
+    <pre><code>[4, 8, 15, 16, 23, "42"].all? { |e| e.class == String }
+{:locke => 4, :hugo => 8}.any? do |candidate|
+  candidate[1] > 4
+end
+{:locke => 4, :hugo => 8}.none? do |candidate|
+  candidate[0] == :locke
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Enumerators3"><div>
+    <h2>all?, any? и none?</h2>
+    <pre><code>[4, 8, 15, 16, 23, "42"].all? { |e| e.class == String }
+{:locke => 4, :hugo => 8}.any? do |candidate|
+  candidate[1] > 4
+end
+{:locke => 4, :hugo => 8}.none? do |candidate|
+  candidate[0] == :locke
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Enumerators4"><div>
+    <h2>Коллекции обьектов</h2>
+    <pre><code>a = "tom"
+b = "jerry"
+superheroes = [a,b]
+a = "batman"
+
+puts superheroes</code></pre>
+	</div></section>
+
+	<section class="slide" id="section7Enumerators5"><div>
+    <h2>Коллекции обьектов</h2>
+    <pre><code>a = "tom"
+puts "#{a}, #{a.object_id}"
+a = "jerry"
+puts "#{a}, #{a.object_id}"
+
+a = "tom"
+puts "#{a}, #{a.object_id}"
+a.gsub!("tom", "jerry")
+puts "#{a}, #{a.object_id}"</code></pre>
+	</div></section>
+
+
+
+
+  <section class="slide shout" id="section8"><div>
+    <h2>Поиск и исправление ошибок</h2>
+  </div></section>
+
+	<section class="slide" id="section8Puts1"><div>
+    <h2>Puts и p</h2>
+    <pre><code>p 10/2
+p 10/3
+p 10.to_f / 3
+
+p 10.class
+p (10.0).class
+p (10.0/3)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section8Caller1"><div>
+    <h2>Caller</h2>
+    <pre><code>def c
+  puts "I'm in C. You know who called me?"
+  puts caller
+end
+
+def b
+  c
+end
+
+def a
+  b
+end
+
+a</code></pre>
+	<style>
+    #section8Caller1 code {
+      font-size: 0.9rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section8Logger1"><div>
+    <h2>Logger</h2>
+    <pre><code>require 'logger'
+logger = Logger.new($stdout)
+logger.warn("This is a warning")
+logger.info("This is an info")</code></pre>
+	</div></section>
+
+	<section class="slide" id="section8Logger2"><div>
+    <h2>Logger</h2>
+    <pre><code>require 'logger'
+logger = Logger.new(STDOUT)
+
+logger.level = Logger::UNKNOWN
+logger.debug("(UNKNOWN) This a debug message")
+logger.unknown("(UNKNOWN) Something unknown. Oh, mystery and suspense!")
+logger.error("(UNKNOWN) Error! Run! Panic!")
+logger.warn("(UNKNOWN) This is a warning.")
+
+logger.level = Logger::INFO
+logger.debug("(INFO) This a debug message")
+logger.unknown("(INFO) Something unknown. Oh, mystery and suspense!")
+logger.error("(INFO) Error! Run! Panic!")
+logger.warn("(INFO) This is a warning.")</code></pre>
+	<style>
+    #section8Logger2 code {
+      font-size: 0.9rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section8Logger3"><div>
+    <h2>Logger</h2>
+    <pre><code>logger = Logger.new(STDOUT)
+logger.level = Logger::DEBUG
+logger.formatter = lambda do |severity, datetime, progname, msg|
+  "#{datetime}: #{msg}\n"
+end
+
+logger.warn "A warning"
+logger.info "An info"</code></pre>
+	<style>
+    #section8Logger3 code {
+      font-size: 1rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section8Benchmarking1"><div>
+    <h2>Benchmarking</h2>
+    <pre><code>begin_time = Time.now
+sleep 0.3
+end_time = Time.now
+puts "Time taken is #{end_time - begin_time}."</code></pre>
+	</div></section>
+
+	<section class="slide" id="section8Benchmarking2"><div>
+    <h2>Benchmarking</h2>
+    <pre><code>require 'benchmark'
+
+puts Benchmark.measure { 602214.times { 3.14159 * 6.626068 } }</code></pre>
+	</div></section>
+
+	<section class="slide" id="section8Benchmarking3"><div>
+    <h2>Benchmarking</h2>
+    <pre><code>require 'benchmark'
+
+n=4000
+Benchmark.bm do |benchmark|
+  benchmark.report do
+    a=[]; n.times { a = a + [n] }
+  end
+  benchmark.report do
+    a=[]; n.times { a << n }
+  end
+  benchmark.report do
+    a=[1..n].map {|number| number}
+  end
+end</code></pre>
+	<style>
+    #section8Benchmarking3 code {
+      font-size: 0.9rem;
+    }
+  </style>
+	</div></section>
+
+
 	<!--
 		To hide progress bar from entire presentation
 		just remove “progress” element.
