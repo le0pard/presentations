@@ -894,6 +894,178 @@ end</code></pre>
     <h2>Подробнее про массивы</h2>
   </div></section>
 
+	<section class="slide" id="section4Destructuring1"><div>
+    <h2>Деструктуризация</h2>
+    <pre><code>zen, life = [42, 43]
+zen, john = [[4, 8], [3, 16], [23, 42, 15]]
+
+def zen
+  [42, true]
+end
+x, y = zen</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Destructuring2"><div>
+    <h2>Деструктуризация</h2>
+    <pre><code>[[1, 2, 3, 4], [42, 43]].each { |a, b| puts "#{a} #{b}" }
+
+[[1, 2, 3, 4], [42, 43]].each do |element|
+  a, b = element
+  puts "#{a} #{b}"
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Splat1"><div>
+    <h2>Splat (*) оператор</h2>
+    <pre><code>car, *cdr = [42, 43, 44]
+*initial, last = [42, 43, 44]
+*initial, second_last, last = [42, 43, 44]
+first, *middle, last = [42, 43, 44, 45, 46, 47]</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Count1"><div>
+    <h2>Count</h2>
+    <pre><code>(Array.instance_methods - Object.methods).count
+puts [4, 8, 15, 16, 23, 42].count
+puts [4, 8, 15, 16, 23, 42].size
+puts [4, 8, 15, 16, 23, 42].length
+
+puts [42, 8, 15, 16, 23, 42].count(42)
+puts ["Jacob", "Alexandra", "Mikhail", "Karl",
+  "Dogen", "Jacob"].count("Jacob")</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Index1"><div>
+    <h2>Index</h2>
+    <pre><code>puts [4, 8, 15, 16, 23, 42].index(15)
+puts [4, 8, 15, 16, 23, 42].index { |e| e % 2 == 0 }</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Flatten1"><div>
+    <h2>Flatten и compact</h2>
+    <pre><code>p [4, 8, 15, 16, 23, 42].flatten
+p [4, [8], [15], [16, [23, 42]]].flatten
+p [4, [8], [15], [16, [23, 42]]].flatten(1)
+p [nil, 4, nil, 8, 15, 16, nil, 23, 42, nil].compact</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Zip1"><div>
+    <h2>Zip, slice и join</h2>
+    <pre><code>p [4, 8, 15, 16, 23, 42].zip([42, 23, 16, 15, 8])
+p [4, 8, 15, 16, 23, 42].slice(2)
+p [4, 8, 15, 16, 23, 42].slice(2..5)
+[4, 8, 15, 16, 23, 42].join(", ")</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Shift1"><div>
+    <h2>Shift, unshift и pack</h2>
+    <pre><code>p [4, 8, 15, 16, 23, 42].shift
+p [4, 8, 15, 16, 23, 42].shift(2)
+p [8, 15, 16, 23, 42].unshift(4)
+p [16, 23, 42].unshift(4, 8, 15)
+p [177, 8978].pack("UU")
+p [177, 8978].pack("U*")</code></pre>
+	</div></section>
+
+
+
+  <section class="slide shout" id="section5"><div>
+    <h2>Подробнее про модули</h2>
+  </div></section>
+
+	<section class="slide" id="section5Included"><div>
+    <h2>Included callback</h2>
+    <pre><code>module Foo
+  def self.included(klass)
+    puts "Foo has been included in class #{klass}"
+  end
+end
+
+class Bar
+  include Foo
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section5Extend1"><div>
+    <h2>Module#extend</h2>
+    <pre><code>module Foo
+  def self.module_level_method
+    puts "Module level method"
+  end
+end
+class Bar
+  include Foo
+end
+Bar.module_level_method</code></pre>
+	</div></section>
+
+	<section class="slide" id="section5Extend2"><div>
+    <h2>Module#extend</h2>
+    <pre><code>module Foo
+  def module_method
+    puts "Module Method invoked"
+  end
+end
+
+class Bar
+end
+
+bar = Bar.new
+bar.extend Foo
+bar.module_method</code></pre>
+	<style>
+    #section5Extend2 code {
+      font-size: 1.1rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section5Extend3"><div>
+    <h2>Module#extend как include</h2>
+    <pre><code>module Foo
+  def method_in_module
+     "The method defined in the module invoked"
+  end
+end
+
+class Bar
+  def initialize
+    self.extend Foo
+  end
+end</code></pre>
+	<style>
+    #section5Extend3 code {
+      font-size: 1.1rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section5Extended"><div>
+    <h2>Extended callback</h2>
+    <pre><code>module Foo
+  def self.extended(base)
+    puts "Class #{base} has been extended with module #{self} !"
+  end
+end
+
+class Bar
+  extend Foo
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section5Modules"><div>
+    <h2>Модули как пространство имен для методов</h2>
+    <pre><code>module Weather
+  def self.will_it_rain_on(date)
+    "it depends"
+  end
+end
+
+puts Weather.will_it_rain_on(Date.today)</code></pre>
+	</div></section>
+
+
+
 
 	<!--
 		To hide progress bar from entire presentation
