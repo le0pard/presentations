@@ -1235,17 +1235,6 @@ end
 end</code></pre>
 	</div></section>
 
-	<section class="slide" id="section7Enumerators3"><div>
-    <h2>all?, any? и none?</h2>
-    <pre><code>[4, 8, 15, 16, 23, "42"].all? { |e| e.class == String }
-{:locke => 4, :hugo => 8}.any? do |candidate|
-  candidate[1] > 4
-end
-{:locke => 4, :hugo => 8}.none? do |candidate|
-  candidate[0] == :locke
-end</code></pre>
-	</div></section>
-
 	<section class="slide" id="section7Enumerators4"><div>
     <h2>Коллекции обьектов</h2>
     <pre><code>a = "tom"
