@@ -315,7 +315,7 @@ SlideDeck.prototype.loadConfig_ = function(config) {
   }
 
   if (settings.title) {
-    document.title = settings.title.replace(/<br\/?>/, ' ') + ' - HotCode 2013';
+    document.title = settings.title.replace(/<br\/?>/, ' ') + ' - SmartMe 2015';
     document.querySelector('[data-config-title]').innerHTML = settings.title;
   }
 
