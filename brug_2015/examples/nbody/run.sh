@@ -22,15 +22,18 @@ echo "Compiling crystal..."
 crystal build nbody.cr --release
 mv nbody ./.bins/nbody_cr
 
-echo "Benchmarking"
-
+echo "#################### Benchmarking ####################"
+echo ""
 echo "C time"
 time ./.bins/nbody_gcc $ITERATIONS
+echo ""
 echo "Rust time"
 time ./.bins/nbody_rust $ITERATIONS
+echo ""
 echo "Golang time"
 time ./.bins/nbody_go $ITERATIONS
+echo ""
 echo "Crystal time"
 time ./.bins/nbody_cr $ITERATIONS
-
-echo "Finished work"
+echo ""
+echo "#################### Finished work ####################"
