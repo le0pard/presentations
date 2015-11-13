@@ -287,6 +287,28 @@ end
 define_getters ["cool", "super"]</code></pre>
 	</div></section>
 
+	<section class="slide" id="CrystalRubyMacros3"><div>
+    <h2>Metaprogramming: Crystal</h2>
+    <pre><code>macro compile_time_date
+  {{ `date`.stringify }}
+end
+
+puts compile_time_date</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrystalCBindings"><div>
+    <h2>C Bindings: Crystal</h2>
+    <pre><code>// C code
+double cos(double x);
+double sin(double x);
+
+// Crystal
+lib LibC
+  fun cos(x : Float64) : Float64
+  fun sin(x : Float64) : Float64
+end</code></pre>
+	</div></section>
+
 
   <section class="slide shout" id="CrystalPerformance"><div>
     <h2>How about performance?</h2>
