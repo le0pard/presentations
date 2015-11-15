@@ -1,7 +1,7 @@
-def add(a: String, b: String)
+def add(a : String, b : String)
   "#{a} #{b}"
 end
-def add(a: (Int|Float), b: (Int|Float))
+def add(a : (Int|Float), b : (Int|Float))
   a + b
 end
 def add(a, b)
