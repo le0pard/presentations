@@ -180,7 +180,7 @@ foo.shout
 
 class Foo
 	def shout
-	  puts "I'm still Foo, but I have been overridden"
+    puts "I'm still Foo, but I have been overridden"
 	end
 end
 foo.shout</code></pre>
@@ -289,6 +289,197 @@ a.frozen?</code></pre>
 
 
 
+  <section class="slide shout" id="section2"><div>
+    <h2>Метапрограммирование в Ruby</h2>
+    <style>
+      #section2 h2 {
+        font-size: 4.5rem;
+      }
+    </style>
+  </div></section>
+
+	<section class="slide" id="section2Meta1"><div>
+    <h2>Динамический вызов методов</h2>
+    <pre><code>class Glider
+  def lift
+    puts "Rising"
+  end
+
+  def bank
+    puts "Turning"
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta2"><div>
+    <h2>Динамический вызов методов</h2>
+    <pre><code>class Nomad
+  def initialize(glider)
+    @glider = glider
+  end
+
+  def do(action)
+    if action == 'lift'
+      @glider.lift
+    elsif action == 'bank'
+      @glider.bank
+    else
+      raise NoMethodError.new(action)
+    end
+  end
+end</code></pre>
+	<style>
+    #section2Meta2 code {
+      font-size: 0.8rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section2Meta3"><div>
+    <h2>Динамический вызов методов</h2>
+    <pre><code>nomad = Nomad.new(Glider.new)
+nomad.do("lift")
+nomad.do("bank")</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta4"><div>
+    <h2>Динамический вызов методов</h2>
+    <pre><code>class Nomad
+  def initialize(glider)
+    @glider = glider
+  end
+
+  def do(action)
+    @glider.send(action)
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta5"><div>
+    <h2>Динамический вызов методов</h2>
+    <pre><code>class Nomad
+  def initialize(glider)
+    @glider = glider
+  end
+
+  def do(action, argument = nil)
+    if argument == nil
+      @glider.send(action)
+    else
+      @glider.send(action, argument)
+    end
+  end
+end</code></pre>
+	<style>
+    #section2Meta5 code {
+      font-size: 1rem;
+    }
+  </style>
+	</div></section>
+
+
+	<section class="slide" id="section2Meta6"><div>
+    <h2>Вызов private методов</h2>
+    <pre><code>class Nomad
+  def initialize(glider)
+    @glider = glider
+  end
+
+  def call_private
+    @glider.send(:private_life)
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta7"><div>
+    <h2>method_missing</h2>
+    <pre><code>class Spy
+end
+
+Spy.new.hello</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta8"><div>
+    <h2>method_missing</h2>
+    <pre><code>class Spy
+  def method_missing(symbol)
+    puts "I am method_missing"
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta9"><div>
+    <h2>method_missing</h2>
+    <pre><code>class Spy
+  def method_missing(symbol, *args)
+    puts "I am method_missing with arguments #{args}"
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta10"><div>
+    <h2>method_missing</h2>
+    <pre><code>class Spy
+  def method_missing(sym, *args, &block)
+    puts "#{sym} was called with #{args} and #{block}"
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta11"><div>
+    <h2>method_missing</h2>
+    <pre><code>class Spy
+  def initialize(enemy_agent)
+    @enemy_agent = enemy_agent
+  end
+
+  def method_missing(method_name, *args, &block)
+    @enemy_agent.send(method_name, *args)
+  end
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section2Meta12"><div>
+    <h2>define_method</h2>
+    <pre><code>class Doctor
+  define_method("perform_rhinoplasty") do |argument|
+		"performing rhinoplasty on #{argument}"
+  end
+
+  define_method("perform_checkup") do |argument|
+		"performing checkup on #{argument}"
+  end
+end
+
+doctor = Doctor.new
+puts doctor.perform_rhinoplasty("nose")
+puts doctor.perform_checkup("throat")</code></pre>
+	<style>
+    #section2Meta12 code {
+      font-size: 0.9rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section2Meta13"><div>
+    <h2>define_method</h2>
+    <pre><code>class Doctor
+  ["rhinoplasty", "checkup"].each do |action|
+    define_method("perform_#{action}") do |argument|
+      "performing #{action.gsub('_', ' ')} on #{argument}"
+    end
+  end
+end
+
+doctor = Doctor.new
+puts doctor.perform_rhinoplasty("nose")
+puts doctor.perform_checkup("throat")</code></pre>
+	<style>
+    #section2Meta13 code {
+      font-size: 1.1rem;
+    }
+  </style>
+	</div></section>
 
 
 
