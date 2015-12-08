@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Ruby, часть 3 - Alexey Vasiliev</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/bright/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Ruby, часть 3</h1>
+		<p>Alexey Vasiliev</p>
+	</header>
+
+	<section class="slide cover w h" id="Cover"><div>
+		<h2>Ruby</h2>
+		<p><a href="http://leopard.in.ua">Alexey Vasiliev</a></p>
+		<img src="pictures/cover.jpg" alt="Ruby" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin: 300px 0 0;
+				color: #FFF;
+				text-align: center;
+				font-size: 70px;
+				}
+			#Cover p {
+				margin: 10px 0 0;
+				text-align: center;
+				color: #FFF;
+				font-style: italic;
+				font-size: 20px;
+				}
+				#Cover p a {
+					color: #FFF;
+				}
+		</style>
+	</div></section>
+
+
+
+
+  <section class="slide shout" id="section1"><div>
+    <h2>Объектная модель Ruby</h2>
+  </div></section>
+
+	<section class="slide" id="section1Model1"><div>
+    <h2>Что такое объект?</h2>
+    <pre><code>class Foo
+end
+
+p "a".object_id
+p "a".object_id
+p Foo.new.object_id</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model2"><div>
+    <h2>Что такое объект?</h2>
+    <pre><code>p "a".class
+p 1.class
+
+class Foo
+end
+p Foo.new.class</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model3"><div>
+    <h2>Что такое объект?</h2>
+    <pre><code>class Foo
+end
+
+p Foo.class
+
+p String.class
+p Fixnum.class
+p Array.class</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model4"><div>
+    <h2>Что такое объект?</h2>
+    <pre><code>class A
+end
+
+class B < A
+end
+
+p A.new.instance_of?(A)
+p B.new.instance_of?(A)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model5"><div>
+    <h2>Object</h2>
+    <pre><code>class Foo
+end
+
+foo = Foo.new
+p foo.send(:object_id)
+p foo.send(:class)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model6"><div>
+    <h2>Object</h2>
+    <pre><code>class Foo
+end
+
+class Foo < Object
+end</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model7"><div>
+    <h2>Object</h2>
+    <pre><code>class Foo
+end
+
+p Foo.is_a?(Object)
+p Foo.new.is_a?(Object)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model8"><div>
+    <h2>Superclass</h2>
+    <pre><code>class Bar
+  def shout
+    "I'm a Bar!!"
+  end
+end
+
+class Foo < Bar
+end
+
+p Foo.new.shout
+p Foo.superclass</code></pre>
+	<style>
+    #section1Model8 code {
+      font-size: 1.1rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section1Model9"><div>
+    <h2>Object</h2>
+    <pre><code>class Foo
+end
+
+p Foo.superclass
+p Foo.superclass.superclass
+p Foo.superclass.superclass.superclass</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model10"><div>
+    <h2>Ancestors</h2>
+    <pre><code>class Bar
+end
+
+class Foo < Bar
+end
+
+p Foo.ancestors</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model11"><div>
+    <h2>BasicObject</h2>
+    <pre><code>p Object.superclass
+p Object.superclass.superclass</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model12"><div>
+    <h2>Поведение</h2>
+    <pre><code>class Foo
+  def shout
+    puts "I'm Foo"
+  end
+end
+
+foo = Foo.new
+foo.shout
+
+class Foo
+	def shout
+	  puts "I'm still Foo, but I have been overridden"
+	end
+end
+foo.shout</code></pre>
+	<style>
+    #section1Model12 code {
+      font-size: 0.8rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section1Model13"><div>
+    <h2>Singleton методы</h2>
+    <pre><code>class Foo
+end
+
+foo=Foo.new
+def foo.shout
+  puts "Foo Foo Foo!"
+end
+foo.shout
+
+p Foo.new.respond_to?(:shout)</code></pre>
+	<style>
+    #section1Model13 code {
+      font-size: 1.1rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section1Model131"><div>
+    <h2>metaclass</h2>
+    <pre><code>class Object
+  def metaclass
+    class << self
+      self
+    end
+  end
+end
+
+foo = "I'm a string object"
+def foo.shout
+  puts self.upcase
+end
+p foo.metaclass
+p foo.metaclass.class
+p foo.metaclass.instance_methods.include? :shout
+p foo.class.instance_methods.include? :shout</code></pre>
+	<style>
+    #section1Model131 code {
+      font-size: 0.8rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section1Model14"><div>
+    <h2>Клонирование обьектов</h2>
+    <pre><code>a = [1,2,3]
+b = a
+b << 4
+
+p a
+p b</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model15"><div>
+    <h2>Клонирование обьектов</h2>
+    <pre><code>a = [1,2,3]
+b = a.clone
+b << 4
+
+p a
+p b</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model16"><div>
+    <h2>Клонирование обьектов</h2>
+    <pre><code>foo = "foo"
+foos = [foo]
+foo = foo.upcase
+p foos
+
+bar = "bar"
+bars = [bar]
+bar.upcase!
+p bars</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model17"><div>
+    <h2>"Заморозка" обьектов</h2>
+    <pre><code>a = "test"
+a.freeze
+a << "change"</code></pre>
+	</div></section>
+
+	<section class="slide" id="section1Model18"><div>
+    <h2>"Заморозка" обьектов</h2>
+    <pre><code>a = [1,2,3,4]
+a.freeze
+a = [1,2,3]
+p a
+
+a = "test"
+a.freeze
+a.frozen?</code></pre>
+	</div></section>
+
+
+
+
+
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
