@@ -290,12 +290,7 @@ a.frozen?</code></pre>
 
 
   <section class="slide shout" id="section2"><div>
-    <h2>Метапрограммирование в Ruby</h2>
-    <style>
-      #section2 h2 {
-        font-size: 4.5rem;
-      }
-    </style>
+    <h2>Динамический вызов методов в Ruby</h2>
   </div></section>
 
 	<section class="slide" id="section2Meta1"><div>
@@ -479,6 +474,331 @@ puts doctor.perform_checkup("throat")</code></pre>
       font-size: 1.1rem;
     }
   </style>
+	</div></section>
+
+
+
+
+
+  <section class="slide shout" id="section3"><div>
+    <h2>Инспекция кода в Ruby</h2>
+  </div></section>
+
+	<section class="slide" id="section3Inspect1"><div>
+    <h2>Induction</h2>
+    <pre><code>def test(arg1, arg2)
+  "Hello"
+end
+
+t = self.method(:test)
+puts t</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Inspect2"><div>
+    <h2>Induction</h2>
+    <pre><code>def test(arg1, arg2)
+  "Hello"
+end
+t = self.method(:test)
+puts "Arity"
+p t.arity
+puts "Parameters"
+p t.parameters</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Inspect3"><div>
+    <h2>Induction</h2>
+    <pre><code>def test(arg1, *args2)
+  "Hello"
+end
+t = self.method(:test)
+puts "Arity"
+p t.arity
+puts "Parameters"
+p t.parameters</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Inspect4"><div>
+    <h2>Induction</h2>
+    <pre><code>class Dog
+  def voice(arg1, arg2)
+    "Grrr" + arg1 + arg2
+  end
+end
+mo = Dog.new.method(:voice)
+p mo.receiver
+p mo.owner</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Inspect5"><div>
+    <h2>const_get</h2>
+    <pre><code>A_CONSTANT = 42
+p Module.const_get('A_CONSTANT')
+class Test; CODATA = 42; end
+p Test.const_get('CODATA')</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Inspect6"><div>
+    <h2>const_get</h2>
+    <pre><code>CODATA = 42
+class Test; end
+p Test.const_get('CODATA')</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Inspect7"><div>
+    <h2>instance_variable_get</h2>
+    <pre><code>class Test
+  def initialize
+    @data = 42
+  end
+end
+
+p Test.new.instance_variable_get("@data")</code></pre>
+	</div></section>
+
+	<section class="slide" id="section3Inspect8"><div>
+    <h2>instance_variable_get</h2>
+    <pre><code>class Test
+  attr_reader :data
+
+  def initialize
+    @data = 42
+  end
+end
+
+p Test.new.data</code></pre>
+	</div></section>
+
+
+
+
+  <section class="slide shout" id="section4"><div>
+    <h2>Eval</h2>
+  </div></section>
+
+
+	<section class="slide" id="section4Eval1"><div>
+    <h2>Eval</h2>
+    <pre><code>result = eval("7 * 6")
+result = 7 * 6
+
+eval("def data; 42; end")
+puts data</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Eval2"><div>
+    <h2>Eval</h2>
+    <pre><code>def get_binding
+ binding
+end
+
+class Test
+  def get_binding
+    binding
+  end
+end
+
+puts eval("self", get_binding)
+puts eval("self", Test.new.get_binding)</code></pre>
+	<style>
+    #section4Eval2 code {
+      font-size: 1rem;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section4Eval3"><div>
+    <h2>TOPLEVEL_BINDING</h2>
+    <pre><code>class RubyClass
+  def self.create_book(book)
+    eval("def #{book}; 'created'; end", TOPLEVEL_BINDING)
+  end
+end
+RubyClass.create_book :regular_expressions
+puts regular_expressions</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Eval4"><div>
+    <h2>__FILE__ и __LINE__</h2>
+    <pre><code>puts __FILE__
+puts __LINE__
+eval("42", binding, __FILE__, __LINE__)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Eval5"><div>
+    <h2>instance_eval</h2>
+    <pre><code>class Test
+end
+
+Test.instance_eval("def data; 42; end", __FILE__, __LINE__)</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Eval6"><div>
+    <h2>instance_eval</h2>
+    <pre><code>class Test
+  def initialize
+    @data = 42
+  end
+end
+
+m = Test.new
+puts m.instance_eval("@data")</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Eval7"><div>
+    <h2>instance_eval</h2>
+    <pre><code>class Test
+  def initialize
+    @data = 42
+  end
+end
+
+m = Test.new
+puts m.instance_eval("@data")</code></pre>
+	</div></section>
+
+	<section class="slide" id="section4Eval8"><div>
+    <h2>instance_eval</h2>
+    <pre><code>class Test
+end
+
+t = Test.new
+t.instance_eval do
+  def data
+    puts 'data'
+  end
+end
+
+t.data</code></pre>
+	<style>
+    #section4Eval7 code {
+      font-size: 1rem;
+    }
+  </style>
+	</div></section>
+
+
+
+
+  <section class="slide shout" id="section5"><div>
+    <h2>Ruby Gems and Bundler</h2>
+  </div></section>
+
+
+	<section class="slide" id="section5Gems1"><div>
+    <h2>Ruby gems</h2>
+    <ul>
+      <li><a href="https://rubygems.org/" target="_blank">RubyGems</a></li>
+      <li><a href="https://rails-assets.org/" target="_blank">Rails Assets</a></li>
+      <li><a href="https://github.com/geminabox/geminabox" target="_blank">Geminabox</a></li>
+      <li><a href="https://github.com/bundler/gemstash" target="_blank">GemStash</a></li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="section5Gems2"><div>
+    <h2>Ruby gems</h2>
+    <pre><code>$ gem search ^rails
+$ gem install oj
+$ gem list
+$ gem uninstall drip
+$ gem server
+$ gem fetch faye
+$ gem unpack rake</code></pre>
+	<style>
+    #section5Gems2 code {
+      font-size: 1em;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section5Gems3"><div>
+    <h2>Ruby gem structure</h2>
+    <pre><code>$ tree hola
+hola/
+├── bin/
+│   └── hola
+├── lib/
+│   └── hola.rb
+├── test/
+│   └── test_hola.rb
+├── README
+├── Rakefile
+└── hola.gemspec</code></pre>
+	<style>
+    #section5Gems3 code {
+      font-size: 0.8em;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section5Gems4"><div>
+    <h2>Gemspec</h2>
+    <pre><code>Gem::Specification.new do |s|
+  s.name        = 'hola'
+  s.version     = '0.0.0'
+  s.date        = '2010-04-28'
+  s.summary     = "Hola!"
+  s.description = "A simple hello world gem"
+  s.authors     = ["Nick Quaranto"]
+  s.email       = 'nick@quaran.to'
+  s.files       = ["lib/hola.rb"]
+  s.license     = 'MIT'
+end</code></pre>
+	<style>
+    #section5Gems4 code {
+      font-size: 0.8em;
+    }
+  </style>
+	</div></section>
+
+	<section class="slide" id="section5Gems5"><div>
+    <h2>Gemspec</h2>
+    <pre><code>% gem build hola.gemspec
+Successfully built RubyGem
+Name: hola
+Version: 0.0.0
+File: hola-0.0.0.gem
+
+% gem install ./hola-0.0.0.gem
+Successfully installed hola-0.0.0
+1 gem installed</code></pre>
+	<style>
+    #section5Gems5 code {
+      font-size: 0.8em;
+    }
+  </style>
+	</div></section>
+
+
+	<section class="slide" id="section5Gems6"><div>
+    <h2>Bundler</h2>
+    <ul>
+      <li><a href="http://bundler.io/" target="_blank">Bundler</a></li>
+    </ul>
+    <pre><code>gem install bundler</code></pre>
+	</div></section>
+
+	<section class="slide" id="section5Gems7"><div>
+    <h2>Gemfile</h2>
+    <pre><code>source 'https://rubygems.org'
+gem 'nokogiri'
+gem 'rack', '~>1.1'
+gem 'rspec', :require => 'spec'</code></pre>
+	</div></section>
+
+	<section class="slide" id="section5Gems8"><div>
+    <h2>Bundler</h2>
+    <pre><code>require 'rubygems'
+require 'bundler/setup'
+require 'nokogiri'</code></pre>
+	</div></section>
+
+	<section class="slide" id="section5Gems9"><div>
+    <h2>Bundler</h2>
+    <pre><code>require 'rubygems'
+require 'bundler'
+Bundler.setup(:default, :ci)
+require 'nokogiri'</code></pre>
 	</div></section>
 
 
