@@ -1792,7 +1792,7 @@ shower.modules.define('shower.Container', [
                     e.preventDefault();
                     this.exitSlideMode();
                     break;
-
+                /*
                 case 116: // F5 (Shift)
                     e.preventDefault();
                     if (!this.isSlideMode()) {
@@ -1804,7 +1804,7 @@ shower.modules.define('shower.Container', [
                     }
 
                     break;
-
+                */
                 case 80: // P Alt Cmd
                     if (!this.isSlideMode() && e.altKey && e.metaKey) {
                         e.preventDefault();
