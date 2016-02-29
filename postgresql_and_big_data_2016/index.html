@@ -196,7 +196,50 @@
 		</style>
 	</div></section>
 
+	<section class="slide" id="IndexesCover"><div>
+    <h2 class="shout">Indexes</h2>
+	</div></section>
 
+	<section class="slide" id="WhatIsIndexes"><div>
+		<img class="cover width" src="pictures/pg_indexes.png" alt="What Is Indexes" />
+	</div></section>
+
+	<section class="slide" id="WhatIsIndexesPoints"><div>
+		<h2>Index use cases</h2>
+    <ul>
+      <li>Data search - all indexes support search values on equality. Some indexes also support prefix search (like “abc%”), arbitrary ranges search</li>
+      <li>Optimizer - B-Tree and R-Tree indexes represent a histogram arbitrary precision</li>
+      <li>Join - indexes can be used for Merge, Index algorithms</li>
+      <li>Relation - indexes can be used for except/intersect operations</li>
+      <li>Aggregations - indexes can effectively calculate some aggregation function</li>
+      <li>Grouping - indexes can effectively calculate the arbitrary grouping and aggregate functions (sort-group algorithm)</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="BTreeIndexes"><div>
+    <h2>B-Tree</h2>
+		<img class="cover width" src="pictures/btree.gif" alt="B-Tree" />
+	</div></section>
+
+	<section class="slide" id="RTreeIndexes"><div>
+    <h2>R-Tree</h2>
+		<img class="cover height" src="pictures/rtree.jpg" alt="R-Tree" />
+		<style>
+			#RTreeIndexes img {
+        padding: 25px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="HashIndexes"><div>
+    <h2>Hash Index</h2>
+		<img class="cover" src="pictures/hash_indexes.png" alt="HashIndexes" />
+	</div></section>
+
+	<section class="slide" id="BitmapIndexes"><div>
+    <h2>Bitmap Index</h2>
+		<img class="cover" src="pictures/bitmap_index.png" alt="BitmapIndexes" />
+	</div></section>
 
 
 
