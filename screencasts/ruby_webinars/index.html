@@ -41,6 +41,224 @@
 		</style>
 	</div></section>
 
+	<section class="slide cover h" id="RubyEco"><div>
+		<img src="pictures/ruby_eco.png" alt="RubyEco" />
+		<style>
+			#RubyEco {
+        background-color: #FFF;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyMRI"><div>
+		<h2>Ruby MRI</h2>
+    <p>Matz's Ruby Interpreter or Ruby MRI (also called CRuby)</p>
+    <p><a href="https://www.ruby-lang.org/en/">Official webpage</a></p>
+	</div></section>
+
+	<section class="slide" id="jRuby"><div>
+		<h2>jRuby</h2>
+    <p>JRuby is an implementation of the Ruby programming language atop the Java Virtual Machine, written largely in Java</p>
+    <p><a href="http://jruby.org/">Official webpage</a></p>
+	</div></section>
+
+	<section class="slide" id="Rubinius"><div>
+		<h2>Rubinius</h2>
+    <p>Rubinius is an alternative Ruby programming language implementation created by Evan Phoenix</p>
+    <p><a href="http://rubinius.com/">Official webpage</a></p>
+	</div></section>
+
+	<section class="slide" id="Mruby"><div>
+		<h2>Mruby</h2>
+    <p>Mruby is the lightweight implementation of the Ruby language complying with part of the </p>
+    <p><a href="https://mruby.org/">Official webpage</a></p>
+	</div></section>
+
+	<section class="slide" id="IronRuby"><div>
+		<h2>IronRuby (currently inactive)</h2>
+    <p>IronRuby is an open-source implementation of the Ruby programming language which is tightly integrated with the .NET Framework</p>
+    <p><a href="http://ironruby.net/">Official webpage</a></p>
+	</div></section>
+
+	<section class="slide" id="RubyMotion"><div>
+		<h2>RubyMotion</h2>
+    <p>RubyMotion is an implementation of the Ruby programming language that runs on iOS, OS X and Android</p>
+    <p><a href="http://www.rubymotion.com/">Official webpage</a></p>
+	</div></section>
+
+	<section class="slide" id="Ruboto"><div>
+		<h2>Ruboto (platform)</h2>
+    <p>Ruboto (JRuby on Android) is a platform for developing full stand-alone apps for Android using the Ruby language and libraries</p>
+    <p><a href="http://ruboto.org/">Official webpage</a></p>
+	</div></section>
+
+	<section class="slide" id="Opal"><div>
+		<h2>Opal (compiler)</h2>
+    <p>Opal is a Ruby to JavaScript source-to-source compiler</p>
+    <p><a href="http://opalrb.org/">Official webpage</a></p>
+    <p><a href="http://voltframework.com/">Volt web framework</a></p>
+	</div></section>
+
+  <section class="slide shout" id="RubyThreadsCover"><div>
+    <h2>Ruby Threads</h2>
+  </div></section>
+
+	<section class="slide" id="RubyThreadsExample1"><div>
+		<h2>Thread example</h2>
+    <pre><code># Thread #1 is running here
+Thread.new {
+  # Thread #2 runs this code
+}
+# Thread #1 runs this code</code></pre>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsExceptions"><div>
+		<h2>Threads and Exceptions</h2>
+    <pre><code>t = Thread.new { ... }
+t.abort_on_exception = true
+# or
+Thread.abort_on_exception = true</code></pre>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsVariables"><div>
+		<h2>Thread Variables</h2>
+    <pre><code>count = 0
+arr = []
+
+10.times do |i|
+   arr[i] = Thread.new {
+      sleep(rand(0)/10.0)
+      Thread.current["mycount"] = count
+      count += 1
+   }
+end
+
+arr.each {|t| t.join; print t["mycount"], ", " }
+puts "count = #{count}"</code></pre>
+		<style>
+			#RubyThreadsVariables code {
+        font-size: 1rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsMutex"><div>
+		<h2>Thread Exclusion</h2>
+    <pre><code>require 'thread'
+
+count1 = count2 = 0
+difference = 0
+counter = Thread.new do
+   loop do
+      count1 += 1
+      count2 += 1
+   end
+end
+spy = Thread.new do
+   loop do
+      difference += (count1 - count2).abs
+   end
+end
+sleep 1
+puts "count1 :  #{count1}"
+puts "count2 :  #{count2}"
+puts "difference : #{difference}"</code></pre>
+		<style>
+			#RubyThreadsMutex code {
+        font-size: 0.6rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsMutex2"><div>
+		<h2>Thread Exclusion</h2>
+    <pre><code>require 'thread'
+mutex = Mutex.new
+
+count1 = count2 = 0
+difference = 0
+counter = Thread.new do
+   loop do
+      mutex.synchronize do
+         count1 += 1
+         count2 += 1
+      end
+    end
+end
+spy = Thread.new do
+   loop do
+       mutex.synchronize do
+          difference += (count1 - count2).abs
+       end
+   end
+end
+sleep 1
+mutex.lock
+puts "count1 :  #{count1}"
+puts "count2 :  #{count2}"
+puts "difference : #{difference}"</code></pre>
+		<style>
+			#RubyThreadsMutex2 code {
+        font-size: 0.5rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsDeadlock"><div>
+		<h2>Handling Deadlock</h2>
+    <pre><code>require 'thread'
+mutex = Mutex.new
+
+cv = ConditionVariable.new
+a = Thread.new {
+   mutex.synchronize {
+      puts "A: I have critical section, but will wait for cv"
+      cv.wait(mutex)
+      puts "A: I have critical section again! I rule!"
+   }
+}
+
+puts "(Later, back at the ranch...)"
+
+b = Thread.new {
+   mutex.synchronize {
+      puts "B: Now I am critical, but am done with cv"
+      cv.signal
+      puts "B: I am still critical, finishing up"
+   }
+}
+a.join
+b.join</code></pre>
+		<style>
+			#RubyThreadsDeadlock code {
+        font-size: 0.5rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsFibers"><div>
+		<h2>Fibers & EventMachine</h2>
+    <pre><code>def http_get(url)
+  f = Fiber.current
+  http = EventMachine::HttpRequest.new(url).get
+
+  # resume fiber once http call is done
+  http.callback { f.resume(http) }
+  http.errback  { f.resume(http) }
+
+  return Fiber.yield
+end</code></pre>
+		<style>
+			#RubyThreadsFibers code {
+        font-size: 1rem;
+			}
+		</style>
+	</div></section>
+
+  <section class="slide shout" id="RubyThreadsQ"><div>
+    <h2>Questions?</h2>
+  </div></section>
+
 
 
 
