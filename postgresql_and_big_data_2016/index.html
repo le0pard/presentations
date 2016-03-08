@@ -75,6 +75,8 @@
 		</style>
 	</div></section>
 
+
+
 	<section class="slide" id="WhatIsBigDataCover"><div>
     <h2 class="shout">Big Data</h2>
 	</div></section>
@@ -87,24 +89,36 @@
 		<h2>What is Big Data?</h2>
     <figure>
       <blockquote>
-        <p>That which doesn't fit in an Excel spreadsheet. (Stéphane Hamel)</p>
+        <p>That which doesn't fit in an Excel spreadsheet.</p>
       </blockquote>
+      <figcaption>Stéphane Hamel</figcaption>
     </figure>
     <figure>
       <blockquote>
-        <p>Any data too big for copy to DVDs and fit into 1 Lada. (Kazakhstan dictionary)</p>
+        <p>Any data too big for copy to DVDs and fit into 1 Lada.</p>
       </blockquote>
+      <figcaption>Kazakhstan dictionary</figcaption>
     </figure>
     <figure>
       <blockquote>
-        <p>When person monitors database, it is called small data and when database monitors person, it is called big data. (Tarun Kumar)</p>
+        <p>When person monitors database, it is called small data and when database monitors person, it is called big data.</p>
       </blockquote>
+      <figcaption>Tarun Kumar</figcaption>
     </figure>
+	</div></section>
+
+	<section class="slide" id="WhatIsBigDataTermBonus"><div>
+		<h2>What is Big Data?</h2>
     <figure>
       <blockquote>
         <p>Big data is like teenage sex: everyone talks about it, nobody really knows how to do it, everyone thinks everyone else is doing it, so everyone claims they are doing it.</p>
       </blockquote>
     </figure>
+		<style>
+			#WhatIsBigDataTermBonus p {
+				font-size: 2.5rem;
+			}
+		</style>
 	</div></section>
 
 	<section class="slide" id="WhatIsBigDataBruce"><div>
@@ -196,6 +210,9 @@
 		</style>
 	</div></section>
 
+
+
+
 	<section class="slide" id="IndexesCover"><div>
     <h2 class="shout">Indexes</h2>
 	</div></section>
@@ -233,15 +250,665 @@
 
 	<section class="slide" id="HashIndexes"><div>
     <h2>Hash Index</h2>
-		<img class="cover" src="pictures/hash_indexes.png" alt="HashIndexes" />
+		<img class="place bottom" src="pictures/hash_indexes.png" alt="HashIndexes" />
+		<style>
+			#HashIndexes img {
+        width: 75%;
+        padding-bottom: 10px;
+			}
+		</style>
 	</div></section>
 
 	<section class="slide" id="BitmapIndexes"><div>
     <h2>Bitmap Index</h2>
-		<img class="cover" src="pictures/bitmap_index.png" alt="BitmapIndexes" />
+		<img class="place bottom" src="pictures/bitmap_index.png" alt="BitmapIndexes" />
+		<style>
+			#BitmapIndexes img {
+        width: 80%;
+        padding-bottom: 10px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="GISTIndexes"><div>
+    <h2>Generalized Search Tree (GiST) index</h2>
+		<img class="place bottom" src="pictures/gist_index.png" alt="GISTIndexes" />
+		<style>
+			#GISTIndexes img {
+        width: 90%;
+        padding-bottom: 10px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="GINIndexes"><div>
+    <h2>Generalized Inverted (GIN) index</h2>
+		<img class="place bottom" src="pictures/fulltext-gist-vs-gin.png" alt="GINIndexes" />
+		<style>
+			#GINIndexes img {
+        width: 62%;
+        padding-bottom: 10px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="BRINIndexes"><div>
+    <h2>Block Range (BRIN) Indexes (9.5+)</h2>
+		<img class="place bottom" src="pictures/brin_index.png" alt="BRINIndexes" />
+		<style>
+			#BRINIndexes img {
+        width: 82%;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="BRINIndexesUsage1"><div>
+    <h2>Block Range (BRIN) Indexes</h2>
+    <pre><code># \dt+ orders
+                  List of relations
+ Schema |  Name  | Type  | Owner | Size  | Description
+--------+--------+-------+-------+-------+-------------
+ public | orders | table | leo   | 13 GB |
+(1 row)</code></pre>
+</div></section>
+
+	<section class="slide" id="BRINIndexesUsage2"><div>
+    <h2>Block Range (BRIN) Indexes</h2>
+    <pre><code># EXPLAIN ANALYSE SELECT count(*) FROM orders
+    WHERE order_date BETWEEN '2012-01-04 09:00:00'
+    and '2014-01-04 14:30:00';
+...
+Planning time: 0.140 ms
+Execution time: 30172.482 ms
+(6 rows)</code></pre>
+	</div></section>
+
+  <section class="slide" id="BRINIndexesUsage3"><div>
+     <h2>Block Range (BRIN) Indexes</h2>
+     <pre><code># CREATE INDEX idx_order_date_brin ON orders
+ USING BRIN (order_date);
+# \di+ idx_order_date_brin
+                              List of relations
+ Schema |        Name         | Type  | Owner | Table  |  Size  | Description
+--------+---------------------+-------+-------+--------+--------+-------------
+ public | idx_order_date_brin | index | leo   | orders | 504 kB |
+(1 row)</code></pre>
+  </div></section>
+
+  <section class="slide" id="BRINIndexesUsage4"><div>
+     <h2>Block Range (BRIN) Indexes</h2>
+     <pre><code># EXPLAIN ANALYSE SELECT count(*) FROM orders
+       WHERE order_date BETWEEN '2012-01-04 09:00:00'
+       and '2014-01-04 14:30:00';
+...
+->  Bitmap Index Scan on idx_order_date_brin
+      Index Cond: ((order_date >= '2012-01-04 09:00:00+00'::timestamp with time zone) AND (order_date <= '2014-01-04 14:30:00+00'::timestamp with time zone))
+Planning time: 0.108 ms
+Execution time: 6347.701 ms
+(9 rows)</code></pre>
+  </div></section>
+
+  <section class="slide" id="BRINIndexesUsage5"><div>
+     <h2>Block Range (BRIN) Indexes</h2>
+     <pre><code># CREATE INDEX idx_order_date_brin_32
+ ON orders
+ USING BRIN (order_date) WITH (pages_per_range = 32);
+
+# CREATE INDEX idx_order_date_brin_512
+ ON orders
+ USING BRIN (order_date) WITH (pages_per_range = 512);</code></pre>
+  </div></section>
+
+  <section class="slide" id="BRINIndexesUsage6"><div>
+     <h2>Block Range (BRIN) Indexes</h2>
+     <pre><code># \di+ idx_order_date_brin*
+                                List of relations
+ Schema |          Name           | Table  |  Size
+--------+-------------------------+--------+---------
+ public | idx_order_date_brin     | orders | 504 kB
+ public | idx_order_date_brin_32  | orders | 1872 kB
+ public | idx_order_date_brin_512 | orders | 152 kB
+(3 rows)</code></pre>
+  </div></section>
+
+
+
+	<section class="slide" id="JSONBCover"><div>
+    <h2 class="shout">JSONB</h2>
+	</div></section>
+
+  <section class="slide" id="JSONBExample"><div>
+     <h2>JSONB</h2>
+     <pre><code># SELECT '{"name": "Joe", "age": 30}'::jsonb
+       || '{"town": "London"}'::jsonb;
+                    ?column?
+ ----------------------------------------------
+  {"age": 30, "name": "Joe", "town": "London"}</code></pre>
+  </div></section>
+
+	<section class="slide" id="JSONBOperators"><div>
+		<h2>JSONB Operators</h2>
+    <table>
+      <tbody>
+        <tr>
+          <th>Operator</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>-&gt;</td>
+          <td>Get an element by key as a JSON object</td>
+        </tr>
+        <tr>
+          <td>-&gt;&gt;</td>
+          <td>Get an element by key as a text object</td>
+        </tr>
+        <tr>
+          <td>#&gt;</td>
+          <td>Get an element by path as a JSON object</td>
+        </tr>
+        <tr>
+          <td>#&gt;&gt;</td>
+          <td>Get an element by path as a text object</td>
+        </tr>
+        <tr>
+          <td>&lt;@, @&gt;</td>
+          <td>Evaluate whether a JSON object contains a key/value pair</td>
+        </tr>
+        <tr>
+          <td>?</td>
+          <td>Evaluate whether a JSON object contains a key or a value</td>
+        </tr>
+        <tr>
+          <td>?|</td>
+          <td>Evaluate whether a JSON object contains ANY of keys or values</td>
+        </tr>
+        <tr>
+          <td>?&</td>
+          <td>Evaluate whether a JSON object contains ALL of keys or values</td>
+        </tr>
+        <tr>
+          <td>||</td>
+          <td>Insert or Update an element to a JSON object</td>
+        </tr>
+        <tr>
+          <td>-</td>
+          <td>Delete an element by key from a JSON object</td>
+        </tr>
+        <tr>
+          <td>#-</td>
+          <td>Delete an element by path from a JSON object</td>
+        </tr>
+      </tbody>
+    </table>
+		<style>
+			#JSONBOperators table {
+				font-size: 1rem;
+			}
+		</style>
 	</div></section>
 
 
+
+	<section class="slide" id="AnalyticsCover"><div>
+    <h2 class="shout">Analytics</h2>
+	</div></section>
+
+	<section class="slide" id="AnalyticsWithCover"><div>
+    <h2>WITH</h2>
+    <pre><code># WITH prepared_data AS ( ... )
+SELECT data, count(data),
+       min(data), max(data)
+FROM prepared_data
+GROUP BY data;</code></pre>
+	</div></section>
+
+	<section class="slide" id="AnalyticsWithRecursiveCover"><div>
+    <h2>WITH RECURSIVE</h2>
+    <pre><code># WITH RECURSIVE t(n) AS (VALUES (1)
+UNION ALL SELECT n+1 FROM t WHERE n < 100)
+SELECT sum(n) FROM t;
+
+ sum
+------
+ 5050
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="AnalyticsWindowFunExample1"><div>
+    <h2>Window functions</h2>
+    <pre><code># SELECT depname, empno, salary, avg(salary) OVER (PARTITION BY depname) FROM empsalary;
+ depname  | empno | salary |          avg
+-----------+-------+--------+-----------------------
+ develop   |    11 |   5200 | 5020.0000000000000000
+ develop   |     7 |   4200 | 5020.0000000000000000
+ develop   |     9 |   4500 | 5020.0000000000000000
+ develop   |     8 |   6000 | 5020.0000000000000000
+ develop   |    10 |   5200 | 5020.0000000000000000
+ personnel |     5 |   3500 | 3700.0000000000000000
+ personnel |     2 |   3900 | 3700.0000000000000000
+ sales     |     3 |   4800 | 4866.6666666666666667
+ sales     |     1 |   5000 | 4866.6666666666666667
+ sales     |     4 |   4800 | 4866.6666666666666667
+(10 rows)</code></pre>
+		<style>
+			#AnalyticsWindowFunExample1 code {
+				font-size: 1rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="AnalyticsWindowFunExample2"><div>
+    <h2>Window functions</h2>
+    <pre><code># SELECT salary, sum(salary) OVER (ORDER BY salary) FROM empsalary;
+ salary |  sum
+--------+-------
+   3500 |  3500
+   3900 |  7400
+   4200 | 11600
+   4500 | 16100
+   4800 | 25700
+   4800 | 25700
+   5000 | 30700
+   5200 | 41100
+   5200 | 41100
+   6000 | 47100
+(10 rows)</code></pre>
+		<style>
+			#AnalyticsWindowFunExample2 code {
+				font-size: 1rem;
+			}
+		</style>
+	</div></section>
+
+  <section class="slide" id="FILTERExample"><div>
+    <h2>FILTER replaces CASE WHEN</h2>
+    <pre><code># SELECT
+  COUNT(*) AS unfiltered,
+  SUM( CASE WHEN i < 5 THEN 1 ELSE 0 END ) AS filtered
+FROM generate_series(1,10) AS s(i);
+
+# SELECT
+  COUNT(*) AS unfiltered,
+  COUNT(*) FILTER (WHERE i < 5) AS filtered
+FROM generate_series(1,10) AS s(i);</code></pre>
+  </div></section>
+
+  <section class="slide" id="OrderSetExample"><div>
+    <h2>Ordered-set (WITHIN GROUP) aggregates (9.4+)</h2>
+    <ul>
+      <li>percentile_cont()</li>
+      <li>percentile_disc()</li>
+      <li>mode()</li>
+      <li>rank()</li>
+      <li>dense_rank()</li>
+      <li>percent_rank()</li>
+      <li>cume_dist()</li>
+    </ul>
+  </div></section>
+
+  <section class="slide" id="ModeExample"><div>
+    <h2>Mode() - most common value</h2>
+    <pre><code># SELECT mode() WITHIN GROUP (ORDER BY some_value)
+      AS modal_value FROM tbl;
+ mode
+------
+    9
+(1 row)</code></pre>
+  </div></section>
+
+  <section class="slide" id="RankExample"><div>
+    <h2>Rank() - rank of a value in a subset</h2>
+    <pre><code># SELECT v, RANK() OVER(ORDER BY v) FROM t;
+| V | RANK |
+|---|------|
+| a |    1 |
+| a |    1 |
+| b |    3 |
+| c |    4 |
+| c |    4 |
+| d |    6 |</code></pre>
+  </div></section>
+
+  <section class="slide" id="DenseRankExample"><div>
+    <h2>Dense_rank() - rank() with no gaps</h2>
+    <pre><code># SELECT v, DENSE_RANK() OVER(ORDER BY v) FROM t;
+| V | DENSE_RANK |
+|---|------------|
+| a |          1 |
+| a |          1 |
+| b |          2 |
+| c |          3 |
+| c |          3 |
+| d |          4 |</code></pre>
+  </div></section>
+
+  <section class="slide" id="GroupingSetsExample1"><div>
+    <h2>GROUPING SETS (9.5+)</h2>
+    <pre><code># SELECT * FROM items_sold;
+ brand | size | sales
+-------+------+-------
+ Foo   | L    |  10
+ Foo   | M    |  20
+ Bar   | M    |  15
+ Bar   | L    |  5
+(4 rows)</code></pre>
+  </div></section>
+
+  <section class="slide" id="GroupingSetsExample2"><div>
+    <h2>GROUPING SETS (9.5+)</h2>
+    <pre><code># SELECT brand, size, sum(sales) FROM items_sold
+      GROUP BY GROUPING SETS ((brand), (size), ());
+ brand | size | sum
+-------+------+-----
+ Foo   |      |  30
+ Bar   |      |  20
+       | L    |  15
+       | M    |  35
+       |      |  50</code></pre>
+  </div></section>
+
+  <section class="slide" id="CubeExample1"><div>
+    <h2>CUBE (9.5+)</h2>
+    <pre><code># SELECT brand, size, sum(sales) FROM items_sold GROUP BY CUBE (brand, size);
+ brand | size | sum
+-------+------+-----
+ Bar   | L    |   5
+ Bar   | M    |  15
+ Bar   |      |  20
+ Foo   | L    |  10
+ Foo   | M    |  20
+ Foo   |      |  30
+       |      |  50
+       | L    |  15
+       | M    |  35</code></pre>
+		<style>
+			#CubeExample1 code {
+				font-size: 1.1rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="CubeExample2"><div>
+    <h2>CUBE (9.5+)</h2>
+    <pre><code># CUBE(c1, c2, c3)
+    (с1, null, null)
+    (null, c2, null)
+    (null, null, c3)
+    (c1, c2, null)
+    (c1, null, c3)
+    (null, c2, c3)
+    (c1, c2, c3)
+    (null, null, null)</code></pre>
+		<style>
+			#CubeExample2 code {
+				font-size: 1.5rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="RollupExample1"><div>
+    <h2>ROLLUP (9.5+)</h2>
+    <pre><code># SELECT brand, size, sum(sales) FROM items_sold
+      GROUP BY ROLLUP (brand, size);
+   brand | size | sum
+  -------+------+-----
+   Bar   | L    |   5
+   Bar   | M    |  15
+   Bar   |      |  20
+   Foo   | L    |  10
+   Foo   | M    |  20
+   Foo   |      |  30
+         |      |  50</code></pre>
+		<style>
+			#RollupExample1 code {
+				font-size: 1.2rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="RollupExample2"><div>
+    <h2>ROLLUP (9.5+)</h2>
+    <pre><code># ROLLUP(c1, c2, c3, c4)
+    (c1, c2, c3, c4)
+    (c1, c2, c3, null)
+    (c1, c2, null, null)
+    (c1, null, null, null)
+    (null, null, null, null)</code></pre>
+		<style>
+			#RollupExample2 code {
+				font-size: 1.8rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="MaterializedViews"><div>
+    <h2>Materialized Views</h2>
+    <pre><code># REFRESH MATERIALIZED VIEW CONCURRENTLY my_view</code></pre>
+		<img class="place bottom" src="pictures/materialized_views.png" alt="MaterializedViews" />
+		<style>
+			#MaterializedViews img {
+        width: 50%;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="TablesampleExample1"><div>
+    <h2>TABLESAMPLE</h2>
+    <pre><code># EXPLAIN ANALYZE SELECT * FROM test TABLESAMPLE SYSTEM ( 0.001 );
+                  QUERY PLAN
+------------------------------------------------------------------
+ Sample Scan (system) on test  (cost=0.00..0.10 rows=10 width=25)
+   (actual time=0.029..0.042 rows=136 loops=1)
+ Planning time: 0.125 ms
+ Execution time: 0.061 ms
+(3 rows)</code></pre>
+		<style>
+			#TablesampleExample1 code {
+				font-size: 1.2rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="TablesampleExample2"><div>
+    <h2>TABLESAMPLE</h2>
+    <pre><code># EXPLAIN ANALYZE SELECT * FROM test TABLESAMPLE BERNOULLI ( 0.001 );
+                  QUERY PLAN
+------------------------------------------------------------------
+Sample Scan (bernoulli) on test  (cost=0.00..7353.10 rows=10 width=25)
+    (actual time=2.779..27.288 rows=15 loops=1)
+ Planning time: 0.112 ms
+ Execution time: 27.312 ms
+(3 rows)</code></pre>
+		<style>
+			#TablesampleExample2 code {
+				font-size: 1.2rem;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="Tablesample"><div>
+    <h2>TABLESAMPLE - Sampling methods</h2>
+		<img class="place bottom" src="pictures/sampling_methods.jpg" alt="Tablesample" />
+		<style>
+			#Tablesample img {
+        width: 66%;
+        padding-bottom: 10px;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="TablesampleExample3"><div>
+    <h2>TABLESAMPLE REPEATABLE</h2>
+    <p>The optional REPEATABLE clause specifies a seed number or expression to use for generating random numbers within the sampling method. The seed value can be any non-null floating-point value. Two queries that specify the same seed and argument values will select the same sample of the table, if the table has not been changed meanwhile</p>
+    <pre><code># SELECT * FROM t TABLESAMPLE SYSTEM (0.001) REPEATABLE (200);</code></pre>
+  </div></section>
+
+
+
+	<section class="slide" id="ShardingCover"><div>
+    <h2 class="shout">Sharding</h2>
+	</div></section>
+
+  <section class="slide" id="ShardingImage"><div>
+		<img class="cover height" src="pictures/sharding.png" alt="sharding" />
+  </div></section>
+
+  <section class="slide" id="ShardingYahoo"><div>
+    <h2>Yahoo claims 2-petabyte database is world's biggest, busiest</h2>
+    <figure>
+      <blockquote>
+        <p>the system is described as an over 2 petabyte repository of user click stream and context data with an update rate for 24 billion events per day</p>
+      </blockquote>
+      <figcaption>James Hamilton</figcaption>
+    </figure>
+    <p><a href="http://perspectives.mvdirona.com/2008/05/petascale-sql-db-at-yahoo/" target="blank">Petascale SQL DB at Yahoo!</a></p>
+  </div></section>
+
+  <section class="slide" id="ShardingList"><div>
+    <h2>Sharding solutions</h2>
+		<ul>
+      <li>PL/Proxy (Skype, Open Source)</li>
+      <li>Pivotal Greenplum (Pivotal, Open Source)</li>
+      <li>CitusDB (CitusData, moving to Open Source)</li>
+      <li>AWS Redshift (Amazon, closed)</li>
+    </ul>
+  </div></section>
+
+  <section class="slide" id="PgClusteringXC"><div>
+    <h2>Postgres-XC</h2>
+    <img class="cover height" src="pictures/Postgers_XC.jpg" alt="Postgres-XC" />
+  </div></section>
+
+  <section class="slide" id="PgClusteringXCDescribe"><div>
+    <h2>Postgres-XC</h2>
+    <ul>
+      <li>Write‐scalable PostgreSQL cluster (more than 3x scalability performance speedup with five servers, compared with pure PostgreSQL)</li>
+      <li>Synchronous multi‐master configuration (any update to any master is visible from other masters immediately)</li>
+      <li>Table location transparent</li>
+      <li>Based upon PostgreSQL</li>
+      <li>Same API to Apps as PostgreSQL</li>
+    </ul>
+  </div></section>
+
+  <section class="slide" id="PgClusteringXCImage"><div>
+    <img class="cover width" src="pictures/postgres-xc-02.png" alt="Postgres-XC" />
+  </div></section>
+
+  <section class="slide" id="PgClusteringPgShard"><div>
+    <h2>Pg_shard</h2>
+    <pre><code>CREATE EXTENSION pg_shard;
+CREATE TABLE customer_reviews
+(
+    customer_id TEXT NOT NULL,
+    review_date DATE,
+    review_rating INTEGER
+);
+SELECT master_create_distributed_table('customer_reviews', 'customer_id');
+SELECT master_create_worker_shards('customer_reviews', 16, 2);</code></pre>
+
+		<style>
+			#PgClusteringPgShard pre {
+				font-size: 1.2rem;
+			}
+		</style>
+  </div></section>
+
+	<section class="slide" id="PgClusteringPgShardRDS"><div>
+    <img class="cover width" src="pictures/rds-pg_shard-diagram3.png" alt="RDS pg_shard" />
+	</div></section>
+
+  <section class="slide" id="PgClusteringPgShardLimits"><div>
+    <h2>Pg_shard Limitations</h2>
+    <ul>
+      <li>Transactional semantics for queries that span across multiple shards</li>
+      <li>Unique constraints on columns other than the partition key, or foreign key constraints</li>
+      <li>Distributed "JOIN"s also aren't supported</li>
+      <li>Table alterations are not supported</li>
+      <li>"DROP TABLE" does not have any special semantics when used on a distributed table</li>
+      <li>Queries such as "INSERT INTO foo SELECT bar, baz FROM qux" are not supported</li>
+    </ul>
+  </div></section>
+
+  <section class="slide" id="AnalyticCstore"><div>
+    <h2>Cstore_fdw - columnar store for analytics with PostgreSQL</h2>
+    <img class="place bottom" src="pictures/columnsvsrows.png" alt="Cstore_fdw" />
+		<style>
+			#AnalyticCstore img {
+				padding-bottom: 10px;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="AnalyticCstoreLayout"><div>
+    <img class="cover height" src="pictures/cstore-layout.svg" alt="Cstore_fdw" />
+  </div></section>
+
+  <section class="slide" id="AnalyticCstoreFDW"><div>
+    <h2> Foreign table inheritance (9.5+)</h2>
+    <pre><code>CREATE TABLE events (...);
+CREATE TABLE events_current () INHERITS(main);
+CREATE FOREIGN TABLE events_201501 (
+CHECK(20150101 <= event_date AND event_date <= 20150131)
+)
+INHERITS(main) SERVER cstore_server OPTIONS(compression 'pglz');</code></pre>
+    <ul>
+      <li>Fast INSERT and look-ups into current table</li>
+      <li>Periodically move data to archive table for compression</li>
+      <li>Query both via main table</li>
+    </ul>
+  </div></section>
+
+  <section class="slide" id="PgClusteringNoSQL"><div>
+    <h2>Additional Options - "NoSQL" database</h2>
+    <img src="pictures/nosql-logos.png" alt="NoSQL" />
+    <ul>
+      <li>CouchDB, MongoDB, HBase, Cassandra, Redis</li>
+      <li>Document store</li>
+      <li>Map/Reduce querying</li>
+    </ul>
+		<style>
+			#PgClusteringNoSQL img {
+				height: 60%;
+        float: right;
+        margin: -20px 20px 0 0;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgClusteringFDWs"><div>
+    <h2>Foreign Data Wrappers</h2>
+    <img class="place bottom" src="pictures/fdws.png" alt="FDWs" />
+		<style>
+			#PgClusteringFDWs img {
+				height: 70%;
+        padding-bottom: 10px;
+			}
+		</style>
+  </div></section>
+
+  <section class="slide" id="PgClusteringFDWsList"><div>
+    <h2>Foreign Data Wrappers</h2>
+    <div class="double">
+      <ul>
+        <li><a href="https://github.com/jaiminpan/cassandra2_fdw" target="blank">Cassandra2</a></li>
+        <li><a href="https://github.com/ZhengYang/couchdb_fdw" target="blank">CouchDB</a></li>
+        <li><a href="https://github.com/EnterpriseDB/mongo_fdw" target="blank">MongoDB</a></li>
+        <li><a href="https://github.com/nuko-yokohama/neo4j_fdw" target="blank">Neo4j</a></li>
+        <li><a href="https://github.com/pg-redis-fdw/redis_fdw" target="blank">Redis</a></li>
+        <li><a href="https://github.com/wilsonrmsorg/rethinkdb-multicorn-postgresql-fdw" target="blank">RethinkDB</a></li>
+        <li><a href="https://github.com/kiskovacs/riak-multicorn-pg-fdw" target="blank">Riak</a></li>
+      </ul>
+      <ul>
+        <li><a href="https://bitbucket.org/openscg/hadoop_fdw" target="blank">Hadoop</a></li>
+        <li><a href="https://github.com/citusdata/cstore_fdw" target="blank">MonetDB</a></li>
+        <li><a href="https://github.com/avances123/dynamodb_fdw" target="blank">DynamoDB</a></li>
+        <li><a href="https://github.com/umitanuki/s3_fdw" target="blank">S3</a></li>
+        <li><a href="https://github.com/umitanuki/twitter_fdw" target="blank">Twitter</a></li>
+        <li><a href="https://github.com/lincolnturner/gspreadsheet_fdw" target="blank">Google Spreadsheets</a></li>
+        <li>and more...</li>
+      </ul>
+    </div>
+  </div></section>
 
 
 	<section class="slide" id="QuestionsSlide"><div>
@@ -252,6 +919,7 @@
         <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
         <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
         <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        <li>podcast: <a href="http://www.rwpod.com/">RWpod</a></li>
       </ul>
     </div>
     <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
