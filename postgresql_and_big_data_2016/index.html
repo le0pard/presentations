@@ -834,7 +834,7 @@ SELECT master_create_worker_shards('customer_reviews', 16, 2);</code></pre>
     <img class="place bottom" src="pictures/columnsvsrows.png" alt="Cstore_fdw" />
 		<style>
 			#AnalyticCstore img {
-				padding-bottom: 10px;
+        width: 60%;
 			}
 		</style>
   </div></section>
@@ -856,6 +856,11 @@ INHERITS(main) SERVER cstore_server OPTIONS(compression 'pglz');</code></pre>
       <li>Periodically move data to archive table for compression</li>
       <li>Query both via main table</li>
     </ul>
+		<style>
+			#AnalyticCstoreFDW ul {
+        padding-left: 50px;
+			}
+		</style>
   </div></section>
 
   <section class="slide" id="PgClusteringNoSQL"><div>
