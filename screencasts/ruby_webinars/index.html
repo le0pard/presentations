@@ -103,6 +103,51 @@
     <h2>Ruby Threads</h2>
   </div></section>
 
+	<section class="slide" id="RubyThreadsGIL1"><div>
+		<h2>Ruby GIL</h2>
+    <pre><code>array = []
+
+5.times.map do
+  Thread.new do
+    1000.times do
+      array << nil
+    end
+  end
+end.each(&:join)
+
+puts array.size</code></pre>
+		<style>
+			#RubyThreadsGIL1 code {
+        font-size: 1.2rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsGIL2"><div>
+		<h2>Ruby GIL</h2>
+    <pre><code>array = []
+mutex = Mutex.new
+
+5.times.map do
+  Thread.new do
+
+    mutex.synchronize do
+      1000.times do
+        array << nil
+      end
+    end
+
+  end
+end.each(&:join)
+
+puts array.size</code></pre>
+		<style>
+			#RubyThreadsGIL2 code {
+        font-size: 0.8rem;
+			}
+		</style>
+	</div></section>
+
 	<section class="slide" id="RubyThreadsExample1"><div>
 		<h2>Thread example</h2>
     <pre><code># Thread #1 is running here
@@ -253,6 +298,27 @@ end</code></pre>
         font-size: 1rem;
 			}
 		</style>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsPool1"><div>
+		<h2>Thread Pool</h2>
+		<img src="pictures/threadpool.png" alt="RubyThreadsPool1" />
+		<style>
+			#RubyThreadsPool1 {
+        background-color: #FFF;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyThreadsPool2"><div>
+		<h2>Thread Pool</h2>
+		<ul>
+      <li><a href="https://github.com/ruby-concurrency/concurrent-ruby" target="brank">Concurrent-ruby</a></li>
+      <li><a href="https://github.com/celluloid/celluloid" target="brank">Celluloid</a></li>
+      <li><a href="https://github.com/bruceadams/pmap" target="brank">Pmap</a></li>
+      <li><a href="https://github.com/grosser/parallel" target="brank">Parallel</a></li>
+      <li><a href="https://github.com/meh/ruby-thread" target="brank">Ruby-thread</a></li>
+    </ul>
 	</div></section>
 
   <section class="slide shout" id="RubyThreadsQ"><div>
