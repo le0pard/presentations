@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Rspec - Alexey Vasiliev</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/bright/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Ruby, вебинары</h1>
+		<p>Alexey Vasiliev</p>
+	</header>
+
+	<section class="slide cover w h" id="Cover"><div>
+		<h2>Rspec</h2>
+		<p><a href="http://leopard.in.ua">Alexey Vasiliev</a></p>
+		<img src="pictures/cover.jpg" alt="Ruby" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin: 300px 0 0;
+				color: #FFF;
+				text-align: center;
+				font-size: 70px;
+				}
+			#Cover p {
+				margin: 10px 0 0;
+				text-align: center;
+				color: #FFF;
+				font-style: italic;
+				font-size: 20px;
+				}
+				#Cover p a {
+					color: #FFF;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="SoftwareTesting"><div>
+		<h2>Software testing</h2>
+    <p>Software testing is an investigation conducted to provide stakeholders with information about the quality of the product or service under test.</p>
+	</div></section>
+
+	<section class="slide" id="TestingTypes"><div>
+		<img src="pictures/testing-types.png" alt="TestingTypes" class="center" />
+		<style>
+			#TestingTypes img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+				text-align: center;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="TestingTypesList1"><div>
+		<ul>
+      <li><strong>Unit testing</strong> is a software testing method by which individual units of source code, sets of one or more computer program modules together with associated control data, usage procedures, and operating procedures, are tested to determine whether they are fit for use</li>
+      <li><strong>Acceptance testing</strong> is a formal testing with respect to user needs, requirements, and business processes conducted to determine whether a system satisfies the acceptance criteria and to enable the user, customers or other authorized entity to determine whether or not to accept the system</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="TestingTypesList2"><div>
+		<ul>
+      <li><strong>Integration testing</strong> is the phase in software testing in which individual software modules are combined and tested as a group</li>
+      <li><strong>System testing</strong> of software or hardware is testing conducted on a complete, integrated system to evaluate the system's compliance with its specified requirements</li>
+      <li><strong>White-box testing</strong> is a method of testing software that tests internal structures or workings of an application, as opposed to its functionality</li>
+      <li><strong>Black-box testing</strong> is a method of software testing that examines the functionality of an application without peering into its internal structures or workings</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="SoftwareDevelopmentProcessTDD"><div>
+		<h2>Software development process</h2>
+    <ul>
+      <li><strong>Test-driven development (TDD)</strong> is a software development process that relies on the repetition of a very short development cycle: first the developer writes an (initially failing) automated test case that defines a desired improvement or new function, then produces the minimum amount of code to pass that test, and finally refactors the new code to acceptable standards</li>
+    <ul>
+	</div></section>
+
+	<section class="slide" id="SoftwareDevelopmentProcessBDD"><div>
+		<h2>Software development process</h2>
+    <ul>
+      <li><strong>Behavior-driven development (BDD)</strong> combines the general techniques and principles of TDD with ideas from domain-driven design and object-oriented analysis and design to provide software development and management teams with shared tools and a shared process to collaborate on software development</li>
+    <ul>
+	</div></section>
+
+	<section class="slide" id="SoftwareDevelopmentProcessElse"><div>
+		<h2>Software development process</h2>
+    <p>FDD, MDD, DDD, Scrum, Kanban, ...</p>
+	</div></section>
+
+	<section class="slide cover h" id="RedGreen"><div>
+		<h2>TDD</h2>
+		<img src="pictures/redgreenrefacor.png" alt="RedGreen" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+		#RedGreen {
+			background-color: #FFF;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="TDDProcess"><div>
+		<h2>TDD</h2>
+		<ul>
+      <li>Add a test</li>
+      <li>Run all tests and see if the new one fails</li>
+      <li>Write some code</li>
+      <li>Run the automated tests and see them succeed</li>
+      <li>Refactor code</li>
+      <li>Repeat</li>
+    </ul>
+	</div></section>
+
+
+	<section class="slide" id="Rspec"><div>
+		<img src="pictures/rspec.png" alt="Rspec" class="center" />
+    <p><a href="http://rspec.info/" target="blank">Rspec</a></p>
+		<style>
+			#Rspec img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+				text-align: center;
+				}
+			#Rspec p {
+        text-align: center;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="RspecLinks"><div>
+		<h2>Rspec</h2>
+    <ul>
+      <li><a href="http://rspec.info/" target="blank">Rspec website</a></li>
+      <li><a href="http://betterspecs.org/" target="blank">Better Specs</a></li>
+      <li><a href="https://www.codeschool.com/courses/testing-with-rspec" target="blank">Testing with RSpec (codeschool)</a></li>
+    </ul>
+	</div></section>
+
+
+
+  <section class="slide shout" id="RubyThreadsQ"><div>
+    <h2>Questions?</h2>
+  </div></section>
+
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
