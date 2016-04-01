@@ -1,6 +1,7 @@
+require "spec_helper"
 require "string_calculator"
 
-describe StringCalculator do
+RSpec.describe StringCalculator do
 
   describe ".add" do
     context "given an empty string" do
