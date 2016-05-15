@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Bundler - Alexey Vasiliev</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/bright/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Bundler, вебинары</h1>
+		<p>Alexey Vasiliev</p>
+	</header>
+
+	<section class="slide cover w h" id="Cover"><div>
+		<h2>Bundler</h2>
+		<p><a href="http://leopard.in.ua">Alexey Vasiliev</a></p>
+		<img src="pictures/cover.jpg" alt="Ruby" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin: 300px 0 0;
+				color: #FFF;
+				text-align: center;
+				font-size: 70px;
+				}
+			#Cover p {
+				margin: 10px 0 0;
+				text-align: center;
+				color: #FFF;
+				font-style: italic;
+				font-size: 20px;
+				}
+				#Cover p a {
+					color: #FFF;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide cover w" id="Rubygems"><div>
+    <h2><a href="https://rubygems.org/" target="blank">RubyGems</a></h2>
+		<img src="pictures/rubygems.png" alt="Rubygems" />
+		<style>
+			#Rubygems {
+        background-color: #EF3F2D;
+			}
+			#Rubygems a {
+        color: #000;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide cover w" id="Bundler"><div>
+    <h2><a href="http://bundler.io/" target="blank">Bundler</a></h2>
+		<img src="pictures/gembundler.png" alt="Bundler" />
+		<style>
+			#Bundler {
+        background-color: #C6E7EC;
+			}
+			#Bundler a {
+        color: #000;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="YourFirstGem1"><div>
+    <h2>Start your first gem</h2>
+    <pre><code>$ bundle gem solar_system
+Creating gem 'solar_system'...
+Code of conduct enabled in config
+MIT License enabled in config
+      create  solar_system/Gemfile
+      create  solar_system/.gitignore
+      create  solar_system/lib/solar_system.rb
+      create  solar_system/lib/solar_system/version.rb
+      create  solar_system/solar_system.gemspec
+      create  solar_system/Rakefile
+      create  solar_system/README.md
+      create  solar_system/bin/console
+      create  solar_system/bin/setup
+      create  solar_system/CODE_OF_CONDUCT.md
+      create  solar_system/LICENSE.txt
+      create  solar_system/.travis.yml
+      create  solar_system/.rspec
+      create  solar_system/spec/spec_helper.rb
+      create  solar_system/spec/solar_system_spec.rb
+Initializing git repo in /Users/leo/Downloads/solar_system</code></pre>
+		<style>
+			#YourFirstGem1 code {
+        font-size: 0.6rem;
+			}
+		</style>
+	</div></section>
+
+
+  <section class="slide shout" id="RubyQ"><div>
+    <h2>Questions?</h2>
+  </div></section>
+
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
