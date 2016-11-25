@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Five Stages of JavaScript Development</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="shower/themes/material/styles/screen-16x10.css" />
+  <!--<link rel="stylesheet" href="shower/themes/material/styles/screen-4x3.css">-->
+</head>
+<body class="shower list">
+	<header class="caption">
+		<h1>Five Stages of JavaScript Development</h1>
+		<p>Alexey Vasiliev, Railsware</p>
+	</header>
+
+	<section class="slide" id="Cover">
+		<h2>Five Stages of JavaScript Development</h2>
+		<p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a href="http://railsware.com/">Railsware</a></p>
+		<img src="pictures/cover.jpg" alt="" class="cover">
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+		#Cover h2 {
+			margin: 100px 0 0;
+			color: #FFF;
+			text-align: center;
+			font-size: 70px;
+			}
+		#Cover p {
+			margin: 200px 0 0;
+			text-align: center;
+			color: #FFF;
+			font-style: italic;
+			font-size: 20px;
+			}
+			#Cover p a {
+				color: #FFF;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="AboutMeSlide"><div>
+		<h2>Alexey Vasiliev</h2>
+		<ul>
+			<li>Web and Mobile Developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), DevOps</li>
+			<li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+      <li>Open-Source books: <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a>, <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a></li>
+      <li>The Best Professional in Software Engineering, Ukrainian IT Awards 2015</li>
+      <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="BooksCover"><div>
+    <img src="pictures/chef_book_cover.png" class="place l"  alt="Chef Book" />
+    <img src="pictures/pg_book_cover.png" class="place r"  alt="PostgreSQL book" />
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#BooksCover img {
+				height: 98%;
+        margin: 0 30px;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="DevelopmentStart"><div>
+   <h2>Five Stages of JavaScript Development</h2>
+   <div class="double">
+     <ul>
+       <li>Denial</li>
+       <li>Anger</li>
+       <li>Bargaining</li>
+       <li>Depression</li>
+       <li>Acceptance</li>
+     </ul>
+     <img src="pictures/nodejs.png" alt="nodejs" />
+   </div>
+	<style>
+		#DevelopmentStart img {
+			width: 90%;
+			}
+	</style>
+	</div></section>
+
+
+	<section class="slide" id="DenialDevelopment"><div>
+    <h2>Denial</h2>
+		<img class="cover width height" src="pictures/cover.jpg" alt="WeStart4fDevelopment" />
+  	<style>
+  		#DenialDevelopment h2 {
+        font-size: 8rem;
+      }
+    </style>
+	</div></section>
+
+
+	<section class="slide" id="FutureIsJavaScriptEverywhere"><div>
+    <img class="cover width" src="pictures/javascript-everywhere.jpg" alt="JavaScript everywhere" />
+	</div></section>
+
+	<section class="slide" id="FirstDenialReaction"><div>
+    <h2>First reaction</h2>
+    <img class="cover" src="pictures/crazy-funny-cats-06.gif" alt="FirstDenialReaction" />
+		<style>
+  		#FirstDenialReaction img {
+        width: 500px;
+        padding-top: 100px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="SecondDenialReaction"><div>
+    <h2>But we can do this!</h2>
+    <video autoplay loop muted preload>
+      <source src="pictures/we_can_do_this.mp4"
+              type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+    </video>
+		<style>
+  		#SecondDenialReaction video {
+        width: 100%;
+      }
+		</style>
+	</div></section>
+
+
+
+	<section class="slide" id="AngerDevelopment"><div>
+    <h2>Anger</h2>
+		<img class="cover width height" src="pictures/cover.jpg" alt="WeStart4fDevelopment" />
+  	<style>
+  		#AngerDevelopment h2 {
+        font-size: 8rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="WAT"><div>
+    <h2>We all know about "WAT"</h2>
+    <img class="cover" src="pictures/wat.jpg" alt="WAT" />
+		<style>
+  		#WAT img {
+        width: 500px;
+        padding-top: 100px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="WATEmptymness"><div>
+    <h2>Emptyness</h2>
+    <table>
+      <tbody>
+        <tr>
+            <th class="red-col">NaN</th>
+            <th class="blue-col">null</th>
+            <th>undefined</th>
+        </tr>
+      </tbody>
+    </table>
+    <img class="place b" src="pictures/emptyness.jpg" alt="Emptyness" />
+		<style>
+  		#WATEmptymness table th {
+        text-align: center;
+        font-size: 4rem;
+      }
+  		#WATEmptymness .red-col {
+        color: #F00;
+      }
+  		#WATEmptymness .blue-col {
+        color: #00C;
+      }
+  		#WATEmptymness img {
+        margin-bottom: 50px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="WATEmptymnessCode"><div>
+    <h2>Emptyness</h2>
+    <pre><code>
+      Array(2) + "" === [undefined, undefined] + ""
+      var a = Array(2),
+          b = [undefined, undefined];
+
+      a[0] === b[0]; // true
+      a[1] === b[1]; // true
+      a.length === b.length; // true
+    </code></pre>
+	</div></section>
+
+	<section class="slide" id="WATEmptymnessSolution"><div>
+    <h2>Emptyness</h2>
+    <pre><code>
+      Array(2) + "" === [undefined, undefined] + ""
+      var a = Array(2),
+          b = [undefined, undefined];
+
+      b.map(alert); // alert * 2
+      a.map(alert); // no alerts
+      1 in a // false
+      1 in b // true
+    </code></pre>
+		<style>
+  		#WATEmptymnessSolution code {
+        font-size: 20px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="JSIsNotFunny"><div>
+    <img class="place c" src="pictures/javascript_not_funny.jpg" alt="JSIsNotFunny" />
+		<style>
+  		#JSIsNotFunny img {
+        height: 95%;
+      }
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="JSIsNotFunnyVodka"><div>
+    <figure>
+      <blockquote>
+        <p>JavaScript is like vodka: you're okay if you just drink it, but when you say you like it, you should realize there's something wrong with you</p>
+      </blockquote>
+    </figure>
+		<style>
+			#JSIsNotFunnyVodka blockquote p {
+				font-size: 3rem;
+			}
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="WhatIsHot"><div>
+		<img class="cover height" src="pictures/react-hype.jpg" alt="WhatisHot" />
+	</div></section>
+
+	<section class="slide" id="ReactIsGameChanger"><div>
+    <h2>React.js is hot right now</h2>
+    <img class="place center b" src="pictures/react.png" alt="ReactIsGameChanger" />
+		<style>
+			#ReactIsGameChanger img {
+				padding-bottom: 30px;
+			}
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="ReactDOM"><div>
+    <figure>
+      <blockquote>
+        <p>...the bottleneck is almost always the DOM mutation and not JS execution</p>
+      </blockquote>
+      <figcaption>
+        <a href="https://facebook.github.io/react/docs/multiple-components.html#a-note-on-performance" target="blank">React Doc</a>
+      </figcaption>
+    </figure>
+		<style>
+			#ReactDOM blockquote p {
+				font-size: 3.5rem;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="ReactDOMPerformance"><div>
+    <img class="cover width height" src="pictures/react-desktop.png" alt="ReactDOMPerformance" />
+    <a class="place b r" href="https://aerotwist.com/blog/react-plus-performance-equals-what/" target="blank">React + Performance = ?</a>
+		<style>
+			#ReactDOMPerformance a {
+				padding: 30px;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="ReactDOMModilePerformance"><div>
+    <img class="cover width height" src="pictures/react-n5.png" alt="ReactDOMModilePerformance" />
+    <a class="place b r" href="https://aerotwist.com/blog/react-plus-performance-equals-what/" target="blank">React + Performance = ?</a>
+		<style>
+			#ReactDOMModilePerformance a {
+				padding: 30px;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="ReactVsVanillaPerformance"><div>
+    <img class="cover width height" src="pictures/react-vs-vanilla-n5.png" alt="ReactVsVanillaPerformance" />
+    <a class="place b r" href="https://aerotwist.com/blog/react-plus-performance-equals-what/" target="blank">React + Performance = ?</a>
+		<style>
+			#ReactVsVanillaPerformance a {
+				padding: 30px;
+				}
+		</style>
+	</div></section>
+
+	<section class="slide" id="ReactFlux"><div>
+    <h2>Flux approach</h2>
+    <img class="place center b" src="pictures/flux-logo.png" alt="ReactFlux" />
+		<style>
+			#ReactFlux img {
+				padding-bottom: 30px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="ReactFluxArch"><div>
+    <img class="cover width" src="pictures/flux-diagram.png" alt="ReactFluxArch" />
+	</div></section>
+
+	<section class="slide" id="JavaScriptEcosystem"><div>
+    <h2>JavaScript ecosystem</h2>
+    <img class="place center b" src="pictures/js_ecosystem.png" alt="JavaScriptEcosystem" />
+		<style>
+			#JavaScriptEcosystem img {
+        height: 450px;
+				padding-bottom: 0px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="EsteFuture"><div>
+    <h2>Este - starter kit for universal full–fledged React apps</h2>
+    <pre><code>
+      export function appStateForUser(userState) {
+        return Immutable.fromJS(initialState).mergeDeep(...userState).toJS()
+      }
+
+      export function stateSetupFactory(req, userAppState) {
+        return function() {
+          state.load(userAppState)
+        }
+      }
+      ...
+      const beforeRender = stateSetupFactory(req, appState)
+      beforeRender()
+
+      // do some requests to API and render
+
+    </code></pre>
+		<style>
+  		#EsteFuture code {
+        font-size: 20px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="EsteFuture2"><div>
+    <h2>Este - starter kit for universal full–fledged React apps</h2>
+    <pre><code>
+      const beforeRender = stateSetupFactory(req, appState)
+      beforeRender()
+
+      // do some requests to API and render
+
+    </code></pre>
+		<style>
+  		#EsteFuture code {
+        font-size: 20px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="EsteReaction"><div>
+    <h2>My Reaction</h2>
+    <video autoplay loop muted preload>
+      <source src="pictures/my_reaction.mp4"
+              type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+    </video>
+		<style>
+  		#EsteReaction video {
+        width: 100%;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="JSReaction"><div>
+    <h2>Feeling about JS community</h2>
+    <video autoplay loop muted preload>
+      <source src="pictures/js_community.mp4"
+              type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+    </video>
+		<style>
+  		#JSReaction video {
+        width: 100%;
+      }
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="BargainingDevelopment"><div>
+    <h2>Bargaining</h2>
+		<img class="cover width height" src="pictures/cover.jpg" alt="WeStart4fDevelopment" />
+  	<style>
+  		#BargainingDevelopment h2 {
+        font-size: 8rem;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="BargainingNotInventedHere"><div>
+    <h2>Not invented here. We need Bare-Metal (or something else)</h2>
+    <video autoplay loop muted preload>
+      <source src="pictures/not_invented_here.mp4"
+              type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+    </video>
+		<style>
+  		#BargainingNotInventedHere video {
+        width: 100%;
+      }
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="BargainingNotInventedHere2"><div>
+    <h2>Bare-Metal sutable only for LOC. We made own :(</h2>
+    <img class="place b" src="pictures/monster.png" alt="monster" />
+		<style>
+  		#BargainingNotInventedHere2 img {
+        margin-bottom: 80px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="BargainingMonster"><div>
+    <h2>We are monsters!!!</h2>
+    <a href="http://dayssincelastjavascriptframework.com/">dayssincelastjavascriptframework.com</a>
+		<style>
+  		#BargainingMonster a {
+        font-size: 3rem;
+        text-align: center;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="BargainingWorse"><div>
+    <img class="cover" src="pictures/standards.png" alt="standards" />
+		<style>
+  		#BargainingWorse img {
+        width: 80%;
+      }
+		</style>
+	</div></section>
+
+
+
+	<section class="slide" id="DepressionDevelopment"><div>
+    <h2>Depression</h2>
+		<img class="cover width height" src="pictures/cover.jpg" alt="WeStart4fDevelopment" />
+  	<style>
+  		#DepressionDevelopment h2 {
+        font-size: 8rem;
+      }
+    </style>
+	</div></section>
+
+
+	<section class="slide" id="DepressionFeeeling"><div>
+    <h2>How developers feel itself</h2>
+    <video autoplay loop muted preload>
+      <source src="pictures/depression.mp4"
+              type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+    </video>
+		<style>
+  		#DepressionFeeeling video {
+        text-align: center;
+        width: 98%;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="DepressionFeeeling2"><div>
+    <h2>How developers feel itself</h2>
+    <img class="place b" src="pictures/monster2.png" alt="monster" />
+		<style>
+  		#DepressionFeeeling2 img {
+        margin-bottom: 80px;
+      }
+		</style>
+	</div></section>
+
+
+
+	<section class="slide" id="AcceptanceDevelopment"><div>
+    <h2>Acceptance</h2>
+		<img class="cover width height" src="pictures/cover.jpg" alt="WeStart4fDevelopment" />
+  	<style>
+  		#AcceptanceDevelopment h2 {
+        font-size: 8rem;
+      }
+    </style>
+	</div></section>
+
+
+	<section class="slide" id="AcceptanceFreeze"><div>
+    <h2>Freeze npm dependency</h2>
+    <pre><code>
+      $ npm shrinkwrap
+      or
+      $ yarn
+    </code></pre>
+	</div></section>
+
+
+	<section class="slide" id="AcceptanceTesting"><div>
+    <h2>Tests!!!</h2>
+    <ul>
+      <li>Eslint - only ignore or error rules. Warnings doesn't sutable for CI</li>
+      <li>Karma + jasmine - unit tests</li>
+      <li>Nightwatch.js - integration tests</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="AcceptanceNightwatch"><div>
+    <h2>Nightwatch.js client hook</h2>
+    <pre><code>
+      makeRequest(serverApi.getState()).then((initialState) => {
+        ReactDom.render(
+          &lt;Root initialState={initialState} /&gt;,
+          document.getElementById('app-root'), () => {
+          <mark>window.__isAppReady = true</mark>
+        })
+      })
+    </code></pre>
+		<style>
+  		#AcceptanceNightwatch code {
+        font-size: 20px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceNightwatch2"><div>
+    <h2>Nightwatch.js client hook</h2>
+    <pre><code>
+      exports.command = function(callback) {
+        const self = this
+        // Uses waitForCondition to run code within the client browser
+        //
+        return <mark>self.waitForCondition('return !!window.__isAppReady;', 5000, function(result) {</mark>
+          if (typeof callback === 'function')
+            callback.call(self, result)
+        })
+      }
+    </code></pre>
+		<style>
+  		#AcceptanceNightwatch2 code {
+        font-size: 16px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceTestingPR"><div>
+    <h2>We not accept any feature pull request without tests!</h2>
+    <div class="video">
+      <video autoplay loop muted preload>
+        <source src="pictures/no_tests.mp4"
+                type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+      </video>
+    </div>
+		<style>
+      #AcceptanceTestingPR .video {
+        margin: 0 auto;
+        width: 600px;
+      }
+  		#AcceptanceTestingPR video {
+        text-align: center;
+        width: 100%;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceHTTP"><div>
+    <h2>Handle errors from API</h2>
+    <pre><code>
+      export const successRespProcessor = (response) => ({
+        ok: true,
+        response
+      })
+      export const errorRespProcessor = (error) => ({
+        ok: false,
+        error
+      })
+    </code></pre>
+		<style>
+  		#AcceptanceHTTP code {
+        font-size: 18px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceHTTP2"><div>
+    <h2>Handle errors from API</h2>
+    <pre><code>
+     export const getJSON = (...options) => {
+       return get(...options)
+         .then(jsonProcessor)
+         .then(successRespProcessor)
+         .catch(errorRespProcessor)
+     }
+     ...
+     const {vivusClient} = this.props
+     if (!vivusClient.ok) return (&lt;ApiError /&gt;)
+    </code></pre>
+		<style>
+  		#AcceptanceHTTP2 code {
+        font-size: 18px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptancePair"><div>
+    <h2>Only pair programming</h2>
+    <div class="video">
+      <video autoplay loop muted preload>
+        <source src="pictures/pair_programming.mp4"
+                type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+      </video>
+    </div>
+		<style>
+      #AcceptancePair .video {
+        margin: 0 auto;
+        width: 400px;
+      }
+  		#AcceptancePair video {
+        text-align: center;
+        width: 100%;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptancePairTasks"><div>
+    <h2>Pair programming</h2>
+    <img class="place b" src="pictures/tasks.gif" alt="tasks" />
+		<style>
+      #AcceptancePairTasks img {
+        padding-bottom: 20px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceCSS"><div>
+    <h2>CSS</h2>
+    <div class="video">
+      <video autoplay loop muted preload>
+        <source src="pictures/css.mp4"
+                type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+      </video>
+    </div>
+		<style>
+      #AcceptanceCSS .video {
+        margin: 0 auto;
+        width: 400px;
+      }
+  		#AcceptanceCSS video {
+        text-align: center;
+        width: 100%;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceCSS2"><div>
+    <h2>CSS</h2>
+    <ul>
+      <li>SASS + PostCSS (autoprefixer, cssnext, rucksack, lost grid, etc)</li>
+      <li>Each component have own stylesheet</li>
+      <li>Basic mixins imported to each component css, if needed</li>
+      <li>Have base css for normalize.css</li>
+      <li>BEM or SUIT CSS convention</li>
+      <li>Extract css even in development (hot reload not so important, as source maps)</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="AcceptanceDevOps"><div>
+    <h2>Infrastructure</h2>
+    <ul>
+      <li>Cooking servers by Chef or Ansible</li>
+      <li>Use <a href="https://www.phusionpassenger.com/">passenger</a> to run Node.js apps (monitoring, scaling of workers, balancing)</li>
+      <li>Deploy by Chef server (just merge in branch)</li>
+      <li>Prepare JS files on CI for tags, deploy tags on production</li>
+    </ul>
+	</div></section>
+
+
+	<section class="slide" id="AcceptanceDevOps2"><div>
+    <h2>Infrastructure: CentOS ~= RedHat, but not equal</h2>
+    <pre><code>
+      yum_repository 'devtools-2' do
+        description 'testing 2 devtools for CentOS $releasever'
+        baseurl "http://people.centos.org/tru/devtools-2/
+          <mark>#{'production' == node.environment ? '6' : '$releasever'}</mark>
+          /$basearch/RPMS"
+        gpgcheck false
+      end
+    </code></pre>
+		<style>
+  		#AcceptanceDevOps2 code {
+        font-size: 16px;
+      }
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="AcceptanceDevOps3"><div>
+    <h2>Infrastructure security</h2>
+    <div class="double">
+      <ul>
+        <li>You password can be expired and send to email, which available by only by VPN, where you need new password</li>
+        <li>New servers with read-only root</li>
+        <li>Communication with DevOps by zendesk tickets</li>
+        <li>Be proactive!</li>
+      </ul>
+      <img src="pictures/security.jpg" alt="security" />
+    </div>
+		<style>
+  		#AcceptanceDevOps3 img {
+        height: 450px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
