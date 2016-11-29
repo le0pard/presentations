@@ -407,7 +407,7 @@
 	</div></section>
 
 	<section class="slide" id="BargainingNotInventedHere"><div>
-    <h2>Not invented here. We need Bare-Metal (or something else)</h2>
+    <h2>Not invented here. We need Bare-Metal</h2>
     <video autoplay loop muted preload>
       <source src="pictures/not_invented_here.mp4"
               type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
@@ -419,6 +419,17 @@
 		</style>
 	</div></section>
 
+	<section class="slide" id="BargainingBareMetalMeet"><div>
+    <h2>Bare-Metal introduction</h2>
+    <ul>
+      <li>Running tests is complicated. "circle.yml" - need too many slides to show it</li>
+      <li>No support for several API endpoints, languages, etc</li>
+      <li>Using decorators. Looks beautiful, but readability and extensibility is zero, because no documentations</li>
+      <li>Project specific env variables and configuration, Instantor related code</li>
+      <li>Unused icons, favicons, fonts, css and images</li>
+      <li>iOS and Android applications. No auto build system, no testing, just dead code</li>
+    </ul>
+	</div></section>
 
 	<section class="slide" id="BargainingNotInventedHere2"><div>
     <h2>Bare-Metal sutable only for LOC. We made own :(</h2>
@@ -428,6 +439,17 @@
         margin-bottom: 80px;
       }
 		</style>
+	</div></section>
+
+	<section class="slide" id="BargainingBareBareMetalMeet"><div>
+    <h2>Bare-Bare-Metal</h2>
+    <ul>
+      <li>To run test just need "npm test" or "gulp test" (eslint, karma and nightwatch)</li>
+      <li>Support for several API endpoints</li>
+      <li>General configuration system</li>
+      <li>Fetch data from API and render page. Nothing more</li>
+      <li>This is what we need from framework</li>
+    </ul>
 	</div></section>
 
 	<section class="slide" id="BargainingMonster"><div>
@@ -485,6 +507,47 @@
         margin-bottom: 80px;
       }
 		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceHype"><div>
+		<img class="cover width height" src="pictures/hype.png" alt="HDD" />
+	</div></section>
+
+	<section class="slide" id="AcceptanceHype2"><div>
+		<img class="cover height" src="pictures/hype2.png" alt="HDD" />
+	</div></section>
+
+	<section class="slide" id="AcceptanceHypeReact"><div>
+    <h2>Example: React.js</h2>
+    <ol>
+      <li>Facebook has a problem — so many state changing events that it is hard to keep track what’s going on</li>
+      <li>Facebook promotes new paradigm with buzzwords: functional, virtual DOM, components</li>
+      <li>Mania: Facebook has created the front-end framework of the future! Let’s write everything in react from now on!</li>
+      <li>Wait there is a lot of work, but no quick return on investment!</li>
+      <li>React is great for advanced one page app with lots of real-time notifications, but does not necessarily pay off for simpler applications</li>
+    </ol>
+	</div></section>
+
+	<section class="slide" id="AcceptanceHypeTDD"><div>
+    <h2>Example: TDD is dead by DHH</h2>
+    <ol>
+      <li>David Heinemeier Hansson realises that it is hard to do TDD with Rails as this framework doesn’t have architecture supporting good OOP</li>
+      <li>Hype starts with DHH <a href="http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html">blog post</a> and <a href="https://www.youtube.com/watch?v=9LfmrkyP81M">conference talk</a>. Hype keywords: TDD is DEAD</li>
+      <li>Let’s skip tests! Our Guru says so. We didn’t write them anyway</li>
+      <li>Wait! Even fewer things work now than before. We’ve built a buggy code</li>
+      <li>“TDD is not dead or alive. TDD is subject to tradeoffs, including risk of API changes, skill of practitioner and existing design” — Kent Beck</li>
+    </ol>
+	</div></section>
+
+	<section class="slide" id="AcceptanceHypeMicroservices"><div>
+    <h2>Example: Microservices</h2>
+    <ol>
+      <li>Big monolith application scales hard. There is a point when we can break them down into services</li>
+      <li>Hype keywords: scalability, loose coupling, monolith</li>
+      <li>Let’s rewrite all to services! We have a ‘spaghetti code’ because we have a monolith architecture! We need to rewrite everything to microservices!</li>
+      <li>Shit! It is now way slower to develop the app, difficult to deploy and we spend a lot of time tracking bugs across multiple systems</li>
+      <li>Microservices require a lot of devops skills in the team and with right investment might pay off as a way to scale the system and team</li>
+    </ol>
 	</div></section>
 
 
@@ -549,7 +612,7 @@
     <ul>
       <li>Eslint - only ignore or error rules. Warnings doesn't sutable for CI</li>
       <li>Karma + jasmine - unit tests</li>
-      <li>Nightwatch.js - integration tests</li>
+      <li>Nightwatch.js - integration tests. Phantomjs and Chrome as drivers for testing. Never use "--load-images=no" for phantomjs - memory leak</li>
     </ul>
 	</div></section>
 
@@ -775,6 +838,14 @@
 	</div></section>
 
 	<section class="slide" id="AcceptanceConclusion"><div>
+    <h2>Conclusion</h2>
+    <ul>
+      <li><strong>Strong technical background</strong> is your friend - people who know different paradigms, understand theory of programming (e.g. algorithms, concurrency) and have good engineering culture tend to hype less</li>
+      <li><strong>Experience</strong> — hype is stronger with young developers. With years people who have seen many technologies and been in troubles many times tend to get more balanced views of picking technology</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="AcceptanceConclusion2"><div>
     <h2>Conclusion</h2>
     <figure>
       <blockquote>
