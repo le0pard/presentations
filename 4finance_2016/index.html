@@ -297,20 +297,6 @@
 		</style>
 	</div></section>
 
-	<section class="slide" id="ReactFlux"><div>
-    <h2>Flux approach</h2>
-    <img class="place center b" src="pictures/flux-logo.png" alt="ReactFlux" />
-		<style>
-			#ReactFlux img {
-				padding-bottom: 30px;
-			}
-		</style>
-	</div></section>
-
-	<section class="slide" id="ReactFluxArch"><div>
-    <img class="cover width" src="pictures/flux-diagram.png" alt="ReactFluxArch" />
-	</div></section>
-
 	<section class="slide" id="JavaScriptEcosystem"><div>
     <h2>JavaScript ecosystem</h2>
     <img class="place center b" src="pictures/js_ecosystem.png" alt="JavaScriptEcosystem" />
@@ -446,8 +432,9 @@
     <ul>
       <li>To run test just need "npm test" or "gulp test" (eslint, karma/jasmine and nightwatch)</li>
       <li>Support for several API endpoints</li>
-      <li>General configuration system</li>
-      <li>Fetch data from API and render page. Nothing more. This is what we need from framework</li>
+      <li>General configuration system (NODE_ENV == environment)</li>
+      <li>Merge default and main locales (JSON size reduced in 200Kb)</li>
+      <li>Fetch data from API and render page. This is what we need from framework</li>
       <li>Still not support A/B testing :(</li>
     </ul>
 	</div></section>
@@ -572,6 +559,14 @@
     </code></pre>
 	</div></section>
 
+  <section class="slide" id="AcceptanceOutdatedStack">
+    <h2 class="shout">Your javascript stack outdated!</h2>
+  </section>
+
+  <section class="slide" id="AcceptanceOutdatedStackRouter">
+    <img class="cover width" src="pictures/react_router.png" alt="ReactRouter" />
+  </section>
+
 	<section class="slide" id="AcceptanceNpmHappen"><div>
     <h2>What will happen on server, if you actively maintain shrinkwrapped npm packages to latest version?</h2>
     <img class="place b" src="pictures/monsters.png" alt="AcceptanceNpmHappen" />
@@ -684,6 +679,27 @@
 		</style>
 	</div></section>
 
+	<section class="slide" id="AcceptanceOldBrowsers"><div>
+    <h2>Old browsers (IE9, IE10)</h2>
+    <pre><code>
+if (!({}.__proto__)) {
+  // IE 9 and IE 10
+  app.src = '${appScriptNames.appLegacy}';
+} else if (Modernizr && !Modernizr.intl) {
+  // Safari, iOS
+  app.src = '${appScriptNames.appIntl}';
+} else {
+  // Modern browsers
+  app.src = '${appScriptNames.app}';
+}
+    </code></pre>
+		<style>
+  		#AcceptanceOldBrowsers pre code {
+        font-size: 1.2rem;
+      }
+		</style>
+	</div></section>
+
 	<section class="slide" id="AcceptanceHTTP"><div>
     <h2>Handle errors from API</h2>
     <pre><code>
@@ -777,7 +793,7 @@
 		<style>
       #AcceptanceCSS .video {
         margin: 0 auto;
-        width: 400px;
+        width: 500px;
       }
   		#AcceptanceCSS video {
         text-align: center;
@@ -798,18 +814,52 @@
     </ul>
 	</div></section>
 
+	<section class="slide" id="AcceptanceCSS3"><div>
+    <h2>CSSNext, rucksack</h2>
+    <pre><code>
+    .foo {
+      font-size: <mark>responsive</mark>;
+    }
+    :root {
+      <mark>--mainColor</mark>: red;
+    }
+    a {
+      color: <mark>var(--mainColor)</mark>;
+    }
+    </code></pre>
+		<style>
+      #AcceptanceCSS3 pre code {
+        font-size: 1.3rem;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceCSS4"><div>
+    <h2>CSSNext variables</h2>
+    <pre><code>
+const bodyStyles = window.getComputedStyle(document.body);
+const mainColor = bodyStyles.getPropertyValue('<mark>--mainColor</mark>');
+// set color
+body.style.setProperty('<mark>--mainColor</mark>', newColor);
+    </code></pre>
+	</div></section>
+
 	<section class="slide" id="AcceptanceDevOps"><div>
     <h2>Infrastructure</h2>
     <ul>
-      <li>Cooking servers by Chef or Ansible</li>
-      <li>Use <a href="https://www.phusionpassenger.com/">passenger</a> to run Node.js apps (monitoring, scaling of workers, balancing)</li>
+      <li>Cooking servers by Chef</li>
       <li>Deploy by Chef server (just merge in branch)</li>
+      <li>Use <a href="https://www.phusionpassenger.com/">passenger</a> to run Node.js apps (monitoring, scaling of workers, balancing)</li>
       <li>Prepare JS files on CI for tags, deploy tags on production (fastest deploy ever)</li>
     </ul>
 	</div></section>
 
-
 	<section class="slide" id="AcceptanceDevOps2"><div>
+    <img class="cover width" src="pictures/build.png" alt="build" />
+	</div></section>
+
+
+	<section class="slide" id="AcceptanceDevOps3"><div>
     <h2>Infrastructure: CentOS ~= RedHat, but not equal</h2>
     <pre><code>
       yum_repository 'devtools-2' do
@@ -821,14 +871,14 @@
       end
     </code></pre>
 		<style>
-  		#AcceptanceDevOps2 code {
-        font-size: 16px;
+  		#AcceptanceDevOps3 code {
+        font-size: 1.4rem;
       }
 		</style>
 	</div></section>
 
 
-	<section class="slide" id="AcceptanceDevOps3"><div>
+	<section class="slide" id="AcceptanceDevOps4"><div>
     <h2>Infrastructure security</h2>
     <div class="double">
       <ul>
@@ -840,7 +890,7 @@
       <img src="pictures/security.jpg" alt="security" />
     </div>
 		<style>
-  		#AcceptanceDevOps3 img {
+  		#AcceptanceDevOps4 img {
         height: 450px;
       }
 		</style>
