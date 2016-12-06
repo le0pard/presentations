@@ -145,7 +145,7 @@
     <img class="cover" src="pictures/wat.jpg" alt="WAT" />
 		<style>
   		#WAT img {
-        width: 500px;
+        width: 600px;
         padding-top: 100px;
       }
 		</style>
@@ -196,7 +196,6 @@
 	<section class="slide" id="WATEmptymnessSolution"><div>
     <h2>Emptyness</h2>
     <pre><code>
-      Array(2) + "" === [undefined, undefined] + ""
       var a = Array(2),
           b = [undefined, undefined];
 
@@ -207,7 +206,7 @@
     </code></pre>
 		<style>
   		#WATEmptymnessSolution code {
-        font-size: 20px;
+        font-size: 1.5rem;
       }
 		</style>
 	</div></section>
@@ -670,7 +669,7 @@
 		<style>
       #AcceptanceTestingPR .video {
         margin: 0 auto;
-        width: 600px;
+        width: 650px;
       }
   		#AcceptanceTestingPR video {
         text-align: center;
@@ -682,16 +681,16 @@
 	<section class="slide" id="AcceptanceOldBrowsers"><div>
     <h2>Old browsers (IE9, IE10)</h2>
     <pre><code>
-if (!({}.__proto__)) {
-  // IE 9 and IE 10
-  app.src = '${appScriptNames.appLegacy}';
-} else if (Modernizr && !Modernizr.intl) {
-  // Safari, iOS
-  app.src = '${appScriptNames.appIntl}';
-} else {
-  // Modern browsers
-  app.src = '${appScriptNames.app}';
-}
+    if (!({}.__proto__)) {
+      // IE 9 and IE 10
+      app.src = '${appScriptNames.appLegacy}';
+    } else if (Modernizr && !Modernizr.intl) {
+      // Safari, iOS
+      app.src = '${appScriptNames.appIntl}';
+    } else {
+      // Modern browsers
+      app.src = '${appScriptNames.app}';
+    }
     </code></pre>
 		<style>
   		#AcceptanceOldBrowsers pre code {
@@ -734,6 +733,27 @@ if (!({}.__proto__)) {
     </code></pre>
 		<style>
   		#AcceptanceHTTP2 code {
+        font-size: 18px;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="AcceptanceHTTP3"><div>
+    <h2>Handle errors from API</h2>
+    <pre><code>
+     return <mark>Promise.race</mark>([
+       getEntries(query),
+       new Promise((resolve, reject) => {
+         <mark>setTimeout</mark>(() => reject(
+           new Error('fetch timeout')),
+           config.contentful.fetchTimeout
+         )
+       })
+     ]).then(result => {
+       ...
+    </code></pre>
+		<style>
+  		#AcceptanceHTTP3 code {
         font-size: 18px;
       }
 		</style>
@@ -809,7 +829,7 @@ if (!({}.__proto__)) {
       <li>Each component have own stylesheet</li>
       <li>Basic mixins imported to each component css, if needed</li>
       <li>Have base css for normalize.css</li>
-      <li>BEM or SUIT CSS convention</li>
+      <li>BEM or SUIT CSS convention, SASS lint</li>
       <li>Extract css even in development (hot reload not so important, as source maps)</li>
     </ul>
 	</div></section>
