@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Machine Learning in Ruby</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="shower/themes/material/styles/screen-16x10.css" />
+  <!--<link rel="stylesheet" href="shower/themes/material/styles/screen-4x3.css">-->
+</head>
+<body class="shower list">
+	<header class="caption">
+		<h1>Machine Learning in Ruby</h1>
+		<p>Alexey Vasiliev, Railsware</p>
+	</header>
+
+	<section class="slide" id="Cover">
+		<h2>Machine<br /> Learning<br /> in Ruby</h2>
+		<p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a href="http://railsware.com/">Railsware</a></p>
+		<img src="pictures/cover.jpg" alt="" class="cover h">
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+		#Cover {
+			background-color: #04A05F;
+			}
+		#Cover h2 {
+			margin: 50px 0 0;
+			color: #FFF;
+			text-align: left;
+			font-weight: bold;
+			font-size: 80px;
+			}
+		#Cover p {
+			margin: 100px 0 0;
+			text-align: left;
+			color: #FFF;
+			font-style: italic;
+			font-size: 20px;
+			}
+			#Cover p a {
+				color: #FFF;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="AboutMeSlide"><div>
+		<h2>Alexey Vasiliev</h2>
+		<ul>
+			<li>Web and Mobile Developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), DevOps</li>
+			<li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+      <li>Open-Source books: <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a>, <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a></li>
+      <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="WhatIsMachineLearning"><div>
+		<h2>What is Machine Learning?</h2>
+		<p><strong>Machine learning</strong> is the subfield of computer science that gives computers the ability to learn without being explicitly programmed</p>
+		<p><strong>Machine learning</strong> focuses on the development of computer programs that can change when exposed to new data. The process of machine learning is similar to that of data mining. Both systems search through data to look for patterns. However, instead of extracting data for human comprehension -- as is the case in data mining applications -- machine learning uses that data to detect patterns in data and adjust program actions accordingly</p>
+	</div></section>
+
+	<section class="slide" id="YouProbablyNotNeedML"><div>
+		<h2>You (probably) don't need Machine Learning</h2>
+		<div class="double">
+			<img src="pictures/no_need_ml.png" alt="no need ML" />
+			<p>By "statistically speaking", I mean that most companies today have no absolutely no need for machine learning (ML)</p>
+		</div>
+		<style>
+		#YouProbablyNotNeedML img {
+			width: 405px;
+			}
+		</style>
+	</div></section>
+
+
+
+	<section class="slide" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"></div>
+	<script src="shower/shower.min.js"></script>
+</body>
+</html>
