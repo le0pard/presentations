@@ -67,11 +67,559 @@
 		<h2>You (probably) don't need Machine Learning</h2>
 		<div class="double">
 			<img src="pictures/no_need_ml.png" alt="no need ML" />
-			<p>By "statistically speaking", I mean that most companies today have no absolutely no need for machine learning (ML)</p>
+			<p>If you and/or your organization don’t have good, clean data, you are most definitely not ready for machine learning.  Data management should be your first step before diving into any other data project(s)</p>
 		</div>
 		<style>
 		#YouProbablyNotNeedML img {
 			width: 405px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="MachineLearningAreas"><div>
+		<h2>Machine Learning Areas</h2>
+		<ul>
+			<li>Supervised learning</li>
+			<li>Unsupervised learning</li>
+			<li>Reinforcement learning</li>
+		</ul>
+		<img class="place r" src="pictures/ml_mario.jpg" alt="MachineLearningAreas" />
+		<style>
+		#MachineLearningAreas img {
+			width: 550px;
+			padding: 100px 50px 0 0;
+		}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PracticalMachineLearningProblems"><div>
+		<h2>Practical Machine Learning Problems</h2>
+		<div class="double">
+			<ul>
+				<li>Spam/Fraud detection</li>
+				<li>Digit Recognition</li>
+				<li>Speech Understanding/Face Detection</li>
+				<li>Product Recommendation</li>
+				<li>Medical Diagnosis</li>
+				<li>Customer Segmentation</li>
+				<li>Autonomous ("self-driving") vehicles</li>
+			</ul>
+			<img src="pictures/autonomous-vehicles.png" alt="MachineLearningAreas" />
+		</div>
+		<style>
+		#PracticalMachineLearningProblems img {
+			width: 400px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="CanWeUseRuby"><div>
+    <h2>Ruby<br /> Ruby</br /> Ruby!</h2>
+		<img class="cover width height" src="pictures/cover.jpg" alt="CanWeUseRuby" />
+  	<style>
+  		#CanWeUseRuby h2 {
+        font-size: 8rem;
+				color: #FFF;
+      }
+    </style>
+	</div></section>
+
+	<section class="slide" id="RubyClassifierReborn"><div>
+		<h2>Classifier Reborn</h2>
+		<div class="double">
+			<p><a href="http://www.classifier-reborn.com/">Classifier Reborn</a> is a general classifier module to allow Bayesian Classifier and Latent Semantic Indexer (LSI)</p>
+			<pre><code>gem install classifier-reborn</code></pre>
+			<img src="pictures/ml_classification.jpg" alt="RubyClassifierReborn" />
+		</div>
+		<style>
+		#RubyClassifierReborn img {
+			width: 500px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyClassifierRebornBayesian"><div>
+		<h2>Classifier Reborn - Bayesian Classifiers</h2>
+		<pre><code>
+require 'classifier-reborn'
+classifier = ClassifierReborn::Bayes.new
+   'Interesting', 'Uninteresting'
+classifier.train "Interesting",
+   "Here are some good words. I hope you love them."
+classifier.train "Uninteresting",
+   "Here are some bad words, I hate you."
+<mark>classifier.classify "I hate bad words and you."</mark> # => "Uninteresting"
+<mark>classifier.classify "I love"</mark> #=> 'Interesting'
+    </code></pre>
+		<style>
+			#RubyClassifierRebornBayesian code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyClassifierRebornLSI"><div>
+		<h2>Classifier Reborn - Latent Semantic Indexer (LSI)</h2>
+		<pre><code>
+lsi = ClassifierReborn::LSI.new
+strings = [["This text deals with dogs. Dogs.", :dog],
+           ["This text involves dogs too. Dogs!", :dog],
+           ["This text revolves around cats. Cats.", :cat],
+           ["This text also involves cats. Cats!", :cat],
+           ["This text involves birds. Birds.", :bird]]
+strings.each { |x| lsi.add_item x.first, x.last }
+<mark>lsi.classify "This text is also about dogs!"</mark> #=> :dog
+    </code></pre>
+		<style>
+			#RubyClassifierRebornLSI code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyDecisionTree"><div>
+		<h2>Decision Tree</h2>
+		<div class="double">
+			<p><a href="https://github.com/igrigorik/decisiontree">Decision Tree</a> a ruby library which implements ID3 (information gain) algorithm for decision tree learning</p>
+			<pre><code>gem install decisiontree</code></pre>
+			<img src="pictures/decision_tree_titanic_survivors.png" alt="RubyDecisionTree" />
+		</div>
+		<style>
+		#RubyDecisionTree img {
+			width: 450px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyDecisionTreeExample1"><div>
+		<h2>Decision Tree</h2>
+		<pre><code>require 'decisiontree'
+attributes = ['Temperature']
+training = [
+  [36.6, 'healthy'],
+  [37, 'sick'],
+  [38, 'sick'],
+  [36.7, 'healthy'],
+  [40, 'sick'],
+  [50, 'really sick'],
+]
+    </code></pre>
+		<style>
+			#RubyDecisionTreeExample1 code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyDecisionTreeExample2"><div>
+		<h2>Decision Tree</h2>
+		<pre><code>
+# Instantiate the tree, and train it based on the data (set default to '1')
+dec_tree = DecisionTree::ID3Tree.new(attributes, training, 'sick', :continuous)
+dec_tree.train
+
+test = [37, 'sick']
+decision = dec_tree.predict(test)
+puts "Predicted: #{decision} ... True decision: #{test.last}"
+
+<mark># => Predicted: sick ... True decision: sick</mark>
+    </code></pre>
+		<style>
+			#RubyDecisionTreeExample2 code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyKNearestNeighbors"><div>
+		<h2>K-nearest neighbors</h2>
+		<div class="double">
+			<p><a href="https://github.com/reddavis/knn">K Nearest Neighbours (KNN)</a> a simple algorithm that stores all available cases and classifies new cases based on a similarity measure (e.g., distance functions)</p>
+			<pre><code>gem install knn</code></pre>
+			<img src="pictures/KnnClassification.svg" alt="RubyKNearestNeighbors" />
+		</div>
+		<style>
+		#RubyKNearestNeighbors img {
+			width: 450px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyKNearestNeighborsExample"><div>
+		<h2>K-nearest neighbors</h2>
+		<pre><code>require 'knn'
+data = Array.new(10000) { Array.new(4) { rand } }
+knn = KNN.new(data)
+knn.nearest_neighbours([0.5, 0.5, 0.5, 0.5], 2)
+# [<mark>[4929, 0.027298057904151424,</mark>
+    [0.5033650144041532, 0.5127064912412195,
+		0.5229515382673083, 0.49324480830032635]],
+	<mark>[8060, 0.08873704527823544,</mark>
+	  [0.553585611436454, 0.5318254655421701,
+		0.45424417942626927, 0.4564524388933011]]]
+    </code></pre>
+		<style>
+			#RubyKNearestNeighborsExample code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyKNearestNeighborsDistance"><div>
+		<h2>K-nearest neighbors - Distance Measures</h2>
+		<div class="double">
+			<pre><code>a, b = [1,1], [2,2]
+a.euclidean_distance(b)
+# <mark>1.4142135623730951</mark>
+a.cosine_similarity(b)
+# <mark>0.9999999999999998</mark>
+a.jaccard_index(b)
+# <mark>0.0</mark>
+a.jaccard_distance(b)
+# <mark>1.0</mark>
+a.binary_jaccard_index(b)
+# <mark>0.0</mark>
+a.binary_jaccard_distance(b)
+# <mark>1.0</mark>
+a.tanimoto_coefficient(b)
+# <mark>0.6666666666666666</mark>
+a.haversine_distance(b)
+# <mark>157225.43636105652</mark></code></pre>
+		</div>
+		<style>
+			#RubyKNearestNeighborsDistance code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubySimilarity"><div>
+		<h2>Similarity</h2>
+		<div class="double">
+			<p><a href="https://github.com/bbc/Similarity">Similarity</a> a Ruby library for calculating the similarity between pieces of text using a Term Frequency-Inverse Document Frequency (TF-IDF) method</p>
+			<pre><code>gem install similarity</code></pre>
+			<img src="pictures/tfidf.png" alt="RubySimilarity" />
+		</div>
+		<style>
+		#RubySimilarity img {
+			width: 400px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubySimilarityExample1"><div>
+		<h2>Similarity</h2>
+		<pre><code>require 'similarity'
+corpus = Corpus.new
+doc1 = Document.new(content:
+  "A document with a lot of additional words some of which are about chunky bacon")
+doc2 = Document.new(content:
+  "Another longer document with many words and again about chunky bacon")
+doc3 = Document.new(content:
+  "Some text that has nothing to do with pork products")
+[doc1, doc2, doc3].each { |doc| corpus << doc }
+    </code></pre>
+		<style>
+			#RubySimilarityExample1 code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubySimilarityExample2"><div>
+		<h2>Similarity</h2>
+		<pre><code>corpus.similar_documents(doc1).each do |doc, similarity|
+ puts "Similarity between doc #{doc1.id} and doc #{doc.id} is #{similarity}"
+end
+
+Similarity between doc 70205829269140 and doc 70205829269140
+  is <mark>1.0000000000000002</mark>
+Similarity between doc 70205829269140 and doc 70205829206760
+  is <mark>0.06068602112714361</mark>
+Similarity between doc 70205829269140 and doc 70205829156640
+  is <mark>0.04882114791611662</mark>
+		</code></pre>
+		<style>
+			#RubySimilarityExample2 code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubySimilarityExample3"><div>
+		<h2>Similarity</h2>
+		<pre><code>corpus.similarity_matrix
+
+[  1.000e+00  6.069e-02  4.882e-02
+   6.069e-02  1.000e+00  7.359e-02
+   4.882e-02  7.359e-02  1.000e+00 ]
+		</code></pre>
+		<style>
+			#RubySimilarityExample3 code {
+				font-size: 2rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyKMeans"><div>
+		<h2>K-Means clustering</h2>
+		<p>K-means clustering is a method of vector quantization, originally from signal processing, that is popular for cluster analysis in data mining. k-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster</p>
+		<p>Gems: <a href="https://github.com/gbuesing/kmeans-clusterer">KMeansClusterer</a>, <a href="https://github.com/reddavis/K-Means">KMeans</a></p>
+	</div></section>
+
+	<section class="slide" id="RubyKMeansDemo1"><div>
+		<h2>K-Means clustering</h2>
+		<img src="pictures/K_Means_Example_Step_1.svg" alt="RubyKMeans" />
+		<img src="pictures/K_Means_Example_Step_2.svg" alt="RubyKMeans" />
+		<style>
+			#RubyKMeansDemo1 img {
+				width: 400px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyKMeansDemo2"><div>
+		<h2>K-Means clustering</h2>
+		<img src="pictures/K_Means_Example_Step_3.svg" alt="RubyKMeans" />
+		<img src="pictures/K_Means_Example_Step_4.svg" alt="RubyKMeans" />
+		<style>
+			#RubyKMeansDemo2 img {
+				width: 400px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyKMeansExample1"><div>
+		<h2>K-Means clustering - KMeansClusterer</h2>
+		<pre><code>require 'kmeans-clusterer'
+data = [[40.71,-74.01],[34.05,-118.24],[39.29,-76.61],
+        [45.52,-122.68],[38.9,-77.04],[36.11,-115.17]]
+labels = ['New York', 'Los Angeles', 'Baltimore',
+          'Portland', 'Washington DC', 'Las Vegas']
+
+k = 2 # find 2 clusters in data
+
+kmeans = KMeansClusterer.run k, data, labels: labels, runs: 5</code></pre>
+		<style>
+			#RubyKMeansExample1 code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyKMeansExample2"><div>
+		<h2>K-Means clustering - KMeansClusterer</h2>
+		<pre><code>kmeans.clusters.each do |cluster|
+  puts  cluster.id.to_s + '. ' +
+        cluster.points.map(&:label).join(", ") + "\t" +
+        cluster.centroid.to_s
+end
+<mark># 0. Baltimore, Washington DC, New York	[39.63333333333333, -75.88666666666667]
+# 1. Las Vegas, Los Angeles, Portland	[38.559999999999995, -118.69666666666667]</mark>
+
+puts kmeans.predict [[41.85,-87.65]] # Chicago
+<mark># [0] mean (0. Baltimore, Washington DC, New York)</mark></code></pre>
+		<style>
+			#RubyKMeansExample2 code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyKMeansExample3"><div>
+		<h2>K-Means clustering - KMeans</h2>
+		<pre><code>require 'k_means'
+data = [[1,1], [1,2], [1,1],
+  [800, 800], [1000, 1000], [500, 500]]
+KMeans.new(data, centroids: 2)
+# <mark>[[0, 1, 2], [3, 4, 5]]</mark>
+KMeans.new(data, centroids: 2, distance_measure: :jaccard_index)
+# <mark>[[0, 1, 2, 3, 4, 5], []]</mark>
+KMeans.new(data, centroids: 2, distance_measure: :haversine_distance)
+# <mark>[[4], [0, 1, 2, 3, 5]]</mark></code></pre>
+		<style>
+			#RubyKMeansExample3 code {
+				font-size: 1.15rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyNeuralNetwork"><div>
+		<h2>Artificial Neural Networks</h2>
+		<figure>
+	    <blockquote>
+	      <p>...a computing system made up of a number of simple, highly interconnected processing elements, which process information by their dynamic state response to external inputs.</p>
+	    </blockquote>
+	    <figcaption>Dr. Robert Hecht-Nielsen</figcaption>
+		</figure>
+		<style>
+			#RubyNeuralNetwork blockquote p {
+				font-size: 2rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyNeuralNetworkGems"><div>
+		<h2>Artificial Neural Networks</h2>
+		<div class="double">
+			<ul>
+				<li><a href="https://github.com/tangledpath/ruby-fann">RubyFann</a></li>
+				<li><a href="https://github.com/josephwilk/tlearn-rb">TLearn Ruby</a></li>
+				<li><a href="https://github.com/irfansharif/cerebrum">Cerebrum</a></li>
+				<li><a href="https://github.com/gbuesing/neural-net-ruby">Neural Net</a></li>
+			</ul>
+			<img src="pictures/Colored_neural_network.svg" alt="RubyNeuralNetworkGems" />
+		</div>
+		<style>
+			#RubyNeuralNetworkGems img {
+				width: 350px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyNeuralNetworkExample"><div>
+		<h2>Artificial Neural Networks</h2>
+		<div class="double">
+			<pre><code>require 'cerebrum'
+network = Cerebrum.new
+
+network.train([
+  {input: [0, 0], output: [0]},
+  {input: [0, 1], output: [1]},
+  {input: [1, 0], output: [1]},
+  {input: [1, 1], output: [0]}
+])
+
+
+
+
+
+result = network.run([1, 0])
+# => <mark>[0.9333206724219677]</mark></code></pre>
+		</div>
+		<style>
+			#RubyNeuralNetworkExample code {
+				font-size: 1.2rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyMLMoreGems"><div>
+		<h2>I need more Ruby gems!</h2>
+		<div class="double">
+			<ul>
+				<li><a href="https://gist.github.com/gbuesing/865b814d312f46775cda">Resources for Machine Learning in Ruby</a></li>
+				<li><a href="https://github.com/josephmisiti/awesome-machine-learning#ruby">Awesome Machine Learning</a></li>
+			</ul>
+			<img src="pictures/artoo.png" alt="RubyMLMoreGems" />
+		</div>
+		<style>
+			#RubyMLMoreGems img {
+				width: 350px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyOpenCV"><div>
+		<h2>OpenCV</h2>
+		<div class="double">
+			<div>
+				<img src="pictures/OpenCV_Logo.svg" alt="" />
+			</div>
+			<div>
+				<p><a href="http://opencv.org/">OpenCV (Open Source Computer Vision Library)</a> is an open source computer vision and machine learning software library</p>
+				<p>Gems: <a href="https://github.com/ruby-opencv/ruby-opencv/">Ruby-opencv</a></p>
+			</div>
+		</div>
+		<style>
+			#RubyOpenCV img {
+				width: 300px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyApacheMahout"><div>
+		<h2>Apache Mahout</h2>
+		<div class="double">
+			<div>
+				<img src="pictures/mahout.png" alt="" />
+			</div>
+			<div>
+				<p><a href="http://mahout.apache.org/">Apache Mahout</a> project's goal is to build an environment for quickly creating scalable performant machine learning applications</p>
+				<p>Gems: <a href="https://github.com/vasinov/jruby_mahout">JRuby Mahout</a></p>
+			</div>
+		</div>
+		<style>
+			#RubyApacheMahout img {
+				width: 400px;
+				padding-bottom: 100px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyPredictionIO"><div>
+		<h2>Apache PredictionIO</h2>
+		<div class="double">
+			<div>
+				<img src="pictures/predictionio.png" alt="" />
+			</div>
+			<div>
+				<p><a href="http://opencv.org/">Apache PredictionIO (incubating)</a>  is an open source Machine Learning Server built on top of state-of-the-art open source stack for developers and data scientists create predictive engines for any machine learning task</p>
+			</div>
+		</div>
+		<style>
+			#RubyPredictionIO img {
+				width: 256px;
+				padding-bottom: 100px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyPredictionIOSchema"><div>
+		<h2>Apache PredictionIO</h2>
+		<img class="cover h" src="pictures/predictionio_schema.png" alt="" />
+		<style>
+			#RubyPredictionIOSchema {
+				background: #333333;
+			}
+			#RubyPredictionIOSchema h2 {
+				color: #FFF;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyTensorflow"><div>
+		<h2>TensorFlow</h2>
+		<div class="double">
+			<div>
+				<img src="pictures/tensorflow.png" alt="" />
+			</div>
+			<div>
+				<p><a href="https://www.tensorflow.org/">TensorFlow</a> is an open source software library for numerical computation using data flow graphs</p>
+				<p><a href="http://playground.tensorflow.org/">Playground</a></p>
+				<p>Gems: <a href="https://github.com/somaticio/tensorflow.rb">Tensorflow.rb</a></p>
+			</div>
+		</div>
+		<style>
+			#RubyTensorflow img {
+				width: 322px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="RubyMLConclusion"><div>
+		<h2>Conclusion</h2>
+		<div class="double">
+			<ul>
+				<li>Data management should be your first step before diving into any other data project(s)</li>
+				<li>Ruby is not considered bad for ML</li>
+				<li>Better to make ML system as a separate service (or even cluster) for big amount of data</li>
+			</ul>
+			<img src="pictures/conclusion.jpg" alt="" />
+		</div>
+		<style>
+			#RubyMLConclusion img {
+				width: 330px;
 			}
 		</style>
 	</div></section>
