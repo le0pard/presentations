@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Unstructured data types in PostgreSQL</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="shower/themes/material/styles/screen-16x10.css" />
+	<!-- Machine learning is very popular programming theme today. But more often you hear about theme in context with Java, Python or R languages. In this talk I want to consider machine learning as Ruby developer and ability of it to help solve some interesting problems in development. -->
+  <!--<link rel="stylesheet" href="shower/themes/material/styles/screen-4x3.css">-->
+</head>
+<body class="shower list">
+	<header class="caption">
+		<h1>Unstructured data types in PostgreSQL</h1>
+		<p>Alexey Vasiliev, Railsware</p>
+	</header>
+
+	<section class="slide" id="Cover">
+		<h2>Unstructured<br /> data types in<br /> PostgreSQL</h2>
+		<p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a href="http://railsware.com/">Railsware</a></p>
+		<img src="pictures/cover.jpg" alt="" class="cover h">
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+		#Cover {
+			background-color: #04A05F;
+			}
+		#Cover h2 {
+			margin: 50px 0 0;
+			color: #FFF;
+			text-align: left;
+			font-weight: bold;
+			font-size: 70px;
+			line-height: 130%;
+			}
+		#Cover p {
+			margin: 50px 0 0;
+			text-align: left;
+			color: #FFF;
+			font-style: italic;
+			font-size: 20px;
+			}
+			#Cover p a {
+				color: #FFF;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="AboutMeSlide"><div>
+		<h2>Alexey Vasiliev</h2>
+		<ul>
+			<li>Web and Mobile Developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), DevOps</li>
+			<li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+      <li>Open-Source books: <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a>, <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a></li>
+      <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="WhatIsPostgreSQL"><div>
+		<h2>What is PostgreSQL?</h2>
+		<p>
+			<img src="pictures/postgresql_logo.png" alt="PostgreSQL logo" />
+      <b>PostgreSQL ("Postgres")</b> - is an object-relational database management system (ORDBMS) with an emphasis on extensibility and standards-compliance. Based on the SQL language and supports many of the features of the standard SQL:2011. PostgreSQL evolved from the Ingres project at the University of California, Berkeley. In 1982 the leader of the Ingres team, Michael Stonebraker, left Berkeley to make a proprietary version of Ingres. He returned to Berkeley in 1985 and started a post-Ingres project
+    </p>
+		<style>
+			#WhatIsPostgreSQL img {
+				width: 250px;
+        float: left;
+        margin: 0 5px -10px -60px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PostgreSQLFeatures"><div>
+		<h2>PostgreSQL strengths</h2>
+		<img src="pictures/title.png" alt="PostgreSQL" />
+		<ul>
+			<li>database support of virtually unlimited size</li>
+			<li>powerful and reliable transaction and replication mechanisms</li>
+			<li>extensible embedded programming languages: are supported PL/pgSQL, PL/Perl, PL/Python and PL/Tcl, PL/Java, PL/PHP, PL/Py, PL/R, PL/Ruby, PL/Scheme, PL/sh and PL/V8 + loading C-compatible modules</li>
+			<li>inheritance</li>
+			<li>easy extensibility</li>
+		</ul>
+
+		<style>
+			#PostgreSQLFeatures img {
+				width: 200px;
+				float: right;
+				margin: -50px -10px 5px 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PostgreLimits"><div>
+		<h2>PostgreSQL limits</h2>
+		<table>
+			<tbody>
+				<tr>
+					<th>Limit</th>
+					<th>Value</th>
+				</tr>
+				<tr>
+					<td>Maximum Database Size</td>
+					<td>Unlimited</td>
+				</tr>
+				<tr>
+					<td>Maximum Table Size</td>
+					<td>32 TB</td>
+				</tr>
+				<tr>
+					<td>Maximum Row Size</td>
+					<td>1.6 TB</td>
+				</tr>
+				<tr>
+					<td>Maximum Field Size</td>
+					<td>1 GB</td>
+				</tr>
+				<tr>
+					<td>Maximum Rows per Table</td>
+					<td>Unlimited</td>
+				</tr>
+				<tr>
+					<td>Maximum Columns per Table</td>
+					<td>250-1600 depending on column types</td>
+				</tr>
+				<tr>
+					<td>Maximum Indexes per Table</td>
+					<td>Unlimited</td>
+				</tr>
+			</tbody>
+		</table>
+		<style>
+			#PostgreLimits img {
+				width: 200px;
+				float: right;
+				margin: -50px -10px 5px 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="SchemaDatabase"><div>
+		<h2>Schema Database</h2>
+		<img src="pictures/sql_db.png" alt="SQL" />
+		<ul>
+			<li>A schema is a fixed (although mutable over time) definition of the data</li>
+			<li>Database to schema to table to field/column/attribute</li>
+			<li>Individual fields can be optional (NULL)</li>
+			<li>Adding new columns requires a schema change</li>
+		</ul>
+		<style>
+			#SchemaDatabase img {
+				width: 250px;
+				float: left;
+				margin: 0 40px 0 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="SchemalessDatabase"><div>
+		<h2>Schemaless database</h2>
+		<img src="pictures/nosql_db.png" alt="NoSQL" />
+		<ul>
+			<li>Schemaless databases store "documents" rather than rows</li>
+			<li>They have internal structure, but that structure is per document</li>
+			<li>No fields! No schemas! Make up whatever you like!</li>
+		</ul>
+		<style>
+			#SchemalessDatabase img {
+				width: 250px;
+				float: left;
+				margin: 0 40px 0 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="SchemalessData"><div>
+		<h2>What is schemaless data?</h2>
+		<img src="pictures/json-data.png" alt="JSON" />
+		<ul>
+			<li>Schemaless does not mean unstructured</li>
+			<li>Each "document" (=record/row) is a hierarchical structure of arrays and keyvalue pairs</li>
+			<li>The application knows what to expect in one of these and how to react if it doesn't get it</li>
+		</ul>
+		<style>
+			#SchemalessData img {
+				width: 250px;
+				float: left;
+				margin: 0 40px 0 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PostgreSQLDocumentTypes"><div>
+		<h2>PostgreSQL document types</h2>
+		<img src="pictures/nosql-expert.png" alt="NoSQL expert" />
+		<ul>
+			<li>XML</li>
+			<li>Hstore</li>
+			<li>JSON</li>
+			<li>JSONB</li>
+		</ul>
+		<style>
+			#PostgreSQLDocumentTypes img {
+				width: 500px;
+				float: right;
+				margin: 0 5px 0 40px;
+			}
+		</style>
+	</div></section>
+
+
+	<section class="slide" id="XMLCover"><div>
+		<h2 class="shout">XML</h2>
+	</div></section>
+
+	<section class="slide" id="XMLHistory"><div>
+		<h2>XML</h2>
+		<img src="pictures/xml-file.jpg" alt="XML" />
+		<ul>
+			<li>Been around since the mid-1990s</li>
+			<li>Hierarchical structured data based on SGML</li>
+			<li>Underlying technology for SOAP and a lot of other stuff that was really popular for a while</li>
+			<li>Still super-popular in the Java world</li>
+		</ul>
+		<style>
+			#XMLHistory img {
+				width: 250px;
+				float: left;
+				margin: 0 40px 0 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="XMLInPostgreSQL"><div>
+		<h2>XML Support in PostgreSQL</h2>
+		<img src="pictures/xml-file.jpg" alt="XML" />
+		<ul>
+			<li>Built-in type</li>
+			<li>A healthy selection of XML operators, xpath in particular</li>
+			<li>Very convenient XML export functions</li>
+			<li>No XML indexes, but you can create functional indexes</li>
+		</ul>
+		<style>
+			#XMLInPostgreSQL img {
+				width: 250px;
+				float: left;
+				margin: 0 40px 0 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="XMLInPostgreSQLCode1"><div>
+		<h2>XML in PostgreSQL</h2>
+		<pre><code># CREATE TABLE xmltest (
+    <mark>data xml</mark> NOT NULL
+);
+# INSERT INTO xmltest (data) VALUES ('&lt;attendee&gt;&lt;bio&gt;
+ &lt;name&gt;John Doe&lt;/name&gt;
+ &lt;birthYear&gt;1986&lt;/birthYear&gt;&lt;/bio&gt;&lt;languages&gt;
+ &lt;lang level="5"&gt;php&lt;/lang&gt;&lt;lang level="4"&gt;python&lt;/lang&gt;
+ &lt;lang level="2"&gt;java&lt;/lang&gt;&lt;/languages&gt;&lt;/attendee&gt;');</code></pre>
+	<style>
+		#XMLInPostgreSQLCode1 code {
+			font-size: 1.4rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="XMLInPostgreSQLCode2"><div>
+		<h2>XML in PostgreSQL</h2>
+		<pre><code># SELECT data FROM xmltest WHERE
+<mark>CAST (xpath('//bio/name/text()', data) as text[]) = '{John Doe}'</mark>;
+              data
+--------------------------------
+ &lt;attendee&gt;                    +
+  &lt;bio&gt;                        +
+  &lt;name&gt;John Doe&lt;/name&gt;        +
+  &lt;birthYear&gt;1986&lt;/birthYear&gt;  +
+  &lt;/bio&gt;                       +
+  ...
+(1 row)</code></pre>
+	<style>
+		#XMLInPostgreSQLCode2 code {
+			font-size: 1.3rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="XMLInPostgreSQLCode3"><div>
+		<h2>XML in PostgreSQL</h2>
+		<pre><code># EXPLAIN SELECT data FROM xmltest WHERE
+	CAST (xpath('//bio/name/text()', data) as text[]) = '{John Doe}';
+                   QUERY PLAN
+--------------------------------------------------
+ <mark>Seq Scan</mark> on xmltest  (cost=0.00..29.05 rows=6 width=32)
+   Filter: ((xpath('//bio/name/text()'::text, data,
+	 '{}'::text[]))::text[] = '{"John Doe"}'::text[])
+(2 rows)</code></pre>
+	<style>
+		#XMLInPostgreSQLCode3 code {
+			font-size: 1.4rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="XMLInPostgreSQLCode4"><div>
+		<h2>XML in PostgreSQL</h2>
+		<pre><code># CREATE INDEX <mark>data_bio_name_idx</mark> ON xmltest
+USING <mark>btree (CAST (xpath('//bio/name/text()', data) as text[]))</mark>;
+CREATE INDEX
+# EXPLAIN SELECT data FROM xmltest WHERE
+CAST (xpath('//bio/name/text()', data) as text[]) = '{John Doe}';
+                              QUERY PLAN
+--------------------------------------------------------------------------------
+ <mark>Index Scan using data_bio_name_idx</mark> on xmltest  (cost=0.13..8.15 rows=1 width=32)
+   Index Cond: ((xpath('//bio/name/text()'::text, data,
+	 '{}'::text[]))::text[] = '{"John Doe"}'::text[])
+(2 rows)</code></pre>
+	<style>
+		#XMLInPostgreSQLCode4 code {
+			font-size: 1.2rem;
+		}
+	</style>
+	</div></section>
+
+
+	<section class="slide" id="HstoreCover"><div>
+		<h2 class="shout">Hstore</h2>
+	</div></section>
+
+	<section class="slide" id="HstoreHistory"><div>
+		<h2>Hstore</h2>
+		<p>HStore is a key value store within PostgreSQL</p>
+		<ul>
+			<li>Available from PostgreSQL 8.3 as extension</li>
+			<li>Only one level, no nesting of objects</li>
+			<li>Only deals with text</li>
+			<li>GIST and GIN indexes</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="HstoreInPostgreSQLCode1"><div>
+		<h2>Hstore in PostgreSQL</h2>
+		<pre><code># CREATE EXTENSION hstore;
+CREATE EXTENSION
+# SELECT 'a=>1,a=>2'::hstore;
+  hstore
+----------
+ "a"=>"1"
+(1 row)</code></pre>
+	<style>
+		#HstoreInPostgreSQLCode1 code {
+			font-size: 1.6rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="HstoreInPostgreSQLCode2"><div>
+		<h2>Hstore in PostgreSQL</h2>
+		<div class="double">
+		<pre><code># CREATE TABLE products (
+   id serial PRIMARY KEY,
+   name varchar,
+   <mark>attributes hstore</mark>
+);
+# INSERT INTO products
+(name, attributes)
+VALUES (
+  'Geek Love: A Novel',
+  <mark>'author    => "Katherine Dunn",
+  pages     => 368,
+  category  => fiction'</mark>
+), (
+ 'Leica M9',
+ <mark>'manufacturer  => Leica,
+  type          => camera,
+  megapixels    => 18,
+  sensor        => "full-frame 35mm"'</mark>
+), ...
+</code></pre>
+	</div>
+	<style>
+		#HstoreInPostgreSQLCode2 code {
+			font-size: 1.2rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="HstoreInPostgreSQLCode3"><div>
+		<h2>Hstore in PostgreSQL</h2>
+		<pre><code># SELECT name, <mark>attributes->'pages' as page</mark> FROM products
+	WHERE <mark>attributes ? 'pages'</mark>;
+        name        | page
+--------------------+------
+ Geek Love: A Novel | 368
+(1 row)
+# SELECT name, <mark>attributes->'manufacturer' as manufacturer</mark> FROM products
+WHERE <mark>attributes->'type' = 'computer'</mark>;
+      name      | manufacturer
+----------------+--------------
+ MacBook Air 11 | Apple
+(1 row)
+</code></pre>
+	<style>
+		#HstoreInPostgreSQLCode3 code {
+			font-size: 1.1rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="HstoreInPostgreSQLCode4"><div>
+		<h2>Hstore in PostgreSQL</h2>
+		<pre><code># CREATE INDEX products_hstore_gist_index ON products
+  USING <mark>GIST (attributes)</mark>;
+# CREATE INDEX products_hstore_gin_index ON products
+  USING <mark>GIN (attributes)</mark>;
+# CREATE INDEX product_manufacturer ON products
+  <mark>((products.attributes->'manufacturer'))</mark>;
+</code></pre>
+	<style>
+		#HstoreInPostgreSQLCode4 code {
+			font-size: 1.5rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="HstoreInPostgreSQLCode5"><div>
+		<h2>Hstore in PostgreSQL</h2>
+		<pre><code># EXPLAIN SELECT name, attributes->'manufacturer' as manufacturer
+  FROM products WHERE <mark>attributes @> hstore('type', 'computer')</mark>;
+                    QUERY PLAN
+--------------------------------------------------------------
+ <mark>Index Scan using products_hstore_index</mark> on products
+ (cost=0.13..8.15 rows=1 width=46)
+   Index Cond: (attributes @> '"type"=>"computer"'::hstore)
+(2 rows)
+</code></pre>
+	<style>
+		#HstoreInPostgreSQLCode5 code {
+			font-size: 1.3rem;
+		}
+	</style>
+	</div></section>
+
+
+	<section class="slide" id="JSONCover"><div>
+		<h2 class="shout">JSON</h2>
+	</div></section>
+
+	<section class="slide" id="JSONInPostgreSQL"><div>
+		<h2>JSON Support in PostgreSQL</h2>
+		<img src="pictures/json-file.png" alt="JSON" />
+		<ul>
+			<li>Available from PostgreSQL 9.2</li>
+			<li>Validate JSON</li>
+			<li>Big amount of operators and functions</li>
+			<li>No JSON indexes, but you can create functional indexes</li>
+			<li>PLV8 provide more functionality to it</li>
+		</ul>
+		<style>
+			#JSONInPostgreSQL img {
+				width: 250px;
+				float: left;
+				margin: 0 40px 0 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="JSONInPostgreSQLCode1"><div>
+		<h2>JSON in PostgreSQL</h2>
+		<pre><code>CREATE OR REPLACE FUNCTION
+ get_json_key(structure JSON, key TEXT) RETURNS TEXT
+ AS $get_json_key$
+ var js_object = structure;
+ if (typeof ej != 'object')
+ return NULL;
+ return JSON.stringify(js_object[key]);
+$get_json_key$
+ IMMUTABLE STRICT LANGUAGE plv8;</code></pre>
+	<style>
+		#JSONInPostgreSQLCode1 code {
+			font-size: 1.3rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONInPostgreSQLCode2"><div>
+		<h2>JSON in PostgreSQL</h2>
+		<pre><code># CREATE TABLE blog {
+ post json
+}
+# CREATE INDEX post_pk_idx ON
+ blog(<mark>(get_json_key(post, ‘post_id’)::BIGINT)</mark>);
+# CREATE INDEX post_date_idx ON
+ blog(<mark>(get_json_key(post, ‘post_date’)::TIMESTAMPTZ)</mark>);</code></pre>
+	<style>
+		#JSONInPostgreSQLCode2 code {
+			font-size: 1.3rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONInPostgreSQLCode3"><div>
+		<h2>JSON in PostgreSQL</h2>
+		<pre><code># CREATE OR REPLACE FUNCTION valid_json(json text) RETURNS BOOLEAN AS $$
+  try {
+    JSON.parse(json); return true;
+  } catch(e) {
+    return false;
+  }
+$$ LANGUAGE plv8 IMMUTABLE STRICT;
+
+# CREATE DOMAIN json AS TEXT CHECK(valid_json(VALUE));</code></pre>
+	<style>
+		#JSONInPostgreSQLCode3 code {
+			font-size: 1.2rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONInPostgreSQLCode4"><div>
+		<h2>JSON in PostgreSQL</h2>
+		<pre><code># CREATE TABLE members ( id SERIAL, profile json );
+# INSERT INTO members VALUES('not good json');
+<mark>ERROR:  value for domain json
+violates check constraint "json_check"</mark>
+# INSERT INTO members VALUES('{"good": "json", "is": true}');
+<mark>INSERT 0 1</mark></code></pre>
+	<style>
+		#JSONInPostgreSQLCode4 code {
+			font-size: 1.5rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONBCover"><div>
+		<h2 class="shout">JSONB</h2>
+	</div></section>
+
+
+	<section class="slide" id="JSONBInPostgreSQL"><div>
+		<h2>Hstore + JSON = JSONB</h2>
+		<img src="pictures/postgres94_large.jpg" alt="JSONB" />
+		<ul>
+			<li>Binary representation of JSON</li>
+			<li>Available from PostgreSQL 9.4</li>
+			<li>The B stands for better</li>
+			<li>Big amount of operators and functions</li>
+			<li>GIST and GIN indexes</li>
+		</ul>
+		<style>
+			#JSONBInPostgreSQL img {
+				width: 250px;
+				float: right;
+				margin: 0 5px 0 40px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="JSONBvsJSON"><div>
+		<h2>JSON vs JSONB</h2>
+		<p>The only difference between <strong>json</strong> and <strong>jsonb</strong> is their storage:</p>
+    <ul>
+      <li><strong>json</strong> is stored in its plain text format, while</li>
+      <li><strong>jsonb</strong> is stored in some binary representation</li>
+    </ul>
+    <p>There are 3 major consequences of this:</p>
+    <ul>
+      <li><strong>jsonb</strong> usually takes more disk space to store than <strong>json</strong> (sometimes not)</li>
+      <li><strong>jsonb</strong> takes more time to build from its input representation than <strong>json</strong></li>
+      <li><strong>json</strong> operations take significantly more time than <strong>jsonb</strong> (&amp; parsing also needs to be done each time you do some operation at a <strong>json</strong> typed value)</li>
+    </ul>
+	</div></section>
+
+	<section class="slide" id="JSONBInPostgreSQLCode1"><div>
+		<h2>JSONB in PostgreSQL</h2>
+		<pre><code># SELECT '{"name": "Marie", "age": 45}'::jsonb ||
+	'{"city": "Paris"}'::jsonb;
+                   ?column?
+-----------------------------------------------
+ {"age": 45, "city": "Paris", "name": "Marie"}
+(1 row)</code></pre>
+	<style>
+		#JSONBInPostgreSQLCode1 code {
+			font-size: 1.5rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONBInPostgreSQLCode2"><div>
+		<h2>JSONB in PostgreSQL</h2>
+		<pre><code># CREATE TABLE integrations (id UUID, data <mark>JSONB</mark>);
+# INSERT INTO integrations(id, data) VALUES (
+  uuid_generate_v4(),
+  '{
+     "service": "salesforce",
+     "id": "AC347D212341XR",
+     "email": "test@example.com",
+     "occurred_at": "8/14/16 11:00:00",
+     "added": {
+       "lead_score": 50
+     }
+   }');</code></pre>
+	<style>
+		#JSONBInPostgreSQLCode2 code {
+			font-size: 1.1rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONBInPostgreSQLCode3"><div>
+		<h2>JSONB in PostgreSQL</h2>
+		<pre><code># CREATE INDEX idx_integrations_gist_data
+	ON integrations USING <mark>GIST(data)</mark>;
+# CREATE INDEX idx_integrations_gin_data
+  ON integrations USING <mark>GIN(data)</mark>;</code></pre>
+	<style>
+		#JSONBInPostgreSQLCode3 code {
+			font-size: 1.5rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="PostgreSQLvsMongoDB">
+		<img src="pictures/mongodb_26_v_postgres_94_performance.png" alt="" class="cover h">
+	</section>
+
+	<section class="slide" id="Conclusion"><div>
+		<h2>Conclusion</h2>
+		<ul>
+			<li>PostgreSQL does pretty well as a schemaless database</li>
+			<li>JSONB - in most cases (if you do a lot of operations on the JSON value in PostgreSQL)</li>
+			<li>JSON - if you're just processing logs, don't often need to query (if you only work with the JSON representation in your application, PostgreSQL is only used to store and retrieve this representation)</li>
+			<li>Hstore - can work fine for text based key-value looks, but in general JSONB can still work great here</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"></div>
+	<script src="shower/shower.min.js"></script>
+</body>
+</html>
