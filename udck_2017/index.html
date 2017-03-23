@@ -408,7 +408,7 @@ WHERE <mark>attributes->'type' = 'computer'</mark>;
 		<ul>
 			<li>Available from PostgreSQL 9.2</li>
 			<li>Validate JSON</li>
-			<li>Big amount of operators and functions</li>
+			<li><a href="https://www.postgresql.org/docs/current/static/functions-json.html">Big amount of operators and functions (9.3+)</a></li>
 			<li>No JSON indexes, but you can create functional indexes</li>
 			<li>PLV8 provide more functionality to it</li>
 		</ul>
@@ -579,6 +579,120 @@ violates check constraint "json_check"</mark>
 	<section class="slide" id="PostgreSQLvsMongoDB">
 		<img src="pictures/mongodb_26_v_postgres_94_performance.png" alt="" class="cover h">
 	</section>
+
+	<section class="slide" id="JSONBInPostgreCosts1"><div>
+		<h2>Hidden Cost #1: Slow Queries Due To Lack Of Statistics</h2>
+		<pre><code># CREATE TABLE measurements (
+  tick BIGSERIAL PRIMARY KEY,
+  <mark>value_1 INTEGER,
+  value_2 INTEGER,
+  value_3 INTEGER,</mark>
+  scientist_id BIGINT
+);</code></pre>
+	<style>
+		#JSONBInPostgreCosts1 code {
+			font-size: 1.5rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONBInPostgreCosts2"><div>
+		<h2>Hidden Cost #1: Slow Queries Due To Lack Of Statistics</h2>
+		<pre><code># SELECT lab_name, COUNT(*) FROM (SELECT scientist_id
+FROM measurements WHERE <mark>value_1 = 0 AND
+value_2 = 0 AND value_3 = 0</mark>) m
+JOIN scientist_labs AS s ON (m.scientist_id = s.scientist_id)
+GROUP BY lab_name</code></pre>
+	<style>
+		#JSONBInPostgreCosts2 code {
+			font-size: 1.4rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONBInPostgreCosts3"><div>
+		<h2>Hidden Cost #1: Slow Queries Due To Lack Of Statistics</h2>
+		<pre><code>                                                             QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=28905.96..28905.99 rows=3 width=20) (actual time=297.276..297.278 rows=3 loops=1)
+   Group Key: s.lab_name
+   ->  Hash Join  (cost=296.00..28279.80 rows=125232 width=20) (actual time=5.606..262.124 rows=125222 loops=1)
+         Hash Cond: (measurements.scientist_id = s.scientist_id)
+         ->  Seq Scan on measurements  (cost=0.00..24853.00 rows=125232 width=8) (actual time=0.016..177.659 rows=125222 loops=1)
+               Filter: ((value_1 = 0) AND (value_2 = 0) AND (value_3 = 0))
+               Rows Removed by Filter: 874778
+         ->  Hash  (cost=171.00..171.00 rows=10000 width=28) (actual time=5.575..5.575 rows=10000 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 599kB
+               ->  Seq Scan on scientist_labs s  (cost=0.00..171.00 rows=10000 width=28) (actual time=0.006..2.328 rows=10000 loops=1)
+ Planning time: 0.603 ms
+ Execution time: 297.346 ms
+(12 rows)
+
+<mark>Time: 300.463 ms</mark></code></pre>
+	<style>
+		#JSONBInPostgreCosts3 code {
+			font-size: 0.8rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONBInPostgreCosts4"><div>
+		<h2>Hidden Cost #1: Slow Queries Due To Lack Of Statistics</h2>
+		<pre><code>CREATE TABLE measurements (tick BIGSERIAL PRIMARY KEY, record JSONB);
+SELECT lab_name, COUNT(*) FROM ( SELECT
+(record ->> 'scientist_id')::BIGINT AS scientist_id
+FROM measurements WHERE <mark>(record ->> 'value_1')::INTEGER = 0 AND
+(record ->> 'value_2')::INTEGER = 0
+AND (record ->> 'value_3')::INTEGER = 0</mark>
+) m JOIN scientist_labs AS s ON (m.scientist_id = s.scientist_id)
+GROUP BY lab_name</code></pre>
+	<style>
+		#JSONBInPostgreCosts4 code {
+			font-size: 1.4rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONBInPostgreCosts5"><div>
+		<h2>Hidden Cost #1: Slow Queries Due To Lack Of Statistics</h2>
+		<pre><code>  QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=58553.01..58553.02 rows=1 width=20) (actual time=583724.702..583724.703 rows=3 loops=1)
+   Group Key: s.lab_name
+   ->  Nested Loop  (cost=0.00..58553.00 rows=1 width=20) (actual time=5.457..583510.640 rows=124616 loops=1)
+         Join Filter: (((measurements.record ->> 'scientist_id'::text))::bigint = s.scientist_id)
+         Rows Removed by Join Filter: 1246035384
+         ->  Seq Scan on measurements  (cost=0.00..58182.00 rows=1 width=105) (actual time=0.032..1134.662 rows=124616 loops=1)
+               Filter: ((((record ->> 'value_1'::text))::integer = 0) AND (((record ->> 'value_2'::text))::integer = 0) AND (((record ->> 'value_3'::text))::integer = 0))
+               Rows Removed by Filter: 875384
+         ->  Seq Scan on scientist_labs s  (cost=0.00..171.00 rows=10000 width=28) (actual time=0.003..0.864 rows=10000 loops=124616)
+ Planning time: 0.603 ms
+ Execution time: 583724.765 ms
+(11 rows)
+
+<mark>Time: 583730.320 ms</mark></code></pre>
+	<style>
+		#JSONBInPostgreCosts5 code {
+			font-size: 0.8rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONBInPostgreCosts6"><div>
+		<h2>Hidden Cost #2: Larger Table Footprint</h2>
+		<img src="pictures/db_tuncate.jpg" alt="Truncate table" />
+		<ul>
+			<li>Non-JSONB measurements table: 79 Mb</li>
+			<li>JSONB measurements table: 164 Mb</li>
+		</ul>
+		<style>
+			#JSONBInPostgreCosts6 img {
+				width: 450px;
+				float: right;
+				margin: 0 5px 0 40px;
+			}
+		</style>
+	</div></section>
 
 	<section class="slide" id="Conclusion"><div>
 		<h2>Conclusion</h2>
