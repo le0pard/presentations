@@ -589,9 +589,14 @@ violates check constraint "json_check"</mark>
   value_3 INTEGER,</mark>
   scientist_id BIGINT
 );</code></pre>
+	<a class="place b r" href="https://blog.heapanalytics.com/when-to-avoid-jsonb-in-a-postgresql-schema/" target="blank">When To Avoid JSONB In A PostgreSQL Schema</a>
 	<style>
 		#JSONBInPostgreCosts1 code {
 			font-size: 1.5rem;
+		}
+
+		#JSONBInPostgreCosts1 a {
+			padding: 30px;
 		}
 	</style>
 	</div></section>
@@ -627,7 +632,6 @@ GROUP BY lab_name</code></pre>
  Planning time: 0.603 ms
  Execution time: 297.346 ms
 (12 rows)
-
 <mark>Time: 300.463 ms</mark></code></pre>
 	<style>
 		#JSONBInPostgreCosts3 code {
@@ -669,7 +673,6 @@ GROUP BY lab_name</code></pre>
  Planning time: 0.603 ms
  Execution time: 583724.765 ms
 (11 rows)
-
 <mark>Time: 583730.320 ms</mark></code></pre>
 	<style>
 		#JSONBInPostgreCosts5 code {
@@ -682,8 +685,8 @@ GROUP BY lab_name</code></pre>
 		<h2>Hidden Cost #2: Larger Table Footprint</h2>
 		<img src="pictures/db_tuncate.jpg" alt="Truncate table" />
 		<ul>
-			<li>Non-JSONB measurements table: 79 Mb</li>
-			<li>JSONB measurements table: 164 Mb</li>
+			<li>Non-JSONB "measurements" table: 79 Mb</li>
+			<li>JSONB "measurements" table: 164 Mb</li>
 		</ul>
 		<style>
 			#JSONBInPostgreCosts6 img {
