@@ -128,16 +128,364 @@ auto_explain.log_min_duration = '3s'</code></pre>
 );</code></pre>
 	</div></section>
 
-	<section class="slide" id="PgContribCitext"><div>
+	<section class="slide" id="PgContribCitext2"><div>
 		<h2>Citext</h2>
-		<p>Provides a case-insensitive character string type, citext</p>
-		<pre><code>SELECT * FROM tab WHERE lower(col) = LOWER(?);</code></pre>
-		<pre><code>CREATE TABLE users (
-		nick CITEXT PRIMARY KEY,
-		pass TEXT   NOT NULL
+		<pre><code>SELECT * FROM users WHERE username = 'jOhN';
+
+--- ----------+----------
+---    name   | username
+--- ----------+----------
+---  John Doe | john
+--- (1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribUuid"><div>
+		<h2>Uuid-ossp</h2>
+		<pre><code># CREATE EXTENSION "uuid-ossp";
+CREATE EXTENSION
+# SELECT uuid_generate_v4();
+           uuid_generate_v4
+--------------------------------------
+ 16778dae-c41f-447f-ace9-554e7e524d55
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribUuid2"><div>
+		<h2>Uuid-ossp</h2>
+		<pre><code>CREATE TABLE pets
+(
+  id text NOT NULL <mark>DEFAULT uuid_generate_v4()</mark>,
+  name text NOT NULL
 );</code></pre>
 	</div></section>
 
+	<section class="slide" id="PgContribLtree"><div>
+		<h2>Ltree</h2>
+		<pre><code>$ SELECT user_id, path FROM comments WHERE path <@ '0001.0003';
+ user_id |           path
+---------+--------------------------
+       6 | 0001.0003
+       8 | 0001.0003.0001
+       9 | 0001.0003.0002
+      11 | 0001.0003.0002.0001
+       2 | 0001.0003.0002.0002
+       5 | 0001.0003.0002.0003</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribLtree2"><div>
+		<h2>Ltree</h2>
+		<pre><code>$ EXPLAIN ANALYZE SELECT user_id, path FROM
+  comments WHERE path <@ '0001.0003';
+                  QUERY PLAN
+-----------------------------------------------------
+ Index Scan using path_gist_comments_idx on comments
+ (cost=0.00..8.29 rows=2 width=38)
+ (actual time=0.023..0.034 rows=12 loops=1)
+   Index Cond: (path <@ '0001.0003'::ltree)
+ Total runtime: 0.076 ms</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribPgcrypto"><div>
+		<h2>Pgcrypto</h2>
+		<p>The pgcrypto module provides cryptographic functions for PostgreSQL</p>
+		<pre><code>$ SELECT crypt('pa$$w0rd', gen_salt('bf'));
+                            crypt
+--------------------------------------------------------------
+ $2a$06$U5HTeL6FQrdtTdbFm8oF8OPlZQeNmKDIyJVU0zlB7hYkOYuXJolNq
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribHstore"><div>
+		<h2>Hstore</h2>
+		<img src="pictures/nosql_db.png" alt="NoSQL" />
+		<p>Storing sets of key/value pairs within a single PostgreSQL value</p>
+		<p class="red">No need any more! We have JSONB!</p>
+		<style>
+			#PgContribHstore img {
+				width: 250px;
+				float: left;
+				margin: 0 40px 0 5px;
+			}
+      #PgContribHstore .red {
+        font-size: 2rem;
+				color: #F00;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="PgContribPostGIS"><div>
+		<h2><a href="http://www.postgis.org/">PostGIS</a></h2>
+		<img src="pictures/PostGIS_logo.png" alt="NoSQL" />
+		<p>PostGIS adds support for geographic objects to the PostgreSQL</p>
+		<pre><code>$ CREATE TABLE cities (
+id int4 primary key, name varchar(50),
+the_geom geometry(POINT,4326) );</code></pre>
+		<style>
+			#PgContribPostGIS img {
+				width: 250px;
+				float: left;
+				margin: 0 40px 0 5px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PgContribpgSphere"><div>
+		<h2><a href="http://pgsphere.github.io/">pgSphere</a></h2>
+		<p>PgSphere provides spherical data types, functions, operators, and indexing</p>
+		<pre><code>$ SELECT spoly '{ (270d,-10d), (270d,30d), (290d,10d) } ';
+              spoly
+-----------------------------------------------------
+ {(4.71238898038469 , -0.174532925199433),
+(4.71238898038469 , 0.523598775598299),
+(5.06145483078356 , 0.174532925199433)}
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgTsearch2"><div>
+		<h2>Tsearch2</h2>
+		<p>Build in in PostgreSQL in release 8.3</p>
+		<pre><code>$ SELECT strip(to_tsvector('The air smells of sea water.'));
+            strip
+-----------------------------
+ 'air' 'sea' 'smell' 'water'</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgZomboDB"><div>
+		<h2><a href="https://www.zombodb.com/">ZomboDB</a></h2>
+		<img src="pictures/zombodb.png" alt="ZomboDB" class="cover" />
+		<p>Making Postgres and Elasticsearch work together</p>
+	<style>
+		#PgContribpgZomboDB img {
+			width: 500px;
+		}
+		#PgContribpgZomboDB p {
+			margin-top: 350px;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="PgContribpgZomboDB2"><div>
+		<h2><a href="https://www.zombodb.com/">ZomboDB</a></h2>
+		<pre><code>$ SELECT * FROM zdb_tally('products', 'keywords',
+'^.*', '', 5000, 'term');
+         term          | count
+-----------------------+-------
+ ALEXANDER GRAHAM BELL |     1
+ BASEBALL              |     1
+ BOX                   |     1
+ COMMUNICATION         |     1</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgPostPic"><div>
+		<h2><a href="http://drotiro.github.io/postpic/">PostPic</a></h2>
+		<pre><code>$ SELECT *,
+<mark>thumbnail(the_img, 50) as thumbnail</mark>,
+<mark>rotate_left(the_img) as rotate_left_img</mark>,
+<mark>crop(the_img, 0, 0, 300, 200) as crop_img</mark> FROM images
+WHERE <mark>date(the_img) > '2017-01-01'::date</mark>
+AND <mark>size(the_img) > 1600</mark>;</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribPgCron"><div>
+		<h2>Pg_cron</h2>
+		<p>Pg_cron is a simple cron-based job scheduler for PostgreSQL (9.5 or higher) that runs inside the database</p>
+		<pre><code># SELECT cron.schedule('30 3 * * 6',
+$$DELETE FROM events WHERE
+event_time < now() - interval '1 week'$$);</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgPLV8"><div>
+		<h2>Procedural languages</h2>
+		<ul class="double">
+			<li>PL/pgSQL</li>
+			<li>Perl</li>
+			<li>Python</li>
+			<li>Tcl</li>
+			<li>Java</li>
+			<li>JavaScript</li>
+			<li>R</li>
+			<li>Ruby</li>
+			<li>PHP</li>
+			<li>Scheme</li>
+			<li>C</li>
+			<li>sh</li>
+			<li>Golang</li>
+			<li>many more...</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="PgContribpgPLV8Example1"><div>
+		<h2>PLV8</h2>
+		<pre><code>CREATE OR REPLACE FUNCTION
+psqlfib(n int) RETURNS int AS $$
+ BEGIN
+     IF n < 2 THEN
+         RETURN n;
+     END IF;
+     RETURN psqlfib(n-1) + psqlfib(n-2);
+ END;
+$$ LANGUAGE plpgsql IMMUTABLE STRICT;</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgPLV8Example2"><div>
+		<h2>PLV8</h2>
+		<pre><code># SELECT n, psqlfib(n) FROM generate_series(0, 30, 10) as n;
+ n  | psqlfib
+----+---------
+  0 |       0
+ 10 |      55
+ 20 |    6765
+ 30 |  832040
+<mark>Time: 17082.250 ms</mark></code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgPLV8Example3"><div>
+		<h2>PLV8</h2>
+		<pre><code>CREATE OR REPLACE FUNCTION
+fib(n int) RETURNS int as $$
+
+  function fib(n) {
+    return n<2 ? n : fib(n-1) + fib(n-2)
+  }
+  return fib(n)
+
+$$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgPLV8Example4"><div>
+		<h2>PLV8</h2>
+		<pre><code>SELECT n, fib(n) FROM generate_series(0, 30, 10) as n;
+ n  |  fib
+----+--------
+  0 |      0
+ 10 |     55
+ 20 |   6765
+ 30 | 832040
+<mark>Time: 17.014 ms</mark></code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgPLV8Result"><div>
+		<img src="pictures/plv8.jpg" alt="PLV8" class="cover" />
+	</div></section>
+
+	<section class="slide" id="PgContribpgSmlar"><div>
+		<h2>Smlar</h2>
+		<p>Effective Similarity Search in PostgreSQL</p>
+		<img src="pictures/smlar.jpg" alt="Smlar"  />
+	</div></section>
+
+	<section class="slide" id="PgContribpgFDWS"><div>
+		<h2>Foreign Data Wrappers</h2>
+		<img src="pictures/fdws.png" alt="Foreign Data Wrappers" class="cover" />
+		<style>
+      #PgContribpgFDWS img {
+				margin-top: 50px;
+      	height: 60%;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="PgContribpgFDWSList"><div>
+		<h2>Foreign Data Wrappers</h2>
+		<ul class="double">
+			<li>Postgres_fdw (vs Dblink)</li>
+			<li>Oracle_fdw</li>
+			<li>Mysql_fdw</li>
+			<li>Firebird_fdw</li>
+			<li>Sqlite_fdw</li>
+			<li>Tds_fdw (Sybase and Microsoft SQL Server)</li>
+			<li>Monetdb_fdw</li>
+			<li>Cassandra-fdw</li>
+			<li>Couchdb_fdw</li>
+			<li>Mongo_fdw</li>
+			<li>Neo4j_fdw</li>
+			<li>Redis_fdw</li>
+			<li>Riak-multicorn-pg-fdw</li>
+			<li>Multicorn</li>
+			<li>CSV, Files, Git, IMAP, Facebook, Twitter, S3, Google Spreadsheets, etc</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="PgContribpgFDWSMulticorn"><div>
+		<h2>Multicorn FDW</h2>
+		<img src="pictures/multicorn.png" alt="Multicorn" class="place right" />
+		<ul>
+			<li>SQL</li>
+			<li>IMAP</li>
+			<li>CSV</li>
+			<li>File system</li>
+			<li>Sqlite</li>
+			<li>RSS</li>
+			<li>LDAP</li>
+			<li>Extend by Python</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="MaterializedViewsFDWs"><div>
+    <h2>Materialized Views for FDWs</h2>
+    <pre><code># REFRESH MATERIALIZED VIEW CONCURRENTLY my_view;</code></pre>
+		<img class="place bottom" src="pictures/materialized_views.png" alt="MaterializedViews" />
+		<style>
+			#MaterializedViewsFDWs img {
+        width: 50%;
+			}
+		</style>
+  </div></section>
+
+	<section class="slide" id="PgContribCstoreFDW"><div>
+		<h2><a href="https://citusdata.github.io/cstore_fdw/">Cstore_fdw</a></h2>
+		<p>Fast columnar store for analytics with PostgreSQL</p>
+		<img class="place bottom" src="pictures/cstore_fdw.png" alt="cstore_fdw" />
+		<style>
+			#PgContribCstoreFDW img {
+        height: 60%;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PgContribHLL"><div>
+    <h2><a href="https://github.com/aggregateknowledge/postgresql-hll">Postgresql-hll</a></h2>
+		<p><a href="https://agkn.wordpress.com/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/">HyperLogLog</a> data structure</p>
+    <pre><code># CREATE TABLE daily_uniques (
+  date            date UNIQUE,
+  <mark>users           hll</mark>
+);</code></pre>
+  </div></section>
+
+	<section class="slide" id="PgContribHLL2"><div>
+    <h2><a href="https://github.com/aggregateknowledge/postgresql-hll">Postgresql-hll</a></h2>
+    <pre><code>SELECT date, hll_cardinality(users) FROM daily_uniques;
+    date    | hll_cardinality
+------------+-----------------
+ 2017-02-21 |            23123
+ 2017-02-22 |            59433
+ 2017-02-23 |          2134890
+ 2017-02-24 |          3276247
+(4 rows)</code></pre>
+  </div></section>
+
+	<section class="slide" id="PgContribCitus"><div>
+    <h2><a href="https://github.com/citusdata/citus">Citus</a></h2>
+		<p>Scalable PostgreSQL for multi-tenant and real-time workloads</p>
+		<img class="place bottom" src="pictures/citus.png" alt="citus" />
+		<style>
+			#PgContribCitus img {
+        height: 60%;
+			}
+		</style>
+  </div></section>
+
+	<section class="slide" id="PgContribPGStrom"><div>
+		<h2><a href="http://strom.kaigai.gr.jp/">PGStrom</a></h2>
+		<div class="double">
+			<p>PGStrom provide new GPU-based implementation for several SQL workloads like relations-join, aggregation/group-by, and so on</p>
+			<img src="pictures/pgstrom.jpg" alt="PGStrom" />
+		</div>
+	</div></section>
+
+	<section class="slide" id="PgContribPGStrom2"><div>
+		<img class="cover" src="pictures/pgstrom_gpu_power.png" alt="PGStrom" />
+	</div></section>
 
 	<section class="slide" id="QuestionsSlide"><div>
     <h2>&lt;Thank You!&gt; Questions?</h2>
