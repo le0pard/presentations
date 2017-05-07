@@ -368,6 +368,15 @@ $$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
 		<img src="pictures/plv8.jpg" alt="PLV8" class="cover" />
 	</div></section>
 
+	<section class="slide" id="PgContribpgTrgm"><div>
+		<h2>Pg_trgm</h2>
+		<p>Module provides functions and operators for determining the similarity of alphanumeric text based on trigram matching</p>
+		<pre><code>SELECT t, similarity(t, 'word') AS sml
+  FROM test_trgm
+  WHERE t % 'word'
+  ORDER BY sml DESC, t;</code></pre>
+	</div></section>
+
 	<section class="slide" id="PgContribpgSmlar"><div>
 		<h2>Smlar</h2>
 		<p>Effective Similarity Search in PostgreSQL</p>
