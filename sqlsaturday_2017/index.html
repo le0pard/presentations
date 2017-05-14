@@ -98,37 +98,83 @@
 		</ul>
 	</div></section>
 
-	<section class="slide" id="PgContribAuthDelay"><div>
-		<h2>Auth_delay</h2>
-		<p>Causes the server to pause briefly before reporting authentication failure, to make brute-force attacks on database passwords more difficul</p>
-		<pre><code># postgresql.conf
-shared_preload_libraries = 'auth_delay'
-
-custom_variable_classes = 'auth_delay'
-auth_delay.milliseconds = '500'</code></pre>
-	</div></section>
-
-	<section class="slide" id="PgContribAutoExplain"><div>
-		<h2>Auto_explain</h2>
-		<p>Provides a means for logging execution plans of slow statements automatically, without having to run EXPLAIN by hand</p>
-		<pre><code># postgresql.conf
-shared_preload_libraries = 'auto_explain'
-
-custom_variable_classes = 'auto_explain'
-auto_explain.log_min_duration = '3s'</code></pre>
-	</div></section>
-
 	<section class="slide" id="PgContribCitext"><div>
 		<h2>Citext</h2>
 		<p>Provides a case-insensitive character string type, citext</p>
-		<pre><code>SELECT * FROM tab WHERE lower(col) = LOWER(?);</code></pre>
-		<pre><code>CREATE TABLE users (
-    nick CITEXT PRIMARY KEY,
-    pass TEXT   NOT NULL
-);</code></pre>
+		<pre><code>$ CREATE TABLE users (
+	name text NOT NULL,
+	username text NOT NULL
+);
+$ CREATE UNIQUE INDEX unique_username_on_users
+  ON users (username);</code></pre>
 	</div></section>
 
 	<section class="slide" id="PgContribCitext2"><div>
+		<h2>Citext</h2>
+		<pre><code>INSERT INTO users (name, username) VALUES ('John Doe', <mark>'john'</mark>);
+INSERT INTO users (name, username) VALUES ('Doe, John', <mark>'JOHN'</mark>);
+				-----------+----------
+				   name    | username
+				-----------+----------
+				 John Doe  | <mark>john</mark>
+				 Doe, John | <mark>JOHN</mark>
+				-----------+----------</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribCitext3"><div>
+		<h2>Citext</h2>
+		<pre><code>CREATE UNIQUE INDEX unique_username_on_users
+  ON users <mark>(lower(username))</mark>;
+
+INSERT INTO users (name, username) VALUES ('Doe, John', 'JOHN');
+-- ERROR:  duplicate key value violates unique
+  constraint "unique_username_on_users"
+-- DETAIL:  Key (lower(username))=(john) already exists.</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribCitext4"><div>
+		<h2>Citext</h2>
+		<pre><code>SELECT * FROM users WHERE <mark>username = 'john'</mark>;
+-- ----------+----------
+--    name   | username
+-- ----------+----------
+--  John Doe | john
+-- ----------+----------
+-- (1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribCitext5"><div>
+		<h2>Citext</h2>
+		<pre><code>SELECT * FROM users WHERE <mark>username = 'jOhN'</mark>;
+-- ------+----------
+--  name | username
+-- ------+----------
+-- (0 rows)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribCitext6"><div>
+		<h2>Citext</h2>
+		<pre><code>SELECT * FROM users WHERE <mark>lower(username) = lower('jOhN')</mark>;
+
+-- ----------+----------
+--    name   | username
+-- ----------+----------
+--  John Doe | john
+-- (1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribCitext7"><div>
+		<h2>Citext</h2>
+		<pre><code>CREATE EXTENSION IF NOT EXISTS <mark>citex</mark>;
+CREATE TABLE users (
+	name text NOT NULL,
+	username <mark>citex</mark> NOT NULL
+);
+CREATE UNIQUE INDEX unique_username_on_users
+  ON users (username);</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribCitext8"><div>
 		<h2>Citext</h2>
 		<pre><code>SELECT * FROM users WHERE username = 'jOhN';
 
@@ -193,6 +239,26 @@ CREATE EXTENSION
 --------------------------------------------------------------
  $2a$06$U5HTeL6FQrdtTdbFm8oF8OPlZQeNmKDIyJVU0zlB7hYkOYuXJolNq
 (1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribAuthDelay"><div>
+		<h2>Auth_delay</h2>
+		<p>Causes the server to pause briefly before reporting authentication failure, to make brute-force attacks on database passwords more difficul</p>
+		<pre><code># postgresql.conf
+shared_preload_libraries = 'auth_delay'
+
+custom_variable_classes = 'auth_delay'
+auth_delay.milliseconds = '500'</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribAutoExplain"><div>
+		<h2>Auto_explain</h2>
+		<p>Provides a means for logging execution plans of slow statements automatically, without having to run EXPLAIN by hand</p>
+		<pre><code># postgresql.conf
+shared_preload_libraries = 'auto_explain'
+
+custom_variable_classes = 'auto_explain'
+auto_explain.log_min_duration = '3s'</code></pre>
 	</div></section>
 
 	<section class="slide" id="PgContribHstore"><div>
