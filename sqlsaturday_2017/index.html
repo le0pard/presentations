@@ -100,7 +100,6 @@
 
 	<section class="slide" id="PgContribCitext"><div>
 		<h2>Citext</h2>
-		<p>Provides a case-insensitive character string type, citext</p>
 		<pre><code>$ CREATE TABLE users (
 	name text NOT NULL,
 	username text NOT NULL
@@ -165,6 +164,7 @@ INSERT INTO users (name, username) VALUES ('Doe, John', 'JOHN');
 
 	<section class="slide" id="PgContribCitext7"><div>
 		<h2>Citext</h2>
+		<p>Provides a case-insensitive character string type, citext</p>
 		<pre><code>CREATE EXTENSION IF NOT EXISTS <mark>citex</mark>;
 CREATE TABLE users (
 	name text NOT NULL,
@@ -259,6 +259,47 @@ shared_preload_libraries = 'auto_explain'
 
 custom_variable_classes = 'auto_explain'
 auto_explain.log_min_duration = '3s'</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribSafeupdate"><div>
+		<div class="double">
+			<video autoplay loop muted preload>
+	      <source src="pictures/update_without_where.mp4"
+	              type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+	    </video>
+			<pre><code>$ UPDATE billing_states
+	SET is_active=true;
+
+or
+
+$ DELETE FROM users;</code></pre>
+		</div>
+		<style>
+  		#PgContribSafeupdate video {
+        width: 100%;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="PgContribSafeupdate2"><div>
+		<h2><a href="https://bitbucket.org/eradman/pg-safeupdate">Safeupdate</a></h2>
+		<p>extension that raises an error if UPDATE and DELETE are executed without specifying conditions</p>
+		<div class="center">
+			<video autoplay loop muted preload>
+				<source src="pictures/safeupdate.mp4"
+								type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+			</video>
+		</div>
+		<style>
+			#PgContribSafeupdate2 .center {
+				width: 100%;
+			}
+			#PgContribSafeupdate2 video {
+				display: block;
+				margin: 0 auto;
+				width: 500px;
+			}
+		</style>
 	</div></section>
 
 	<section class="slide" id="PgContribHstore"><div>
@@ -507,6 +548,26 @@ $$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
 		</style>
   </div></section>
 
+	<section class="slide" id="PgContribBigData"><div>
+		<h2>What about BIG DATA???</h2>
+		<div class="center">
+			<video autoplay loop muted preload>
+				<source src="pictures/bigdata.mp4"
+								type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+			</video>
+		</div>
+		<style>
+			#PgContribBigData .center {
+				width: 100%;
+			}
+			#PgContribBigData video {
+				display: block;
+				margin: 0 auto;
+				width: 500px;
+			}
+		</style>
+	</div></section>
+
 	<section class="slide" id="PgContribCstoreFDW"><div>
 		<h2><a href="https://citusdata.github.io/cstore_fdw/">Cstore_fdw</a></h2>
 		<p>Fast columnar store for analytics with PostgreSQL</p>
@@ -539,6 +600,17 @@ $$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
 (4 rows)</code></pre>
   </div></section>
 
+	<section class="slide" id="PgContribPathman"><div>
+    <h2><a href="https://github.com/postgrespro/pg_pathman">Pg_pathman</a></h2>
+		<p>Provides optimized partitioning mechanism and functions to manage partitions</p>
+		<img class="place bottom" src="pictures/partitioning.png" alt="partitioning" />
+		<style>
+			#PgContribPathman img {
+        height: 60%;
+			}
+		</style>
+  </div></section>
+
 	<section class="slide" id="PgContribCitus"><div>
     <h2><a href="https://github.com/citusdata/citus">Citus</a></h2>
 		<p>Scalable PostgreSQL for multi-tenant and real-time workloads</p>
@@ -560,6 +632,14 @@ $$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
 
 	<section class="slide" id="PgContribPGStrom2"><div>
 		<img class="cover" src="pictures/pgstrom_gpu_power.png" alt="PGStrom" />
+	</div></section>
+
+	<section class="slide" id="PgContribMadlib"><div>
+		<h2><a href="http://madlib.incubator.apache.org/">Madlib</a></h2>
+		<div class="double">
+			<p>MADlib is an open-source library for scalable in-database analytics. It provides data-parallel implementations of mathematical, statistical and machine learning methods for structured and unstructured data</p>
+			<img src="pictures/madlib.png" alt="Madlib" />
+		</div>
 	</div></section>
 
 	<section class="slide" id="QuestionsSlide"><div>
