@@ -548,6 +548,34 @@ $$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
 		</style>
   </div></section>
 
+	<section class="slide" id="PgTableBloat"><div>
+		<h2>Table bloating</h2>
+		<div class="center">
+			<video autoplay loop muted>
+				<source src="pictures/bloating.mp4"
+								type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+			</video>
+		</div>
+		<style>
+			#PgTableBloat .center {
+				width: 100%;
+			}
+			#PgTableBloat video {
+				display: block;
+				margin: 0 auto;
+				width: 700px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PgTableBloatRepack"><div>
+		<h2>Pg_repack and Pgcompact</h2>
+		<ul>
+			<li><a href="https://github.com/reorg/pg_repack">Pg_repack</a> - a PostgreSQL extension which lets you remove bloat from tables and indexes, and optionally restore the physical order of clustered indexes</li>
+			<li><a href="https://github.com/grayhemp/pgtoolkit">Pgcompact</a> - a tool to reduce bloat for tables and indexes without heavy locks and full table rebuilding</li>
+		</ul>
+	</div></section>
+
 	<section class="slide" id="PgContribBigData"><div>
 		<h2>What about BIG DATA???</h2>
 		<div class="center">
