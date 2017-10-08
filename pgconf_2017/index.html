@@ -234,11 +234,31 @@ CREATE EXTENSION
 	<section class="slide" id="PgContribPgcrypto"><div>
 		<h2>Pgcrypto</h2>
 		<p>The pgcrypto module provides cryptographic functions for PostgreSQL</p>
-		<pre><code>$ SELECT crypt('pa$$w0rd', gen_salt('bf'));
+		<pre><code>$ SELECT crypt('password', gen_salt('bf'));
                             crypt
 --------------------------------------------------------------
- $2a$06$U5HTeL6FQrdtTdbFm8oF8OPlZQeNmKDIyJVU0zlB7hYkOYuXJolNq
+ $2a$06$NxaXgw9wQ1fKgoSfp4qgPeA8zBZiFJ12bKqMtblj0FT/e2IO2v93u
 (1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribPgcrypto2"><div>
+		<h2>Pgcrypto</h2>
+		<pre><code>$ select (
+	<mark>'$2a$06$NxaXgw9wQ1fKgoSfp4qgPeA8zBZiFJ12bKqMtblj0FT/e2IO2v93u'</mark> =
+		crypt(
+			'password',
+			<mark>'$2a$06$NxaXgw9wQ1fKgoSfp4qgPeA8zBZiFJ12bKqMtblj0FT/e2IO2v93u'</mark>
+		)
+	) as matched;
+	matched
+ ---------
+  t
+ (1 row)</code></pre>
+	 <style>
+		 #PgContribPgcrypto2 code {
+			 font-size: 1.2rem;
+		 }
+	 </style>
 	</div></section>
 
 	<section class="slide" id="PgContribAuthDelay"><div>
@@ -359,19 +379,35 @@ the_geom geometry(POINT,4326) );</code></pre>
 
 	<section class="slide" id="PgContribpgZomboDB"><div>
 		<h2><a href="https://www.zombodb.com/">ZomboDB</a></h2>
-		<img src="pictures/zombodb.png" alt="ZomboDB" class="cover" />
-		<p>Making Postgres and Elasticsearch work together</p>
+		<div class="double">
+			<img src="pictures/zombodb.png" alt="ZomboDB" />
+			<p>Making Postgres and Elasticsearch work together ("tsearch" features are useful, they're not necessarily adequate for 200 column-wide tables with 100M rows, each containing large text content)</p>
+		</div>
 	<style>
 		#PgContribpgZomboDB img {
 			width: 500px;
 		}
-		#PgContribpgZomboDB p {
-			margin-top: 350px;
-		}
 	</style>
 	</div></section>
 
+	<section class="slide" id="PgContribpgZomboDB1"><div>
+		<h2><a href="https://www.zombodb.com/">ZomboDB</a></h2>
+		<pre><code>$ CREATE INDEX idx_zdb_products
+    ON products
+ USING zombodb(zdb('products', products.ctid), zdb(products))
+  WITH (url='http://localhost:9200/', shards=5, replicas=1);</code></pre>
+	</div></section>
+
 	<section class="slide" id="PgContribpgZomboDB2"><div>
+		<h2><a href="https://www.zombodb.com/">ZomboDB</a></h2>
+		<pre><code>$ SELECT *
+  FROM products
+ WHERE <mark>zdb('products', ctid) ==>
+ 'keywords:(sports,box) or
+ long_description:(wooden w/5 away) and price < 100000'</mark>;</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgZomboDB3"><div>
 		<h2><a href="https://www.zombodb.com/">ZomboDB</a></h2>
 		<pre><code>$ SELECT * FROM zdb_tally('products', 'keywords',
 '^.*', '', 5000, 'term');
@@ -381,6 +417,15 @@ the_geom geometry(POINT,4326) );</code></pre>
  BASEBALL              |     1
  BOX                   |     1
  COMMUNICATION         |     1</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribpgZomboDB4"><div>
+		<h2><a href="https://www.zombodb.com/">ZomboDB</a></h2>
+		<ul>
+			<li>ZomboDB indexes are not WAL-logged by Postgres. As such, ZomboDB indexes are not recoverable in the event of a Postgres server crash and will require a <code>REINDEX</code></li>
+			<li>interoperability with various Postgres replication schemes is unknown</li>
+			<li>Postgres <code>HOT</code> update chains are not supported (necessitates a <code>VACUUM FULL</code> if a HOT-updated row is found)</li>
+		</ul>
 	</div></section>
 
 	<section class="slide" id="PgContribpgPostPic"><div>
@@ -487,7 +532,28 @@ $$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
 	<section class="slide" id="PgContribpgSmlar"><div>
 		<h2>Smlar</h2>
 		<p>Effective Similarity Search in PostgreSQL</p>
-		<img src="pictures/smlar.jpg" alt="Smlar"  />
+		<img src="pictures/smlar.jpg" alt="Smlar" />
+	</div></section>
+
+	<section class="slide" id="PgContribpgSmlar2"><div>
+		<h2>Smlar</h2>
+		<pre><code>$ EXPLAIN ANALYZE SELECT
+<mark>smlar(images.image_array, '{1010259,...,2424252}'::int[]) as similarity</mark>
+FROM images WHERE <mark>images.image_array %
+'{1010259,1011253, ...,2423253,2424252}'::int[]</mark> ORDER BY similarity DESC;
+
+Sort  (cost=4020.94..4023.41 rows=986 width=924)
+	Sort Key: (smlar(image_array, '{...,2424252}'::integer[]))
+	Sort Method: quicksort  Memory: 15520kB
+		->  Bitmap Heap Scan on images  (cost=286.64..3971.91 rows=986 width=924)
+		Recheck Cond: (image_array % '{...,2424252}'::integer[])
+			->  Bitmap Index Scan on image_array_gist  (cost=0.00..286.39 rows=986 width=0)
+				Index Cond: (image_array % '{...,2424252}'::integer[])</code></pre>
+	<style>
+		#PgContribpgSmlar2 code {
+			font-size: 1.1rem;
+		}
+	</style>
 	</div></section>
 
 	<section class="slide" id="PgContribpgFDWS"><div>
@@ -535,6 +601,23 @@ $$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
 			<li>LDAP</li>
 			<li>Extend by Python</li>
 		</ul>
+	</div></section>
+
+	<section class="slide" id="PgContribpgFDWSMulticorn2"><div>
+		<h2>Multicorn FDW (IMAP server)</h2>
+		<pre><code>$ SELECT flags, "Subject", payload FROM my_inbox LIMIT 10;
+                flags                 |      Subject      |       payload
+--------------------------------------+-------------------+---------------------
+ {$MailFlagBit1,"\\Flagged","\\Seen"} | Test email        | Test email\r       +
+                                      |                   |
+ {"\\Seen"}                           | Test second email | Test second email\r+
+                                      |                   |
+(2 rows)</code></pre>
+	<style>
+		#PgContribpgFDWSMulticorn2 code {
+			font-size: 1.15rem;
+		}
+	</style>
 	</div></section>
 
 	<section class="slide" id="MaterializedViewsFDWs"><div>
@@ -605,6 +688,56 @@ $$ LANGUAGE plv8 IMMUTABLE STRICT;</code></pre>
         height: 60%;
 			}
 		</style>
+	</div></section>
+
+	<section class="slide" id="PgContribCstoreFDW1"><div>
+		<h2><a href="https://citusdata.github.io/cstore_fdw/">Cstore_fdw</a></h2>
+		<p>trips table with 1.1 Billion records</p>
+		<pre><code>$ SET max_parallel_degree = 4;
+$ EXPLAIN (COSTS OFF) SELECT cab_type, count(*) FROM trips GROUP BY cab_type;
+                      QUERY PLAN
+----------------------------------------------------
+Finalize GroupAggregate
+	Group Key: cab_type
+	->  Sort
+		Sort Key: cab_type
+		->  Gather
+			<mark>Number of Workers: 4</mark>
+			->  Partial HashAggregate
+				Group Key: cab_type
+					->  Parallel Seq Scan on trips
+</code></pre>
+	<style>
+		#PgContribCstoreFDW1 code {
+			font-size: 1.1rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="PgContribCstoreFDW2"><div>
+		<h2><a href="https://citusdata.github.io/cstore_fdw/">Cstore_fdw</a></h2>
+		<p>trips table with 1.1 Billion records</p>
+		<pre><code>$ SELECT cab_type, count(*) FROM trips GROUP BY cab_type;
+(query take 3.5 hours)
+</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgContribCstoreFDW3"><div>
+		<h2><a href="https://citusdata.github.io/cstore_fdw/">Cstore_fdw</a></h2>
+		<p>trips table with 1.1 Billion records</p>
+		<pre><code>sudo su - postgres -c "du -hs ~/9.5/main/* | grep [0-9]G"
+<mark>81G</mark>     /var/lib/postgresql/9.5/main/cstore_fdw
+</code></pre>
+	<p>data is around 3.5x smaller than it was when stored using PostgreSQL's standard storage format</p>
+	</div></section>
+
+	<section class="slide" id="PgContribCstoreFDW4"><div>
+		<h2><a href="https://citusdata.github.io/cstore_fdw/">Cstore_fdw</a></h2>
+		<p>trips table with 1.1 Billion records</p>
+		<pre><code>$ SELECT cab_type, count(*) FROM trips GROUP BY cab_type;
+(2 minutes and 55 seconds)
+</code></pre>
+	<p>very good for OLAP</p>
 	</div></section>
 
 	<section class="slide" id="PgContribHLL"><div>
