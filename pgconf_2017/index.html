@@ -185,6 +185,82 @@ CREATE UNIQUE INDEX unique_username_on_users
 --- (1 row)</code></pre>
 	</div></section>
 
+	<section class="slide" id="PgCustomTypes1"><div>
+		<h2>Create our own types using custom domains</h2>
+		<pre><code>test=# select '$4.999'::money;
+ money
+-------
+ $5.00
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgCustomTypes2"><div>
+		<h2>Create our own types using custom domains</h2>
+		<pre><code>
+# CREATE DOMAIN gasprice AS numeric(6,3);
+CREATE DOMAIN
+# SELECT 4.999::gasprice;
+ gasprice
+----------
+  4.999
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="NasaMarsClimateOrbiter"><div>
+		<figure>
+			<blockquote>
+				<p>NASA lost its $125-million Mars Climate Orbiter because spacecraft engineers failed to convert from English to metric measurements when exchanging vital data before the craft was launched.</p>
+			</blockquote>
+		</figure>
+		<style>
+			#NasaMarsClimateOrbiter blockquote p {
+				font-size: 2.5rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PgUnit1"><div>
+		<h2><a href="https://github.com/ChristophBerg/postgresql-unit">Postgresql-unit</a></h2>
+		<pre><code># CREATE extension unit;
+CREATE EXTENSION
+# SELECT '100 lb s'::unit - '100 N s'::unit;
+ERROR:  dimension mismatch in "-" operation:
+"45.359237 kg*s", "100 m*kg/s"</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgUnit2"><div>
+		<h2><a href="https://github.com/ChristophBerg/postgresql-unit">Postgresql-unit</a></h2>
+		<pre><code># CREATE DOMAIN acceleration AS unit CHECK (
+  dimension(VALUE) = '1 m*kg/s'
+);
+# SELECT 100::acceleration;
+ERROR:  cannot cast type integer to acceleration
+LINE 1: SELECT 100::acceleration;
+                  ^
+# SELECT '100 lb s'::acceleration;
+ERROR:  value for domain acceleration violates
+check constraint "acceleration_check"</code></pre>
+	<style>
+		#PgUnit2 code {
+			font-size: 1.2rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="PgTypesAndChecks"><div>
+		<h2>Compound Types and Syntax Checks</h2>
+		<ul class="double">
+			<li><a href="https://github.com/petere/pguri">Pguri</a></li>
+			<li><a href="https://github.com/blm768/pg-libphonenumber">Pg_libphonenumber</a></li>
+			<li><a href="https://pgxn.org/dist/semver">Semver</a></li>
+			<li><a href="https://github.com/pramsey/pgsql-postal">Pgsql-postal</a></li>
+			<li><a href="https://github.com/beargiles/pg-bignum">Pg-bignum</a></li>
+			<li><a href="https://github.com/beargiles/pg-complex">Pg-complex</a></li>
+			<li><a href="https://github.com/aleksabl/hashtypes">Hashtypes</a></li>
+			<li>many more...</li>
+		</ul>
+	</div></section>
+
 	<section class="slide" id="PgContribUuid"><div>
 		<h2>Uuid-ossp</h2>
 		<pre><code># CREATE EXTENSION "uuid-ossp";
@@ -632,7 +708,7 @@ Sort  (cost=4020.94..4023.41 rows=986 width=924)
   </div></section>
 
 	<section class="slide" id="PgTableBloat"><div>
-		<h2>Table bloating</h2>
+		<h2>Tables and indexes bloating</h2>
 		<div class="center">
 			<video autoplay loop muted>
 				<source src="pictures/bloating.mp4"
