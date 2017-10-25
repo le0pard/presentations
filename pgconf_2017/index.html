@@ -230,21 +230,30 @@ ERROR:  dimension mismatch in "-" operation:
 
 	<section class="slide" id="PgUnit2"><div>
 		<h2><a href="https://github.com/ChristophBerg/postgresql-unit">Postgresql-unit</a></h2>
-		<pre><code># CREATE DOMAIN acceleration AS unit CHECK (
+		<pre><code># CREATE DOMAIN momentum AS unit CHECK (
   dimension(VALUE) = '1 m*kg/s'
 );
-# SELECT 100::acceleration;
-ERROR:  cannot cast type integer to acceleration
-LINE 1: SELECT 100::acceleration;
+# SELECT 100::momentum;
+ERROR:  cannot cast type integer to momentum
+LINE 1: SELECT 100::momentum;
                   ^
-# SELECT '100 lb s'::acceleration;
-ERROR:  value for domain acceleration violates
-check constraint "acceleration_check"</code></pre>
+# SELECT '100 lb s'::momentum;
+ERROR:  value for domain momentum violates
+check constraint "momentum_check"</code></pre>
 	<style>
 		#PgUnit2 code {
 			font-size: 1.2rem;
 		}
 	</style>
+	</div></section>
+
+	<section class="slide" id="PgUnit3"><div>
+		<h2><a href="https://github.com/ChristophBerg/postgresql-unit">Postgresql-unit</a></h2>
+		<pre><code># SELECT '100 N s'::momentum;
+  momentum
+------------
+ 100 m*kg/s
+(1 row)</code></pre>
 	</div></section>
 
 	<section class="slide" id="PgTypesAndChecks"><div>
@@ -570,7 +579,7 @@ event_time < now() - interval '1 week'$$);</code></pre>
 			</blockquote>
 		</figure>
 		<style>
-			#JSIsNotFunnyVodka blockquote p {
+			#JSIsLikeVodka blockquote p {
 				font-size: 3rem;
 			}
 		</style>
