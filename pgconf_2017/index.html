@@ -357,6 +357,27 @@ custom_variable_classes = 'auto_explain'
 auto_explain.log_min_duration = '3s'</code></pre>
 	</div></section>
 
+	<section class="slide" id="pgStatStatements"><div>
+		<h2>Pg_stat_statements</h2>
+		<pre><code># SELECT query, calls, total_time, rows
+FROM pg_stat_statements ORDER BY total_time DESC LIMIT 10;
+-[ RECORD 1 ]----------------------------------------------------------------------------
+query       | select * from x where i = ?;
+calls       | 2
+total_time  | 0.157
+rows        | 6</code></pre>
+	</div></section>
+
+	<section class="slide" id="HypoPG"><div>
+		<h2><a href="http://dalibo.github.io/hypopg/">HypoPG</a></h2>
+		<pre><code># EXPLAIN SELECT * FROM testable WHERE id < 1000 ;
+-----------------------------------------------------------------------------------------------
+ Index Scan using <41079>btree_testable_id on
+ testable  (cost=0.30..28.33 rows=916 width=15)
+   Index Cond: (id < 1000)
+(2 rows)</code></pre>
+	</div></section>
+
 	<section class="slide" id="PgContribSafeupdate"><div>
 		<div class="double">
 			<video autoplay loop muted>
