@@ -185,6 +185,94 @@ CREATE UNIQUE INDEX unique_username_on_users
 --- (1 row)</code></pre>
 	</div></section>
 
+	<section class="slide" id="PgCustomTypes1"><div>
+		<h2>Create our own types using custom domains</h2>
+		<pre><code>test=# select '$4.999'::money;
+ money
+-------
+ $5.00
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgCustomTypes2"><div>
+		<h2>Create our own types using custom domains</h2>
+		<pre><code>
+# CREATE DOMAIN gasprice AS numeric(6,3);
+CREATE DOMAIN
+# SELECT 4.999::gasprice;
+ gasprice
+----------
+  4.999
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="NasaMarsClimateOrbiter"><div>
+		<figure>
+			<blockquote>
+				<p>NASA lost its $125-million Mars Climate Orbiter because spacecraft engineers failed to convert from English to metric measurements when exchanging vital data before the craft was launched.</p>
+			</blockquote>
+		</figure>
+		<style>
+			#NasaMarsClimateOrbiter blockquote p {
+				font-size: 2.5rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PgUnit1"><div>
+		<h2><a href="https://github.com/ChristophBerg/postgresql-unit">Postgresql-unit</a></h2>
+		<pre><code># CREATE extension unit;
+CREATE EXTENSION
+# SELECT '100 lb s'::unit - '100 N s'::unit;
+ERROR:  dimension mismatch in "-" operation:
+"45.359237 kg*s", "100 m*kg/s"</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgUnit2"><div>
+		<h2><a href="https://github.com/ChristophBerg/postgresql-unit">Postgresql-unit</a></h2>
+		<pre><code># CREATE DOMAIN momentum AS unit CHECK (
+  dimension(VALUE) = '1 m*kg/s'
+);
+# SELECT 100::momentum;
+ERROR:  cannot cast type integer to momentum
+LINE 1: SELECT 100::momentum;
+                  ^
+# SELECT '100 lb s'::momentum;
+ERROR:  value for domain momentum violates
+check constraint "momentum_check"</code></pre>
+	<style>
+		#PgUnit2 code {
+			font-size: 1.2rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="PgUnit3"><div>
+		<h2><a href="https://github.com/ChristophBerg/postgresql-unit">Postgresql-unit</a></h2>
+		<pre><code># SELECT '100 N s'::momentum;
+  momentum
+------------
+ 100 m*kg/s
+# SELECT '100 N min'::momentum;
+  momentum
+-------------
+ 6000 m*kg/s</code></pre>
+	</div></section>
+
+	<section class="slide" id="PgTypesAndChecks"><div>
+		<h2>Compound Types and Syntax Checks</h2>
+		<ul class="double">
+			<li><a href="https://github.com/petere/pguri">Pguri</a></li>
+			<li><a href="https://github.com/blm768/pg-libphonenumber">Pg_libphonenumber</a></li>
+			<li><a href="https://pgxn.org/dist/semver">Semver</a></li>
+			<li><a href="https://github.com/pramsey/pgsql-postal">Pgsql-postal</a></li>
+			<li><a href="https://github.com/beargiles/pg-bignum">Pg-bignum</a></li>
+			<li><a href="https://github.com/beargiles/pg-complex">Pg-complex</a></li>
+			<li><a href="https://github.com/aleksabl/hashtypes">Hashtypes</a></li>
+			<li>many more...</li>
+		</ul>
+	</div></section>
+
 	<section class="slide" id="PgContribUuid"><div>
 		<h2>Uuid-ossp</h2>
 		<pre><code># CREATE EXTENSION "uuid-ossp";
@@ -279,6 +367,27 @@ shared_preload_libraries = 'auto_explain'
 
 custom_variable_classes = 'auto_explain'
 auto_explain.log_min_duration = '3s'</code></pre>
+	</div></section>
+
+	<section class="slide" id="pgStatStatements"><div>
+		<h2>Pg_stat_statements</h2>
+		<pre><code># SELECT query, calls, total_time, rows
+FROM pg_stat_statements ORDER BY total_time DESC LIMIT 10;
+-[ RECORD 1 ]----------------------------------------------------------------------------
+query       | select * from x where i = ?;
+calls       | 2
+total_time  | 0.157
+rows        | 6</code></pre>
+	</div></section>
+
+	<section class="slide" id="HypoPG"><div>
+		<h2><a href="http://dalibo.github.io/hypopg/">HypoPG</a></h2>
+		<pre><code># EXPLAIN SELECT * FROM testable WHERE id < 1000 ;
+-----------------------------------------------------------------------------------------------
+ Index Scan using <41079>btree_testable_id on
+ testable  (cost=0.30..28.33 rows=916 width=15)
+   Index Cond: (id < 1000)
+(2 rows)</code></pre>
 	</div></section>
 
 	<section class="slide" id="PgContribSafeupdate"><div>
@@ -466,6 +575,19 @@ event_time < now() - interval '1 week'$$);</code></pre>
 		</ul>
 	</div></section>
 
+	<section class="slide" id="JSIsLikeVodka"><div>
+		<figure>
+			<blockquote>
+				<p>JavaScript is like vodka: you're okay if you just drink it, but when you say you like it, you should realize there's something wrong with you</p>
+			</blockquote>
+		</figure>
+		<style>
+			#JSIsLikeVodka blockquote p {
+				font-size: 3rem;
+			}
+		</style>
+	</div></section>
+
 	<section class="slide" id="PgContribpgPLV8Example1"><div>
 		<h2>PLV8</h2>
 		<pre><code>CREATE OR REPLACE FUNCTION
@@ -632,7 +754,7 @@ Sort  (cost=4020.94..4023.41 rows=986 width=924)
   </div></section>
 
 	<section class="slide" id="PgTableBloat"><div>
-		<h2>Table bloating</h2>
+		<h2>Tables and indexes bloating</h2>
 		<div class="center">
 			<video autoplay loop muted>
 				<source src="pictures/bloating.mp4"
