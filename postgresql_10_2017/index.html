@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>PostgreSQL 10 New Features</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="shower/themes/material/styles/screen-16x10.css" />
+  <!--<link rel="stylesheet" href="shower/themes/material/styles/screen-4x3.css">-->
+</head>
+<body class="shower list">
+	<header class="caption">
+		<h1>PostgreSQL 10 New Features</h1>
+		<p>Alexey Vasiliev, Railsware</p>
+	</header>
+
+	<section class="slide" id="Cover">
+		<h2>PostgreSQL 10<br />New Features</h2>
+		<p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a href="http://railsware.com/">Railsware</a></p>
+		<img src="pictures/cover.jpg" alt="" class="cover h">
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+		#Cover {
+			background-color: #04A05F;
+			}
+		#Cover h2 {
+			margin: 50px 0 0;
+			color: #FFF;
+			text-align: left;
+			font-weight: bold;
+			font-size: 70px;
+			line-height: 130%;
+			}
+		#Cover p {
+			margin: 50px 0 0;
+			text-align: left;
+			color: #FFF;
+			font-style: italic;
+			font-size: 20px;
+			}
+			#Cover p a {
+				color: #FFF;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="AboutMeSlide"><div>
+		<h2>Alexey Vasiliev</h2>
+		<ul>
+			<li>Web and Mobile Developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), DevOps</li>
+			<li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+      <li>Open-Source books: <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a>, <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a></li>
+      <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="WhatIsPostgreSQL"><div>
+		<h2>What is PostgreSQL?</h2>
+		<p>
+			<img src="pictures/postgresql_logo.png" alt="PostgreSQL logo" />
+      <b>PostgreSQL ("Postgres")</b> - is an object-relational database management system (ORDBMS) with an emphasis on extensibility and standards-compliance. Based on the SQL language and supports many of the features of the standard SQL:2011. PostgreSQL evolved from the Ingres project at the University of California, Berkeley. In 1982 the leader of the Ingres team, Michael Stonebraker, left Berkeley to make a proprietary version of Ingres. He returned to Berkeley in 1985 and started a post-Ingres project
+    </p>
+		<style>
+			#WhatIsPostgreSQL img {
+				width: 250px;
+        float: left;
+        margin: 0 5px -10px -60px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning">
+		<h2 class="shout">Declarative Partitioning</h2>
+	</section>
+
+	<section class="slide" id="DeclarativePartitioningImg"><div>
+		<img class="cover" src="pictures/partitioning.png" alt="Declarative Partitioning" />
+		<style>
+			#DeclarativePartitioningImg img {
+				width: 700px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning1"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code>CREATE TABLE numbers (x INTEGER) PARTITION BY RANGE (x);
+CREATE TABLE negatives PARTITION OF numbers FOR
+	VALUES FROM (MINVALUE) TO (0);
+CREATE TABLE positives PARTITION OF numbers FOR
+	VALUES FROM (0) TO (MAXVALUE);</code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning2"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># INSERT INTO numbers VALUES (-3), (-1), (9), (99);
+INSERT 0 4
+# SELECT * FROM numbers;
+ x
+----
+ -3
+ -1
+  9
+ 99
+(4 rows)</code></pre>
+	<style>
+		#DeclarativePartitioning2 code {
+			font-size: 1.4rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning3"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># SELECT * FROM negatives;
+ x
+----
+ -3
+ -1
+(2 rows)
+</code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning4"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># SELECT * FROM positives;
+ x
+----
+  9
+ 99
+(2 rows)</code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning5"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># SELECT * FROM ONLY numbers;
+ x
+---
+(0 rows)</code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning6"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># CREATE TABLE book_history_2016_07
+   PARTITION OF book_history
+   FOR VALUES FROM ('2016-07-01 00:00:00')
+	 TO ('2016-09-01 00:00:00');
+ <mark>ERROR:  partition "book_history_2016_07" would
+ overlap partition "book_history_2016_08"</mark></code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning7"><div>
+		<h2>Declarative Partitioning</h2>
+		<div class="double">
+			<h3>Partitioning does:</h3>
+			<ul>
+				<li>Create proper child constraints</li>
+				<li>Route parent INSERTs into child tables</li>
+			</ul>
+			<h3>Partitioning does not yet:</h3>
+			<ul>
+				<li>Create child tables for values not already covered (it errors
+				instead)</li>
+				<li>Hash partitioning</li>
+				<li>Prune child tables faster than PG 9.6</li>
+				<li>Perform executor-stage partition pruning</li>
+				<li>Move updated rows that no longer match the partition
+				constraints (it errors instead)</li>
+				<li>Perform parallel partition processing</li>
+			</ul>
+		</div>
+	</div></section>
+
+	<section class="slide" id="LogicalReplication">
+		<h2 class="shout">Logical Replication</h2>
+	</section>
+
+	<section class="slide" id="LogicalReplicationImg"><div>
+		<img class="cover w" src="pictures/logicalrepinternals.jpg" alt="Logical Replication" />
+	</div></section>
+
+	<section class="slide" id="LogicalReplication1"><div>
+		<h2>Logical Replication</h2>
+		<pre><code># CREATE PUBLICATION financials FOR TABLE
+	ONLY loans, ONLY fines;
+
+origin# pg_dump libdata -Fc -f /netshare/libdata.dump
+
+replica# pg_restore -d
+	libdata -s -t loans -t fines /netshare/libdata.dump
+</code></pre>
+	</div></section>
+
+	<section class="slide" id="LogicalReplication2"><div>
+		<h2>Logical Replication</h2>
+		<pre><code># CREATE SUBSCRIPTION financials
+ CONNECTION 'dbname=libdata user=postgres host=172.17.0.2'
+ PUBLICATION financials;
+
+ NOTICE:  synchronized table states
+ NOTICE:  created replication slot "financials" on publisher
+ CREATE SUBSCRIPTION</code></pre>
+	</div></section>
+
+	<section class="slide" id="LogicalReplication3"><div>
+		<h2>Logical Replication</h2>
+		<pre><code>    # SELECT * FROM pg_stat_subscription;
+	 -[ RECORD 1 ]---------+---------------------
+	 subid                 | 16475
+	 subname               | financials
+	 pid                   | 167
+	 relid                 |
+	 received_lsn          | 0/1FBEAF0
+	 last_msg_send_time    | 2017-06-07 00:59:44
+	 last_msg_receipt_time | 2017-06-07 00:59:44
+	 latest_end_lsn        | 0/1FBEAF0
+	 latest_end_time       | 2017-06-07 00:59:44</code></pre>
+ <style>
+	 #LogicalReplication3 code {
+		 font-size: 1.3rem;
+	 }
+ </style>
+	</div></section>
+
+	<section class="slide" id="LogicalReplication4"><div>
+		<h2>Logical replication allows:</h2>
+		<ul>
+			<li>table-level granularity</li>
+			<li>replication from multiple clusters to a single cluster</li>
+			<li>replication of a single table to multiple clusters</li>
+			<li>replication between major Postgres versions</li>
+			<li>creation of local objects on subscribers, e.g. tables indexes</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ImprovedQueryParallelism">
+		<h2 class="shout">Improved Query Parallelism</h2>
+	</section>
+
+	<section class="slide" id="ImprovedQueryParallelism1"><div>
+		<h2>Improved Query Parallelism</h2>
+		<ul>
+			<li>Parallel Merge Join: In PostgreSQL 9.6, only hash joins and nested loops can be performed in the parallel portion of a plan. In PostgreSQL 10, merge joins can also be performed in the parallel portion of the plan</li>
+			<li>Parallel Bitmap Heap Scan: One process scans the index and builds a data structure in shared memory indicating all of the heap pages that need to be scanned, and then all cooperating processes can perform the heap scan in parallel</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ImprovedQueryParallelism2"><div>
+		<h2>Improved Query Parallelism</h2>
+		<ul>
+			<li>Parallel Index Scan and Index-Only Scan: It's now possible for the driving table to be scanned using an index-scan or an index-only scan</li>
+			<li>Gather Merge: If each worker is producing sorted output, then gather those results in a way that preserves the sort order</li>
+			<li>Subplan-Related Improvements: A table with an uncorrelated subplan can appear in the parallel portion of the plan</li>
+			<li>Pass Query Text To Workers: The query text associated with a parallel worker will show up in pg_stat_activity</li>
+			<li>Procedural Languages</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ImprovedQueryParallelism3"><div>
+		<h2>Improved Query Parallelism</h2>
+		<pre><code># \timing
+Timing is on.
+# SELECT bid, count(*) FROM account_history
+  WHERE delta > 1000 group by bid;
+...
+Time: 324.903 ms</code></pre>
+	</div></section>
+
+	<section class="slide" id="ImprovedQueryParallelism4"><div>
+		<h2>Improved Query Parallelism</h2>
+		<pre><code># set max_parallel_workers_per_gather=4;
+SET
+Time: 0.822 ms
+# SELECT bid, count(*) FROM account_history
+  WHERE delta > 1000 GROUP BY bid;
+...
+Time: 72.864 ms</code></pre>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication">
+		<h2 class="shout">Quorum Commit for Synchronous Replication</h2>
+	</section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplicationImg"><div>
+		<img class="cover w" src="pictures/scbase-1.png" alt="Quorum Commit for Synchronous Replication" />
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication1"><div>
+		<h3>synchronous_commit = off</h3>
+		<img class="cover w" src="pictures/scoff-1.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+      #QuorumCommitSynchronousReplication1 h3 {
+        position: absolute;
+        top: 30px;
+				right: 50px;
+				font-weight: bold;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication2"><div>
+		<h3>synchronous_commit = local</h3>
+		<img class="cover w" src="pictures/sclocal-1.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+      #QuorumCommitSynchronousReplication2 h3 {
+        position: absolute;
+        top: 30px;
+				right: 50px;
+				font-weight: bold;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication3"><div>
+		<h3>synchronous_commit = on (default)</h3>
+		<img class="cover w" src="pictures/scon2.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+      #QuorumCommitSynchronousReplication3 h3 {
+        position: absolute;
+        top: 30px;
+				right: 50px;
+				font-weight: bold;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication4"><div>
+		<h3>synchronous_commit = remote_write</h3>
+		<img class="cover w" src="pictures/scremotewrite-1.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+      #QuorumCommitSynchronousReplication4 h3 {
+        position: absolute;
+        top: 30px;
+				right: 50px;
+				font-weight: bold;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication5"><div>
+		<h3>synchronous_commit = remote_apply</h3>
+		<img class="cover w" src="pictures/scremoteapply-1.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+			#QuorumCommitSynchronousReplication5 h3 {
+				position: absolute;
+				top: 30px;
+				right: 50px;
+				font-weight: bold;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication6"><div>
+		<h2>Quorum Commit for Synchronous Replication</h2>
+		<pre><code>synchronous_standby_names = <mark>FIRST 2</mark>(node1,node2,node3);
+
+synchronous_standby_names = <mark>ANY 2</mark>(node1,node2,node3);</code></pre>
+	</div></section>
+
+
+	<section class="slide" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"></div>
+	<script src="shower/shower.min.js"></script>
+</body>
+</html>
