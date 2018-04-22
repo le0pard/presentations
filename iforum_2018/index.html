@@ -60,9 +60,61 @@
 		<h2 class="shout">Trends</h2>
 	</section>
 
-	<section class="slide" id="ReactVsAngular"><div>
-		<img src="pictures/angular-vs-react.png" class="cover w" alt="React vs Angular" />
+	<section class="slide" id="React"><div>
+		<img src="pictures/react.png" class="cover" alt="React" />
 	</div></section>
+
+	<section class="slide" id="ReactPros"><div>
+		<h2>Pros of React</h2>
+		<ul>
+			<li>JSX, Virtual DOM</li>
+			<li>Testability</li>
+			<li>Server-Side Rendering(SSR)</li>
+			<li>One-Way Data Binding</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ReactCons"><div>
+		<h2>Cons of React</h2>
+		<ul>
+			<li>It is a UI library only</li>
+			<li>You cannot setup a project without npm-ing lots of necessary packages</li>
+			<li>Too many smaller components leading to over engineering or boilerplate</li>
+			<li>Poor documentation</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="Angular"><div>
+		<img src="pictures/angular.jpg" class="cover w" alt="Angular" />
+		<style>
+		#Angular {
+			background-color: #D9002B;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="AngularPros"><div>
+		<h2>Pros of Angular</h2>
+		<ul>
+			<li>Two-way data binding</li>
+			<li>DOM manipulation</li>
+			<li>Dependency injection, testability</li>
+			<li>Support for web components</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="AngularCons"><div>
+		<h2>Cons of Angular</h2>
+		<ul>
+			<li>Divided community</li>
+			<li>Updates</li>
+			<li>Initial load time</li>
+			<li>Steep learning curve</li>
+		</ul>
+	</div></section>
+
+
 
 	<section class="slide" id="Vue.js"><div>
 		<img src="pictures/vue.png" class="cover" alt="Vue.js" />
@@ -80,6 +132,287 @@
 		<style>
 		#VuePros li {
 			font-size: 22px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="VueCons"><div>
+		<h2>Cons of Vue.js</h2>
+		<ul>
+			<li>Small community</li>
+			<li>Being too flexible can be problematic</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="GraphQL"><div>
+		<img src="pictures/graphql.svg" class="cover" alt="GraphQL" />
+	</div></section>
+
+	<section class="slide" id="GraphQLPros"><div>
+		<h2>Pros of GraphQL</h2>
+		<ul>
+			<li>The mental model for integration becomes "what data/operations do I need" (declarative) vs. "how do I get at the data/operations that I need" (imperative)</li>
+			<li>You can request for the exact data that you need and in one network roundtrip (theoretically)</li>
+			<li>Strongly typed, enforceable data schemas</li>
+			<li>A standard way to expose data and operations</li>
+			<li>Can be added gradually to an existing service layer</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="GraphQLCons"><div>
+		<h2>Cons of GraphQL</h2>
+		<ul>
+			<li>Query In Indefinite Depth</li>
+			<li>Specific Response Structure</li>
+			<li>Cache at Network Level</li>
+			<li>Handling File Upload</li>
+			<li>Unpredictable Execution</li>
+			<li>Super Simple APIs</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="WebAssembly"><div>
+		<img src="pictures/web-assembly.svg" class="cover" alt="WebAssembly" />
+	</div></section>
+
+	<section class="slide" id="WebAssemblyFlow"><div>
+		<img src="pictures/webassembly-flow.jpg" class="cover" alt="WebAssemblyFlow" />
+	</div></section>
+
+	<section class="slide" id="WebAssemblyHello"><div>
+		<img src="pictures/webassembly-hello.jpg" class="cover" alt="WebAssemblyHello" />
+	</div></section>
+
+	<section class="slide" id="WebAssemblyUseCases"><div>
+		<h2>Use Cases</h2>
+		<ul>
+			<li>Better execution for languages and toolkits that are currently cross-compiled to the Web</li>
+			<li>Image / video editing</li>
+			<li>Games</li>
+			<li>Peer-to-peer applications</li>
+			<li>Image recognition</li>
+			<li>VR and augmented reality</li>
+			<li>VPN, encryption, etc</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="Webpack"><div>
+		<img src="pictures/webpack.svg" class="cover" alt="Webpack" />
+	</div></section>
+
+	<section class="slide" id="WebpackPros"><div>
+		<h2>Pros of Webpack</h2>
+		<ul>
+			<li>Dead asset elimination</li>
+			<li>Easier code splitting</li>
+			<li>You control how assets are processed</li>
+			<li>Stable production deploys</li>
+			<li>Great speed benefits</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="WebpackCons"><div>
+		<h2>Cons of Webpack</h2>
+		<ul>
+			<li>Webpack is schizophrenic</li>
+			<li>The documentation is awful</li>
+			<li>Configuring Webpack is a minefield for newcomers</li>
+			<li>Maintained mostly by one person</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="Parcel"><div>
+		<img src="pictures/parcel.png" class="cover" alt="Parcel" />
+	</div></section>
+
+	<section class="slide" id="ParcelPros"><div>
+		<h2>Pros of Parcel</h2>
+		<ul>
+			<li>Small to medium sized projects</li>
+			<li>Blazing fast bundle times</li>
+			<li>Zero config code splitting</li>
+			<li>Bundle all your assets</li>
+			<li>Automatic transforms</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ParcelCons"><div>
+		<h2>Cons of Parcel</h2>
+		<ul>
+			<li>Very young</li>
+			<li>Small community</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="MobileTrends">
+		<h2 class="shout">Mobile Trends</h2>
+	</section>
+
+	<section class="slide" id="MobileEOM"><div>
+		<h2>OEM SDKs</h2>
+		<img src="pictures/mobile_eom.png" class="cover" alt="MobileEOM" />
+	</div></section>
+
+	<section class="slide" id="MobileWebViews"><div>
+		<h2>WebViews</h2>
+		<img src="pictures/mobile_webview.png" class="cover" alt="MobileWebViews" />
+	</div></section>
+
+	<section class="slide" id="MobileReactiveViews"><div>
+		<h2>Reactive Views</h2>
+		<img src="pictures/mobile_reactive_views.png" class="cover" alt="MobileReactiveViews" />
+	</div></section>
+
+	<section class="slide" id="MobileFlutter"><div>
+		<h2>Flutter</h2>
+		<img src="pictures/mobile_flutter.png" class="cover" alt="MobileFlutter" />
+	</div></section>
+
+	<section class="slide" id="MobileFlutterDemo"><div>
+		<img src="pictures/flutter_demo.gif" class="cover h" alt="MobileFlutterDemo" />
+	</div></section>
+
+	<section class="slide" id="MobileFlutterQuote"><div>
+    <figure>
+      <blockquote>
+        <p>The fact that Flutter is the only mobile SDK that provides reactive views without requiring a JavaScript bridge should be enough to make Flutter interesting and worth trying, but there is something far more revolutionary about Flutter, and that is how it implements widgets.</p>
+      </blockquote>
+    </figure>
+		<style>
+			#MobileFlutterQuote blockquote p {
+				font-size: 2.4rem;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="MobileFlutterSchema"><div>
+		<img src="pictures/flutter_schema.png" class="cover w" alt="MobileFlutterSchema" />
+	</div></section>
+
+	<section class="slide" id="FlutterCons"><div>
+		<h2>Cons of Flutter</h2>
+		<ul>
+			<li>Very young</li>
+			<li>Small community</li>
+			<li>Need to know Dart language</li>
+			<li>Flutter doesn't have a WebView widget</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="PWA"><div>
+		<img src="pictures/pwa.png" class="cover" alt="PWA" />
+	</div></section>
+
+	<section class="slide" id="PWAReliable"><div>
+		<img src="pictures/pwa-reliable.png" class="cover w" alt="PWA Reliable" />
+	</div></section>
+
+	<section class="slide" id="PWAFast"><div>
+		<h2>Fast</h2>
+		<img src="pictures/pwa-fast.png" class="cover w" alt="PWA Fast" />
+	</div></section>
+
+	<section class="slide" id="PWAEngaging"><div>
+		<h2>Engaging</h2>
+		<img src="pictures/pwa-engaging.png" class="cover w" alt="PWA Engaging" />
+	</div></section>
+
+	<section class="slide" id="PWACons"><div>
+		<h2>Cons of PWA</h2>
+		<ul>
+			<li>Still a new technology – all browsers don't support it fully yet</li>
+			<li>Not all devices support the entire software functionality</li>
+			<li>Hardware functionality is also not supported on all devices</li>
+			<li>No download store</li>
+			<li>The PWAs do not support cross application logins</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="Electron"><div>
+		<img src="pictures/electron.png" class="cover" alt="Electron" />
+	</div></section>
+
+	<section class="slide" id="ElectronPros"><div>
+		<h2>Pros of Electron</h2>
+		<ul>
+			<li>Develop your Desktop App using Web Technologies</li>
+			<li>App runs on top of Chrome</li>
+			<li>Automatic updates</li>
+			<li>OS Integration</li>
+			<li>Both work on Linux, OSX and Windows</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ElectronCons"><div>
+		<h2>Cons of Electron</h2>
+		<ul>
+			<li>"Electron is flash for the desktop"</li>
+			<li>Size Matters</li>
+			<li>Code Protection</li>
+		</ul>
+	</div></section>
+
+
+	<section class="slide" id="Serverless"><div>
+		<h2>Static Page Generators and Serverless Apps</h2>
+		<img src="pictures/serverless.png" class="cover" alt="Serverless" />
+	</div></section>
+
+	<section class="slide" id="ServerlessSchema"><div>
+		<img src="pictures/aws_serverless-min.png" class="cover" alt="ServerlessSchema" />
+	</div></section>
+
+
+	<section class="slide" id="CSSVariables"><div>
+		<h2>CSS Variables</h2>
+		<img src="pictures/css-vars.png" class="cover" alt="CSSVariables" />
+		<style>
+		#CSSVariables img {
+			top: 55%;
+		}
+		</style>
+	</div></section>
+
+	<section class="slide" id="VariableFonts"><div>
+		<h2>Variable Fonts</h2>
+		<img src="pictures/variable-fonts.png" class="cover" alt="VariableFonts" />
+		<style>
+		#VariableFonts img {
+			width: 470px;
+		}
+		</style>
+	</div></section>
+
+	<section class="slide" id="VariableFontsDemo"><div>
+		<img src="pictures/decovar-title.gif" class="cover" alt="VariableFontsDemo" />
+	</div></section>
+
+	<section class="slide" id="Accessibility"><div>
+		<h2>Accessibility</h2>
+		<img src="pictures/web-accessibility.jpg" class="cover" alt="Accessibility" />
+		<style>
+		#Accessibility img {
+			width: 470px;
+		}
+		</style>
+	</div></section>
+
+	<section class="slide" id="AccessibilityQuote"><div>
+		<figure>
+			<blockquote>
+				<p>It’s not just about disabled users being able to access your website — it’s about everyone being able to access your website.</p>
+			</blockquote>
+		</figure>
+		<style>
+			#AccessibilityQuote blockquote p {
+				font-size: 3rem;
 			}
 		</style>
 	</div></section>
