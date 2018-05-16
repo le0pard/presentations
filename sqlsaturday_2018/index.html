@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>PostgreSQL 10/11 New Features</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="shower/themes/material/styles/screen-16x10.css" />
+  <!--<link rel="stylesheet" href="shower/themes/material/styles/screen-4x3.css">-->
+</head>
+<body class="shower list">
+	<header class="caption">
+		<h1>PostgreSQL 10/11 New Features</h1>
+		<p>Alexey Vasiliev, Railsware</p>
+	</header>
+
+	<section class="slide" id="Cover">
+		<h2>PostgreSQL 10/11<br />New Features</h2>
+		<p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a href="http://railsware.com/">Railsware</a></p>
+		<img src="pictures/cover.jpg" alt="" class="cover h">
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+		#Cover {
+			background-color: #04A05F;
+			}
+		#Cover h2 {
+			margin: 50px 0 0;
+			color: #FFF;
+			text-align: left;
+			font-weight: bold;
+			font-size: 66px;
+			line-height: 130%;
+			}
+		#Cover p {
+			margin: 50px 0 0;
+			text-align: left;
+			color: #FFF;
+			font-style: italic;
+			font-size: 20px;
+			}
+			#Cover p a {
+				color: #FFF;
+			}
+		</style>
+	</section>
+
+	<section class="slide" id="AboutMeSlide"><div>
+		<h2>Alexey Vasiliev</h2>
+		<ul>
+			<li>Web and Mobile Developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), DevOps</li>
+			<li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+      <li>Open-Source books: <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a>, <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a></li>
+      <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="WhatIsPostgreSQL"><div>
+		<h2>What is PostgreSQL?</h2>
+		<p>
+			<img src="pictures/postgresql_logo.png" alt="PostgreSQL logo" />
+      <b>PostgreSQL ("Postgres")</b> - is an object-relational database management system (ORDBMS) with an emphasis on extensibility and standards-compliance. Based on the SQL language and supports many of the features of the standard SQL:2011. PostgreSQL evolved from the Ingres project at the University of California, Berkeley. In 1982 the leader of the Ingres team, Michael Stonebraker, left Berkeley to make a proprietary version of Ingres. He returned to Berkeley in 1985 and started a post-Ingres project
+    </p>
+		<style>
+			#WhatIsPostgreSQL img {
+				width: 250px;
+        float: left;
+        margin: 0 5px -10px -60px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="PostgreSQL10">
+		<h2 class="shout">PostgreSQL 10</h2>
+	</section>
+
+	<section class="slide" id="DeclarativePartitioning">
+		<h2 class="shout">Declarative Partitioning</h2>
+	</section>
+
+	<section class="slide" id="DeclarativePartitioningImg"><div>
+		<img class="cover" src="pictures/partitioning.png" alt="Declarative Partitioning" />
+		<style>
+			#DeclarativePartitioningImg img {
+				width: 700px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning1"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code>CREATE TABLE numbers (x INTEGER) PARTITION BY RANGE (x);
+CREATE TABLE negatives PARTITION OF numbers FOR
+	VALUES FROM (MINVALUE) TO (0);
+CREATE TABLE positives PARTITION OF numbers FOR
+	VALUES FROM (0) TO (MAXVALUE);</code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning2"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># INSERT INTO numbers VALUES (-3), (-1), (9), (99);
+INSERT 0 4
+# SELECT * FROM numbers;
+ x
+----
+ -3
+ -1
+  9
+ 99
+(4 rows)</code></pre>
+	<style>
+		#DeclarativePartitioning2 code {
+			font-size: 1.4rem;
+		}
+	</style>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning3"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># SELECT * FROM negatives;
+ x
+----
+ -3
+ -1
+(2 rows)
+</code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning4"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># SELECT * FROM positives;
+ x
+----
+  9
+ 99
+(2 rows)</code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning5"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># SELECT * FROM ONLY numbers;
+ x
+---
+(0 rows)</code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning6"><div>
+		<h2>Declarative Partitioning</h2>
+		<pre><code># CREATE TABLE book_history_2016_07
+   PARTITION OF book_history
+   FOR VALUES FROM ('2016-07-01 00:00:00')
+	 TO ('2016-09-01 00:00:00');
+ <mark>ERROR:  partition "book_history_2016_07" would
+ overlap partition "book_history_2016_08"</mark></code></pre>
+	</div></section>
+
+	<section class="slide" id="DeclarativePartitioning7"><div>
+		<h2>Declarative Partitioning</h2>
+		<div class="double">
+			<h3>Partitioning does:</h3>
+			<ul>
+				<li>Create proper child constraints</li>
+				<li>Route parent INSERTs into child tables</li>
+			</ul>
+			<h3>Partitioning does not yet:</h3>
+			<ul>
+				<li>Create child tables for values not already covered (it errors
+				instead)</li>
+				<li>Hash partitioning</li>
+				<li>Prune child tables faster than PG 9.6</li>
+				<li>Perform executor-stage partition pruning</li>
+				<li>Move updated rows that no longer match the partition
+				constraints (it errors instead)</li>
+				<li>Perform parallel partition processing</li>
+			</ul>
+		</div>
+	</div></section>
+
+	<section class="slide" id="LogicalReplication">
+		<h2 class="shout">Logical Replication</h2>
+	</section>
+
+	<section class="slide" id="LogicalReplicationImg"><div>
+		<img class="cover w" src="pictures/logicalrepinternals.jpg" alt="Logical Replication" />
+	</div></section>
+
+	<section class="slide" id="LogicalReplication1"><div>
+		<h2>Logical Replication</h2>
+		<pre><code># CREATE PUBLICATION financials FOR TABLE
+	ONLY loans, ONLY fines;
+
+origin# pg_dump libdata -Fc -f /netshare/libdata.dump
+
+replica# pg_restore -d
+	libdata -s -t loans -t fines /netshare/libdata.dump
+</code></pre>
+	</div></section>
+
+	<section class="slide" id="LogicalReplication2"><div>
+		<h2>Logical Replication</h2>
+		<pre><code># CREATE SUBSCRIPTION financials
+ CONNECTION 'dbname=libdata user=postgres host=172.17.0.2'
+ PUBLICATION financials;
+
+ NOTICE:  synchronized table states
+ NOTICE:  created replication slot "financials" on publisher
+ CREATE SUBSCRIPTION</code></pre>
+	</div></section>
+
+	<section class="slide" id="LogicalReplication3"><div>
+		<h2>Logical Replication</h2>
+		<pre><code>    # SELECT * FROM pg_stat_subscription;
+	 -[ RECORD 1 ]---------+---------------------
+	 subid                 | 16475
+	 subname               | financials
+	 pid                   | 167
+	 relid                 |
+	 received_lsn          | 0/1FBEAF0
+	 last_msg_send_time    | 2017-06-07 00:59:44
+	 last_msg_receipt_time | 2017-06-07 00:59:44
+	 latest_end_lsn        | 0/1FBEAF0
+	 latest_end_time       | 2017-06-07 00:59:44</code></pre>
+	<style>
+	#LogicalReplication3 code {
+		font-size: 1.3rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="LogicalReplication4"><div>
+		<h2>Logical replication allows:</h2>
+		<ul>
+			<li>table-level granularity</li>
+			<li>replication from multiple clusters to a single cluster</li>
+			<li>replication of a single table to multiple clusters</li>
+			<li>replication between major Postgres versions</li>
+			<li>creation of local objects on subscribers, e.g. tables indexes</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ImprovedQueryParallelism">
+		<h2 class="shout">Improved Query Parallelism</h2>
+	</section>
+
+	<section class="slide" id="ImprovedQueryParallelism1"><div>
+		<h2>Improved Query Parallelism</h2>
+		<ul>
+			<li>Parallel Merge Join: In PostgreSQL 9.6, only hash joins and nested loops can be performed in the parallel portion of a plan. In PostgreSQL 10, merge joins can also be performed in the parallel portion of the plan</li>
+			<li>Parallel Bitmap Heap Scan: One process scans the index and builds a data structure in shared memory indicating all of the heap pages that need to be scanned, and then all cooperating processes can perform the heap scan in parallel</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ImprovedQueryParallelism2"><div>
+		<h2>Improved Query Parallelism</h2>
+		<ul>
+			<li>Parallel Index Scan and Index-Only Scan: It's now possible for the driving table to be scanned using an index-scan or an index-only scan</li>
+			<li>Gather Merge: If each worker is producing sorted output, then gather those results in a way that preserves the sort order</li>
+			<li>Subplan-Related Improvements: A table with an uncorrelated subplan can appear in the parallel portion of the plan</li>
+			<li>Pass Query Text To Workers: The query text associated with a parallel worker will show up in pg_stat_activity</li>
+			<li>Procedural Languages</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ImprovedQueryParallelism3"><div>
+		<h2>Improved Query Parallelism</h2>
+		<pre><code># \timing
+Timing is on.
+# SELECT bid, count(*) FROM account_history
+  WHERE delta > 1000 group by bid;
+...
+Time: 324.903 ms</code></pre>
+	</div></section>
+
+	<section class="slide" id="ImprovedQueryParallelism4"><div>
+		<h2>Improved Query Parallelism</h2>
+		<pre><code># set max_parallel_workers_per_gather=4;
+SET
+Time: 0.822 ms
+# SELECT bid, count(*) FROM account_history
+  WHERE delta > 1000 GROUP BY bid;
+...
+Time: 72.864 ms</code></pre>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication">
+		<h2 class="shout">Quorum Commit for Synchronous Replication</h2>
+	</section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplicationImg"><div>
+		<img class="cover w" src="pictures/scbase-1.png" alt="Quorum Commit for Synchronous Replication" />
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication1"><div>
+		<h3>synchronous_commit = off</h3>
+		<img class="cover w" src="pictures/scoff-1.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+      #QuorumCommitSynchronousReplication1 h3 {
+        position: absolute;
+        top: 30px;
+				right: 50px;
+				font-weight: bold;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication2"><div>
+		<h3>synchronous_commit = local</h3>
+		<img class="cover w" src="pictures/sclocal-1.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+      #QuorumCommitSynchronousReplication2 h3 {
+        position: absolute;
+        top: 30px;
+				right: 50px;
+				font-weight: bold;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication3"><div>
+		<h3>synchronous_commit = on (default)</h3>
+		<img class="cover w" src="pictures/scon2.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+      #QuorumCommitSynchronousReplication3 h3 {
+        position: absolute;
+        top: 30px;
+				right: 50px;
+				font-weight: bold;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication4"><div>
+		<h3>synchronous_commit = remote_write</h3>
+		<img class="cover w" src="pictures/scremotewrite-1.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+      #QuorumCommitSynchronousReplication4 h3 {
+        position: absolute;
+        top: 30px;
+				right: 50px;
+				font-weight: bold;
+      }
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication5"><div>
+		<h3>synchronous_commit = remote_apply</h3>
+		<img class="cover w" src="pictures/scremoteapply-1.png" alt="Quorum Commit for Synchronous Replication" />
+		<style>
+			#QuorumCommitSynchronousReplication5 h3 {
+				position: absolute;
+				top: 30px;
+				right: 50px;
+				font-weight: bold;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="QuorumCommitSynchronousReplication6"><div>
+		<h2>Quorum Commit for Synchronous Replication</h2>
+		<pre><code>synchronous_standby_names = <mark>FIRST 2</mark>(node1,node2,node3);
+
+synchronous_standby_names = <mark>ANY 2</mark>(node1,node2,node3);</code></pre>
+	</div></section>
+
+	<section class="slide" id="DurableHashIndexes">
+		<h2 class="shout">Durable Hash Indexes</h2>
+	</section>
+
+	<section class="slide" id="DurableHashIndexesImg"><div>
+		<img class="cover" src="pictures/hashindex.png" alt="Durable Hash Indexes" />
+		<style>
+			#DurableHashIndexesImg img {
+				width: 700px;
+			}
+		</style>
+	</div></section>
+
+	<section class="slide" id="DurableHashIndexes1"><div>
+		<h2>Hash Indexes (in 10 version)</h2>
+		<ul>
+			<li>Crash safe</li>
+			<li>Replicated</li>
+			<li>Reduced locking during bucket splits</li>
+			<li>Faster lookups</li>
+			<li>More even index growth</li>
+			<li>Single-page pruning</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="ICUCollationSupport">
+		<h2 class="shout">ICU Collation Support</h2>
+	</section>
+
+	<section class="slide" id="ICUCollationSupport1"><div>
+		<h2>ICU Library</h2>
+		<ul>
+			<li>Uses ICU library instead of OS-supplied internationalization library</li>
+			<li>Allows detection of collation changes that can affect index ordering</li>
+			<li>Enabled via "configure --with-icu"</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="FDWPush-Down">
+		<h2 class="shout">FDW Push-Down</h2>
+	</section>
+
+	<section class="slide" id="FDWPush-Down1"><div>
+		<h2>FDW Push-Down (pg 9.6)</h2>
+		<pre><code>$ explain (analyze on, verbose on) select group_id,
+	<mark>count(*)</mark> from data_from_origin <mark>group by group_id</mark> order by group_id;
+                                  QUERY PLAN
+--------------------------------------------------------------------------------------
+GroupAggregate  (cost=100.00..222.22 rows=200 width=12) (actual time=55.823..119.840 rows=11 loops=1)
+ Output: group_id, count(*)
+ Group Key: data_from_origin.group_id
+ ->  Foreign Scan on public.data_from_origin  (cost=100.00..205.60 rows=2925 width=4)
+ (actual time=51.703..110.939 rows=100000 loops=1)
+  Output: id, group_id
+  <mark>Remote SQL: SELECT group_id FROM public.sample_data ORDER BY group_id ASC NULLS LAST</mark>
+Execution time: <mark>120.534 ms</mark>
+(8 rows)</code></pre>
+	<style>
+	#FDWPush-Down1 code {
+		font-size: 1rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="FDWPush-Down2"><div>
+		<h2>FDW Push-Down (pg 10)</h2>
+		<pre><code>$ explain (analyze on, verbose on) select group_id, <mark>count(*)</mark>
+	from data_from_origin <mark>group by group_id</mark> order by group_id;
+                                                QUERY PLAN
+----------------------------------------------------------------------------------------------------------
+Sort  (cost=167.52..168.02 rows=200 width=12) (actual time=21.606..21.607 rows=11 loops=1)
+ Output: group_id, (count(*))
+ Sort Key: data_from_origin.group_id
+ Sort Method: quicksort  Memory: 25kB
+ ->  Foreign Scan  (cost=114.62..159.88 rows=200 width=12)
+ (actual time=21.596..21.597 rows=11 loops=1)
+   Output: group_id, (count(*))
+   Relations: Aggregate on (public.data_from_origin)
+   <mark>Remote SQL: SELECT group_id, count(*) FROM public.sample_data GROUP BY group_id</mark>
+Execution time: <mark>21.900 ms</mark>
+(10 rows)</code></pre>
+	<style>
+	#FDWPush-Down2 code {
+		font-size: 1rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="SCRAM-SHA-256">
+		<h2 class="shout">SCRAM-SHA-256 authentication</h2>
+	</section>
+
+	<section class="slide" id="SCRAM-SHA-256-1"><div>
+		<h2>SCRAM-SHA-256 authentication</h2>
+		<pre><code>$ create user test;
+CREATE USER
+
+$ alter user test with password 'abba1234';
+ALTER USER
+
+$ select usename, passwd from pg_shadow where usename = 'test';
+ usename |               passwd
+---------+-------------------------------------
+ test    | md5b9ad53e3f2f85cd793091f661832fd34
+(1 row)</code></pre>
+	<style>
+	#SCRAM-SHA-256-1 code {
+		font-size: 1.4rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="SCRAM-SHA-256-2"><div>
+		<h2>SCRAM-SHA-256 authentication</h2>
+		<ul>
+			<li>it uses not-so-safe MD5 algorithm, which can be a problem</li>
+			<li>the way it hashes the password makes it generate different hashes for the same password for different users, but the same hash for the same password and the same username (for example, when doing the change on another DB)</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="SCRAM-SHA-256-3"><div>
+		<h2>SCRAM-SHA-256 authentication</h2>
+		<p>To enable scram passwords, we will need to change, in postgresql.conf:</p>
+		<pre><code>password_encryption = scram-sha-256</code></pre>
+	</div></section>
+
+	<section class="slide" id="SCRAM-SHA-256-4"><div>
+		<h2>SCRAM-SHA-256 authentication</h2>
+		<pre><code>$ create user test2 with password 'abba1234';
+CREATE ROLE
+$ create user test3 with password 'abba1234';
+CREATE ROLE
+$ select usename, passwd from pg_shadow where usename ~ '^test[23]$';
+ usename |                                                                                passwd
+---------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ test2   | scram-sha-256:jEpSN6AcvbKsRw==:4096:ff2ccc8e61b4b638b28dfb1c99e44df1a63a2c6a53424a6f4c2e448caeaa46cd:86ef4490e67117fca17e3cc7f7b8276ea8777a656cfb2e41e82037e4e98d128b
+ test3   | scram-sha-256:A1x/O56i589Puw==:4096:de83debb226eebda74a16ddf66f9c878115f3d4d73653bf863f3e8e9e95d95ff:ba05283f9a3620fa290c5ec916e8729d9e7c0f89f728b1eb0a6850f522a0eebc
+(2 rows)</code></pre>
+	<style>
+	#SCRAM-SHA-256-4 code {
+		font-size: 1.2rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="SCRAM-SHA-256-5"><div>
+		<h2>SCRAM-SHA-256 authentication</h2>
+		<pre><code>$ drop user test2;
+DROP ROLE
+$ create user test2 with password 'abba1234';
+CREATE ROLE
+$ select usename, passwd from pg_shadow where usename = 'test2';
+ usename |                                                                                passwd
+---------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ test2   | scram-sha-256:vKJJkdipOsrasw==:4096:6648b76ebb17fa4e13b1900e62829d2a87ddede160954a7bc596cb688034b2b6:fa1321166eb3259fc8ae0ed73ed5725adb2b170ff784b3047d9318b466d3555b
+(1 row)</code></pre>
+	<style>
+	#SCRAM-SHA-256-5 code {
+		font-size: 1.2rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="SCRAM-SHA-256-6"><div>
+		<p>SCRAM-SHA-256 provides a more secure password authentication method than MD5:</p>
+		<ul>
+			<li>Make packet replay more difficult (MD5 has a 50% probability of repeating after 64k connections)</li>
+			<li>Make stolen hashed password reuse more difficult</li>
+			<li>Make brute-force attacks more difficult</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="XMLTable">
+		<h2 class="shout">XMLTable</h2>
+	</section>
+
+	<section class="slide" id="XMLTable1"><div>
+		<h2>XMLTable</h2>
+		<pre><code>$ CREATE TABLE hoteldata AS SELECT xml
+$$&lt;hotels&gt;
+ &lt;hotel id=&quot;mancha&quot;&gt;
+  &lt;name&gt;La Mancha&lt;/name&gt;
+  &lt;rooms&gt;
+   &lt;room id=&quot;201&quot;&gt;&lt;capacity&gt;3&lt;/capacity&gt;&lt;comment&gt;Great view of the Channel&lt;/comment&gt;&lt;/room&gt;
+   &lt;room id=&quot;202&quot;&gt;&lt;capacity&gt;5&lt;/capacity&gt;&lt;/room&gt;
+  &lt;/rooms&gt;
+  &lt;personnel&gt;
+   &lt;person id=&quot;1025&quot;&gt;
+    &lt;name&gt;Ferdinando Quijana&lt;/name&gt;&lt;salary currency=&quot;PTA&quot;&gt;45000&lt;/salary&gt;
+   &lt;/person&gt;
+  &lt;/personnel&gt;
+ &lt;/hotel&gt;
+...
+&lt;/hotels&gt;$$ AS hotels;</code></pre>
+	<style>
+	#XMLTable1 code {
+		font-size: 0.9rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="XMLTable2"><div>
+		<h2>XMLTable</h2>
+		<pre><code>$ SELECT xmltable.*
+FROM hoteldata,
+XMLTABLE ('/hotels/hotel/rooms/room' PASSING hotels
+ COLUMNS
+    id FOR ORDINALITY,
+    hotel_name text PATH '../../name' NOT NULL,
+    room_id int PATH '@id' NOT NULL,
+    capacity int,
+    comment text PATH 'comment' DEFAULT 'A regular room'
+);</code></pre>
+	<style>
+	#XMLTable2 code {
+		font-size: 1.4rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="XMLTable3"><div>
+		<h2>XMLTable</h2>
+		<pre><code> id | hotel_name | room_id | capacity |          comment
+----+------------+---------+----------+---------------------------
+  1 | La Mancha  |     201 |        3 | Great view of the Channel
+  2 | La Mancha  |     202 |        5 | A regular room
+  3 | Valparaíso |     201 |        2 | Very noisy
+  4 | Valparaíso |     202 |        2 | A regular room
+(4 rows)</code></pre>
+	<style>
+	#XMLTable3 code {
+		font-size: 1.4rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JSONandJSONB">
+		<h2 class="shout">Full Text Search support for JSON and JSONB</h2>
+	</section>
+
+	<section class="slide" id="JSONandJSONB1"><div>
+		<h2>Full Text Search support for JSON and JSONB</h2>
+		<pre><code># CREATE INDEX bookdata_fts ON bookdata
+	USING gin (( to_tsvector('english',bookdata) ));
+
+CREATE INDEX</code></pre>
+	</div></section>
+
+	<section class="slide" id="JSONandJSONB2"><div>
+		<h2>Full Text Search support for JSON and JSONB</h2>
+		<pre><code># SELECT bookdata -> 'title'
+	FROM bookdata
+	WHERE to_tsvector('english',bookdata) @@ to_tsquery('duke');
+ ------------------------------------------
+  "The Tattooed Duke"
+  "She Tempts the Duke"
+  "The Duke Is Mine"
+  "What I Did For a Duke"</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrossColumnStatistics">
+		<h2 class="shout">Cross-column Statistics</h2>
+	</section>
+
+	<section class="slide" id="CrossColumnStatistics1"><div>
+		<h2>Cross-column Statistics</h2>
+		<pre><code># CREATE TABLE t (a INT, b INT);
+
+# INSERT INTO t SELECT i % 100, i % 100 FROM
+  generate_series(1, 10000) s(i);
+
+# ANALYZE t;</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrossColumnStatistics2"><div>
+		<h2>Cross-column Statistics</h2>
+		<pre><code># SELECT relpages, reltuples FROM pg_class WHERE relname = 't';
+ relpages | reltuples
+----------+-----------
+       45 |     10000
+(1 row)</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrossColumnStatistics3"><div>
+		<h2>Cross-column Statistics</h2>
+		<pre><code># EXPLAIN (ANALYZE, TIMING OFF) SELECT * FROM t WHERE a = 1;
+                                  QUERY PLAN
+-------------------------------------------------------------------------------
+ Seq Scan on t  (cost=0.00..170.00 <mark>rows=100</mark> width=8)
+ (actual <mark>rows=100</mark> loops=1)
+   Filter: (a = 1)
+   Rows Removed by Filter: 9900
+ Planning time: 0.222 ms
+ Execution time: 2.020 ms
+(5 rows)</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrossColumnStatistics4"><div>
+		<h2>Cross-column Statistics</h2>
+		<pre><code># EXPLAIN (ANALYZE, TIMING OFF) SELECT * FROM t
+	WHERE a = 1 AND b = 1;
+                                 QUERY PLAN
+-----------------------------------------------------------------------------
+ Seq Scan on t  (cost=0.00..195.00 <mark>rows=1</mark> width=8)
+ (actual <mark>rows=100</mark> loops=1)
+   Filter: ((a = 1) AND (b = 1))
+   Rows Removed by Filter: 9900
+ Planning time: 0.130 ms
+ Execution time: 1.961 ms
+(5 rows)</code></pre>
+	<style>
+	#CrossColumnStatistics4 code {
+		font-size: 1.4rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="CrossColumnStatistics5"><div>
+		<h2>Cross-column Statistics</h2>
+		<pre><code># CREATE STATISTICS stts (dependencies) ON a, b FROM t;
+CREATE STATISTICS
+
+# ANALYZE t;
+ANALYZE</code></pre>
+	</div></section>
+
+	<section class="slide" id="CrossColumnStatistics6"><div>
+		<h2>Cross-column Statistics</h2>
+		<pre><code># EXPLAIN (ANALYZE, TIMING OFF) SELECT * FROM t
+	WHERE a = 1 AND b = 1;
+                                  QUERY PLAN
+-------------------------------------------------------------------------------
+ Seq Scan on t  (cost=0.00..195.00 <mark>rows=100</mark> width=8)
+ (actual <mark>rows=100</mark> loops=1)
+   Filter: ((a = 1) AND (b = 1))
+   Rows Removed by Filter: 9900
+ Planning time: 0.248 ms
+ Execution time: 1.969 ms
+(5 rows)</code></pre>
+	<style>
+	#CrossColumnStatistics6 code {
+		font-size: 1.4rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="MoreFeatures">
+		<h2 class="shout">More</h2>
+	</section>
+
+	<section class="slide" id="MoreFeaturesList"><div>
+		<ul>
+			<li>Faster Analytics Queries, Query Planner Improvements</li>
+			<li>Temporary replication slots</li>
+			<li>Connection Failover and Routing in libpq</li>
+			<li>Physical Replication</li>
+			<li>Background processes in pg_stat_activity</li>
+			<li>Traceable Commit / Status by Transaction-ID</li>
+			<li>Identity Columns</li>
+			<li>Transition Tables for Triggers</li>
+			<li>Significant Expansion of Wait Events in pg_stat_activity</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="BackwardsIncompatibleChanges">
+		<h2 class="shout">Backwards-Incompatible Changes</h2>
+	</section>
+
+	<section class="slide" id="BackwardsIncompatibleChangesList"><div>
+		<ul>
+			<li>Change in Version Numbering (was "Major1.Major2.Minor", now "Major.Minor")</li>
+			<li>Renaming of "xlog" to "wal" Globally (and location/lsn)</li>
+			<li>Drop Support for FE/BE 1.0 Protocol (version 1.0 was superceded by version 2.0 in 1998)</li>
+			<li>Change Defaults around Replication and pg_basebackup</li>
+			<li>Drop Support for Floating Point Timestamps</li>
+			<li>Remove contrib/tsearch2</li>
+			<li>Drop pg_dump Support for Databases Older than 8.0</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="PostgreSQL11">
+		<h2 class="shout">PostgreSQL 11</h2>
+	</section>
+
+
+	<section class="slide" id="QuestionsSlide"><div>
+    <h2>&lt;Thank You!&gt; Questions?</h2>
+    <div class="contacts">
+      <h3>Contact information</h3>
+      <ul>
+        <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+        <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+        <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+      </ul>
+    </div>
+    <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+		<style>
+      #QuestionsSlide .contacts {
+        margin-top: 100px;
+        margin-left: 450px;
+      }
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"></div>
+	<script src="shower/shower.min.js"></script>
+</body>
+</html>
