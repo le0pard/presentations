@@ -719,7 +719,6 @@ ANALYZE</code></pre>
 			<li>Faster Analytics Queries, Query Planner Improvements</li>
 			<li>Temporary replication slots</li>
 			<li>Connection Failover and Routing in libpq</li>
-			<li>Physical Replication</li>
 			<li>Background processes in pg_stat_activity</li>
 			<li>Traceable Commit / Status by Transaction-ID</li>
 			<li>Identity Columns</li>
@@ -747,6 +746,143 @@ ANALYZE</code></pre>
 	<section class="slide" id="PostgreSQL11">
 		<h2 class="shout">PostgreSQL 11</h2>
 	</section>
+
+	<section class="slide" id="PartitionElimination">
+		<h2 class="shout">Faster Partition Pruning</h2>
+	</section>
+
+	<section class="slide" id="PartitionEliminationBench"><div>
+		<img class="cover" src="pictures/partition_prune_bench.png" alt="PartitionElimination" />
+	</div></section>
+
+	<section class="slide" id="PartitionPg11"><div>
+		<h2>Partitioning</h2>
+		<ul>
+			<li>Support Hash partitioning</li>
+			<li>Allow UPDATE to move rows between partitions</li>
+			<li>Any index created on a partition table will be created as well on each existing child tables</li>
+			<li>Any future partition added will gain the same index as well</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="CoveringIndexes">
+		<h2 class="shout">Covering Indexes</h2>
+	</section>
+
+	<section class="slide" id="CoveringIndexes1"><div>
+		<h2>Covering Indexes</h2>
+		<pre><code>=# CREATE TABLE test (k serial primary key,
+	v text, ts timestamp);
+CREATE TABLE
+=# INSERT INTO test (v, ts)
+		select 'key_' || s , now()
+		FROM generate_series(1, 10000) as s;
+INSERT 0 10000
+=# CREATE INDEX ON test (v);
+CREATE INDEX</code></pre>
+	</div></section>
+
+	<section class="slide" id="CoveringIndexes2"><div>
+		<h2>Covering Indexes</h2>
+		<pre><code>=# EXPLAIN SELECT v, ts FROM test WHERE v > 'key_1337' and v < 'key_2337';
+                                 QUERY PLAN
+-----------------------------------------------------------------------------
+ Bitmap Heap Scan on test  (cost=31.57..112.09 rows=1101 width=16)
+   Recheck Cond: ((v > 'key_1337'::text) AND (v < 'key_2337'::text))
+   ->  Bitmap Index Scan on test_v_idx  (cost=0.00..31.29 rows=1101 width=0)
+         Index Cond: ((v > 'key_1337'::text) AND (v < 'key_2337'::text))
+(4 rows)</code></pre>
+	<style>
+	#CoveringIndexes2 code {
+		font-size: 1.2rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="CoveringIndexes3"><div>
+		<h2>Covering Indexes</h2>
+		<pre><code>=# DROP INDEX test_v_idx;
+=# CREATE INDEX ON test (v) <mark>INCLUDE (ts)</mark>;
+=# EXPLAIN select v, ts from test WHERE v > 'key_1337' and v < 'key_2337';
+<mark>Index Only Scan</mark> using test_v_ts_idx on test
+	(cost=0.29..46.30 rows=1101 width=16)
+	Index Cond: ((v > 'key_1337'::text) AND (v < 'key_2337'::text))
+(2 rows)</code></pre>
+	<style>
+	#CoveringIndexes3 code {
+		font-size: 1.2rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JsonbTransform">
+		<h2 class="shout">Jsonb transform for pl/perl and pl/python</h2>
+	</section>
+
+	<section class="slide" id="JsonbTransform1"><div>
+		<h2>Jsonb transform</h2>
+		<pre><code>=# CREATE OR REPLACE FUNCTION testit(jsonb) RETURNS void as $$
+my $arg = shift;
+elog(NOTICE, "Arg is: [$arg]");
+elog(NOTICE, "Arg ref is: [" . ref($arg) . "]");
+elog(NOTICE, "Arg len is: [" . length($arg) . "]");
+$$ language plperl;
+
+=# SELECT testit( '{ "id": 1, "name": "A green door",
+  "price": 12.50, "tags": ["home", "green"] }'::jsonb );</code></pre>
+	<style>
+	#JsonbTransform1 code {
+		font-size: 1.2rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="JsonbTransform2"><div>
+		<h2>Jsonb transform</h2>
+		<pre><code>=# CREATE OR REPLACE FUNCTION testit(jsonb)
+    RETURNS void
+    <mark>TRANSFORM FOR TYPE jsonb</mark>
+    LANGUAGE plperl
+as $$
+my $arg = shift;
+elog(NOTICE, "Arg is: [$arg]");
+elog(NOTICE, "Arg ref is: [" . ref($arg) . "]");
+elog(NOTICE, "Arg len is: [" . length($arg) . "]");
+$$;
+
+=# SELECT testit( '{ "id": 1, "name": "A green door",
+   "price": 12.50, "tags": ["home", "green"] }'::jsonb );</code></pre>
+	<style>
+	#JsonbTransform2 code {
+		font-size: 1.1rem;
+	}
+	</style>
+	</div></section>
+
+	<section class="slide" id="Xids64bit">
+		<h2 class="shout">64-bit xids</h2>
+	</section>
+
+	<section class="slide" id="Xids64bit1"><div>
+		<h2>64-bit xids</h2>
+		<ul>
+			<li>There are four XIDs per tuple, so a 64-bit XID would make every row 32-bytes larger (That's a lot larger)</li>
+			<li>Xmin and xmax are remained 32-bit values, and 64-bit base is stored in the page header</li>
+			<li>On overflow of 32-bit values, single-page freeze is performed on the fly</li>
+		</ul>
+	</div></section>
+
+	<section class="slide" id="Pg11MoreList"><div>
+		<ul>
+			<li>Incremental sort</li>
+			<li>HOT support for projection indexes</li>
+			<li>Pluggable storages API</li>
+			<li>Fast ALTER TABLE ADD COLUMN with a non-NULL default</li>
+			<li>Support parallel btree index builds</li>
+			<li>Support all SQL:2011 options for window frame clauses</li>
+			<li>SQL/JSON standard</li>
+		</ul>
+	</div></section>
 
 
 	<section class="slide" id="QuestionsSlide"><div>
