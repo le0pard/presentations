@@ -760,8 +760,10 @@ ANALYZE</code></pre>
 		<ul>
 			<li>Support Hash partitioning</li>
 			<li>Allow UPDATE to move rows between partitions</li>
+			<li>Partition-wise join for declarative partitioned tables</li>
 			<li>Any index created on a partition table will be created as well on each existing child tables</li>
 			<li>Any future partition added will gain the same index as well</li>
+			<li>Default partition for range</li>
 		</ul>
 	</div></section>
 
@@ -859,23 +861,11 @@ $$;
 	</style>
 	</div></section>
 
-	<section class="slide" id="Xids64bit">
-		<h2 class="shout">64-bit xids</h2>
-	</section>
-
-	<section class="slide" id="Xids64bit1"><div>
-		<h2>64-bit xids</h2>
-		<ul>
-			<li>There are four XIDs per tuple, so a 64-bit XID would make every row 32-bytes larger (That's a lot larger)</li>
-			<li>Xmin and xmax are remained 32-bit values, and 64-bit base is stored in the page header</li>
-			<li>On overflow of 32-bit values, single-page freeze is performed on the fly</li>
-		</ul>
-	</div></section>
-
 	<section class="slide" id="Pg11MoreList"><div>
 		<ul>
+			<li>JIT compiling expressions & tuple deforming</li>
 			<li>Incremental sort</li>
-			<li>HOT support for projection indexes</li>
+			<li>SQL procedures</li>
 			<li>Pluggable storages API</li>
 			<li>Fast ALTER TABLE ADD COLUMN with a non-NULL default</li>
 			<li>Support parallel btree index builds</li>
