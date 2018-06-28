@@ -84,6 +84,23 @@
 		</style>
 	</section>
 
+	<section class="slide" id="FalconState">
+		<h2 class="shout">State</h2>
+	</section>
+
+	<section class="slide" id="FalconStateList">
+		<h2>Current state (2018-07-28)</h2>
+		<ul>
+			<li>Ruby 2.5.1</li>
+			<li>Rails 5.2.0</li>
+			<li>PostgreSQL 9.3 (old - need to migrate 200GB database)</li>
+			<li>Redis 3.2.10</li>
+			<li>Golang 1.10.3</li>
+			<li>MarionetteJS 3.5.1</li>
+			<li>etc</li>
+		</ul>
+	</section>
+
 	<section class="slide" id="FalconPlans">
 		<h2 class="shout">Plans</h2>
 	</section>
@@ -91,10 +108,11 @@
 	<section class="slide" id="FalconPlansList">
 		<h2>Mailtrap plans</h2>
 		<ul>
-			<li>Move blobs (html, text, raw and attachmnets) to S3 storage</li>
+			<li>Move blobs (html, text, raw and attachments) to S3 storage</li>
 			<li>Select something else to store messages and attachments metadata instead of PostgreSQL. Like queue with limited size and FIFO</li>
 			<li>Improve user interface (can merge with migration to new JS framework)</li>
 			<li>Improve infrastructure (docker, autoscaling, etc)</li>
+			<li>Improve security (ssh-keys storage, encryption, etc)</li>
 		</ul>
 	</section>
 
