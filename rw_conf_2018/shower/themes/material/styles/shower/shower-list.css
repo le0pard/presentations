@@ -1,4 +1,4 @@
-/* List */
+/* Shower List */
 
 .shower.list {
     padding-top: 24px;
@@ -6,6 +6,13 @@
     display: flex;
     flex-wrap: wrap;
     background: var(--color-back);
+}
+
+/* IE & Edge Fix */
+
+.shower.list {
+    position: absolute;
+    clip: rect(0, auto, auto, 0);
 }
 
 /* Responsive */

@@ -45,14 +45,23 @@
     color: inherit;
 }
 
-/* Caption List */
+/* List */
 
 .shower.list .caption {
     display: block;
 }
 
-/* Caption Full */
+/* Full */
 
 .shower.full .caption {
     display: none;
+}
+
+/* Print */
+
+@media print {
+    .shower.list .caption,
+    .shower.full .caption {
+        display: none;
+    }
 }
