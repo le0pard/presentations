@@ -68,6 +68,319 @@
       </style>
     </section>
 
+    <section class="slide" id="SplitTesting">
+      <img class="cover" src="pictures/split.png" alt="SplitTesting" />
+    </section>
+
+    <section class="slide" id="SplitTestingReaction">
+      <h2>First reaction</h2>
+      <video autoplay loop muted preload>
+          <source src="pictures/no.mp4"
+                  type='video/mp4' />
+          <source src="pictures/no.webm"
+                  type='video/webm' />
+      </video>
+      <style>
+        #SplitTestingReaction video {
+          display: block;
+          width: 80%;
+          margin: 0 auto;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="SplitTestingRails">
+      <h2>Rails solutions</h2>
+      <div class="columns two">
+        <ul>
+          <li><a href="https://github.com/splitrb/split">Split</a></li>
+          <li><a href="http://vanity.labnotes.org/">Vanity</a></li>
+          <li><a href="https://github.com/ryanb/abingo">A/Bingo (dead)</a></li>
+          <li><a href="https://github.com/bmuller/bandit">Bandit (dead)</a></li>
+          <li><a href="https://github.com/xing/absurdity">Absurdity (dead)</a></li>
+          <li><a href="https://github.com/paulmars/seven_minute_abs">SevenMinuteAbs (dead)</a></li>
+        </ul>
+        <img src="pictures/rails.png" alt="SplitTestingRails" />
+      </div>
+      <style>
+        #SplitTestingRails img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="SplitRailsGem">
+      <h2>Split</h2>
+      <h3>Variants</h3>
+      <pre><code>ab_test(:user_variations, 'new', 'old', 'strange')
+ab_test(:homepage_design, {'Old' => 18}, {'New' => 2})
+      </code></pre>
+      <h3>Conversion</h3>
+      <pre><code>ab_finished(:user_variations)</code></pre>
+    </section>
+
+    <section class="slide" id="SplitWeb">
+      <h2>Split Web interface</h2>
+      <pre><code>gem 'split', require: 'split/dashboard'
+mount Split::Dashboard, at: 'split'</code></pre>
+    </section>
+
+    <section class="slide" id="SplitWebLook">
+      <img class="cover" src="pictures/split_web.png" alt="SplitWebLook" />
+    </section>
+
+    <section class="slide" id="SplitExtensions">
+      <h2>Split Extensions</h2>
+      <ul>
+        <li>
+          <a href="http://github.com/splitrb/split-export">Split::Export</a> - Easily export A/B test data out of Split.
+        </li>
+        <li>
+          <a href="http://github.com/splitrb/split-analytics">Split::Analytics</a> - Push test data to Google Analytics.
+        </li>
+        <li>
+          <a href="https://github.com/MongoHQ/split-mongoid">Split::Mongoid</a> - Store experiment data in mongoid (still
+          uses redis).
+        </li>
+        <li>
+          <a href="https://github.com/harrystech/split_cacheable">Split::Cacheable</a> - Automatically create cache buckets
+          per test.
+        </li>
+        <li>
+          <a href="https://github.com/bernardkroes/split-counters">Split::Counters</a> - Add counters per experiment and
+          alternative.
+        </li>
+        <li>
+          <a href="https://github.com/craigmcnamara/split-cli">Split::Cli</a> - A CLI to trigger Split A/B tests.
+        </li>
+      </ul>
+    </section>
+
+    <section class="slide" id="SplitResults">
+      <h2>Demo for client</h2>
+      <video autoplay loop muted preload>
+        <source src="pictures/first_results.mp4" type='video/mp4' />
+        <source src="pictures/first_results.webm" type='video/webm' />
+      </video>
+      <style>
+        #SplitResults video {
+          display: block;
+          width: 74%;
+          margin: 0 auto;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AdditionalNeeds">
+      <h2>Small changes from client</h2>
+      <ul>
+        <li>Support SPA applications (React, Vue.js, Marionette.js)</li>
+        <li>Cover only some percentage of visitors to target an experiment</li>
+        <li>I need determines when the experiment is shown: geo data, browser/mobile device, third-party cookies, query parameter, etc</li>
+        <li>Running simple experiments (text/image variations, etc) without development and deployment</li>
+      </ul>
+    </section>
+
+    <section class="slide" id="NeedsReaction">
+      <h2>Reaction</h2>
+      <video autoplay loop muted preload>
+        <source src="pictures/reaction.mp4" type='video/mp4' />
+        <source src="pictures/reaction.webm" type='video/webm' />
+      </video>
+      <style>
+        #NeedsReaction video {
+          display: block;
+          width: 90%;
+          margin: 0 auto;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="SplitTestingCons">
+      <h2>Ploblems</h2>
+      <ul>
+        <li>I need collect info about customers (geo, device, etc) and do not forget about GDPR/Data Processing Addendum/etc</li>
+        <li>It will create load on system</li>
+        <li>Your customers not need this feature</li>
+        <li>You as developer not need this code</li>
+        <li>It is only need for marketing/business analytic team</li>
+      </ul>
+    </section>
+
+    <section class="slide" id="ABPaaS">
+      <h2>What about PaaS?</h2>
+      <div class="columns two">
+        <ul>
+          <li><a href="https://www.optimizely.com/">Optimizely</a></li>
+          <li><a href="https://www.abtasty.com">ABTasty</a></li>
+          <li><a href="https://vwo.com/">VWO</a></li>
+          <li><a href="https://www.omniconvert.com">Omniconvert</a></li>
+          <li><a href="https://www.adobe.com/marketing/target.html">Adobe Target</a></li>
+          <li>etc</li>
+        </ul>
+        <img src="pictures/paas.png" alt="ABPaaS" />
+      </div>
+      <style>
+        #ABPaaS img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ABPaaSPricing">
+      <h2>PaaS pricing</h2>
+      <figure>
+        <blockquote>
+          <p>Plans start at a minimum of $36,000 a year, for 200,000 visitors or more.</p>
+        </blockquote>
+        <figcaption>https://www.quora.com/How-much-is-optimizely</figcaption>
+      </figure>
+      <figure>
+        <blockquote>
+          <p>AB Tasty’s package starts at $1,000 per month</p>
+        </blockquote>
+        <figcaption>https://reviews.financesonline.com/p/ab-tasty/#pricing</figcaption>
+      </figure>
+      <figure>
+        <blockquote>
+          <p>Enterprise Pricing starts from $1,899/month</p>
+        </blockquote>
+        <figcaption>https://reviews.financesonline.com/p/omniconvert/#pricing</figcaption>
+      </figure>
+    </section>
+
+    <section class="slide" id="FinishingResearch">
+      <h2>Me</h2>
+      <video autoplay loop muted preload>
+        <source src="pictures/pricing.mp4" type='video/mp4' />
+        <source src="pictures/pricing.webm" type='video/webm' />
+      </video>
+      <style>
+        #FinishingResearch video {
+          display: block;
+          width: 90%;
+          margin: 0 auto;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeIntro">
+      <h2 class="shout">Google Optimize</h2>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeIntegrationFirst">
+      <h2>Google Optimize Integration</h2>
+      <pre><code>ga('create', 'UA-234234-1', 'auto');
+<mark>ga('require', 'GTM-234234');</mark>
+ga('send', 'pageview');</code></pre>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeIntegrationSecond">
+      <h2>Google Optimize Integration</h2>
+      <pre><code>&lt;style&gt;.async-hide { opacity: 0 !important} &lt;/style&gt;
+&lt;script&gt;(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+(a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+})(window,document.documentElement,'async-hide','dataLayer',4000,
+{'GTM-234234':true});&lt;/script&gt;</code></pre>
+      <style>
+        #GoogleOptimizeIntegrationSecond code {
+          font-size: 20px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeEditor">
+      <img class="cover" src="pictures/mailtrap-demo.png" alt="GoogleOptimizeEditor" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeJSAPI">
+      <h2>Google Optimize JS API</h2>
+      <pre><code>function implementExperimentA(value) {
+<mark>if (value === '2') {</mark>
+  $( document ).ready(function() {
+    $('#my_element').text('Hello from variant 2');
+  })
+}
+}
+
+gtag('event', 'optimize.callback', {
+  name: <mark>'experiment_id_A'</mark>,
+  callback: implementExperimentA
+});</code></pre>
+      <style>
+        #GoogleOptimizeJSAPI code {
+          font-size: 16px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeMVT">
+      <h2>Multivariate tests (MVT)</h2>
+      <img class="place b" src="pictures/mvt.png" alt="GoogleOptimizeMVT" />
+      <style>
+        #GoogleOptimizeMVT img {
+          height: 70%;
+          margin-bottom: 20px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeMVTJSAPI">
+      <h2>Google Optimize MVT JS API</h2>
+      <pre><code>function implementExperimentA(value) {
+  <mark>var sections = value.split("-");</mark>
+  if (sections[0] == '0') {
+    // Provide code for first section for visitors in the original.
+  }
+  ...
+  if (sections[1] == '0') {
+    // Provide code for second section for visitors in the original.
+  }
+}</code></pre>
+      <style>
+        #GoogleOptimizeMVTJSAPI code {
+          font-size: 16px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeDashboard1">
+      <img class="cover" src="pictures/go_dashboard1.png" alt="GoogleOptimizeDashboard" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeDashboard2">
+      <img class="cover" src="pictures/go_dashboard2.png" alt="GoogleOptimizeDashboard" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeMyResults">
+      <img class="cover" src="pictures/go_results.png" alt="GoogleOptimizeMyResults" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeMyAnalytics">
+      <img class="cover" src="pictures/my_analytics.png" alt="GoogleOptimizeMyAnalytics" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeFree">
+      <h2 class="shout">It is Free (with some limits)</h2>
+      <style>
+        #GoogleOptimizeFree h2 {
+          font-size: 75px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeResults">
+      <h2>Conclusion</h2>
+      <ul>
+        <li>If you need PaaS for A/B testing - try Google Optimize</li>
+        <li>Free version limits: 5 experiments and 10 personalizations. You can update to Optimize 360 if needed</li>
+        <li>Ability to do experiments without development</li>
+        <li>Works on top of a Google Analytics</li>
+        <li>Integration with Google Tag Manager provide additional flexibility in settings</li>
+      </ul>
+    </section>
+
     <section class="slide" id="QuestionsSlide"><div>
       <h2>&lt;Thank You!&gt; Questions?</h2>
       <div class="contacts">
