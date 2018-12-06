@@ -317,6 +317,26 @@ gtag('event', 'optimize.callback', {
       </style>
     </section>
 
+    <section class="slide" id="GoogleOptimizeDashboard1">
+      <img class="cover" src="pictures/go_dashboard1.png" alt="GoogleOptimizeDashboard" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeDashboard2">
+      <img class="cover" src="pictures/go_dashboard2.png" alt="GoogleOptimizeDashboard" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeMyResults">
+      <img class="cover" src="pictures/go_results.png" alt="GoogleOptimizeMyResults" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeMyResults2">
+      <img class="cover" src="pictures/go_results2.png" alt="GoogleOptimizeMyResults2" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeMyAnalytics">
+      <img class="cover" src="pictures/my_analytics.png" alt="GoogleOptimizeMyAnalytics" />
+    </section>
+
     <section class="slide" id="GoogleOptimizeMVT">
       <h2>Multivariate tests (MVT)</h2>
       <img class="place b" src="pictures/mvt.png" alt="GoogleOptimizeMVT" />
@@ -331,15 +351,15 @@ gtag('event', 'optimize.callback', {
     <section class="slide" id="GoogleOptimizeMVTJSAPI">
       <h2>Google Optimize MVT JS API</h2>
       <pre><code>function implementExperimentA(value) {
-  <mark>var sections = value.split("-");</mark>
-  if (sections[0] == '0') {
-    // Provide code for first section for visitors in the original.
-  }
-  ...
-  if (sections[1] == '0') {
-    // Provide code for second section for visitors in the original.
-  }
-}</code></pre>
+      <mark>var sections = value.split("-");</mark>
+      if (sections[0] == '0') {
+        // Provide code for first section for visitors in the original.
+      }
+      ...
+      if (sections[1] == '0') {
+        // Provide code for second section for visitors in the original.
+      }
+    }</code></pre>
       <style>
         #GoogleOptimizeMVTJSAPI code {
           font-size: 16px;
@@ -347,20 +367,8 @@ gtag('event', 'optimize.callback', {
       </style>
     </section>
 
-    <section class="slide" id="GoogleOptimizeDashboard1">
-      <img class="cover" src="pictures/go_dashboard1.png" alt="GoogleOptimizeDashboard" />
-    </section>
-
-    <section class="slide" id="GoogleOptimizeDashboard2">
-      <img class="cover" src="pictures/go_dashboard2.png" alt="GoogleOptimizeDashboard" />
-    </section>
-
-    <section class="slide" id="GoogleOptimizeMyResults">
-      <img class="cover" src="pictures/go_results.png" alt="GoogleOptimizeMyResults" />
-    </section>
-
-    <section class="slide" id="GoogleOptimizeMyAnalytics">
-      <img class="cover" src="pictures/my_analytics.png" alt="GoogleOptimizeMyAnalytics" />
+    <section class="slide" id="GoogleOptimizeMVTDashboard">
+      <img class="cover" src="pictures/mvt_combinations.png" alt="GoogleOptimizeMVTDashboard" />
     </section>
 
     <section class="slide" id="GoogleOptimizeFree">
@@ -376,7 +384,7 @@ gtag('event', 'optimize.callback', {
       <h2>Conclusion</h2>
       <ul>
         <li>If you need PaaS for A/B testing - try Google Optimize</li>
-        <li>Free version limits: 5 experiments and 10 personalizations. You can update to Optimize 360 if needed</li>
+        <li>Free version limits: 5 experiments, 10 personalizations, 16 MVT combinations. You can update to Optimize 360 if needed</li>
         <li>Ability to do experiments without development</li>
         <li>Works on top of a Google Analytics</li>
         <li>Integration with Google Tag Manager provide additional flexibility in settings</li>
