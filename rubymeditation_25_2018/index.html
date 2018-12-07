@@ -174,12 +174,23 @@ mount Split::Dashboard, at: 'split'</code></pre>
     <section class="slide" id="AdditionalNeeds">
       <h2>Small changes from client</h2>
       <ul>
-        <li>Support Multivariate and Multi-Armed Bandit testing</li>
         <li>Support SPA applications (React, Vue.js, Marionette.js)</li>
         <li>Cover only some percentage of visitors to target an experiment</li>
         <li>I need determines when the experiment is shown: geo data, browser/mobile device, third-party cookies, query parameter, etc</li>
         <li>Running simple experiments (text/image variations, etc) without development and deployment</li>
+        <li>Support Multivariate and Multi-Armed Bandit testing</li>
       </ul>
+    </section>
+
+    <section class="slide" id="GoogleOptimizeMVT">
+      <h2>Multivariate tests (MVT)</h2>
+      <img class="place b" src="pictures/mvt.png" alt="GoogleOptimizeMVT" />
+      <style>
+        #GoogleOptimizeMVT img {
+          height: 70%;
+          margin-bottom: 20px;
+        }
+      </style>
     </section>
 
     <section class="slide" id="NeedsReaction">
@@ -266,8 +277,8 @@ mount Split::Dashboard, at: 'split'</code></pre>
       </style>
     </section>
 
-    <section class="slide" id="GoogleOptimizeIntro">
-      <h2 class="shout">Google Optimize</h2>
+    <section class="slide" id="GoogleOptimizePage">
+      <img class="cover" src="pictures/google_optimize.jpg" alt="GoogleOptimizePage" />
     </section>
 
     <section class="slide" id="GoogleOptimizeIntegrationFirst">
@@ -292,29 +303,12 @@ h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
       </style>
     </section>
 
-    <section class="slide" id="GoogleOptimizeEditor">
-      <img class="cover" src="pictures/mailtrap-demo.png" alt="GoogleOptimizeEditor" />
+    <section class="slide" id="GoogleOptimizeExperiment">
+      <img class="cover" src="pictures/go_experiment.png" alt="GoogleOptimizeExperiment" />
     </section>
 
-    <section class="slide" id="GoogleOptimizeJSAPI">
-      <h2>Google Optimize JS API</h2>
-      <pre><code>function implementExperimentA(value) {
-<mark>if (value === '2') {</mark>
-  $( document ).ready(function() {
-    $('#my_element').text('Hello from variant 2');
-  })
-}
-}
-
-gtag('event', 'optimize.callback', {
-  name: <mark>'experiment_id_A'</mark>,
-  callback: implementExperimentA
-});</code></pre>
-      <style>
-        #GoogleOptimizeJSAPI code {
-          font-size: 16px;
-        }
-      </style>
+    <section class="slide" id="GoogleOptimizeEditor">
+      <img class="cover" src="pictures/mailtrap-demo.png" alt="GoogleOptimizeEditor" />
     </section>
 
     <section class="slide" id="GoogleOptimizeDashboard1">
@@ -323,6 +317,31 @@ gtag('event', 'optimize.callback', {
 
     <section class="slide" id="GoogleOptimizeDashboard2">
       <img class="cover" src="pictures/go_dashboard2.png" alt="GoogleOptimizeDashboard" />
+    </section>
+
+    <section class="slide" id="GoogleOptimizeJSAPI">
+      <h2>Google Optimize JS API</h2>
+      <pre><code>function implementExperimentA(value) {
+    <mark>if (value === '2') {</mark>
+      $( document ).ready(function() {
+        $('#my_element').text('Hello from variant 2');
+      })
+    }
+    }
+
+    gtag('event', 'optimize.callback', {
+      name: <mark>'experiment_id_A'</mark>,
+      callback: implementExperimentA
+    });</code></pre>
+      <style>
+        #GoogleOptimizeJSAPI code {
+          font-size: 16px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ABTestingResults">
+      <h2 class="shout">A/B test results</h2>
     </section>
 
     <section class="slide" id="GoogleOptimizeMyResults">
@@ -337,34 +356,12 @@ gtag('event', 'optimize.callback', {
       <img class="cover" src="pictures/my_analytics.png" alt="GoogleOptimizeMyAnalytics" />
     </section>
 
-    <section class="slide" id="GoogleOptimizeMVT">
-      <h2>Multivariate tests (MVT)</h2>
-      <img class="place b" src="pictures/mvt.png" alt="GoogleOptimizeMVT" />
-      <style>
-        #GoogleOptimizeMVT img {
-          height: 70%;
-          margin-bottom: 20px;
-        }
-      </style>
+    <section class="slide" id="MVTSetup">
+      <h2 class="shout">MVT setup</h2>
     </section>
 
-    <section class="slide" id="GoogleOptimizeMVTJSAPI">
-      <h2>Google Optimize MVT JS API</h2>
-      <pre><code>function implementExperimentA(value) {
-      <mark>var sections = value.split("-");</mark>
-      if (sections[0] == '0') {
-        // Provide code for first section for visitors in the original.
-      }
-      ...
-      if (sections[1] == '0') {
-        // Provide code for second section for visitors in the original.
-      }
-    }</code></pre>
-      <style>
-        #GoogleOptimizeMVTJSAPI code {
-          font-size: 16px;
-        }
-      </style>
+    <section class="slide" id="GoogleOptimizeMVTSections">
+      <img class="cover" src="pictures/mvt_sections.png" alt="GoogleOptimizeMVTSections" />
     </section>
 
     <section class="slide" id="GoogleOptimizeMVTDashboard">
