@@ -258,7 +258,7 @@ Execution time: 8.008 ms</code></pre>
       <div>
         <h2>Top-N Queries</h2>
         <ul>
-          <li><strong>Limit</strong> - aborts the underlying operations when the desired number of rows has been fetched</li>
+          <li><strong>Limit</strong> - aborts the underlying operations when the desired number of rows has been fetched. The efficiency of the top-N query depends on the execution mode of the underlying operations. It is very inefficient when aborting non-pipelined operations such as Sort</li>
           <li><strong>WindowAgg</strong> - indicates the use of window functions</li>
         </ul>
       </div>
@@ -368,17 +368,17 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE id = 15;
 
     <section class="slide" id="PlannerCostConstantsStarting">
       <div>
-        <h2>Starting cost</h2>
+        <h2>Starting cost and rows</h2>
         <pre><code>EXPLAIN ANALYZE SELECT * FROM users <mark>ORDER BY created_at DESC</mark> LIMIT 100;
                                  QUERY PLAN
 -------------------------------------------------------------------------
- Limit  (cost=27570.71..27570.96 rows=100 width=1111)
+<mark>Limit  (cost=27570.71..27570.96 rows=100</mark> width=1111)
  (actual time=439.334..439.455 rows=100 loops=1)
-   -> <mark>Sort (cost=27570.71..28347.35</mark> rows=310658 width=1111)
+   -> <mark>Sort (cost=27570.71..28347.35 rows=310658</mark> width=1111)
    (actual time=439.332..439.380 rows=100 loops=1)
          Sort Key: created_at
          Sort Method: top-N heapsort  Memory: 74kB
-         -> <mark>Seq Scan on users  (cost=0.00..15697.58</mark> rows=310658 width=1111)
+         -> <mark>Seq Scan on users  (cost=0.00..15697.58 rows=310658</mark> width=1111)
          (actual time=0.006..205.236 rows=310789 loops=1)
  Total runtime: 439.521 ms</code></pre>
         <style>
