@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>EXPLAIN to me, why you so slow?</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+      <h1>EXPLAIN to me, why you so slow?</h1>
+      <p>Oleksii Vasyliev, Railsware</p>
+    </header>
+
+    <section class="slide" id="Cover">
+      <h2>EXPLAIN to me,<br /> why you so slow?</h2>
+      <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
+          href="http://railsware.com/">Railsware</a></p>
+      <img src="pictures/cover.jpg" alt="" class="cover h">
+      <!--
+          To apply styles to the certain slides
+          set slide ID to get needed elements
+          -->
+      <style>
+        #Cover {
+          background-color: #04A05F;
+        }
+
+        #Cover h2 {
+          margin: 50px 0 0;
+          color: #FFF;
+          text-align: left;
+          font-weight: bold;
+          font-size: 66px;
+          line-height: 130%;
+        }
+
+        #Cover p {
+          margin: 50px 0 0;
+          text-align: left;
+          color: #FFF;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover p a {
+          color: #FFF;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AboutMeSlide"><div>
+      <h2>Oleksii Vasyliev</h2>
+      <ul>
+        <li>Web and Mobile Developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), DevOps</li>
+        <li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+        <li>Open-Source books: <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a>, <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a></li>
+        <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+      </ul>
+    </div></section>
+
+    <section class="slide" id="PostgreSQLSlowReasons">
+      <div>
+        <h2>Your SLOW query is slow.<br /> What to check?</h2>
+        <ul class="columns two">
+          <li>Health state of a host system</li>
+          <li>PostgreSQL configuration</li>
+          <li>Database structure is not well defined/normalized</li>
+          <li>Stored procedures for complex computations on database</li>
+          <li>Query is not well formed</li>
+          <li>No index</li>
+          <li>Number of rows in the table too large</li>
+          <li>Planner running queries inefficiently</li>
+          <li>Table bloating</li>
+          <li>many other...</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainEverything">
+      <div>
+        <img class="cover" src="pictures/explain_everything.jpg" alt="ExplainEverything" />
+        <style>
+          #ExplainEverything img {
+            width: 700px;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainCommand">
+      <div>
+        <h2>EXPLAIN</h2>
+        <p>PostgreSQL devises a query plan for each query it receives. Choosing the right plan to match the query structure and the
+        properties of the data is absolutely critical for good performance, so the system includes a complex planner that tries
+        to choose good plans. You can use the <strong>EXPLAIN</strong> command to see what query plan the planner creates for any query</p>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainCommandOptions1">
+      <div>
+        <h2>EXPLAIN ANALYZE</h2>
+        <p>The ANALYZE option causes the sql statement to be executed first and then actual run-time statistics in the returned
+        information including total elapsed time expended within each plan node and the number of rows it actually returned</p>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainCommandOptions2">
+      <div>
+        <h2>EXPLAIN ANALYZE</h2>
+        <p>The ANALYZE statement actually executes the SQL statement and discards the output information, therefore, if you want to
+        analyze any update statement such as INSERT, UPDATE, or DELETE without affecting the data, you should wrap the EXPLAIN
+        ANALYZE in a transaction as follow:</p>
+<pre><code>BEGIN;
+EXPLAIN ANALYZE sql_statement;
+ROLLBACK;</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainCommandOptions3">
+      <div>
+        <h2>EXPLAIN VERBOSE</h2>
+        <p>The VERBOSE parameter allows you to show additional information regarding the plan</p>
+        <h2>EXPLAIN COSTS</h2>
+        <p>The COSTS option includes the estimated startup and total costs of each plan node, as well as the estimated number of
+        rows and the estimated width of each row in the query plan</p>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainCommandOptions4">
+      <div>
+        <h2>EXPLAIN BUFFERS</h2>
+        <p>This parameter adds information to the buffer usage. BUFFERS only can be used when ANALYZE is enabled</p>
+        <h2>EXPLAIN TIMING</h2>
+        <p>This parameter includes the actual startup time and time spent in each node in the output. The TIMING defaults to TRUE and it may only be used when ANALYZE is enabled</p>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainCommandOptions5">
+      <div>
+        <h2>EXPLAIN SUMMARY</h2>
+        <p>The SUMMARY parameter adds summary information such as total timing after the query plan. Note that when ANALYZE option
+        is used, the summary information is included by default</p>
+        <h2>EXPLAIN FORMAT</h2>
+        <p>Specify the output format of the query plan such as TEXT, XML, JSON, and YAML. This parameter is set to TEXT by default</p>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainEverythingResult">
+      <div>
+        <h2>EXPLAIN results</h2>
+<pre><code>EXPLAIN ANALYZE SELECT * FROM tenk1 t1, tenk2 t2
+WHERE t1.unique1 < 100 AND t1.unique2=t2.unique2 ORDER BY t1.fivethous;
+                                                              QUERY PLAN
+  --------------------------------------------------------------------------------------------------------------------------------------------
+  Sort (cost=717.34..717.59 rows=101 width=488) (actual time=7.761..7.774 rows=100 loops=1)
+    Sort Key: t1.fivethous
+    Sort Method: quicksort Memory: 77kB
+    -> Hash Join (cost=230.47..713.98 rows=101 width=488) (actual time=0.711..7.427 rows=100 loops=1)
+        Hash Cond: (t2.unique2 = t1.unique2)
+        -> Seq Scan on tenk2 t2 (cost=0.00..445.00 rows=10000 width=244) (actual time=0.007..2.583 rows=10000 loops=1)
+          -> Hash (cost=229.20..229.20 rows=101 width=244) (actual time=0.659..0.659 rows=100 loops=1)
+              Buckets: 1024 Batches: 1 Memory Usage: 28kB
+              -> Bitmap Heap Scan on tenk1 t1 (cost=5.07..229.20 rows=101 width=244) (actual time=0.080..0.526 rows=100 loops=1)
+                Recheck Cond: (unique1 < 100)
+                  -> Bitmap Index Scan on tenk1_unique1 (cost=0.00..5.04 rows=101 width=0) (actual time=0.049..0.049 rows=100 loops=1)
+                    Index Cond: (unique1 < 100)
+Planning time: 0.194 ms
+Execution time: 8.008 ms</code></pre>
+        <style>
+          #ExplainEverythingResult code {
+            font-size: 0.7rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainReading">
+      <h2>First reaction</h2>
+      <video autoplay loop muted preload>
+        <source src="pictures/small.mp4" type='video/mp4' />
+        <source src="pictures/small.webm" type='video/webm' />
+      </video>
+      <style>
+        #ExplainReading video {
+          display: block;
+          width: 80%;
+          margin: 0 auto;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ExplainTree">
+      <div>
+        <h2>EXPLAIN tree structure</h2>
+        <pre><code>Sort
+└── Hash Join
+    ├── Seq Scan
+    └── Hash
+        └── Bitmap Heap Scan
+            └── Bitmap Index Scan</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainOperations1">
+      <div>
+        <h2>Index and Table Access</h2>
+        <ul>
+          <li><strong>Seq Scan</strong> - operation scans the entire relation (table) as stored on disk (like TABLE ACCESS FULL)</li>
+          <li><strong>Index Scan</strong> - performs a B-tree traversal, walks through the leaf nodes to find all matching entries, and fetches the corresponding table data</li>
+          <li><strong>Index Only Scan (9.2+)</strong> - performs a B-tree traversal and walks through the leaf nodes to find all matching entries. There is no table access needed because the index has all columns to satisfy the query (exception: MVCC visibility information)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainOperations2">
+      <div>
+        <h2>Index and Table Access</h2>
+        <ul>
+          <li><strong>Bitmap Index Scan / Bitmap Heap Scan / Recheck Cond</strong><br />
+            "A plain Index Scan fetches one tuple-pointer at a time from the index, and immediately visits that tuple in the table. A bitmap scan fetches all the tuple-pointers from the index in one go, sorts them using an in-memory "bitmap" data structure, and then visits the table tuples in physical tuple-location order." - Tom Lane</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainOperations3">
+      <div>
+        <h2>Join Operations</h2>
+        <ul>
+          <li><strong>Nested Loops</strong> - joins two tables by fetching the result from one table and querying the other table for each row from the first</li>
+          <li><strong>Hash Join</strong> - loads the candidate records from one side of the join into a hash table (marked with Hash in the plan) which is then probed for each record from the other side of the join</li>
+          <li><strong>Merge Join</strong> - (sort) merge join combines two sorted lists like a zipper. Both sides of the join must be presorted</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainOperations4">
+      <div>
+        <h2>Sorting and Grouping</h2>
+        <ul>
+          <li><strong>Sort / Sort Key</strong> - sorts the set on the columns mentioned in Sort Key. The Sort operation needs large amounts of memory to materialize the
+          intermediate result (not pipelined)</li>
+          <li><strong>GroupAggregate</strong> - aggregates a presorted set according to the group by clause. This operation does not buffer large amounts of data
+          (pipelined)</li>
+          <li><strong>HashAggregate</strong> - uses a temporary hash table to group records. This operation does not require a presorted data set, instead
+          it uses large amounts of memory to materialize the intermediate result (not pipelined)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainOperations5">
+      <div>
+        <h2>Top-N Queries</h2>
+        <ul>
+          <li><strong>Limit</strong> - aborts the underlying operations when the desired number of rows has been fetched</li>
+          <li><strong>WindowAgg</strong> - indicates the use of window functions</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="HowItSelectPlan">
+      <div>
+        <h2>But how are the decisions made?</h2>
+        <img class="place b" src="pictures/fry.png" alt="HowItSelectPlan" />
+        <style>
+          #HowItSelectPlan img {
+            width: 500px;
+            padding: 50px 0;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerCostConstants">
+      <div>
+        <h2>Planner Cost Constants</h2>
+        <pre><code>seq_page_cost = 1.0 # measured ON an arbitrary scale
+random_page_cost = 4.0 # same scale AS above
+cpu_tuple_cost = 0.01 # same scale AS above
+cpu_index_tuple_cost = 0.005 # same scale AS above
+cpu_operator_cost = 0.0025 # same scale AS above</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerCostConstantsExample1">
+      <div>
+        <h2>Planner Cost Constants</h2>
+        <pre><code>EXPLAIN ANALYZE SELECT * FROM users WHERE id = 15;
+                          QUERY PLAN
+--------------------------------------------------------------------------------
+ <mark>Index Scan</mark> using users_pkey on users  (cost=0.42..8.44 rows=1 width=1111)
+ (actual time=1.024..1.025 rows=1 loops=1)
+  <mark>Index Cond: (id = 15)</mark>
+ Total runtime: 1.071 ms
+(3 rows)</code></pre>
+        <style>
+          #PlannerCostConstantsExample1 code {
+            font-size: 1.2rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerCostConstantsExample2">
+      <div>
+        <h2>Planner Cost Constants</h2>
+        <pre><code>SET enable_indexscan = OFF;
+EXPLAIN ANALYZE SELECT * FROM users WHERE id = 15;
+                                                    QUERY PLAN
+-------------------------------------------------------------------------------------------------------
+<mark>Bitmap Heap Scan</mark> on users  (cost=4.43..8.44 rows=1 width=1111)
+ (actual time=0.674..0.675 rows=1 loops=1)
+   Recheck Cond: (id = 15)
+   -> <mark>Bitmap Index Scan</mark> on users_pkey  (cost=0.00..4.43 rows=1 width=0)
+   (actual time=0.664..0.664 rows=1 loops=1)
+         Index Cond: (id = 15)
+ Total runtime: 0.714 ms
+(5 rows)</code></pre>
+        <style>
+          #PlannerCostConstantsExample2 code {
+            font-size: 1.1rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerCostConstantsExample3">
+      <div>
+        <h2>Planner Cost Constants</h2>
+        <pre><code>SET enable_bitmapscan = OFF;
+EXPLAIN ANALYZE SELECT * FROM users WHERE id = 15;
+                    QUERY PLAN
+-----------------------------------------------------------------
+<mark>Seq Scan</mark> on users  (cost=0.00..16474.22 rows=1 width=1111)
+ (actual time=0.015..867.794 rows=1 loops=1)
+   Filter: (id = 15)
+   Rows Removed by Filter: 310789
+ Total runtime: 867.817 ms
+(4 rows)</code></pre>
+        <style>
+          #PlannerCostConstantsExample3 code {
+            font-size: 1.1rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerCostConstantsResults">
+      <div>
+        <h2>Planner Cost Constants</h2>
+        <pre><code><mark>Index Scan</mark> using users_pkey on users (<mark>cost=0.42..8.44</mark> rows=1 width=1111)
+<mark>Bitmap Heap Scan</mark> on users (<mark>cost=4.43..8.44</mark> rows=1 width=1111)
+<mark>Seq Scan</mark> on users (<mark>cost=0.00..16474.22</mark> rows=1 width=1111)</code></pre>
+        <p>The range (number..number) shows cost for starting the operation row and cost for getting all rows returned by this operation</p>
+        <style>
+          #PlannerCostConstantsResults code {
+            font-size: 1.1rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerCostConstantsStarting">
+      <div>
+        <h2>Starting cost</h2>
+        <pre><code>EXPLAIN ANALYZE SELECT * FROM users <mark>ORDER BY created_at DESC</mark> LIMIT 100;
+                                 QUERY PLAN
+-------------------------------------------------------------------------
+ Limit  (cost=27570.71..27570.96 rows=100 width=1111)
+ (actual time=439.334..439.455 rows=100 loops=1)
+   -> <mark>Sort (cost=27570.71..28347.35</mark> rows=310658 width=1111)
+   (actual time=439.332..439.380 rows=100 loops=1)
+         Sort Key: created_at
+         Sort Method: top-N heapsort  Memory: 74kB
+         -> <mark>Seq Scan on users  (cost=0.00..15697.58</mark> rows=310658 width=1111)
+         (actual time=0.006..205.236 rows=310789 loops=1)
+ Total runtime: 439.521 ms</code></pre>
+        <style>
+          #PlannerCostConstantsStarting code {
+            font-size: 1.1rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="QuestionsSlide"><div>
+      <h2>&lt;Thank You!&gt; Questions?</h2>
+      <div class="contacts">
+        <h3>Contact information</h3>
+        <ul>
+          <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+          <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+          <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        </ul>
+      </div>
+      <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+      <style>
+        #QuestionsSlide .contacts {
+          margin-top: 100px;
+          margin-left: 450px;
+        }
+      </style>
+    </div></section>
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.min.js"></script>
+    <!-- Copyright © 2018 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
