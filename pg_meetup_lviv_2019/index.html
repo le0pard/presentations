@@ -389,6 +389,48 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE id = 15;
       </div>
     </section>
 
+    <section class="slide" id="PlannerWidth1">
+      <div>
+        <h2>Width</h2>
+        <pre><code># EXPLAIN ANALYZE SELECT <mark>*</mark> FROM users ORDER BY id DESC LIMIT 100;
+                              QUERY PLAN
+----------------------------------------------------------------------
+ Limit  (cost=0.42..14.79 rows=100 <mark>width=1111</mark>)
+ (actual time=0.971..20.660 rows=100 loops=1)
+   ->  Index Scan Backward using users_pkey on users
+   (cost=0.42..44641.72 rows=310658 <mark>width=1111</mark>)
+   (actual time=0.968..20.578 rows=100 loops=1)
+ Total runtime: 20.755 ms
+(3 rows)</code></pre>
+        <style>
+          #PlannerWidth1 code {
+            font-size: 1.2rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerWidth2">
+      <div>
+        <h2>Width</h2>
+        <pre><code># EXPLAIN ANALYZE SELECT <mark>id, email</mark> FROM users ORDER BY id DESC LIMIT 100;
+                           QUERY PLAN
+--------------------------------------------------------------------------
+ Limit  (cost=0.42..14.79 rows=100 <mark>width=27</mark>)
+ (actual time=0.034..0.354 rows=100 loops=1)
+   ->  Index Scan Backward using users_pkey on users
+   (cost=0.42..44641.72 rows=310658 <mark>width=27</mark>)
+   (actual time=0.032..0.263 rows=100 loops=1)
+ Total runtime: 0.426 ms
+(3 rows)</code></pre>
+        <style>
+          #PlannerWidth2 code {
+            font-size: 1.2rem;
+          }
+        </style>
+      </div>
+    </section>
+
     <section class="slide" id="QuestionsSlide"><div>
       <h2>&lt;Thank You!&gt; Questions?</h2>
       <div class="contacts">
