@@ -212,9 +212,19 @@ Execution time: 8.008 ms</code></pre>
       <div>
         <h2>Index and Table Access</h2>
         <ul>
-          <li><strong>Seq Scan</strong> - operation scans the entire relation (table) as stored on disk (like TABLE ACCESS FULL)</li>
-          <li><strong>Index Scan</strong> - performs a B-tree traversal, walks through the leaf nodes to find all matching entries, and fetches the corresponding table data</li>
-          <li><strong>Index Only Scan (9.2+)</strong> - performs a B-tree traversal and walks through the leaf nodes to find all matching entries. There is no table access needed because the index has all columns to satisfy the query (exception: MVCC visibility information)</li>
+          <li><strong>Seq Scan</strong> - operation scans the entire relation (table) as stored on disk (like TABLE ACCESS FULL). Computational complexity: <strong>O(N)</strong></li>
+          <li><strong>Index Scan</strong> - performs a B-tree traversal, walks through the leaf nodes to find all matching entries, and fetches the corresponding table data. Computational complexity: <strong>O(log(N))</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainOperations12">
+      <div>
+        <h2>Index and Table Access</h2>
+        <ul>
+          <li><strong>Index Only Scan (9.2+)</strong> - performs a B-tree traversal and walks through the leaf nodes to find
+            all matching entries. There is no table access needed because the index has all columns to satisfy the query
+            (exception: MVCC visibility information). Computational complexity: <strong>O(log(N))</strong></li>
         </ul>
       </div>
     </section>
@@ -224,7 +234,7 @@ Execution time: 8.008 ms</code></pre>
         <h2>Index and Table Access</h2>
         <ul>
           <li><strong>Bitmap Index Scan / Bitmap Heap Scan / Recheck Cond</strong><br />
-            "A plain Index Scan fetches one tuple-pointer at a time from the index, and immediately visits that tuple in the table. A bitmap scan fetches all the tuple-pointers from the index in one go, sorts them using an in-memory "bitmap" data structure, and then visits the table tuples in physical tuple-location order." - Tom Lane</li>
+            "A plain Index Scan fetches one tuple-pointer at a time from the index, and immediately visits that tuple in the table. A bitmap scan fetches all the tuple-pointers from the index in one go, sorts them using an in-memory "bitmap" data structure, and then visits the table tuples in physical tuple-location order." - Tom Lane. Computational complexity: <strong>Index Scan + Seq Scan (M)</strong>, where M - number of rows found after index scan</li>
         </ul>
       </div>
     </section>
@@ -233,9 +243,18 @@ Execution time: 8.008 ms</code></pre>
       <div>
         <h2>Join Operations</h2>
         <ul>
-          <li><strong>Nested Loops</strong> - joins two tables by fetching the result from one table and querying the other table for each row from the first</li>
-          <li><strong>Hash Join</strong> - loads the candidate records from one side of the join into a hash table (marked with Hash in the plan) which is then probed for each record from the other side of the join</li>
-          <li><strong>Merge Join</strong> - (sort) merge join combines two sorted lists like a zipper. Both sides of the join must be presorted</li>
+          <li><strong>Nested Loops</strong> - joins two tables by fetching the result from one table and querying the other table for each row from the first. Computational complexity: <strong>O(N^2)</strong></li>
+          <li><strong>Hash Join</strong> - loads the candidate records from one side of the join into a hash table (marked with Hash in the plan) which is then probed for each record from the other side of the join. Computational complexity: <strong>O(N)</strong> but in the case of a very inefficient hash function or a large number of identical fields for a connection, there may be <strong>O(N^2)</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainOperations31">
+      <div>
+        <h2>Join Operations</h2>
+        <ul>
+          <li><strong>Merge Join</strong> - (sort) merge join combines two sorted lists like a zipper. Both sides of the
+            join must be presorted. Computational complexity: <strong>O(N*log(N))</strong></li>
         </ul>
       </div>
     </section>
@@ -245,11 +264,20 @@ Execution time: 8.008 ms</code></pre>
         <h2>Sorting and Grouping</h2>
         <ul>
           <li><strong>Sort / Sort Key</strong> - sorts the set on the columns mentioned in Sort Key. The Sort operation needs large amounts of memory to materialize the
-          intermediate result (not pipelined)</li>
+          intermediate result (not pipelined). Computational complexity: <strong>O(N*log(N))</strong></li>
           <li><strong>GroupAggregate</strong> - aggregates a presorted set according to the group by clause. This operation does not buffer large amounts of data
-          (pipelined)</li>
-          <li><strong>HashAggregate</strong> - uses a temporary hash table to group records. This operation does not require a presorted data set, instead
-          it uses large amounts of memory to materialize the intermediate result (not pipelined)</li>
+          (pipelined). Computational complexity: <strong>O(N*log(N))</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ExplainOperations41">
+      <div>
+        <h2>Sorting and Grouping</h2>
+        <ul>
+          <li><strong>HashAggregate</strong> - uses a temporary hash table to group records. This operation does not require
+            a presorted data set, instead
+            it uses large amounts of memory to materialize the intermediate result (not pipelined). Computational complexity: <strong>O(N)</strong></li>
         </ul>
       </div>
     </section>
