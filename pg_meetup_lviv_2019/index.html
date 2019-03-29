@@ -345,7 +345,7 @@ cpu_operator_cost = 0.0025 # same scale AS above</code></pre>
     <section class="slide" id="PlannerCostConstantsExample2">
       <div>
         <h2>Planner Cost Constants</h2>
-        <pre><code>SET enable_indexscan = OFF;
+        <pre><code><mark>SET enable_indexscan = OFF;</mark>
 EXPLAIN ANALYZE SELECT * FROM users WHERE id = 15;
                                                     QUERY PLAN
 -------------------------------------------------------------------------------------------------------
@@ -368,7 +368,7 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE id = 15;
     <section class="slide" id="PlannerCostConstantsExample3">
       <div>
         <h2>Planner Cost Constants</h2>
-        <pre><code>SET enable_bitmapscan = OFF;
+        <pre><code><mark>SET enable_bitmapscan = OFF;</mark>
 EXPLAIN ANALYZE SELECT * FROM users WHERE id = 15;
                     QUERY PLAN
 -----------------------------------------------------------------
