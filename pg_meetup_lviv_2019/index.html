@@ -306,6 +306,39 @@ Execution time: 8.008 ms</code></pre>
       </div>
     </section>
 
+    <section class="slide" id="PlannerQueryOpt">
+      <div>
+        <h2>How does PostgreSQL optimize queries?</h2>
+        <ul>
+          <li>Dynamic programming</li>
+          <li>Genetic algorithm</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerQueryOpt1">
+      <div>
+        <h2>Dynamic programming</h2>
+        <ul>
+          <li>System R</li>
+          <li>Time complexity: 3^n</li>
+          <li>Memory consumption: 2^n</li>
+          <li>Always finds the cheapest plan</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="PlannerQueryOpt2">
+      <div>
+        <h2>Genetic algorithm</h2>
+        <ul>
+          <li>Common and flexible method</li>
+          <li>Can be stopped on every iteration</li>
+          <li>No guarantees</li>
+        </ul>
+      </div>
+    </section>
+
     <section class="slide" id="HowSelectPlanner">
       <div>
         <img class="cover" src="pictures/planner.svg" alt="HowItSelectPlan" />
@@ -524,6 +557,124 @@ Total runtime: 312.212 ms</code></pre>
           }
         </style>
       </div>
+    </section>
+
+    <section class="slide" id="ProblemSolving">
+      <h2 class="shout">Examples</h2>
+    </section>
+
+    <section class="slide" id="ProblemSolution1">
+      <div>
+        <h2>Improve work_mem</h2>
+        <pre><code>Bitmap Heap Scan on posts  (cost=2.07..16.39 rows=9 width=704)
+  <mark>Recheck Cond: (id < 10)</mark>
+  -> <mark>Bitmap Index Scan</mark> on posts_pkey
+  (cost=0.00..2.07 rows=9 width=0)
+        Index Cond: (id < 10)</code></pre>
+        <style>
+          #ProblemSolution1 code {
+            font-size: 1.4rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="ProblemSolution12">
+      <div>
+        <h2>Improve work_mem</h2>
+        <pre><code>Hash Join  (cost=2579.00..53605.00 rows=50000 width=72) (actual time=66.820..959.794 rows=21 loops=1)
+  Hash Cond: ((authors.name)::text = (publications.author)::text)
+  ->  Seq Scan on authors  (cost=0.00..20310.00 rows=1000000 width=50) (actual time=0.059..267.217 rows=1000000 loops=1)
+  ->  Hash  (cost=1270.00..1270.00 rows=50000 width=88) (actual time=38.054..38.054 rows=50000 loops=1)
+        <mark>Buckets: 4096  Batches: 2  Memory Usage: 2948kB</mark>
+        ->  Seq Scan on publications  (cost=0.00..1270.00 rows=50000 width=88) (actual time=0.010..14.211 rows=50000 loops=1)
+Planning time: 0.489 ms
+<mark>Execution time: 960.482 ms</mark></code></pre>
+        <style>
+          #ProblemSolution12 code {
+            font-size: 1.4rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="ProblemSolution13">
+      <div>
+        <h2>Improve work_mem</h2>
+        <pre><code>Hash Join  (cost=1895.00..32705.00 rows=50000 width=72) (actual time=59.224..624.716 rows=21 loops=1)
+  Hash Cond: ((authors.name)::text = (publications.author)::text)
+  ->  Seq Scan on authors  (cost=0.00..20310.00 rows=1000000 width=50) (actual time=0.031..146.327 rows=1000000 loops=1)
+  ->  Hash  (cost=1270.00..1270.00 rows=50000 width=88) (actual time=34.436..34.436 rows=50000 loops=1)
+        <mark>Buckets: 8192  Batches: 1  Memory Usage: 5860kB</mark>
+        ->  Seq Scan on publications  (cost=0.00..1270.00 rows=50000 width=88) (actual time=0.008..13.382 rows=50000 loops=1)
+Planning time: 0.481 ms
+<mark>Execution time: 625.796 ms</mark></code></pre>
+        <style>
+          #ProblemSolution13 code {
+            font-size: 1.4rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="ProblemSolution2">
+      <div>
+        <h2>CREATE STATISTICS</h2>
+        <pre><code># EXPLAIN (ANALYZE, TIMING OFF) SELECT * FROM t
+	WHERE a = 1 AND b = 1;
+                                 QUERY PLAN
+-----------------------------------------------------------------------------
+ Seq Scan on t  (cost=0.00..195.00 <mark>rows=1</mark> width=8)
+ (actual <mark>rows=100</mark> loops=1)
+   Filter: ((a = 1) AND (b = 1))
+   Rows Removed by Filter: 9900</code></pre>
+        <style>
+          #ProblemSolution2 code {
+            font-size: 1.4rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="ProblemSolution3">
+      <div>
+        <h2>CREATE STATISTICS</h2>
+        <pre><code># CREATE STATISTICS stts (dependencies) ON a, b FROM t;
+# EXPLAIN (ANALYZE, TIMING OFF) SELECT * FROM t
+	WHERE a = 1 AND b = 1;
+                                  QUERY PLAN
+-------------------------------------------------------------------------------
+ Seq Scan on t  (cost=0.00..195.00 <mark>rows=100</mark> width=8)
+ (actual <mark>rows=100</mark> loops=1)
+   Filter: ((a = 1) AND (b = 1))
+   Rows Removed by Filter: 9900</code></pre>
+        <style>
+          #ProblemSolution3 code {
+            font-size: 1.4rem;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="ProblemSolution4">
+      <div>
+        <h2>Ratio between live and dead rows</h2>
+        <pre><code># SELECT
+  relname AS ObjectName,
+  pg_stat_get_live_tuples(c.oid) AS LiveTuples,
+  pg_stat_get_dead_tuples(c.oid) AS DeadTuples
+FROM pg_class c;</code></pre>
+        <style>
+          #ProblemSolution4 code {
+            font-size: 1.4rem;
+          }
+        </style>
+      </div>
+    </section>
+
+
+    <section class="slide" id="PlannerToolsIntro">
+      <h2 class="shout">Tools</h2>
     </section>
 
     <section class="slide" id="PlannerTools">
