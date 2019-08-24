@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Application Security for Rails Engineers</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+      <h1>Application Security for Rails Engineers</h1>
+      <p>Oleksii Vasyliev, Railsware</p>
+    </header>
+
+    <section class="slide" id="Cover">
+      <h2>Application Security for Rails Engineers</h2>
+      <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
+          href="http://railsware.com/">Railsware</a></p>
+      <img src="pictures/cover.jpg" alt="" class="cover h">
+      <!--
+          To apply styles to the certain slides
+          set slide ID to get needed elements
+          -->
+      <style>
+        #Cover {
+          background-color: #04A05F;
+        }
+
+        #Cover h2 {
+          margin: 50px 0 0;
+          color: #FFF;
+          text-align: left;
+          font-weight: bold;
+          font-size: 66px;
+          line-height: 130%;
+        }
+
+        #Cover p {
+          margin: 50px 0 0;
+          text-align: left;
+          color: #FFF;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover p a {
+          color: #FFF;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AboutMeSlide"><div>
+      <h2>Oleksii Vasyliev</h2>
+      <ul>
+        <li>Web and Mobile Developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), DevOps</li>
+        <li>Open-Source libs: <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, <a href="http://leopard.in.ua/rwbox/">RWbox</a>, Go-Kinesis, ElixirV8, WebP-ffi, Zopfli-ffi, MongodbLogger, SMTRails, SHTRails, ...</li>
+        <li>Open-Source books: <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a>, <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a></li>
+        <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+      </ul>
+    </div></section>
+
+    <section class="slide" id="WebHeadersCover">
+      <h2 class="shout">Headers</h2>
+    </section>
+
+    <section class="slide" id="WebHeadersCSPRails">
+      <div>
+        <h2>Content Security Policy (CSP)</h2>
+        <pre><code>
+Rails.application.config.content_security_policy do |policy|
+  policy.default_src :self
+  policy.script_src :self
+  policy.style_src :self, :unsafe_inline
+  policy.report_uri "/csp-violation-report-endpoint"
+end
+        </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="WebHeadersCSPRails2">
+      <div>
+        <h2>Content Security Policy (CSP)</h2>
+        <pre><code>
+content_security_policy(true) do |policy|
+  policy.default_src :self
+  policy.img_src '*', :data, :blob
+  policy.script_src :self
+  policy.frame_src :self
+  policy.media_src :self
+end
+        </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="WebHeadersCSPResult">
+      <div>
+        <h2>Content Security Policy (CSP)</h2>
+        <pre><code>
+Content-Security-Policy: default-src *; img-src * data: blob:;
+  object-src 'self'; worker-src 'self'; manifest-src 'self';
+  script-src 'self'; media-src 'self'
+        </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="WebHeadersCSPNoEval">
+      <div>
+        <h2><span>UNSAFE-INLINE</span> and <span>UNSAFE-EVAL</span></h2>
+        <img src="pictures/csp_error.png" alt="" />
+      </div>
+      <style>
+        #WebHeadersCSPNoEval h2 {
+          font-size: 3.2rem;
+          text-align: center;
+          text-decoration: none;
+          background-image: linear-gradient(transparent 1.5rem,#cb4b16 1.5rem,#cb4b16 1.6rem,transparent 1.6rem);
+        }
+        #WebHeadersCSPNoEval h2 span {
+          color: #dc322f;
+        }
+        #WebHeadersCSPNoEval img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebHeadersCSPOnly">
+      <div>
+        <h2>Content Security Policy Report Only</h2>
+        <pre><code>
+Content-Security-Policy-Report-Only: default-src *;
+  img-src * data: blob:;
+  <mark>report-uri /csp-violation-report-endpoint/</mark>
+        </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="WebHeadersSTS">
+      <div>
+        <h2>Strict-Transport-Security</h2>
+        <pre><code>Strict-Transport-Security:
+  max-age=31536000 ; includeSubDomains</code></pre>
+        <img src="pictures/http-strict-transport-security.png" alt="" />
+      </div>
+      <style>
+        #WebHeadersSTS img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebHeadersXFO">
+      <div>
+        <h2>X-Frame-Options</h2>
+        <pre><code>X-Frame-Options: deny | sameorigin | allow-from: DOMAIN</code></pre>
+        <img src="pictures/x_frame_options.png" alt="" />
+      </div>
+      <style>
+        #WebHeadersXFO img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebHeadersMore">
+      <div>
+        <h2>More headers...</h2>
+        <ul class="columns two">
+          <li>X-XSS-Protection</li>
+          <li>X-Content-Type-Options</li>
+          <li>X-Permitted-Cross-Domain-Policies</li>
+          <li>Referrer-Policy</li>
+          <li>Expect-CT</li>
+          <li>Feature-Policy</li>
+          <li>Cache-Control</li>
+          <li>Pragma</li>
+          <li>Expires</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="WebHeadersRailsDefault">
+      <div>
+        <h2>Rails Default Headers</h2>
+        <img src="pictures/rails_default_headers.png" alt="" class="place b" />
+      </div>
+      <style>
+        #WebHeadersRailsDefault img {
+          height: 75%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebHTMLCover">
+      <h2 class="shout">HTML</h2>
+    </section>
+
+    <section class="slide" id="WebHTMLBasics">
+      <div>
+        <h2>Basics</h2>
+        <ul>
+          <li>No inline scripts due to CSP (if you realy need them: use hash algorithm or cryptographic nonce)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="WebHTMLCDN">
+      <div>
+        <h2>Subresource Integrity</h2>
+        <pre><code>javascript_include_tag :application,
+  integrity: true, crossorigin: 'anonymous'
+
+&lt;script src=&quot;/assets/application.js&quot;
+<mark>integrity=&quot;sha-256-TvVUHzSfftWg1rcfL6TIJ0XKEGrgLyEq6lEpcmrG9qs=&quot;</mark>
+crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+        </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="WebHTMLCDNPicture">
+      <div>
+        <h2>Subresource Integrity</h2>
+        <img src="pictures/subresource-integrity.png" alt="" class="place b" />
+      </div>
+      <style>
+        #WebHTMLCDNPicture img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+
+    <section class="slide" id="QuestionsSlide"><div>
+      <h2>&lt;Thank You!&gt; Questions?</h2>
+      <div class="contacts">
+        <h3>Contact information</h3>
+        <ul>
+          <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+          <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+          <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        </ul>
+      </div>
+      <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+      <style>
+        #QuestionsSlide .contacts {
+          margin-top: 100px;
+          margin-left: 450px;
+        }
+      </style>
+    </div></section>
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.min.js"></script>
+    <!-- Copyright © 2019 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
