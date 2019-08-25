@@ -252,8 +252,16 @@ response.headers['Expires'] = '0'</code></pre>
         <h2>Basics</h2>
         <ul>
           <li>No inline scripts due to CSP (if you realy need them: use hash algorithm or cryptographic nonce)</li>
+          <li><span class="highlight">autocomplete="off"</span> for sensitive form fields</li>
+          <li>Use <span class="highlight">json_escape</span> when passing variables to JavaScript</li>
+          <li>Don't use assets from a public CDN, as this creates unnecessary availability and security risk</li>
         </ul>
       </div>
+      <style>
+        #WebHTMLBasics .highlight {
+          background: var(--color-yellow);
+        }
+      </style>
     </section>
 
     <section class="slide" id="WebHTMLCDN">
