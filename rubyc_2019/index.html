@@ -65,6 +65,41 @@
       </ul>
     </div></section>
 
+    <section class="slide" id="WebSecurityCover">
+      <h2 class="shout">Security</h2>
+    </section>
+
+    <section class="slide" id="WebSecurityCompany">
+      <div>
+        <h2>Company security areas</h2>
+        <ul>
+          <li><strong>Application security</strong>: the app sec team is responsible for handling everything from project inception to release from a security standpoint</li>
+          <li><strong>Incident response and monitoring</strong>: they are in charge of monitoring the production systems and kicking off the response process for any incidents that arise</li>
+          <li><strong>Corporate and IT security</strong>: they often manage internal security (employees directory, asset management, devices monitoring, etc.)</li>
+          <li><strong>Governance Risk and Compliance (GRC)</strong>: this area is about managing certifications like SOC2, Fedramp, etc</li>
+        </ul>
+      </div>
+      <style>
+        #WebSecurityCompany li {
+          font-size: 1.4rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebSecurityBasic">
+      <div>
+        <h2>Web Application Security Basics</h2>
+        <ul>
+          <li>Use HTTPS</li>
+          <li>Avoid Injections - Never Trust User Input! Never!</li>
+          <li>Sensitive Data Exposure (logs, analytics, etc)</li>
+          <li>Broken Access Control (SSH, administrative panel, database, etc)</li>
+          <li>Security Misconfigurations (unpatched flaws, default configuration, unnecessary services, etc)</li>
+          <li>Keep secrets out of your code</li>
+        </ul>
+      </div>
+    </section>
+
     <section class="slide" id="WebHeadersCover">
       <h2 class="shout">Headers</h2>
     </section>
@@ -185,6 +220,17 @@ Content-Security-Policy-Report-Only: default-src *;
       </div>
     </section>
 
+    <section class="slide" id="WebHeadersSensitiveInfoLeak">
+      <div>
+        <h2>Cache-Control, Pragma and Expires</h2>
+        <p>Ask the browser not to cache pages with sensitive information</p>
+        <pre><code>response.headers['Cache-Control'] =
+  'private, no-cache, no-store, max-age=0'
+response.headers['Pragma'] = 'no-cache'
+response.headers['Expires'] = '0'</code></pre>
+      </div>
+    </section>
+
     <section class="slide" id="WebHeadersRailsDefault">
       <div>
         <h2>Rails Default Headers</h2>
@@ -285,6 +331,107 @@ crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
           padding-bottom: 20px;
         }
       </style>
+    </section>
+
+    <section class="slide" id="WebRailsCSRF">
+      <div>
+        <h2>Cross-Site Request Forgery (CSRF)</h2>
+        <pre><code>protect_from_forgery with: :exception</code></pre>
+        <img src="pictures/csrf-cross-site-request-forgery.png" alt="" class="place b" />
+      </div>
+      <style>
+        #WebRailsCSRF img {
+          width: 60%;
+          padding-bottom: 10px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebRailsGemsMalware">
+      <div>
+        <h2>Backdoor code in gems (<a href="https://github.com/rubygems/rubygems.org/issues/2097">source</a>)</h2>
+        <ul class="columns two">
+          <li><strong>rest-client</strong>: 1.6.10-1.6.13</li>
+          <li><strong>bitcoin_vanity</strong>: 4.3.3</li>
+          <li><strong>lita_coin</strong>: 0.0.3</li>
+          <li><strong>coming-soon</strong>: 0.2.8</li>
+          <li><strong>omniauth_amazon</strong>: 1.0.1</li>
+          <li><strong>cron_parser</strong>: 0.1.4, 1.0.12-1.0.13</li>
+          <li><strong>coin_base</strong>: 4.2.1</li>
+          <li><strong>blockchain_wallet</strong>: 0.0.6</li>
+          <li><strong>awesome-bot</strong>: 1.18.0</li>
+          <li><strong>doge-coin</strong>: 1.0.2</li>
+          <li><strong>capistrano-colors</strong>: 0.5.5</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="WebRailsGemsSandboxCheck">
+      <div>
+        <h2>Gems sandbox checking</h2>
+        <ul>
+          <li>Virtual machine with linux (snapshots to restore states, tcpdump, netstat, nethogs, iftop, iotop)</li>
+          <li><pre><code>$ gem unpack rest-client
+Fetching rest-client-2.1.0.gem
+Unpacked gem: '/tmp/rest-client-2.1.0'
+
+$ git clone https://github.com/rest-client/rest-client
+$ git checkout 2.1.0
+$ cp -r /tmp/rest-client-2.1.0 ./rest-client
+$ cd rest-client && git diff
+          </code></pre></li>
+        </ul>
+      </div>
+      <style>
+        #WebRailsGemsSandboxCheck code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebRailsTools">
+      <div>
+        <h2>Tools</h2>
+        <ul>
+          <li><a href="https://github.com/presidentbeef/brakeman">Brakeman</a></li>
+          <li><a href="https://github.com/rubysec/bundler-audit">Bundler-audit</a></li>
+          <li><a href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities">npm audit</a></li>
+          <li><a href="https://help.github.com/en/articles/about-security-alerts-for-vulnerable-dependencies">Github security alerts for vulnerable dependencies</a></li>
+          <li><a href="https://github.com/ankane/authtrail">AuthTrail</a></li>
+          <li><a href="https://github.com/kickstarter/rack-attack">Rack::Attack</a></li>
+          <li><a href="https://github.com/attr-encrypted/attr_encrypted">Attr_encrypted</a>, <a href="https://github.com/ankane/lockbox">Lockbox</a>, <a href="https://github.com/rocketjob/symmetric-encryption">Symmetric Encryption</a>, etc</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="WebTeamCover">
+      <h2 class="shout">Team</h2>
+    </section>
+
+    <section class="slide" id="WebTeamReality">
+      <div>
+        <video class="cover" autoplay loop muted>
+          <source src="pictures/security_team.mp4" type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+        </video>
+        <style>
+          #WebTeamReality video {
+            width: 100%;
+          }
+        </style>
+      </div>
+    </section>
+
+    <section class="slide" id="WebTeamWork">
+      <div>
+        <h2>Building a healthy security culture</h2>
+        <ul>
+          <li>Instill the concept that security belongs to everyone</li>
+          <li>Be enablers rather than gatekeepers</li>
+          <li>Do things that scale</li>
+          <li>Trust your developers</li>
+          <li>Make security fun and engaging</li>
+        </ul>
+      </div>
     </section>
 
 
