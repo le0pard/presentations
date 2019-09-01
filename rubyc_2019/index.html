@@ -137,7 +137,7 @@ end
       <div>
         <h2>Content Security Policy (CSP)</h2>
         <pre><code>
-Content-Security-Policy: default-src *; img-src * data: blob:;
+Content-Security-Policy: default-src 'self'; img-src * data: blob:;
   object-src 'self'; worker-src 'self'; manifest-src 'self';
   script-src 'self'; media-src 'self'
         </code></pre>
