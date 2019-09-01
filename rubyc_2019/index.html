@@ -22,7 +22,6 @@
       <h2>Application Security for Rails Engineers</h2>
       <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
           href="http://railsware.com/">Railsware</a></p>
-      <img src="pictures/cover.jpg" alt="" class="cover h">
       <!--
           To apply styles to the certain slides
           set slide ID to get needed elements
@@ -110,7 +109,7 @@
         <pre><code>
 Rails.application.config.content_security_policy do |policy|
   policy.default_src :self
-  policy.script_src :self
+  policy.script_src :self, 'js.example.com'
   policy.style_src :self, :unsafe_inline
   policy.report_uri "/csp-violation-report-endpoint"
 end
@@ -125,9 +124,9 @@ end
 content_security_policy(true) do |policy|
   policy.default_src :self
   policy.img_src '*', :data, :blob
-  policy.script_src :self
-  policy.frame_src :self
-  policy.media_src :self
+  policy.script_src :self, 'js.example.com'
+  policy.frame_src :self, 'widget.example.com'
+  policy.media_src :self, 'media.example.com'
 end
         </code></pre>
       </div>
@@ -137,9 +136,10 @@ end
       <div>
         <h2>Content Security Policy (CSP)</h2>
         <pre><code>
-Content-Security-Policy: default-src 'self'; img-src * data: blob:;
-  object-src 'self'; worker-src 'self'; manifest-src 'self';
-  script-src 'self'; media-src 'self'
+Content-Security-Policy: default-src 'self';
+  img-src * data: blob:;
+  media-src media1.com media2.com;
+  script-src userscripts.example.com
         </code></pre>
       </div>
     </section>
@@ -412,6 +412,53 @@ $ cd rest-client && git diff
       </div>
     </section>
 
+    <section class="slide" id="WebSecretStorages">
+      <div>
+        <h2>Secret Datastores</h2>
+        <div class="columns two">
+          <ul>
+            <li><a href="https://github.com/StackExchange/blackbox">Blackbox</a></li>
+            <li><a href="https://github.com/lyft/confidant">Confidant</a></li>
+            <li><a href="https://www.vaultproject.io/">Vault</a></li>
+            <li><a href="https://github.com/fugue/credstash">Credstash</a></li>
+            <li><a href="https://github.com/awslabs/git-secrets">Git-secrets</a></li>
+            <li><a href="https://www.passwordstore.org/">Pass</a>/<a href="https://www.gopass.pw/">Gopass</a>/<a href="https://github.com/ConradIrwin/dotgpg">Dotgpg</a></li>
+            <li><a href="https://buttercup.pw/">Buttercup</a></li>
+            <li>ect...</li>
+          </ul>
+          <img src="pictures/encrypted-secrets.png" alt="Encrypted secrets" />
+        </div>
+      </div>
+      <style>
+        #WebSecretStorages img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebSSHAccess">
+      <div>
+        <h2>SSH access</h2>
+        <div class="columns two">
+          <ul>
+            <li><a href="https://github.com/le0pard/certonid">Certonid</a></li>
+            <li><a href="https://github.com/Netflix/bless">BLESS</a></li>
+            <li><a href="https://github.com/nsheridan/cashier">Cashier</a></li>
+            <li><a href="https://github.com/cloudtools/ssh-cert-authority">Ssh-cert-authority</a></li>
+            <li><a href="https://github.com/gravitational/teleport">Gravitational Teleport</a></li>
+            <li><a href="https://github.com/uber/pam-ussh">Ssh certificate pam module</a></li>
+            <li>ect...</li>
+          </ul>
+          <img src="pictures/cert-diagram.svg" alt="CA" />
+        </div>
+      </div>
+      <style>
+        #WebSSHAccess img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
     <section class="slide" id="WebTeamCover">
       <h2 class="shout">Team</h2>
     </section>
@@ -434,8 +481,10 @@ $ cd rest-client && git diff
         <h2>Building a healthy security culture</h2>
         <ul>
           <li>Instill the concept that security belongs to everyone</li>
+          <li>Concentrate on the basics</li>
           <li>Be enablers rather than gatekeepers</li>
           <li>Do things that scale</li>
+          <li>Improving security culture requires clarity and commitment</li>
           <li>Make security fun and engaging</li>
         </ul>
       </div>
