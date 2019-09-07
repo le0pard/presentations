@@ -180,7 +180,7 @@ Content-Security-Policy-Report-Only: default-src *;
       <div>
         <h2>Strict-Transport-Security</h2>
         <pre><code>Strict-Transport-Security:
-  max-age=31536000 ; includeSubDomains</code></pre>
+  max-age=31536000 ; includeSubDomains; preload</code></pre>
         <img src="pictures/http-strict-transport-security.png" alt="" />
       </div>
       <style>
@@ -238,7 +238,8 @@ response.headers['Expires'] = '0'</code></pre>
       </div>
       <style>
         #WebHeadersRailsDefault img {
-          height: 75%;
+          height: 68%;
+          padding-bottom: 40px;
         }
       </style>
     </section>
