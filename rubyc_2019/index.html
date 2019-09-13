@@ -100,7 +100,7 @@
     </section>
 
     <section class="slide" id="WebHeadersCover">
-      <h2 class="shout">Headers</h2>
+      <h2 class="shout">HTTP Headers</h2>
     </section>
 
     <section class="slide" id="WebHeadersCSPRails">
@@ -121,7 +121,7 @@ end
       <div>
         <h2>Content Security Policy (CSP)</h2>
         <pre><code>
-content_security_policy(true) do |policy|
+content_security_policy do |policy|
   policy.default_src :self
   policy.img_src '*', :data, :blob
   policy.script_src :self, 'js.example.com'
@@ -173,6 +173,12 @@ Content-Security-Policy-Report-Only: default-src *;
   img-src * data: blob:;
   <mark>report-uri /csp-violation-report-endpoint/</mark>
         </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="WebHeadersCSPOnlyReport">
+      <div>
+        <img src="pictures/csp_sentry.png" alt="" class="cover" />
       </div>
     </section>
 
@@ -265,6 +271,18 @@ response.headers['Expires'] = '0'</code></pre>
       </style>
     </section>
 
+    <section class="slide" id="WebHTMLCDNPicture">
+      <div>
+        <h2>Subresource Integrity</h2>
+        <img src="pictures/subresource-integrity.png" alt="" class="place b" />
+      </div>
+      <style>
+        #WebHTMLCDNPicture img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
     <section class="slide" id="WebHTMLCDN">
       <div>
         <h2>Subresource Integrity</h2>
@@ -278,21 +296,9 @@ crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
       </div>
     </section>
 
-    <section class="slide" id="WebHTMLCDNPicture">
-      <div>
-        <h2>Subresource Integrity</h2>
-        <img src="pictures/subresource-integrity.png" alt="" class="place b" />
-      </div>
-      <style>
-        #WebHTMLCDNPicture img {
-          width: 100%;
-        }
-      </style>
-    </section>
-
     <section class="slide" id="WebHTMLFormUnderAttack">
       <div>
-        <h2>Our forms under attack!</h2>
+        <h2>Registration form under attack!</h2>
         <video class="cover" autoplay loop muted>
           <source src="pictures/bot_attack.mp4" type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
         </video>
@@ -443,7 +449,25 @@ $ cd rest-client && git diff
       </style>
     </section>
 
-    <section class="slide" id="WebSSHAccess">
+    <section class="slide" id="WebSSHAccessCerts">
+      <div>
+        <img src="pictures/ssh-certificate-authentication.png" alt="" class="cover" />
+        <figcaption class="copyright right black">
+          <a href="https://smallstep.com/blog/use-ssh-certificates/">© Mike Malone</a>
+        </figcaption>
+      </div>
+    </section>
+
+    <section class="slide" id="WebSSHAccessCertsBenefits">
+      <div>
+        <img src="pictures/use-ssh-certs-unfurl.png" alt="" class="cover" />
+        <figcaption class="copyright right black">
+          <a href="https://smallstep.com/blog/use-ssh-certificates/">© Mike Malone</a>
+        </figcaption>
+      </div>
+    </section>
+
+    <section class="slide" id="WebSSHAccessTools">
       <div>
         <h2>SSH access</h2>
         <div class="columns two">
@@ -460,7 +484,7 @@ $ cd rest-client && git diff
         </div>
       </div>
       <style>
-        #WebSSHAccess img {
+        #WebSSHAccessTools img {
           width: 100%;
         }
       </style>
