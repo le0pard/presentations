@@ -57,7 +57,7 @@
     <section class="slide" id="AboutMeSlide"><div>
       <h2>Oleksii Vasyliev</h2>
       <ul>
-        <li>Web and Mobile Developer (Ruby, Java, JavaScript, Objective-C, C/C++, Golang, Elixir/Erlang), DevOps. BTW, I am <strong>NOT security specialist</strong></li>
+        <li>Web and Mobile Developer, DevOps. BTW, I am <strong>NOT security specialist</strong></li>
         <li>Open-Source libs: <a href="https://github.com/le0pard/certonid">Certonid</a>, <a href="https://github.com/le0pard/storybook-addon-root-attribute">Storybook Addon Root Attribute</a>, <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, etc</li>
         <li>Open-Source books: <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a>, <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a></li>
         <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
@@ -103,6 +103,18 @@
       <h2 class="shout">HTTP Headers</h2>
     </section>
 
+    <section class="slide" id="WebHeadersCSPResult">
+      <div>
+        <h2>Content Security Policy (CSP)</h2>
+        <pre><code>
+    Content-Security-Policy: default-src 'self';
+      img-src * data: blob:;
+      media-src media1.com media2.com;
+      script-src userscripts.example.com
+            </code></pre>
+      </div>
+    </section>
+
     <section class="slide" id="WebHeadersCSPRails">
       <div>
         <h2>Content Security Policy (CSP)</h2>
@@ -128,18 +140,6 @@ content_security_policy do |policy|
   policy.frame_src :self, 'widget.example.com'
   policy.media_src :self, 'media.example.com'
 end
-        </code></pre>
-      </div>
-    </section>
-
-    <section class="slide" id="WebHeadersCSPResult">
-      <div>
-        <h2>Content Security Policy (CSP)</h2>
-        <pre><code>
-Content-Security-Policy: default-src 'self';
-  img-src * data: blob:;
-  media-src media1.com media2.com;
-  script-src userscripts.example.com
         </code></pre>
       </div>
     </section>
