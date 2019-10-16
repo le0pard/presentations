@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Serverless use cases for Web projects</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+      <h1>Serverless use cases for Web projects</h1>
+      <p>Oleksii Vasyliev, Railsware</p>
+    </header>
+
+    <section class="slide" id="Cover">
+      <h2>Serverless use cases for Web projects</h2>
+      <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
+          href="http://railsware.com/">Railsware</a></p>
+      <!--
+          To apply styles to the certain slides
+          set slide ID to get needed elements
+          -->
+      <style>
+        #Cover {
+          background-color: #04A05F;
+        }
+
+        #Cover h2 {
+          margin: 50px 0 0;
+          color: #FFF;
+          text-align: left;
+          font-weight: bold;
+          font-size: 66px;
+          line-height: 130%;
+        }
+
+        #Cover p {
+          margin: 50px 0 0;
+          text-align: left;
+          color: #FFF;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover p a {
+          color: #FFF;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AboutMeSlide"><div>
+      <h2>Oleksii Vasyliev</h2>
+      <ul>
+        <li>Web and Mobile Developer, DevOps</li>
+        <li>Open-Source libs: <a href="https://github.com/le0pard/certonid">Certonid</a>, <a href="https://github.com/le0pard/storybook-addon-root-attribute">Storybook Addon Root Attribute</a>, <a href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins Visualizer</a>, etc</li>
+        <li>Open-Source books: <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL (Russian)</a>, <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a></li>
+        <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+      </ul>
+    </div></section>
+
+    <section class="slide" id="ServerlessCover">
+      <h2 class="shout">Serverless</h2>
+    </section>
+
+    <section class="slide" id="ServerlessDefinition">
+      <div>
+        <h2>Serverless</h2>
+        <div class="columns two">
+          <p>Serverless computing is a cloud-computing execution model in which the cloud provider runs the server, and
+            dynamically manages the allocation of machine resources</p>
+          <img src="pictures/serverless.svg" alt="serverless" />
+        </div>
+      </div>
+      <style>
+        #ServerlessDefinition p {
+          font-size: 1.4rem;
+        }
+        #ServerlessDefinition img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServerlessSolutions">
+      <div>
+        <h2>Serverless Solutions</h2>
+        <div class="columns two">
+          <ul>
+            <li>AWS Lambda</li>
+            <li>Azure serverless</li>
+            <li>Google Cloud Functions</li>
+            <li>Apache OpenWhisk</li>
+          </ul>
+          <img src="pictures/aws-lambda.svg" alt="aws-lambda" />
+        </div>
+      </div>
+      <style>
+        #ServerlessSolutions img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServerlessRuby">
+      <div>
+        <h2>Ruby on Serverless</h2>
+        <div class="columns two">
+          <img src="pictures/aws-lambda-ruby.png" alt="aws-lambda-ruby" />
+          <ul>
+            <li>AWS Lambda - <strong>supported</strong></li>
+            <li>Azure serverless - nope :(</li>
+            <li>Google Cloud Functions - nope :(</li>
+            <li>Apache OpenWhisk - <strong>supported</strong></li>
+          </ul>
+        </div>
+      </div>
+      <style>
+        #ServerlessRuby img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesCover">
+      <h2 class="shout">Use cases</h2>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeIntro">
+      <div>
+        <h2>Resize Images on S3 bucket</h2>
+        <div class="columns two">
+          <img src="pictures/aws-image-resizing.png" alt="aws-lambda-ruby" />
+          <ul>
+            <li>AWS S3 events</li>
+            <li>AWS API Gateway</li>
+            <li>AWS Lambda@Edge</li>
+          </ul>
+        </div>
+      </div>
+      <style>
+        #UseCasesImageResizeIntro img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeEvent">
+      <div>
+        <h2>AWS S3 events</h2>
+        <img src="pictures/lambda-file-processing.png" alt="" class="cover" />
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeEventCode1">
+      <div>
+        <pre><code>  # Gemfile
+  source 'https://rubygems.org'
+
+  gem 'aws-sdk-s3'
+  gem 'mini_magick'</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeEventCode2">
+      <div>
+        <pre><code># handler.rb
+require 'uploader'
+
+class ImageHandler
+
+  def self.process(event:, context:)
+    event = event["Records"].first
+    bucket_name = event["s3"]["bucket"]["name"]
+    object_name = event["s3"]["object"]["key"]
+
+    file = Uploader.from_s3(bucket_name, object_name)
+    file.resize "100x100"
+    file.upload_file("resized-your-images", "resized_" + event["s3"]["object"]["key"] )
+  end
+end</code></pre>
+      </div>
+      <style>
+        #UseCasesImageResizeEventCode2 code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeEventCode3">
+      <div>
+        <pre><code>require "aws-sdk-s3"
+require "mini_magick"
+
+class Uploader
+    def resize(params)
+        image = MiniMagick::Image.open(@tmp_file)
+        ...
+        image.write @resized_tmp_file
+    end
+
+    def upload_file(target_bucket, target_object)
+        s3 = Aws::S3::Resource.new()
+        object = s3.bucket(target_bucket).object(target_object).upload_file(@resized_tmp_file)
+    end
+end</code></pre>
+      </div>
+      <style>
+        #UseCasesImageResizeEventCode3 code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesApiGateway">
+      <div>
+        <img src="pictures/api-gateway.png" alt="" class="cover" />
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeApiGateway">
+      <div>
+        <h2>AWS API Gateway</h2>
+        <img src="pictures/lambda-api-gateway.png" alt="" class="cover" />
+      </div>
+      <style>
+        #UseCasesImageResizeApiGateway img {
+          top: 52%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeApiSchema">
+      <div>
+        <h2>AWS API Gateway</h2>
+        <pre><code>
+http://YOUR_CLOUDFRONT_WEBSITE_HOSTNAME_HERE/<mark>300×300</mark>/your_image.jpg
+
+http://YOUR_CLOUDFRONT_WEBSITE_HOSTNAME_HERE/<mark>25×25</mark>/your_image.jpg
+
+http://YOUR_CLOUDFRONT_WEBSITE_HOSTNAME_HERE/<mark>500×500</mark>/your_image.jpg</code></pre>
+      <style>
+        #UseCasesImageResizeApiSchema code {
+          font-size: 1.4rem;
+        }
+      </style>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeEdge">
+      <div>
+        <h2>AWS Lambda@Edge</h2>
+        <img src="pictures/lambda-edge.png" alt="" class="cover" />
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesImageResizeEdgeSchema">
+      <div>
+        <img src="pictures/lambda-edge-resize.png" alt="" class="cover" />
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesStaticWebsite">
+      <div>
+        <h2>Use case with static website</h2>
+        <p>CloudFront does allow you to specify a default root object (index.html), but it only works on the root of the website
+        (such as <strong>http://www.example.com</strong> > <strong>http://www.example.com/index.html</strong>). It does not work on any subdirectory (such as
+        <strong>http://www.example.com/about/</strong>)</p>
+        <p><a href="https://railsware.com/">https://railsware.com/</a> - works on CloudFront</p>
+        <p><a href="https://railsware.com/railswarians/">https://railsware.com/railswarians/</a> - not resolve to "index.html"</p>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesStaticWebsiteCode1">
+      <div>
+        <pre><code>exports.handler = (event, context, callback) => {
+  const request = event.Records[0].cf.request;
+
+  if (request.uri.match('.+/$')) {
+    <mark>request.uri += 'index.html';</mark>
+    callback(null, request);
+  } else if (request.uri.match('(.+)/index.html')) {
+    ...
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesStaticWebsiteCode2">
+      <div>
+        <pre><code>  ...
+  } else if (request.uri.match('(.+)/index.html')) {
+    const prefixPath = request.uri.match('(.+)/index.html');
+    const response = {
+      status: '301',
+      statusDescription: 'Found',
+      headers: {
+        location: [{
+          key: 'Location', value: prefixPath[1] + '/',
+        }],
+      }
+    };
+    callback(null, response);
+  } else if (request.uri.match('/[^/.]+$')) {
+    ...
+  }
+}</code></pre>
+      </div>
+      <style>
+        #UseCasesStaticWebsiteCode2 code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesStaticWebsiteCode3">
+      <div>
+        <pre><code>  ...
+  } else if (request.uri.match('/[^/.]+$')) {
+    const response = {
+      status: '301',
+      statusDescription: 'Found',
+      headers: {
+        location: [{
+          key: 'Location', value: request.uri + '/',
+        }],
+      }
+    };
+    callback(null, response);
+  } else {
+    callback(null, request);
+  }
+}</code></pre>
+      </div>
+      <style>
+        #UseCasesStaticWebsiteCode3 code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesStaticWebsiteList">
+      <div>
+        <h2>Lambda@Edge Use Cases</h2>
+        <ul>
+          <li>Website Security and Privacy (add headers for response)</li>
+          <li>Search Engine Optimization (SEO)</li>
+          <li>Intelligently Route Across Origins and Data Centers</li>
+          <li>Bot Mitigation at the Edge</li>
+          <li>Real-time Image Transformation</li>
+          <li>A/B Testing</li>
+          <li>User Authentication and Authorization</li>
+          <li>User Tracking and Analytics</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesLetsEncrypt">
+      <div>
+        <h2>AWS Lambda + AWS Route53 + AWS S3 = Letsencrypt wildcard certificate</h2>
+        <ul>
+          <li><a href="https://github.com/railsware/acme-aws-lambda">github.com/railsware/acme-aws-lambda</a></li>
+          <li><a href="https://github.com/railsware/s3_fetch_certs">github.com/railsware/s3_fetch_certs</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesLetsEncryptCode">
+      <div>
+        <pre><code>load_paths = Dir["./vendor/bundle/ruby/2.5.0/bundler/gems/**/lib"]
+$LOAD_PATH.unshift(*load_paths)
+require 'acme_aws_lambda'
+
+AcmeAwsLambda.configure do |config|
+  config.production_mode = true
+  config.contact_email = 'admin@example.com'
+  config.domains = ['example.com', '*.example.com']
+  config.common_name = '*.example.com'
+  config.s3_bucket = 'example.com-certificates'
+  config.s3_certificates_key = 'certificates/example.com'
+  config.route53_domain = 'example.com'
+end
+
+def handler(event:, context:)
+  AcmeAwsLambda.create_or_renew_cert
+end</code></pre>
+      </div>
+      <style>
+        #UseCasesLetsEncryptCode code {
+          font-size: 0.9rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesLetsEncryptRun">
+      <div>
+        <img src="pictures/letsencrypt-lambda.png" alt="" class="cover" />
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesLetsEncryptCron">
+      <div>
+        <h2>Cron task to update certificates</h2>
+        <pre><code> # crontab
+0 3 * * * /opt/s3_fetch/s3_fetch_certs
+-accessKeyId="access-key"
+-secretAccessKey="secret-access-key"
+-bucket="s3-bucket" -certsKey="path-on-s3"
+-outDirectory="/etc/nginx/certs" -outName="production"
+-runAfterChange="systemctl reload nginx"</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesLetsEncryptMonitoring">
+      <div>
+        <img src="pictures/https-monitoring.png" alt="" class="cover" />
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesCertonid">
+      <div>
+        <h2></h2>
+        <div class="columns two">
+          <p>Certonid is a Serverless SSH Certificate Authority: <a href="https://github.com/le0pard/certonid">github.com/le0pard/certonid</a></p>
+          <img src="pictures/cert-diagram.svg" alt="serverless" />
+        </div>
+      </div>
+      <style>
+        #UseCasesCertonid img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WebSSHAccessCertsBenefits">
+      <div>
+        <img src="pictures/use-ssh-certs-unfurl.png" alt="" class="cover" />
+        <figcaption class="copyright right black">
+          <a href="https://smallstep.com/blog/use-ssh-certificates/">© Mike Malone</a>
+        </figcaption>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesCertonidCli">
+      <div>
+        <pre><code>$ certonid -h
+
+Usage:
+  certonid [OPTIONS] COMMAND [ARG...]
+  certonid [command]
+
+Available Commands:
+  completion  Generates bash completion scripts
+  decrfile    Decrypt file
+  decrstr     Decrypt text
+  encrfile    Encrypt file
+  encrstr     Encrypt text
+  gencert     Generate user or host certificate
+  help        Help about any command
+  randstr     Generate random string (32 bytes)</code></pre>
+      </div>
+      <style>
+        #UseCasesCertonidCli code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="UseCasesCertonidImg">
+      <div>
+        <img src="pictures/certonid-cli.png" alt="" class="cover" />
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesTips">
+      <div>
+        <h2>Tips</h2>
+        <ul>
+          <li>Lambda functions are completely isolated from the public Internet</li>
+          <li>Executing a Lambda from another Lambda is slow</li>
+          <li>Use functions to TRANSFORM, not TRANSPORT</li>
+          <li>Optimize for your language</li>
+          <li>Deploy fault-tolerant code (idempotence). Your Lambda function might execute twice</li>
+          <li>Use metrics for better observability</li>
+          <li>Use Dead Letter Queues to save event invocation data</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesPros">
+      <div>
+        <h2>Pros</h2>
+        <ul>
+          <li>Pricing (free tier)</li>
+          <li>Reduced maintenance</li>
+          <li>Scalability</li>
+          <li>Faster delivery</li>
+          <li>Security</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesCons">
+      <div>
+        <h2>Cons</h2>
+        <ul>
+          <li>Vendor-operated environment</li>
+          <li>Limits and cost alterations</li>
+          <li>Security</li>
+          <li>Cold starts</li>
+          <li>Not efficient for long-running applications</li>
+          <li>Performance (functions with less RAM have slower CPU speed)</li>
+          <li>Test functions locally sometimes improssible</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="UseCasesCost">
+      <div>
+        <h2>Serverless Cost</h2>
+        <ul>
+          <li><a href="https://cost-calculator.bref.sh/">Cost-calculator.bref.sh - Serverless costs calculator</a></li>
+          <li><a href="http://serverlesscalc.com/">Serverlesscalc.com - Serverless Cost Calculator</a></li>
+          <li><a href="https://servers.lol/">Servers.lol - Should your EC2 be a Lambda?</a></li>
+        </ul>
+      </div>
+    </section>
+
+
+    <section class="slide" id="QuestionsSlide"><div>
+      <h2>&lt;Thank You!&gt; Questions?</h2>
+      <div class="contacts">
+        <h3>Contact information</h3>
+        <ul>
+          <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+          <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+          <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        </ul>
+      </div>
+      <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+      <style>
+        #QuestionsSlide .contacts {
+          margin-top: 100px;
+          margin-left: 450px;
+        }
+      </style>
+    </div></section>
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.min.js"></script>
+    <!-- Copyright © 2019 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
