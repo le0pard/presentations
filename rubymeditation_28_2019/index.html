@@ -377,6 +377,32 @@ window.i18n = i18n;
       </style>
     </section>
 
+    <section class="slide" id="I18nGettextJsTranslations">
+      <div>
+        <pre><code>// code
+import i18n from '__i18n';
+
+export const __ = function() {
+  return i18n.gettext.apply(i18n, arguments);
+};
+export const n__ = function() {
+  return i18n.ngettext.apply(i18n, arguments);
+};
+export const p__ = function() {
+  return i18n.pgettext.apply(i18n, arguments);
+};
+export const np__ = function() {
+  return i18n.npgettext.apply(i18n, arguments);
+};
+</code></pre>
+      </div>
+      <style>
+        #I18nGettextJsTranslations code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
     <section class="slide" id="I18nGettextTasks5">
       <div>
         <pre><code>import locale from 'react-native-locale-detector';
@@ -439,32 +465,6 @@ end
       <style>
         #I18nGettextHTMLTranslations1 code {
           font-size: 1.2rem;
-        }
-      </style>
-    </section>
-
-    <section class="slide" id="I18nGettextJsTranslations">
-      <div>
-        <pre><code>// code
-import i18n from '__i18n';
-
-export const __ = function() {
-  return i18n.gettext.apply(i18n, arguments);
-};
-export const n__ = function() {
-  return i18n.ngettext.apply(i18n, arguments);
-};
-export const p__ = function() {
-  return i18n.pgettext.apply(i18n, arguments);
-};
-export const np__ = function() {
-  return i18n.npgettext.apply(i18n, arguments);
-};
-</code></pre>
-      </div>
-      <style>
-        #I18nGettextJsTranslations code {
-          font-size: 1rem;
         }
       </style>
     </section>
@@ -575,6 +575,19 @@ moment(currentDate).subtract(offset, 'days').format('YYYY-MM-DD')</code></pre>
           <a href="http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html">Source</a>
         </figcaption>
       </div>
+    </section>
+
+    <section class="slide" id="I18nGettextWebInterface">
+      <div>
+        <h2>Web... it is separate story...</h2>
+        <p>Alcohol consumption is prohibited in Islam</p>
+        <img src="pictures/right-to-left-icons.png" alt="web" class="cover" />
+      </div>
+      <style>
+        #I18nGettextWebInterface img {
+          top: 65%;
+        }
+      </style>
     </section>
 
     <section class="slide" id="I18nGettextEditors">
