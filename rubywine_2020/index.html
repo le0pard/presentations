@@ -130,6 +130,35 @@
       </div>
     </section>
 
+    <section class="slide" id="AutomationCover">
+      <h2 class="shout">Audit and Compliance Automation</h2>
+    </section>
+
+    <section class="slide" id="AuthomationTools">
+      <div>
+        <h2>Automation tools</h2>
+        <div class="columns two">
+          <ul>
+            <li><a href="https://aws.amazon.com/security-hub/">AWS Security Hub</a></li>
+            <li><a href="https://chronicle.security/">Chronicle</a></li>
+            <li><a href="http://gauntlt.org/">Gauntlt</a></li>
+            <li><a href="https://github.com/opencontrol/compliance-masonry">Compliance Masonry</a></li>
+            <li><a href="https://www.inspec.io/">Chef InSpec</a></li>
+          </ul>
+          <img src="pictures/aws_security_hub.png" alt="aws" />
+        </div>
+
+      </div>
+      <style>
+        #AuthomationTools li {
+          font-size: 1.4rem;
+        }
+        #AuthomationTools img {
+          width: 75%;
+        }
+      </style>
+    </section>
+
     <section class="slide" id="ChefInspecCover">
       <h2 class="shout">Chef Inspec</h2>
     </section>
@@ -148,6 +177,185 @@
       </style>
     </section>
 
+    <section class="slide" id="ChefInspecSupport">
+      <div>
+        <h2>Chef InSpec Support</h2>
+        <ul>
+          <li>Linux (CentOS, Debian, Ubuntu, OpenSUSE, etc)</li>
+          <li>Mac OS</li>
+          <li>Windows (PowerShell 5.0 or above is required)</li>
+          <li>Docker images</li>
+          <li>AWS Platform</li>
+          <li>Azure Platform</li>
+          <li>Google Cloud Platform</li>
+        </ul>
+      </div>
+      <style>
+        #ChefInspecIntro img {
+          height: 50%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ChefInspecHelp">
+      <div>
+        <img src="pictures/inspec_help.png" alt="" class="cover" />
+      </div>
+    </section>
+
+    <section class="slide" id="ChefInspecProfile">
+      <div>
+        <h2>Inspec Profile structure</h2>
+        <div class="columns two">
+          <pre><code>$ tree nginx
+nginx
+├── README.md
+├── controls
+│ └── example.rb
+├── inspec.lock
+└── inspec.yml</code></pre>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ChefInspecYml">
+      <div>
+        <h2>inspec.yml</h2>
+        <div class="columns two">
+          <pre><code>name: ssh
+title: Basic SSH
+maintainer: Alexey Vasiliev
+copyright: Alexey Vasiliev
+copyright_email: support@never.answer
+license: MIT, All rights reserved
+summary: Verify that SSH Server and SSH Client are configured securely
+version: 1.0.0
+supports:
+  - os-family: linux
+depends:
+  - name: profile
+    path: ../path/to/profile
+inspec_version: "~> 2.1"</code></pre>
+        </div>
+      </div>
+      <style>
+        #ChefInspecYml code {
+          font-size: 0.8rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ChefInspecRuby">
+      <div>
+        <h2>controls/example.rb</h2>
+        <div class="columns two">
+          <pre><code>describe file('/tmp/test.txt') do
+  it { should be_file }
+end</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ChefInspecExpect">
+      <div>
+        <h2>"should" vs "expect" syntax</h2>
+        <div class="columns two">
+          <pre><code>describe file('/tmp/test.txt') do
+  it 'should be a file' do
+    expect(subject).to(be_file)
+  end
+end</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ChefInspecExpect2">
+      <div>
+        <h2>"should" vs "expect" syntax</h2>
+        <div class="columns two">
+          <pre><code>describe 'test file' do
+  subject { file('/tmp/test.txt') }
+  it 'should be a file' do
+    expect(subject).to(be_file)
+  end
+end</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ChefInspecSSH">
+      <div>
+        <h2>Check SSH Protocol</h2>
+        <div class="columns two">
+          <pre><code>describe ssh_config do
+  its('Protocol') { should eq('2') }
+end</code></pre>
+          <pre><code>$ inspec exec test.rb
+Profile: tests from test.rb (tests from test.rb)
+Version: (not specified)
+Target:  local://
+
+  SSH Configuration
+     ×  Protocol should eq "2"
+
+     expected: "2"
+          got: nil
+
+     (compared using ==)
+
+Test Summary: 0 successful, 1 failure, 0 skipped</code></pre>
+        </div>
+      </div>
+      <style>
+        #ChefInspecSSH code {
+          font-size: 0.9rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ChefInspecLocations">
+      <div>
+        <h2>Inspec specified locations</h2>
+          <pre><code>$ inspec exec /path/to/linux-baseline
+$ inspec exec supermarket://username/linux-baseline
+$ inspec exec git@github.com:dev-sec/linux-baseline.git
+$ inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
+$ inspec exec https://webserver/linux-baseline.tar.gz
+$ inspec exec https://webserver/linux-baseline.zip
+          </code></pre>
+      </div>
+      <style>
+        #ChefInspecLocations code {
+          font-size: 1.3rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ChefInspecTarget">
+      <div>
+        <h2>Inspec target</h2>
+        <pre><code>$ inspec exec test.rb
+$ inspec exec test.rb -t ssh://user@hostname -i /path/to/key
+$ inspec exec test.rb -t winrm://Administrator@windowshost
+  --password 'your-password'
+$ inspec exec test.rb -t winrm://windowshost --user 'UserName@domain'
+  --password 'your-password'
+$ inspec exec test.rb -t docker://container_id
+$ ...cloud platforms on next slides...
+        </code></pre>
+      </div>
+      <style>
+        #ChefInspecTarget code {
+          font-size: 1.3rem;
+        }
+      </style>
+    </section>
+
+
+
+
+
     <section class="slide" id="ChefInspecDevSec">
       <div>
         <h2>DevSec: DevOps + Security</h2>
@@ -160,6 +368,7 @@
         }
       </style>
     </section>
+
 
 
 
