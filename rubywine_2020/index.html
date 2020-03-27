@@ -144,6 +144,7 @@
             <li><a href="http://gauntlt.org/">Gauntlt</a></li>
             <li><a href="https://github.com/opencontrol/compliance-masonry">Compliance Masonry</a></li>
             <li><a href="https://www.inspec.io/">Chef InSpec</a></li>
+            <li><a href="https://github.com/aelsabbahy/goss">Goss</a></li>
           </ul>
           <img src="pictures/aws_security_hub.png" alt="aws" />
         </div>
@@ -248,7 +249,7 @@ inspec_version: "~> 2.1"</code></pre>
 
     <section class="slide" id="ChefInspecRuby">
       <div>
-        <h2>controls/example.rb</h2>
+        <h2>controls/example.rb (<a href="https://www.inspec.io/docs/reference/resources/">resources</a>)</h2>
         <div class="columns two">
           <pre><code>describe file('/tmp/test.txt') do
   it { should be_file }
@@ -352,9 +353,122 @@ $ ...cloud platforms on next slides...
       </style>
     </section>
 
+    <section class="slide" id="ChefInspecOrConditions">
+      <div>
+        <h2>Inspec "OR" check</h2>
+        <pre><code>describe.one do
+  describe ssh_config do
+    its('Protocol') { should eq('3') }
+  end
+  describe ssh_config do
+    its('Protocol') { should eq('2') }
+  end
+end
+        </code></pre>
+      </div>
+      <style>
+        #ChefInspecOrConditions code {
+          font-size: 1.3rem;
+        }
+      </style>
+    </section>
 
+    <section class="slide" id="ChefInspecControls">
+      <div>
+        <h2>Inspec Controls</h2>
+        <pre><code>control 'Test *nix Super User' do
+  impact 0.5
+  title 'Superuser Test'
+  desc 'Make sure the root user exists.'
 
+  only_if do
+    os.redhat? || os.debian? || os.linux? || os.darwin? || os.bsd?
+  end
 
+  describe user('root') do
+    it { should exist }
+  end
+end
+        </code></pre>
+      </div>
+      <style>
+        #ChefInspecControls code {
+          font-size: 0.8rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ChefInspecImpacts">
+      <div>
+        <h2>Inspec "impact"</h2>
+        <p>Values are based off CVSS 3.0</p>
+        <ul>
+          <li><strong>0.0 to &lt;0.01 (none)</strong> these are controls with no impact, they only provide information</li>
+          <li><strong>0.01 to &lt;0.4 (low)</strong> these are controls with low impact</li>
+          <li><strong>0.4 to &lt;0.7 (medium)</strong> these are controls with medium impact</li>
+          <li><strong>0.7 to &lt;0.9 (high)</strong> these are controls with high impact</li>
+          <li><strong>0.9 to 1.0 (critical)</strong> these are critical controls</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ChefInspecIncludeControls1">
+      <div>
+        <h2>Include controls</h2>
+        <pre><code>control 'ssh-2'
+control 'ssh-11'
+control 'ssh-23'
+...
+include_controls 'nginx-hardening'
+        </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="ChefInspecIncludeControls2">
+      <div>
+        <h2>Include controls</h2>
+        <pre><code>include_controls 'nginx-hardening' do
+  skip_control 'nginx-3'
+  skip_control 'nginx-232'
+end
+include_controls 'nginx-hardening' do
+  control 'nginx-2'
+  control 'nginx-4'
+end
+        </code></pre>
+      </div>
+      <style>
+        #ChefInspecIncludeControls2 code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ChefInspecIncludeControls3">
+      <div>
+        <h2>Modify included controls</h2>
+        <pre><code>include_controls 'nginx-hardening' do
+  control 'nginx-2' do
+    impact 0.5
+  end
+  control 'nginx-4' do
+    impact 1.0
+  end
+end
+        </code></pre>
+      </div>
+      <style>
+        #ChefInspecIncludeControls3 code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ChefInspecSupermarket">
+      <div>
+        <img src="pictures/inspec_supermarket.png" alt="" class="cover" />
+      </div>
+    </section>
 
     <section class="slide" id="ChefInspecDevSec">
       <div>
@@ -369,8 +483,245 @@ $ ...cloud platforms on next slides...
       </style>
     </section>
 
+    <section class="slide" id="ChefInspecSupermarketApply">
+      <div>
+        <pre><code>$ inspec supermarket info dev-sec/linux-baseline
+name: linux-baseline
+owner: dev-sec
+url: https://github.com/dev-sec/linux-baseline
 
+description: Linux compliance profile, used for Security + DevOps. More information is available at http://dev-sec.io
 
+$ inspec supermarket exec dev-sec/linux-baseline -t ssh://root:password@target
+
+$ inspec exec https://github.com/dev-sec/linux-baseline -t ssh://root:password@target
+
+$ inspec exec https://github.com/dev-sec/linux-baseline -t ssh://root:password@target
+    --controls package-08</code></pre>
+      </div>
+      <style>
+        #ChefInspecSupermarketApply code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ComplianceDocumentationCover">
+      <h2 class="shout">Compliance Documentation</h2>
+    </section>
+
+    <section class="slide" id="ComplianceDocumentationBodies">
+      <div>
+        <h2>Compliance standards bodies</h2>
+        <ul>
+          <li>International Organization for Standardization (ISO)</li>
+          <li>Center for Internet Security (CIS)</li>
+          <li>Department of Defense (DoD)</li>
+          <li>EU General Data Protection Regulation (GDPR)</li>
+          <li>The Payment Card Industry Security Standards Council (PCI SSC)</li>
+          <li>ect...</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ComplianceDocumentationExample">
+      <div>
+        <h2>Example: CIS 5.5.4</h2>
+        <div class="columns two">
+          <div>
+            <pre><code>control 'cis-ubuntu-lts-5.4.4' do
+  impact 0.7
+  title 'Ensure default user umask is 027 or more restrictive'
+  desc 'The default umask determines the permissions'\
+        'of files created by users.'
+  describe file('/etc/bash.bashrc') do
+    its('content') { should match /^umask 027/ }
+  end
+  describe file('/etc/profile') do
+    its('content') { should match /^umask 027/ }
+  end
+end</code></pre>
+            <p>Many teams use the <a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System">Common Vulnerability Scoring System</a> to assign the appropriate impact value to each test.</p>
+          </div>
+          <img src="pictures/cis_554.png" alt="cis_554" />
+        </div>
+      </div>
+      <style>
+        #ComplianceDocumentationExample code {
+          font-size: 0.6rem;
+        }
+        #ComplianceDocumentationExample p {
+          font-size: 0.8rem;
+        }
+        #ComplianceDocumentationExample img {
+          width: 100%
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CloudPlatformsCover">
+      <h2 class="shout">Cloud Platforms</h2>
+    </section>
+
+    <section class="slide" id="CloudPlatformsAwsExample">
+      <div>
+        <h2>AWS example</h2>
+        <pre><code>describe aws_security_group("sg-12345678") do
+  it { should exist }
+end
+
+$ inspec exec test.rb -t aws://profile
+            </code></pre>
+      </div>
+      <style>
+        #CloudPlatformsAwsExample code {
+          font-size: 1.4rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CloudPlatformsGcpExample">
+      <div>
+        <h2>GCP example</h2>
+        <pre><code>describe google_compute_network(project: gcp_project_id, name: 'foo') do
+ it { should exist }
+ its('name') { should eq 'foo' }
+ its('subnetworks.count') { should eq 1 }
+ its('subnetworks.first') { should match 'bar' }
+ its('routing_config.routing_mode') { should eq 'REGIONAL' }
+ its('auto_create_subnetworks') { should be false }
+end
+
+$ inspec exec test.rb -t gcp://
+                </code></pre>
+      </div>
+      <style>
+        #CloudPlatformsGcpExample code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CloudPlatformsTerraform1">
+      <div>
+        <h2>InSpec + Terraform</h2>
+        <pre><code>resource "aws_security_group" "default" {
+  name        = "terraform_example"
+  description = "Used in the terraform"
+  vpc_id      = "${aws_vpc.default.id}"
+
+  ...
+}
+
+output "vpc_id" {
+  value = "${aws_vpc.default.id}"
+}
+
+$ terraform output --json > inspec_tests/files/terraform.json </code></pre>
+      </div>
+      <style>
+        #CloudPlatformsTerraform1 code {
+          font-size: 0.8rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CloudPlatformsTerraform2">
+      <div>
+        <pre><code># load data from Terraform output
+content = inspec.profile.file("terraform.json")
+params = JSON.parse(content)
+
+# store vpc in variable
+<mark>VPC_ID</mark> = params['vpc_id']['value']
+
+# you can use the variable in various spaces
+
+describe aws_vpc(<mark>vpc_id: VPC_ID</mark>) do
+  its('cidr_block') { should cmp '10.0.0.0/16' }
+end
+
+describe aws_security_group(group_name: 'terraform_example') do
+  it { should exist }
+  its('group_name') { should eq 'terraform_example' }
+  its('description') { should eq 'Used in the terraform' }
+  its('vpc_id') { <mark>should eq VPC_ID</mark> }
+end</code></pre>
+      </div>
+      <style>
+        #CloudPlatformsTerraform2 code {
+          font-size: 0.8rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="TroubleshootingCover">
+      <h2 class="shout">Troubleshooting</h2>
+    </section>
+
+    <section class="slide" id="TroubleshootingShell">
+      <div>
+        <h2>Inspec Shell</h2>
+        <div class="columns two">
+          <pre><code>$ inspec shell
+$ inspec shell -t ssh://root@192.168.64.2:11022
+
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+You are currently running on:
+
+Name: mac_os_x
+Families: darwin, bsd, unix, os
+Release: 19.4.0
+Arch: x86_64
+
+inspec> 2 + 2
+=> 4
+inspec> quit
+          </code></pre>
+          <video autoplay loop muted preload>
+            <source src="pictures/debugging.mp4" type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+          </video>
+        </div>
+      </div>
+      <style>
+        #TroubleshootingShell code {
+          font-size: 0.8rem;
+        }
+        #TroubleshootingShell video {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ConclusionCover">
+      <h2 class="shout">Conclusion</h2>
+    </section>
+
+    <section class="slide" id="ConclusionSlide">
+      <div>
+        <h2>Conclusion</h2>
+        <ul>
+          <li>Help you turn your compliance, security, and other policy requirements into automated tests</li>
+          <li>Platform agnostic tool</li>
+          <li>Ruby language!</li>
+        </ul>
+        <div class="imgContainer">
+          <img src="pictures/teams.png" alt="team" class="place b" />
+        </div>
+      </div>
+      <style>
+        #ConclusionSlide .imgContainer {
+          text-align: center;
+          display: block;
+        }
+        #ConclusionSlide img {
+          padding-bottom: 40px;
+          width: 60%;
+        }
+      </style>
+    </section>
 
     <section class="slide" id="QuestionsSlide"><div>
       <h2>&lt;Thank You!&gt; Questions?</h2>
