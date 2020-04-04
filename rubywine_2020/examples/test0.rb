@@ -3,6 +3,6 @@ describe sshd_config do
   its('UsePAM') { should eq 'yes' }
 end
 
-# describe package('auditd') do
-#   it { should be_installed }
-# end
+describe package('auditd') do
+  it { should be_installed }
+end
