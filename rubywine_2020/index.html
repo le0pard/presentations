@@ -289,7 +289,7 @@ end</code></pre>
       <div>
         <h2>Check SSH Protocol</h2>
         <div class="columns two">
-          <pre><code>describe ssh_config do
+          <pre><code>describe sshd_config do
   its('Protocol') { should eq('2') }
 end</code></pre>
           <pre><code>$ inspec exec test.rb
@@ -401,7 +401,7 @@ end
     <section class="slide" id="ChefInspecImpacts">
       <div>
         <h2>Inspec "impact"</h2>
-        <p>Values are based off CVSS 3.0</p>
+        <p>Values are based off <a href="https://www.first.org/cvss/calculator/3.0">CVSS 3.0</a></p>
         <ul>
           <li><strong>0.0 to &lt;0.01 (none)</strong> these are controls with no impact, they only provide information</li>
           <li><strong>0.01 to &lt;0.4 (low)</strong> these are controls with low impact</li>
