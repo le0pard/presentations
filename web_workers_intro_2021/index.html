@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Web and service workers introduction</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+      <h1>Web and service workers introduction</h1>
+      <p>Oleksii Vasyliev, Railsware</p>
+    </header>
+
+    <section class="slide" id="Cover">
+      <h2>Web and service workers introduction</h2>
+      <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
+          href="http://railsware.com/">Railsware</a></p>
+      <!--
+          To apply styles to the certain slides
+          set slide ID to get needed elements
+          -->
+      <style>
+        #Cover {
+          background-color: #04A05F;
+        }
+
+        #Cover h2 {
+          margin: 50px 0 0;
+          color: #FFF;
+          text-align: left;
+          font-weight: bold;
+          font-size: 66px;
+          line-height: 130%;
+        }
+
+        #Cover p {
+          margin: 50px 0 0;
+          text-align: left;
+          color: #FFF;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover p a {
+          color: #FFF;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AboutMeSlide">
+      <div>
+        <h2>Oleksii Vasyliev</h2>
+        <ul>
+          <li>Web and Mobile Developer, DevOps</li>
+          <li>Open-Source libs: <a href="https://github.com/certonid/certonid">Certonid</a>, <a
+              href="https://github.com/le0pard/storybook-addon-root-attribute">Storybook Addon Root Attribute</a>, <a
+              href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins
+              Visualizer</a>, etc</li>
+          <li>Open-Source books: <a href="http://postgresql.leopard.in.ua/">Setting up and scaling of PostgreSQL
+              (Russian)</a>, <a href="http://chef.leopard.in.ua/">Cooking Infrastructure by Chef</a></li>
+          <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="WebWorkersCover">
+      <h2 class="shout">Web Workers</h2>
+    </section>
+
+    <section class="slide" id="WebWorkersWhatisThis">
+      <div>
+        <h2>Web Workers</h2>
+        <p>Web Workers makes it possible to run a script operation in a background thread separate from the main execution thread
+        of a web application. The advantage of this is that laborious processing can be performed in a separate thread, allowing
+        the main (usually the UI) thread to run without being blocked/slowed down</p>
+      </div>
+    </section>
+
+    <section class="slide" id="WorkerTypes">
+      <div>
+        <h2>Worker types</h2>
+        <ul>
+          <li><strong>Dedicated workers</strong> are workers that are utilized by a single script</li>
+          <li><strong>Shared workers</strong> are workers that can be utilized by multiple scripts running in different windows, iframes, etc., as long
+          as they are in the same domain as the worker</li>
+          <li><strong>Service Workers</strong> essentially act as proxy servers that sit between web applications, the browser, and the network (when
+          available)</li>
+          <li><strong>Chrome Workers</strong> are a Firefox-only type of worker that you can use if you are developing add-ons and want to use workers
+          in extensions and have access to js-ctypes in your worker</li>
+        </ul>
+      </div>
+      <style>
+        #WorkerTypes ul {
+          font-size: 1.4rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WorkerSpec1">
+      <div>
+        <h2>Workers specs</h2>
+        <p>Workers run in a different global context than the current "window".</p>
+        <ul>
+          <li>"DedicatedWorkerGlobalScope" for dedicated workers</li>
+          <li>"SharedWorkerGlobalScope" for shared workers</li>
+          <li>"ServiceWorkerGlobalScope" for service workers</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="WorkerSpec2">
+      <div>
+        <h2>Workers specs</h2>
+        <p>The following Web APIs are available to workers</p>
+        <p>Barcode Detection API, Broadcast Channel API, Cache API, Channel Messaging API,Console API, Web Crypto API (Crypto), CustomEvent, Data Store (Firefox only), DOMRequest and DOMCursor, Encoding API (TextEncoder, TextDecoder, etc.), Fetch API, FileReader, FileReaderSync (only works in workers!), FormData, ImageData, IndexedDB, Network Information API, Notifications API, Performance API (including: Performance, PerformanceEntry, PerformanceMeasure, PerformanceMark, PerformanceObserver, PerformanceResourceTiming), Promise, Server-sent events, ServiceWorkerRegistration, URL API (e.g. URL), WebGL with OffscreenCanvas (enabled behind a feature preference setting gfx.offscreencanvas.enabled), WebSocket, XMLHttpRequest.
+        </p>
+      </div>
+      <style>
+        #WorkerSpec2 p {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WorkerSpec3">
+      <div>
+        <h2>Workers specs</h2>
+        <p>Workers do NOT have access to:</p>
+        <div class="columns two">
+          <ul>
+            <li>The DOM (it's not thread-safe)</li>
+            <li>The window object</li>
+            <li>The document object</li>
+            <li>The parent object</li>
+          </ul>
+          <video autoplay loop muted preload>
+            <source src="pictures/nothing_can_do.mp4" type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+          </video>
+        </div>
+      </div>
+      <style>
+        #WorkerSpec3 video {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerCover">
+      <h2 class="shout">Dedicated (web) workers</h2>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerExample1">
+      <div>
+        <h2>Dedicated workers (main script)</h2>
+        <pre><code>var worker = new Worker('worker.js');
+
+worker.addEventListener('message', ({data}) => {
+  console.log('Worker said: ', data);
+}, false);
+
+worker.postMessage('Hello World'); // Send data to our worker.
+        </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerExample2">
+      <div>
+        <h2>Dedicated workers (worker script)</h2>
+        <pre><code>self.addEventListener('message', (e) => {
+  self.postMessage(e.data);
+}, false);
+</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerExample3">
+      <div>
+        <h2>Dedicated workers</h2>
+        <div><a href="https://codesandbox.io/s/web-worker-demo1-ruqe0?file=/index.html:422-428">Example</a></div>
+        <p>Most browsers implement the structured cloning algorithm, which allows you to pass more complex types in/out of Workers
+        such as File, Blob, ArrayBuffer, and JSON objects. However, when passing these types of data using postMessage(), a copy
+        is still made. Therefore, if you're passing a large 50MB file (for example), there's a noticeable overhead in getting
+        that file between the worker and the main thread.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerTransferableObjects">
+      <div>
+        <h2>Transferable Objects</h2>
+        <p>With <a href="https://html.spec.whatwg.org/multipage/structured-data.html#transferable-objects">Transferable Objects</a>, data is transferred from one context to another. It is zero-copy, which vastly improves the
+        performance of sending data to a Worker. Think of it as pass-by-reference if you're from the C/C++ world. However,
+        unlike pass-by-reference, the 'version' from the calling context is no longer available once transferred to the new
+        context. For example, when transferring an ArrayBuffer from your main app to Worker, the original ArrayBuffer is cleared
+        and no longer usable. Its contents are (quiet literally) transferred to the Worker context.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerTransferableObjectsExample1">
+      <div>
+        <h2>Transferable Objects</h2>
+        <p>To use transferrable objects, use a slightly different signature of postMessage():</p>
+        <pre><code>worker.postMessage(arrayBuffer, [arrayBuffer]);
+window.postMessage(arrayBuffer, targetOrigin, [arrayBuffer]);
+</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerTransferableObjectsExample2">
+      <div>
+        <h2>Transferable Objects</h2>
+        <p>The worker case, the first argument is the data and the second is the list of items that should be transferred. The
+        first argument doesn't have to be an ArrayBuffer by the way. For example, it can be a JSON object:</p>
+        <pre><code>worker.postMessage({data: int8View, moreData: anotherBuffer},
+  [int8View.buffer, anotherBuffer]);
+</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerLoadingExternalScripts">
+      <div>
+        <h2>Loading External Scripts</h2>
+        <p>You can load external script files or libraries into a worker with the importScripts() function</p>
+        <pre><code>importScripts('script1.js');
+importScripts('script2.js');
+
+importScripts('script1.js', 'script2.js');
+        </code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerLoadingSubworkers">
+      <div>
+        <h2>Subworkers</h2>
+        <p>Workers have the ability to spawn child workers. However, subworkers come with a few caveats:</p>
+        <ul>
+          <li>Subworkers must be hosted within the same origin as the parent page</li>
+          <li>URIs within subworkers are resolved relative to their parent worker's location (as opposed to the main page)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerInlineWorkers">
+      <div>
+        <h2>Inline Workers</h2>
+        <pre><code>var blob = new Blob([
+  "self.addEventListener('message', (e) => { self.postMessage(e.data); }, false);"]);
+
+// Obtain a blob URL reference to our worker 'file'.
+var blobURL = window.URL.createObjectURL(blob);
+
+var worker = new Worker(blobURL);
+worker.addEventListener('message', ({data}) => {
+  console.log('Worker said: ', data);
+}, false);
+worker.postMessage(); // Start the worker.</code></pre>
+      </div>
+      <style>
+        #DedicatedWorkerInlineWorkers code {
+          font-size: 1.1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="DedicatedWorkerUseCases">
+      <div>
+        <h2>Use Cases (<a href="https://mpw.leopard.in.ua/#/">example</a>)</h2>
+        <ul>
+          <li>Prefetching and/or caching data for later use</li>
+          <li>Code syntax highlighting or other real-time text formatting</li>
+          <li>Spell checker</li>
+          <li>Analyzing video or audio data</li>
+          <li>Background I/O or polling of webservices</li>
+          <li>Processing large arrays or humungous JSON responses</li>
+          <li>Image filtering in canvas</li>
+          <li>Updating many rows of a local web database</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="SharedWorkerCover">
+      <h2 class="shout">Shared workers</h2>
+    </section>
+
+    <section class="slide" id="SharedWorkerExplanation">
+      <div>
+        <h2>Shared workers (main script)</h2>
+        <p>A shared worker is accessible by multiple scripts — even if they are being accessed by different windows, iframes or
+        even workers</p>
+        <pre><code>var myWorker = new <mark>SharedWorker</mark>('worker.js');
+
+worker.addEventListener('message', ({data}) => {
+console.log('Worker said: ', data);
+}, false);
+worker.postMessage(); // Start the worker.</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="SharedWorkerExample1">
+      <div>
+        <h2>Shared workers (worker script)</h2>
+        <pre><code>// Event handler called when a tab tries to connect to this worker.
+self.addEventListener('connect', (e) => {
+  // Get the MessagePort from the event. This will be the
+  // communication channel between SharedWorker and the Tab
+  const port = e.ports[0]
+
+  port.addEventListener('message', (evt) => handleWorkerMessages({event: evt}))
+  // Required when using addEventListener.
+  // Otherwise called implicitly by onmessage setter.
+  port.start()
+})</code></pre>
+      </div>
+      <style>
+        #SharedWorkerExample1 code {
+          font-size: 1.1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="SharedWorkerUseCase1">
+      <div>
+        <figure>
+          <img class="cover" src="pictures/websocket1.png" alt="websocket shared worker" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="slide" id="SharedWorkerUseCase2">
+      <div>
+        <figure>
+          <img class="cover" src="pictures/websocket2.png" alt="websocket shared worker" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="slide" id="SharedWorkerUseCase3">
+      <div>
+        <figure>
+          <img class="cover" src="pictures/websocket3.png" alt="websocket shared worker" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="slide" id="SharedWorkerSupport">
+      <div>
+        <figure>
+          <img class="cover" src="pictures/shared_worker_support.png" alt="shared worker support" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="slide" id="ServiceWorkerCover">
+      <h2 class="shout">Service workers</h2>
+    </section>
+
+    <section class="slide" id="ServiceWorkerExplanation">
+      <div>
+        <h2>Service Worker</h2>
+        <p>Service workers essentially act as proxy servers that sit between web applications, the browser, and the network (when
+        available)</p>
+        <figure>
+          <img class="place bottom" src="pictures/service_worker.png" alt="service worker" />
+        </figure>
+      </div>
+      <style>
+        #ServiceWorkerExplanation img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServiceWorkerLifecycle">
+      <div>
+        <figure>
+          <img class="cover" src="pictures/sw-lifecycle.png" alt="ServiceWorkerLifecycle" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="slide" id="ServiceWorkerExample1">
+      <div>
+        <h2>Service Worker</h2>
+        <pre><code>if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function(registration) {
+    // Registration was successful
+    console.log('ServiceWorker registration successful with scope: ',
+      registration.scope);
+  }, function(err) {
+    // registration failed :(
+    console.log('ServiceWorker registration failed: ', err);
+  });
+}</code></pre>
+      </div>
+      <style>
+        #ServiceWorkerExample1 code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServiceWorkerStrategy1">
+      <div>
+        <h2>Stale-while-revalidate</h2>
+        <figure>
+          <img src="pictures/cm-stale-while-revalidate.png" alt="Stale-while-revalidate" />
+        </figure>
+      </div>
+      <style>
+        #ServiceWorkerStrategy1 img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServiceWorkerStrategy2">
+      <div>
+        <h2>Cache only</h2>
+        <figure>
+          <img src="pictures/ss-cache-only.png" alt="Cache only" />
+        </figure>
+      </div>
+      <style>
+        #ServiceWorkerStrategy2 img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServiceWorkerStrategy3">
+      <div>
+        <h2>Network only</h2>
+        <figure>
+          <img src="pictures/ss-network-only.png" alt="Network only" />
+        </figure>
+      </div>
+      <style>
+        #ServiceWorkerStrategy3 img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServiceWorkerStrategy4">
+      <div>
+        <h2>Cache, falling back to network</h2>
+        <figure>
+          <img src="pictures/ss-falling-back-to-network.png" alt="Cache, falling back to network" />
+        </figure>
+      </div>
+      <style>
+        #ServiceWorkerStrategy4 img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServiceWorkerStrategy5">
+      <div>
+        <h2>Network falling back to cache</h2>
+        <figure>
+          <img src="pictures/ss-network-falling-back-to-cache.png" alt="Network falling back to cache" />
+        </figure>
+      </div>
+      <style>
+        #ServiceWorkerStrategy5 img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServiceWorkerProjects">
+      <div>
+        <h2>Examples</h2>
+        <div class="columns two">
+          <ul>
+            <li><a href="https://pgtune.leopard.in.ua/#/">pgtune.leopard.in.ua</a></li>
+            <li><a href="https://mpw.leopard.in.ua/#/">mpw.leopard.in.ua</a></li>
+            <li><a href="https://www.rwpod.com/">www.rwpod.com</a></li>
+          </ul>
+          <figure>
+            <img src="pictures/demo_time.jpg" alt="Demo time" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ServiceWorkerLinks">
+      <div>
+        <div class="columns two">
+          <ul>
+            <li><a href="https://web.dev/service-worker-mindset/">Service worker mindset</a></li>
+            <li><a href="https://web.dev/offline-cookbook/">The Offline Cookbook</a></li>
+            <li><a href="https://serviceworke.rs/">Service Worker Cookbook</a></li>
+            <li><a href="https://developers.google.com/web/tools/workbox">Workbox</a></li>
+            <li><a href="https://web.dev/adaptive-loading-with-service-workers/#implement-adaptive-loading-with-workbox">Adaptive
+                loading with service workers</a></li>
+            <li><a href="https://googlechrome.github.io/samples/service-worker/">Service Worker Recipes</a></li>
+          </ul>
+          <figure>
+            <img src="pictures/hero.jpg" alt="hero" />
+          </figure>
+        </div>
+      </div>
+      <style>
+        #ServiceWorkerLinks img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ConclusionCover">
+      <h2 class="shout">Conclusion</h2>
+    </section>
+
+    <section class="slide" id="QuestionsSlide"><div>
+      <h2>&lt;Thank You!&gt; Questions?</h2>
+      <div class="contacts">
+        <h3>Contact information</h3>
+        <ul>
+          <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+          <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+          <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        </ul>
+      </div>
+      <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+      <style>
+        #QuestionsSlide .contacts {
+          margin-top: 100px;
+          margin-left: 450px;
+        }
+      </style>
+    </div></section>
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.min.js"></script>
+    <!-- Copyright © 2019 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
