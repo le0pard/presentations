@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CSS Tools for Devs</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+      <h1>CSS Tools for Devs</h1>
+      <p>Oleksii Vasyliev, Railsware</p>
+    </header>
+
+    <section class="slide" id="Cover">
+      <h2>CSS Tools for Devs</h2>
+      <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
+          href="http://railsware.com/">Railsware</a></p>
+      <!--
+          To apply styles to the certain slides
+          set slide ID to get needed elements
+          -->
+      <style>
+        #Cover {
+          background-color: #04A05F;
+        }
+
+        #Cover h2 {
+          margin: 50px 0 0;
+          color: #FFF;
+          text-align: left;
+          font-weight: bold;
+          font-size: 66px;
+          line-height: 130%;
+        }
+
+        #Cover p {
+          margin: 50px 0 0;
+          text-align: left;
+          color: #FFF;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover p a {
+          color: #FFF;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AboutMeSlide">
+      <div>
+        <h2>Oleksii Vasyliev</h2>
+        <ul>
+          <li>Web and Mobile Developer, DevOps</li>
+          <li>Open-Source libs: <a href="https://github.com/certonid/certonid">Certonid</a>, <a
+              href="https://github.com/le0pard/storybook-addon-root-attribute">Storybook Addon Root Attribute</a>, <a
+              href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins
+              Visualizer</a>, etc</li>
+          <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="CSSBasicsCover">
+      <h2 class="shout">CSS basics</h2>
+    </section>
+
+    <section class="slide" id="CSSBasicsIntro">
+      <div>
+        <h2>CSS basics</h2>
+        <div class="columns two">
+          <ul>
+            <li>CSS selectors</li>
+            <li>Inheritance and the cascade</li>
+            <li>Box model</li>
+            <li>CSS Flow Layout</li>
+            <li>CSS Layout</li>
+            <li>Responsive Design</li>
+            <li>Fonts And Typography</li>
+            <li>Transforms And Animation</li>
+          </ul>
+          <div>
+            <a href="https://www.smashingmagazine.com/2019/01/how-to-learn-css/">
+              <img src="pictures/cat-explorer.svg" alt="cat explorer" />
+            </a>
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSBasicsIntro img {
+          width: 250px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSBasicsScary">
+      <div>
+        <img class="cover" src="pictures/scary-css.jpeg" alt="scary css" />
+      </div>
+    </section>
+
+    <section class="slide" id="CSSArchitectureCover">
+      <h2 class="shout">CSS architecture systems</h2>
+    </section>
+
+    <section class="slide" id="CSSArchitectureIntro">
+      <div>
+        <h2>Benefits of Thoughtful CSS Architecture</h2>
+        <div class="columns two">
+          <ul>
+            <li>Scalability</li>
+            <li>Fewer styling rules</li>
+            <li>Long-term maintainability</li>
+            <li>Fewer styling collisions</li>
+            <li>Faster ramp-up</li>
+            <li>Easier collaboration</li>
+          </ul>
+          <div>
+            <img src="pictures/css_architecture.png" alt="CSS Architecture" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSArchitectureIntro img {
+          width: 370px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSArchitectureOOCSS">
+      <div>
+        <h2>Object Oriented CSS (OOCSS)</h2>
+        <p><strong>In a nutshell:</strong> Divide layout into objects, then abstract their CSS into modules, <a href="http://oocss.org/">more info</a></p>
+        <pre><code>.button { padding: 10px 16px; }
+.primary-skin { color: blue; }
+.secondary-skin { color: green; }
+&lt;button class=&quot;button primary-skin&quot;&gt;primary button&lt;/button&gt;
+&lt;button class=&quot;button secondary-skin&quot;&gt;secondary button&lt;/button&gt;
+&lt;div class=&quot;primary-skin&quot;&gt;primary skin div&lt;/div&gt;</code></pre>
+      </div>
+      <style>
+        #CSSArchitectureIntro img {
+          width: 370px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSArchitectureSMACSS">
+      <div>
+        <h2>Scalable and Modular Architecture for CSS (SMACSS)</h2>
+        <p><strong>In a nutshell:</strong> Split CSS code across multiple files for better performance and organisation, <a href="http://smacss.com/">more info</a></p>
+        <pre><code>nav.nav-primary li {
+  display: inline-block;
+}
+nav.nav-secondary li {
+  display: block;
+}</code></pre>
+      </div>
+      <style>
+        #CSSArchitectureSMACSS code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSArchitectureITCSS">
+      <div>
+        <h2>Inverted Triangle CSS (ITCSS)</h2>
+        <p><strong>In a nutshell:</strong> Separation of the CSS codebase into several layers, based on the specificity level, <a
+            href="https://itcss.io/">more info</a></p>
+        <pre><code>@import "objects.animations";
+@import "objects.drawer";
+@import "objects.list-bare";
+
+@import "components.404";
+@import "components.about";
+@import "components.archive";</code></pre>
+      </div>
+      <style>
+        #CSSArchitectureITCSS code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSArchitectureACSS">
+      <div>
+        <h2>Atomic CSS (ACSS)</h2>
+        <p><strong>In a nutshell:</strong> Create a class selector for every repeating CSS declaration, <a href="https://acss.io/">more info</a></p>
+        <pre><code>&lt;div class=&quot;Bgc(#0280ae.5) C(#fff) P(20px)&quot;&gt;
+  Lorem ipsum
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="CSSArchitectureBEM">
+      <div>
+        <h2>Block Element Modifier (BEM)</h2>
+        <p><strong>In a nutshell:</strong> Use a standard naming convention for classes, <a
+            href="http://getbem.com/">more info</a></p>
+        <pre><code>&lt;ul class=&quot;list-block list-block--inline&quot;&gt;
+  &lt;li class=&quot;list-block__item&quot;&gt;Item 1&lt;/li&gt;
+  &lt;li class=&quot;list-block__item&quot;&gt;Item 2&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="CSSArchitectureQuestion">
+      <h2 class="shout">Is there a best CSS architecture system?</h2>
+      <style>
+        #CSSArchitectureQuestion h2 {
+          font-size: 90px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSArchitectureAnswer">
+      <h2 class="shout">NO</h2>
+      <style>
+        #CSSArchitectureAnswer h2 {
+          font-size: 160px;
+          padding-left: 0;
+          text-align: center;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSFrameworksCover">
+      <h2 class="shout">CSS Frameworks</h2>
+    </section>
+
+    <section class="slide" id="CSSFrameworksBootstrap">
+      <div>
+        <h2><a href="https://getbootstrap.com/">Bootstrap</a></h2>
+        <div class="columns two">
+          <ul>
+            <li>Release date: August 19, 2011</li>
+            <li>Core concept: RWD and mobile-first</li>
+            <li>SMACSS Architecture</li>
+            <li>Offers lots of examples and a pre-set layout to get you started with</li>
+          </ul>
+          <div>
+            <img src="pictures/bootstrap.svg" alt="getbootstrap" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSFrameworksBootstrap img {
+          width: 370px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSFrameworksFoundation">
+      <div>
+        <h2><a href="https://get.foundation/">Foundation</a></h2>
+        <div class="columns two">
+          <ul>
+            <li>Release date: November 4, 2014</li>
+            <li>Core concept: RWD and mobile-first</li>
+            <li>SMACSS Architecture</li>
+            <li>Have "Foundation for Emails 2"</li>
+          </ul>
+          <div>
+            <img src="pictures/foundation.svg" alt="Foundation" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSFrameworksFoundation img {
+          width: 370px;
+          height: 370px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSFrameworksBulma">
+      <div>
+        <h2><a href="https://bulma.io/">Bulma</a></h2>
+        <div class="columns two">
+          <ul>
+            <li>Release date: January 24, 2016</li>
+            <li>Core concept: RWD, mobile-first, Modern free</li>
+            <li>SMACSS Architecture</li>
+            <li>Offers clean and simple presets which make it easy to choose as per the topics the developer wants to
+              explore</li>
+          </ul>
+          <div>
+            <img src="pictures/bulma-logo.png" alt="bulma" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSFrameworksBulma img {
+          width: 370px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSFrameworksUIkit">
+      <div>
+        <h2><a href="https://getuikit.com/">UIkit</a></h2>
+        <div class="columns two">
+          <ul>
+            <li>Release date: January 09, 2017</li>
+            <li>Core concept: RWD, minimalism</li>
+            <li>SMACSS Architecture</li>
+            <li>Minimalism not in features, but in design</li>
+          </ul>
+          <div>
+            <img src="pictures/uikit.svg" alt="UIkit" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSFrameworksUIkit img {
+          width: 300px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSFrameworksTailwindCSS">
+      <div>
+        <h2><a href="https://tailwindcss.com/">Tailwind CSS</a></h2>
+        <div class="columns two">
+          <ul>
+            <li>Release date: November 2, 2017</li>
+            <li>Core concept: RWD and utility first</li>
+            <li>Utility-first CSS/ Atomic CSS Architecture</li>
+            <li>Operates on a lower level and offers you a set of CSS helper classes</li>
+          </ul>
+          <div>
+            <img src="pictures/taiwindcss.png" alt="Tailwind CSS" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSFrameworksTailwindCSS img {
+          width: 370px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSFrameworksTailwindCSSExample1">
+      <div>
+        <h2><a href="https://tailwindcss.com/">Tailwind CSS</a></h2>
+        <pre><code>&lt;div
+  class=&quot;w-16 h-16 rounded text-white
+  bg-black py-1 px-2 m-1 text-sm md:w-32
+  md:h-32 md:rounded-md md:text-base
+  lg:w-48 lg:h-48 lg:rounded-lg lg:text-lg&quot;
+&gt;
+  Yikes.
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="CSSFrameworksTailwindCSSExample2">
+      <div>
+        <h2><a href="https://tailwindcss.com/">Tailwind CSS</a></h2>
+        <pre><code>.c-input {
+  @apply block appearance-none bg-white placeholder-gray-600
+  border border-indigo-200 rounded w-full py-3 px-4
+  text-gray-700 leading-5 focus:outline-none
+  focus:border-indigo-400 focus:placeholder-gray-400
+  focus:ring-2 focus:ring-indigo-200;
+}
+</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="CSSFrameworksTailwindCSSImho">
+      <div>
+        <img class="cover" src="pictures/taiwind_css_imho.jpeg" alt="TailwindCSS" />
+      </div>
+    </section>
+
+    <section class="slide" id="CSSToolsCover">
+      <h2 class="shout">CSS Tools</h2>
+    </section>
+
+    <section class="slide" id="CSSToolsPreprocessors">
+      <div>
+        <h2>CSS Preprocessors</h2>
+        <div class="columns two">
+          <ul>
+            <li>SASS</li>
+            <li>LESS</li>
+            <li>Stylus</li>
+            <li>CSS-Crush</li>
+          </ul>
+          <div>
+            <img src="pictures/sass.png" alt="SASS" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSToolsPreprocessors img {
+          width: 300px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsPostprocessors">
+      <div>
+        <h2>CSS Postprocessors</h2>
+        <div class="columns two">
+          <ul>
+            <li>PostCSS</li>
+            <li>Pleeease</li>
+            <li>Stylecow</li>
+          </ul>
+          <div>
+            <img src="pictures/postcss.svg" alt="PostCSS" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #CSSToolsPostprocessors img {
+          width: 300px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsPostcss1">
+      <div>
+        <h2><a href="https://preset-env.cssdb.org/features">Postcss-preset-env</a></h2>
+        <img class="place bottom" src="pictures/postcss-present-env.png" alt="postcss-present-env.png" />
+      </div>
+      <style>
+        #CSSToolsPostcss1 img {
+          width: 800px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsPostcss2">
+      <div>
+        <h2><a href="http://lostgrid.org/">Lost grid</a></h2>
+        <pre><code>section {
+  lost-utility: clearfix;
+}
+
+div {
+  lost-column: 1/2;
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="slide" id="CSSToolsPostcss3">
+      <div>
+        <h2><a href="https://github.com/csstools/precss">PreCSS</a></h2>
+        <pre><code>$blue: #056ef0;
+$column: 200px;
+
+.menu {
+  width: calc(4 * $column);
+}
+
+.menu_link {
+  background: $blue;
+  width: $column;
+}</code></pre>
+      </div>
+      <style>
+        #CSSToolsPostcss3 code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsPostcss4">
+      <div>
+        <h2><a href="https://github.com/postcss/sugarss">SugarSS</a></h2>
+        <pre><code>a
+  color: blue
+
+.multiline,
+.selector
+  box-shadow: 1px 0 9px rgba(0, 0, 0, .4),
+              1px 0 3px rgba(0, 0, 0, .6)
+</code></pre>
+      </div>
+      <style>
+        #CSSToolsPostcss3 code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsPostcss5">
+      <div>
+        <h2><a href="https://www.rucksackcss.org/">Rucksack</a></h2>
+        <pre><code>.foo {
+  font-size: responsive;
+}
+
+.foo {
+  color: rgba(#fff, 0.8);
+}</code></pre>
+      </div>
+      <style>
+        #CSSToolsPostcss3 code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsCSSNano">
+      <div>
+        <h2><a href="https://cssnano.co/">CSSNano</a></h2>
+        <img class="place center" src="pictures/cssnano.svg" alt="cssnano" />
+      </div>
+      <style>
+        #CSSToolsCSSNano img {
+          width: 400px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsPurgeCSS">
+      <div>
+        <h2><a href="https://purgecss.com/">PurgeCSS</a></h2>
+        <img class="place center" src="pictures/purgecss.png" alt="purgecss" />
+      </div>
+      <style>
+        #CSSToolsPurgeCSS img {
+          width: 300px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsCssInJSSecondGen">
+      <div>
+        <h2>CSS-in-JS (Second generation)</h2>
+        <ul>
+          <li>CSS Modules</li>
+          <li>Styled-components</li>
+          <li>Emotion</li>
+          <li>CSS Blocks</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="CSSToolsCssInJSThirdGen">
+      <div>
+        <h2>CSS-in-JS (3rd generation)</h2>
+        <ul>
+          <li>Astroturf</li>
+          <li>Linaria</li>
+          <li>Stitches</li>
+          <li>Fela</li>
+          <li>Vanilla-extract</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="CSSToolsStylelint">
+      <div>
+        <h2><a href="https://stylelint.io/">Stylelint</a></h2>
+        <img class="place center" src="pictures/stylelint.png" alt="stylelint" />
+      </div>
+      <style>
+        #CSSToolsStylelint img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CSSToolsStylelintImg">
+      <div>
+        <img class="cover" src="pictures/linters.png" alt="linters" />
+      </div>
+    </section>
+
+    <section class="slide" id="CSSToolsStylelintPlugins">
+      <div>
+        <h2>Stylelint plugins</h2>
+        <ul class="columns two">
+          <li>stylelint-css-modules</li>
+          <li>stylelint-prettier</li>
+          <li>stylelint-checkstyle-formatter</li>
+          <li>stylelint-declaration-use-variable</li>
+          <li>stylelint-no-unsupported-browser-features</li>
+          <li>stylelint-a11y</li>
+          <li>stylelint-at-rule-no-children</li>
+          <li>stylelint-color-format</li>
+          <li>stylelint-csstree-validator</li>
+          <li>stylelint-images</li>
+          <li>stylelint-itcss</li>
+          <li>etc...</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <section class="slide" id="Conclusion">
+      <h2 class="shout">Conclusion</h2>
+    </section>
+
+    <section class="slide" id="ConclusionGuidelines">
+      <div>
+        <h2>Guideline for Dev Teams</h2>
+        <ul>
+          <li>HTML/CSS/JS Principles (modularity, accessibility, etc)</li>
+          <li>HTML/CSS/JS Methodology (SMACSS, BEM, MVVM, components, etc)</li>
+          <li>HTML/CSS/JS Tools (SASS, LESS, PostCSS, Babel, TypeScript, etc)</li>
+          <li>HTML/CSS/JS Frameworks (TaiwindCss, Bootstrap, Angular, Vue.JS, etc)</li>
+          <li>Use linters for coding conventions</li>
+        </ul>
+      </div>
+      <style>
+        #ConclusionVideo video {
+          height: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ConclusionVideo">
+      <div>
+        <video class="cover" autoplay loop muted preload>
+          <source src="pictures/conclusion.mp4" type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+        </video>
+      </div>
+      <style>
+        #ConclusionVideo video {
+          height: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="QuestionsSlide"><div>
+      <h2>&lt;Thank You!&gt; Questions?</h2>
+      <div class="contacts">
+        <h3>Contact information</h3>
+        <ul>
+          <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+          <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+          <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        </ul>
+      </div>
+      <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+      <style>
+        #QuestionsSlide .contacts {
+          margin-top: 100px;
+          margin-left: 450px;
+        }
+      </style>
+    </div></section>
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.min.js"></script>
+    <!-- Copyright © 2019 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
