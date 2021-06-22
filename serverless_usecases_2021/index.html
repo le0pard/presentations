@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Using serverless in products</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+      <h1>Using serverless in products</h1>
+      <p>Oleksii Vasyliev, Railsware</p>
+    </header>
+
+    <section class="slide" id="Cover">
+      <h2>Using serverless in products</h2>
+      <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
+          href="http://railsware.com/">Railsware</a></p>
+      <!--
+          To apply styles to the certain slides
+          set slide ID to get needed elements
+          -->
+      <style>
+        #Cover {
+          background-color: #04A05F;
+        }
+
+        #Cover h2 {
+          margin: 50px 0 0;
+          color: #FFF;
+          text-align: left;
+          font-weight: bold;
+          font-size: 66px;
+          line-height: 130%;
+        }
+
+        #Cover p {
+          margin: 50px 0 0;
+          text-align: left;
+          color: #FFF;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover p a {
+          color: #FFF;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AboutMeSlide">
+      <div>
+        <h2>Oleksii Vasyliev</h2>
+        <ul>
+          <li>Web and Mobile Developer, DevOps</li>
+          <li>Open-Source libs: <a href="https://github.com/certonid/certonid">Certonid</a>, <a
+              href="https://github.com/le0pard/storybook-addon-root-attribute">Storybook Addon Root Attribute</a>, <a
+              href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins
+              Visualizer</a>, etc</li>
+          <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ServerlessCover">
+      <h2 class="shout">Serverless</h2>
+    </section>
+
+    <section class="slide" id="ServerlessPros">
+      <div>
+        <h2>Serverless Pros</h2>
+        <div class="columns two">
+          <ul>
+            <li>Zero server management</li>
+            <li>Reducing architecture costs</li>
+            <li>Optimal availability</li>
+            <li>Eliminates idle capacity</li>
+          </ul>
+          <div>
+            <img src="pictures/serverless_pros.png" alt="serverless_pros" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #ServerlessPros img {
+          width: 250px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServerlessCons">
+      <div>
+        <h2>Serverless Cons</h2>
+        <div class="columns two">
+          <ul>
+            <li>Response latency</li>
+            <li>Limitations</li>
+            <li>Testing and debugging become more challenging</li>
+            <li>New security concerns</li>
+            <li>Are not built for long-running processes</li>
+          </ul>
+          <div>
+            <img src="pictures/serverless_cons.jpeg" alt="serverless_cons" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #ServerlessCons img {
+          width: 450px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="JamstackCover">
+      <h2 class="shout">Jamstack</h2>
+    </section>
+
+    <section class="slide" id="JamstackIntro">
+      <div>
+        <img class="cover" src="pictures/jamstack_intro.png" alt="jamstack_intro" />
+      </div>
+    </section>
+
+    <section class="slide" id="JamstackHeadlessCms">
+      <div>
+        <img class="cover" src="pictures/headless_cms.png" alt="headless_cms" />
+      </div>
+    </section>
+
+    <section class="slide" id="ServerlessUsageCover">
+      <h2 class="shout">Practical use cases for serverless</h2>
+      <style>
+        #ServerlessUsageCover h2 {
+          font-size: 88px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="DAAutomationCover">
+      <h2 class="shout">DA automation</h2>
+    </section>
+
+    <section class="slide" id="DAAutomationTerraform">
+      <div>
+        <img class="cover" src="pictures/terraform_da.png" alt="DAAutomationTerraform" />
+      </div>
+    </section>
+
+    <section class="slide" id="DAAutomationTerraformFunctions">
+      <div>
+        <img class="cover" src="pictures/terraform_da_schema.png" alt="DAAutomationTerraformFunctions" />
+      </div>
+    </section>
+
+    <section class="slide" id="DAAutomationGoogleTasks">
+      <div>
+        <img class="cover" src="pictures/google_tasks.png" alt="DAAutomationGoogleTasks" />
+      </div>
+    </section>
+
+    <section class="slide" id="DAAutomationMoreInfo">
+      <div>
+        <iframe class="cover" width="560" height="315" src="https://www.youtube-nocookie.com/embed/NFVGS13uY3o" title="YouTube video player"
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section class="slide" id="AcmeAwsLambdaCover">
+      <h2 class="shout">Acme Aws Lambda</h2>
+      <style>
+        #AcmeAwsLambdaCover h2 {
+          font-size: 88px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AcmeAwsLambdaFunctions">
+      <div>
+        <h2>Acme Aws Lambda</h2>
+        <ul>
+          <li><a href="https://github.com/railsware/acme-aws-lambda">AWS Lambda Function</a></li>
+          <li><a href="https://github.com/railsware/s3_fetch_certs">S3 fetch binary</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="CertonidCover">
+      <h2 class="shout">Certonid</h2>
+    </section>
+
+    <section class="slide" id="CertonidArchitecture">
+      <div>
+        <img class="cover" src="pictures/certonid-schema.svg" alt="CertonidArchitecture" />
+      </div>
+    </section>
+
+    <section class="slide" id="BQVisCover">
+      <h2 class="shout">BQVis</h2>
+    </section>
+
+    <section class="slide" id="BQVisView">
+      <div>
+        <img class="cover" src="pictures/bqvis.png" alt="BQVisView" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapCampaignSystemCover">
+      <h2 class="shout">Mailtrap Campaign System</h2>
+      <style>
+        #MailtrapCampaignSystemCover h2 {
+          font-size: 88px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="MailtrapCampaignSystemView">
+      <div>
+        <img class="cover" src="pictures/mailtrap_campaigns.png" alt="MailtrapCampaignSystemView" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessCover">
+      <h2 class="shout">Serverless Pixel Tracking</h2>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixel">
+      <div>
+        <img class="cover" src="pictures/pixel-tracking-architecture.svg" alt="MailtrapServerlessPixel" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixelAdvance">
+      <div>
+        <img class="cover" src="pictures/pixel-tracking-architecture-advanced.svg" alt="MailtrapServerlessPixel" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaCover">
+      <h2 class="shout">Mt-go-panda <br />("Red Panda")</h2>
+      <style>
+        #MailtrapRedPandaCover h2 {
+          font-size: 88px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaView">
+      <div>
+        <img class="cover" src="pictures/mt-go-panda.png" alt="MailtrapRedPandaView" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaBuild">
+      <div>
+        <img class="cover" src="pictures/cloud-build-cloud-run.png" alt="MailtrapRedPandaBuild" />
+      </div>
+    </section>
+
+    <section class="slide" id="RWShortenerCover">
+      <h2 class="shout">RW Shortener</h2>
+    </section>
+
+    <section class="slide" id="RWShortenerView">
+      <div>
+        <img class="cover" src="pictures/rw-shortener.png" alt="RWShortenerView" />
+      </div>
+    </section>
+
+    <section class="slide" id="ConclusionCover">
+      <h2 class="shout">Conclusion</h2>
+    </section>
+
+    <section class="slide" id="QuestionsSlide"><div>
+      <h2>&lt;Thank You!&gt; Questions?</h2>
+      <div class="contacts">
+        <h3>Contact information</h3>
+        <ul>
+          <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+          <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+          <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        </ul>
+      </div>
+      <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+      <style>
+        #QuestionsSlide .contacts {
+          margin-top: 100px;
+          margin-left: 450px;
+        }
+      </style>
+    </div></section>
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.min.js"></script>
+    <!-- Copyright © 2019 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
