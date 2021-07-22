@@ -641,6 +641,130 @@ $column: 200px;
     </section>
 
 
+    <section class="slide" id="TestingCover">
+      <h2 class="shout">Testing</h2>
+    </section>
+
+    <section class="slide" id="TestingStorybook">
+      <div>
+        <img class="cover" src="pictures/storybook-relationship.png" alt="storybook" />
+      </div>
+    </section>
+
+    <section class="slide" id="TestingStorybookFlow">
+      <div>
+        <img class="cover" src="pictures/design-system-workflow.jpeg" alt="StorybookFlow" />
+      </div>
+    </section>
+
+    <section class="slide" id="TestingUnitJest">
+      <div>
+        <h2>Unit tests</h2>
+        <pre><code>import React from 'react'
+import {render, screen} from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+
+//👇 Imports a specific story for the test
+import {Primary} from './Button.stories'
+
+it('renders the button in the primary state', () =&gt; {
+  render(&lt;Primary {...Primary.args} /&gt;);
+  expect(screen.getByRole('button')).toHaveTextContent('Primary Button');
+});</code></pre>
+      </div>
+      <style>
+        #TestingUnitJest code {
+          font-size: 1.1rem;
+        }
+      </style>
+      </div>
+    </section>
+
+    <section class="slide" id="TestingVisualSchema">
+      <div>
+        <h2>Visual Testing with Storybook</h2>
+        <img class="place center" src="pictures/component-visual-testing.gif" alt="component-visual-testing" />
+      </div>
+      <style>
+        #TestingVisualSchema img {
+          width: 400px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="TestingVisualCode">
+      <div>
+        <h2>Visual Testing with Storybook</h2>
+        <pre><code>import initStoryshots from '@storybook/addon-storyshots'
+import {imageSnapshot} from '@storybook/addon-storyshots-puppeteer'
+
+initStoryshots({
+  suite: 'Basic storyshots',
+  test: imageSnapshot({storybookUrl: 'http://localhost:6006/'})
+})</code></pre>
+      </div>
+      <style>
+        #TestingVisualCode code {
+          font-size: 1.1rem;
+        }
+      </style>
+      </div>
+    </section>
+
+    <section class="slide" id="TestingVisualSSIM">
+      <div>
+        <h2>Pixelmatch vs SSIM</h2>
+        <img class="place center" src="pictures/ssim_vs_pixelmatch.png" alt="TestingVisualSSIM" />
+      </div>
+      <style>
+        #TestingVisualSSIM img {
+          width: 400px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="TestingVisualExample1">
+      <div>
+        <a href="pictures/visual_example1.png">
+          <img class="cover" src="pictures/visual_example1.png" alt="TestingVisualExample1" />
+        </a>
+      </div>
+    </section>
+
+    <section class="slide" id="TestingVisualExample2">
+      <div>
+        <a href="pictures/visual_example2.png">
+          <img class="cover" src="pictures/visual_example2.png" alt="TestingVisualExample2" />
+        </a>
+      </div>
+    </section>
+
+    <section class="slide" id="TestingVisualCodeAction">
+      <div>
+        <h2>Visual Testing with Storybook</h2>
+        <pre><code>describe('&lt;Button /&gt;', () =&gt; {
+  ...
+  it('check content after clicking', async () =&gt; {
+    // navigate to story
+    await page.goto(
+      'http://localhost:6006/iframe.html?id=components-button--primary',
+    )
+    // click on the button
+    await page.click('button')
+    // take screenshot and compare
+    const screenshot = await page.screenshot()
+    expect(screenshot).toMatchImageSnapshot() // import {toMatchImageSnapshot} from 'jest-image-snapshot'
+  })
+})</code></pre>
+      </div>
+      <style>
+        #TestingVisualCodeAction code {
+          font-size: 0.85rem;
+        }
+      </style>
+      </div>
+    </section>
+
     <section class="slide" id="Conclusion">
       <h2 class="shout">Conclusion</h2>
     </section>
@@ -654,6 +778,7 @@ $column: 200px;
           <li>HTML/CSS/JS Tools (SASS, LESS, PostCSS, Babel, TypeScript, etc)</li>
           <li>HTML/CSS/JS Frameworks (TaiwindCss, Bootstrap, Angular, Vue.JS, etc)</li>
           <li>Use linters for coding conventions</li>
+          <li>Use Visual testing to be sure components not broken</li>
         </ul>
       </div>
       <style>
