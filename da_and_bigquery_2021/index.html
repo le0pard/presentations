@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DA and BigQuery</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+      <h1>DA and BigQuery</h1>
+      <p>Oleksii Vasyliev, Railsware</p>
+    </header>
+
+    <section class="slide" id="Cover">
+      <h2>DA and BigQuery</h2>
+      <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
+          href="http://railsware.com/">Railsware</a></p>
+      <!--
+          To apply styles to the certain slides
+          set slide ID to get needed elements
+          -->
+      <style>
+        #Cover {
+          background-color: #04A05F;
+        }
+
+        #Cover h2 {
+          margin: 50px 0 0;
+          color: #FFF;
+          text-align: left;
+          font-weight: bold;
+          font-size: 66px;
+          line-height: 130%;
+        }
+
+        #Cover p {
+          margin: 50px 0 0;
+          text-align: left;
+          color: #FFF;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover p a {
+          color: #FFF;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="BigQueryCover">
+      <h2 class="shout">BigQuery</h2>
+    </section>
+
+    <section class="slide" id="BigQueryPros">
+      <div>
+        <h2>BigQuery Pros</h2>
+        <div class="columns two">
+          <ul>
+            <li>Serverless, it is easy to handle large size data</li>
+            <li>Reducing architecture costs</li>
+            <li>Optimal availability</li>
+            <li>Easy integration with tools like Data Studio and Google Analytics</li>
+          </ul>
+          <div>
+            <img src="pictures/bigquery.svg" alt="bigquery_pros" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #BigQueryPros img {
+          width: 250px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="BigQueryPricing">
+      <div>
+        <h2>BigQuery Pricing</h2>
+        <ul>
+          <li>Idle BigQuery only charges you $0.02 per month per GB stored (long-term storage - $0.02 per month per GB)</li>
+          <li>Queries (on-demand) - $5 per TB (first TB is free)</li>
+          <li>Streaming inserts - $0.010 per 200 MB</li>
+          <li>BigQuery Storage Write API - $0.025 per 1 GB (first 2 TB per month are free)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="BigQueryPricingFlat">
+      <div>
+        <h2>BigQuery Pricing (Flat-rate pricing)</h2>
+        <ul>
+          <li>Monthly flat-rate commitments - $2000 per month for 100 slots</li>
+          <li>Annual flat-rate commitments - $1700 per month for 100 slots</li>
+          <li>Flex slots - $4 per hour for 100 slots</li>
+          <li>Also exists Omni pricing model</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="DAAutomationCover">
+      <h2 class="shout">DA automation</h2>
+    </section>
+
+    <section class="slide" id="DAAutomationTerraform">
+      <div>
+        <img class="cover" src="pictures/terraform_da.png" alt="DAAutomationTerraform" />
+      </div>
+    </section>
+
+    <section class="slide" id="DAAutomationTerraformFunctions">
+      <div>
+        <img class="cover" src="pictures/terraform_da_schema.png" alt="DAAutomationTerraformFunctions" />
+      </div>
+    </section>
+
+    <section class="slide" id="TerraformBQTable">
+      <div>
+        <pre><code>resource "google_bigquery_table" "t_user_agent_info" {
+  dataset_id  = google_bigquery_dataset.datasources_redshift.dataset_id
+  table_id    = "t_user_agent_info"
+
+  schema = file("datasources_redshift/t_user_agent_info.json")
+}</code></pre>
+      </div>
+      <style>
+        #TerraformBQTable code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="TerraformBQView">
+      <div>
+        <pre><code>resource "google_bigquery_table" "v_users_with_failed_transactions" {
+  dataset_id  = google_bigquery_dataset.datasources_stripe.dataset_id
+  table_id    = "v_users_with_failed_transactions"
+  description = "Failed transactions"
+  view {
+    query          = file(
+      "datasources_stripe/v_users_with_failed_transactions.sql"
+    )
+    use_legacy_sql = false
+  }
+}</code></pre>
+      </div>
+      <style>
+        #TerraformBQView code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="TerraformBQSheets">
+      <div>
+        <pre><code>resource "google_bigquery_table" "gs_ga_sources" {
+  dataset_id  = google_bigquery_dataset.datasources_gsheets.dataset_id
+  table_id    = "gs_ga_sources"
+  external_data_configuration {
+    autodetect    = true
+    # support Bigtable, Google Sheets, Drive, Google Storage (formats: Avro, Parquet, Orc, CSV, JSON)
+    source_format = "GOOGLE_SHEETS"
+    google_sheets_options {
+      skip_leading_rows = 1
+      range             = "custom_range"
+    }
+    source_uris = [
+      "https://docs.google.com/spreadsheets/d/example/"
+    ]
+  }
+}</code></pre>
+      </div>
+      <style>
+        #TerraformBQSheets code {
+          font-size: 0.9rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="CloudSQLFederatedQueries">
+      <div>
+        <h2>Cloud SQL/Cloud Spanner federated queries</h2>
+        <pre><code>SELECT c.customer_id, c.name, rq.first_order_date
+FROM mydataset.customers AS c
+LEFT OUTER JOIN <mark>EXTERNAL_QUERY(
+  'us.connection_id',
+  '''SELECT customer_id, MIN(order_date) AS first_order_date
+  FROM orders
+  GROUP BY customer_id''')</mark> AS rq ON rq.customer_id = c.customer_id
+GROUP BY c.customer_id, c.name, rq.first_order_date;</code></pre>
+      </div>
+      <style>
+        #CloudSQLFederatedQueries code {
+          font-size: 1.1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="Ga4ToBigQuery">
+      <div>
+        <img class="cover" src="pictures/ga4_to_bq.png" alt="BigQUeryToGA" />
+      </div>
+    </section>
+
+    <section class="slide" id="BigQueryToDataStudio">
+      <div>
+        <img class="cover" src="pictures/bigquery_to_datastudio.png" alt="BigQueryToDataStudio" />
+      </div>
+    </section>
+
+    <section class="slide" id="DataFlowCover">
+      <h2 class="shout">DataFlow</h2>
+    </section>
+
+    <section class="slide" id="DataFlowPros">
+      <div>
+        <h2>DataFlow</h2>
+        <div class="columns two">
+          <ul>
+            <li>Unified stream and batch data processing</li>
+            <li>Apache Beam SDK</li>
+            <li>Dataflow templates</li>
+            <li>Horizontal autoscaling</li>
+          </ul>
+          <div>
+            <img src="pictures/dataflow_icon.png" alt="DataFlow" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #DataFlowPros img {
+          width: 250px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="BigQueryPubSubToBigquery">
+      <div>
+        <img class="cover" src="pictures/pubsub-to-bigquery-pipeline.png" alt="pubsub-to-bigquery-pipeline" />
+      </div>
+    </section>
+
+    <section class="slide" id="BigQueryDataflow1">
+      <div>
+        <img class="cover" src="pictures/dataflow1.png" alt="dataflow1" />
+      </div>
+    </section>
+
+    <section class="slide" id="BigQueryDataflow2">
+      <div>
+        <img class="cover" src="pictures/dataflow2.png" alt="dataflow2" />
+      </div>
+    </section>
+
+    <section class="slide" id="DataFlowMailtrap">
+      <div>
+        <h2>DataFlow at Mailtrap</h2>
+        <ul>
+          <li>Two streaming DataFlow</li>
+          <li>Apache Beam SDK Template (Pub/Sub to BigQuery)</li>
+          <li>1 GB per day from all streams</li>
+          <li>Cost:
+            <ul>
+              <li>2 DataFlows: $5.07 per day * 30 ~= $152 per month</li>
+              <li>Pub/sub ~= $5 per month</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ServerlessCover">
+      <h2 class="shout">Serverless</h2>
+    </section>
+
+    <section class="slide" id="ServerlessPros">
+      <div>
+        <h2>Serverless Pros</h2>
+        <div class="columns two">
+          <ul>
+            <li>Zero server management</li>
+            <li>Reducing architecture costs</li>
+            <li>Optimal availability</li>
+            <li>Eliminates idle capacity</li>
+          </ul>
+          <div>
+            <img src="pictures/serverless_pros.png" alt="serverless_pros" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #ServerlessPros img {
+          width: 250px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ServerlessCons">
+      <div>
+        <h2>Serverless Cons</h2>
+        <div class="columns two">
+          <ul>
+            <li>Response latency</li>
+            <li>Limitations</li>
+            <li>Testing and debugging become more challenging</li>
+            <li>New security concerns</li>
+            <li>Are not built for long-running processes</li>
+          </ul>
+          <div>
+            <img src="pictures/serverless_cons.jpeg" alt="serverless_cons" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #ServerlessCons img {
+          width: 450px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="BigQueryTerraformFunctions">
+      <div>
+        <img class="cover" src="pictures/terraform_functions.png" alt="terraform_functions" />
+      </div>
+    </section>
+
+    <section class="slide" id="DAAutomationGoogleTasks">
+      <div>
+        <img class="cover" src="pictures/google_tasks.png" alt="DAAutomationGoogleTasks" />
+      </div>
+    </section>
+
+    <section class="slide" id="ServerlessUsage">
+      <div>
+        <h2>Serverless Use Cases</h2>
+        <ul>
+          <li>Crawlers (with puppeteer)</li>
+          <li>API data collection</li>
+          <li>Transform data each hour/day/week/month</li>
+          <li>Data monitoring and anomaly detection</li>
+          <li>Use Google Scheduler for cron</li>
+          <li>IAM and Secret Manager to manage access and secrets</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaCover">
+      <h2 class="shout">Mt-go-panda <br />("Red Panda")</h2>
+      <style>
+        #MailtrapRedPandaCover h2 {
+          font-size: 88px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaView">
+      <div>
+        <img class="cover" src="pictures/mt-go-panda.png" alt="MailtrapRedPandaView" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaBuild">
+      <div>
+        <h2>Cloud Build + Cloud Run</h2>
+        <img class="cover" src="pictures/cloud-build-cloud-run.png" alt="MailtrapRedPandaBuild" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaCosts">
+      <div>
+        <h2>Costs</h2>
+        <ul>
+          <li>Redshift to S3 - free</li>
+          <li>S3 Data transfer = $0.09 per GB</li>
+          <li>GCP Storage Transfer Service = $0.0125 per GB</li>
+          <li>Summary: $0.1025 per GB transfered data, AWS charge 87% from sum :(</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaExample1">
+      <div>
+        <img class="cover" src="pictures/panda_build.png" alt="MailtrapRedPandaExample1" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaExample2">
+      <div>
+        <img class="cover" src="pictures/panda_run1.png" alt="MailtrapRedPandaExample2" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaExample3">
+      <div>
+        <img class="cover" src="pictures/panda_run2.png" alt="MailtrapRedPandaExample3" />
+      </div>
+    </section>
+
+    <section class="slide" id="SmallTablesCover">
+      <h2 class="shout">Small tables<br />(less 1 Gb)</h2>
+    </section>
+
+    <section class="slide" id="SmallTablesCode">
+      <div>
+        <img class="cover" src="pictures/small_tables.png" alt="small_tables" />
+      </div>
+    </section>
+
+    <section class="slide" id="SavingCostsCover">
+      <h2 class="shout">Saving costs and optimizations</h2>
+    </section>
+
+    <section class="slide" id="SavingCostsInfo">
+      <div>
+        <ul>
+          <li>Use clustered or partitioned tables</li>
+          <li>Table expiration allow you to remove automatically old data</li>
+          <li>If you have a table that is not edited for 90 consecutive days, the price of storage for that table automatically drops by 50 percent to $0.01 per GB, per month. This is the same cost as Cloud Storage Nearline</li>
+          <li>Avoid "SELECT *" - query only the columns that you need</li>
+          <li>Sample data using preview options</li>
+          <li>Before running queries, preview them to estimate costs ("dry_run" in clients)</li>
+          <li>Limit query costs by restricting the number of bytes billed</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="SavingCostsInfo2">
+      <div>
+        <ul>
+          <li>Do not use LIMIT to control costs in non-clustered tables</li>
+          <li>Create a dashboard to view your billing data so you can make adjustments to your BigQuery usage. Also consider streaming
+          your audit logs to BigQuery so you can analyze usage patterns</li>
+          <li>Materialize query results in stages</li>
+          <li>Using cached query results (if possible)</li>
+          <li><a href="https://cloud.google.com/bigquery/docs/best-practices-performance-overview">Do queries optimisations</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ScheduledQueriesCover">
+      <h2 class="shout">BigQuery Scheduled Queries</h2>
+      <style>
+        #ScheduledQueriesCover h2 {
+          font-size: 88px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="ScheduledQueriesExample">
+      <div>
+        <img class="cover" src="pictures/scheduled_queries.png" alt="ScheduledQueriesExample" />
+      </div>
+    </section>
+
+    <section class="slide" id="LogsRouterCover">
+      <h2 class="shout">GCP Logs Router</h2>
+    </section>
+
+    <section class="slide" id="LogsRouterExample">
+      <div>
+        <img class="cover" src="pictures/logger_router.png" alt="LogsRouterExample" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessCover">
+      <h2 class="shout">Serverless Pixel Tracking</h2>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixel">
+      <div>
+        <img class="cover" src="pictures/pixel-tracking-architecture.svg" alt="MailtrapServerlessPixel" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixelAdvance">
+      <div>
+        <img class="cover" src="pictures/pixel-tracking-architecture-advanced.svg" alt="MailtrapServerlessPixel" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixelCosts">
+      <div>
+        <h2>Costs</h2>
+        <ul>
+          <li>Cloud Load Balancing - $18.33 per month</li>
+          <li>Cloud CDN (depend from region), Mailtrap: $8 per month</li>
+          <li>GCP Logs - $0.5 per GB, but internal logs is free</li>
+          <li>Summary: $27 per month for custom analytic data in BiqQuery</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="BQVisCover">
+      <h2 class="shout">BQVis</h2>
+    </section>
+
+    <section class="slide" id="BQVisView">
+      <div>
+        <img class="cover" src="pictures/bqvis.png" alt="BQVisView" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapCampaignSystemCover">
+      <h2 class="shout">Mailtrap Campaign System</h2>
+      <style>
+        #MailtrapCampaignSystemCover h2 {
+          font-size: 88px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="MailtrapCampaignSystemView">
+      <div>
+        <img class="cover" src="pictures/mailtrap_campaigns.png" alt="MailtrapCampaignSystemView" />
+      </div>
+    </section>
+
+    <section class="slide" id="BigQueryML">
+      <div>
+        <h2>Available in BigQuery</h2>
+        <ul>
+          <li>BigQuery ML supports the following types of models:
+            <ul>
+              <li>Linear regression</li>
+              <li>Logistic regression</li>
+              <li>K-means</li>
+              <li>Tensorflow</li>
+              <li>other</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="BigQueryDataTransferService">
+      <div>
+        <h2>Available in BigQuery</h2>
+        <ul>
+          <li>BigQuery Data Transfer Service:
+            <ul>
+              <li>AWS S3</li>
+              <li>Cloud Storage</li>
+              <li>Google Ads</li>
+              <li>Campaign Manager (formerly known as DoubleClick Campaign Manager)</li>
+              <li>other</li>
+            </ul>
+          </li>
+          <li><a href="https://cloud.google.com/bigquery-transfer/docs/redshift-migration">Migrating data from Amazon Redshift</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="BigQueryDataTransferService">
+      <div>
+        <h2>Available in BigQuery</h2>
+        <ul>
+          <li>BigQuery BI Engine:
+            <ul>
+              <li>BI Engine provides sub-second query response time with minimal load times and improved concurrency for data stored in
+              BigQuery (best for visualization, useed under the hood by Data Studio)</li>
+              <li>Performs in-place analysis (no need ETL)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ConclusionCover">
+      <h2 class="shout">Conclusion</h2>
+    </section>
+
+    <section class="slide" id="QuestionsSlide"><div>
+      <h2>&lt;Thank You!&gt; Questions?</h2>
+      <div class="contacts">
+        <h3>Contact information</h3>
+        <ul>
+          <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+          <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+          <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        </ul>
+      </div>
+      <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+      <style>
+        #QuestionsSlide .contacts {
+          margin-top: 100px;
+          margin-left: 450px;
+        }
+      </style>
+    </div></section>
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.min.js"></script>
+    <!-- Copyright © 2019 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
