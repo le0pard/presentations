@@ -580,7 +580,7 @@ GROUP BY c.customer_id, c.name, rq.first_order_date;</code></pre>
     typeKind = "STRING"
   })
   definition_body = trimspace(chomp(templatefile("${path.module}/serverless_tracking_pixel/pt_decrypt.js.tpl", {
-    secret_key = var.serverless_tracking_secret_key
+    secret_key = var.serverless_secret_key
   })))
   imported_libraries = [
     "gs://.../file.js"
@@ -629,6 +629,23 @@ try {
       <style>
         #MailtrapServerlessPixelFunctionBody2 code {
           font-size: 0.5rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixelFunctionTerraform">
+      <div>
+        <h2>Sensitive info in terraform</h2>
+        <pre><code>variable "serverless_secret_key" {
+  type      = string
+  sensitive = true
+}</code></pre>
+        <h2>Pass in Github Actions as ENV variable</h2>
+        <pre><code>TF_VAR_serverless_secret_key: ${{ secrets.SERVERLESS_SECRET_KEY }}</code></pre>
+      </div>
+      <style>
+        #MailtrapServerlessPixelFunctionTerraform code {
+          font-size: 1.2rem;
         }
       </style>
     </section>
