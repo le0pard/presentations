@@ -508,6 +508,131 @@ GROUP BY c.customer_id, c.name, rq.first_order_date;</code></pre>
       </div>
     </section>
 
+    <section class="slide" id="MailtrapServerlessPixelFunction">
+      <div>
+        <pre><code>resource "google_bigquery_routine" "pt_urldecode" {
+  dataset_id   = google_bigquery_dataset.serverless_tracking_pixel.dataset_id
+  routine_id   = "PT_URLDECODE"
+  routine_type = "SCALAR_FUNCTION"
+  description  = "Function decode encoded url data"
+  language     = "SQL"
+  arguments {
+    name = "url"
+    data_type = jsonencode({
+      typeKind = "STRING"
+    })
+  }
+  return_type = jsonencode({
+    typeKind = "STRING"
+  })
+  definition_body = trimspace(chomp(file("${path.module}/serverless_tracking_pixel/pt_urldecode.sql")))
+}</code></pre>
+      </div>
+      <style>
+        #MailtrapServerlessPixelFunction code {
+          font-size: 0.9rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixelFunctionInside">
+      <div>
+        <h2>PT_URLDECODE function</h2>
+        <pre><code>(
+  SELECT SAFE_CONVERT_BYTES_TO_STRING(
+    ARRAY_TO_STRING(ARRAY_AGG(
+        IF(STARTS_WITH(y, '%'), FROM_HEX(SUBSTR(y, 2)), CAST(y AS BYTES)) ORDER BY i
+      ), b''))
+  FROM UNNEST(REGEXP_EXTRACT_ALL(url, r"%[0-9a-fA-F]{2}|[^%]+")) AS y WITH OFFSET AS i
+)
+</code></pre>
+        <h3>Example</h3>
+        <pre><code>SELECT ...
+  <mark>`serverless_pixel.PT_URLDECODE`</mark>(REGEXP_EXTRACT(httpRequest.requestUrl, "ec=([^&]+)")) AS category,
+  `serverless_pixel.PT_URLDECODE`(REGEXP_EXTRACT(httpRequest.requestUrl, "el=([^&]+)")) AS label,
+  `serverless_pixel.PT_URLDECODE`(REGEXP_EXTRACT(httpRequest.requestUrl, "eld=([^&]+)")) AS label_data,
+        </code></pre>
+      </div>
+      <style>
+        #MailtrapServerlessPixelFunctionInside code {
+          font-size: 0.8rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixelFunction2">
+      <div>
+        <pre><code>resource "google_bigquery_routine" "pt_decrypt" {
+  dataset_id        = google_bigquery_dataset.serverless_tracking_pixel.dataset_id
+  routine_id        = "PT_DESCRYPT"
+  routine_type      = "SCALAR_FUNCTION"
+  description       = "Function decrypt AES-256-GCM values"
+  language          = "JAVASCRIPT"
+  determinism_level = "DETERMINISTIC"
+  arguments {
+    name          = "encodedStr"
+    argument_kind = "FIXED_TYPE"
+    data_type = jsonencode({
+      typeKind = "STRING"
+    })
+  }
+  return_type = jsonencode({
+    typeKind = "STRING"
+  })
+  definition_body = trimspace(chomp(templatefile("${path.module}/serverless_tracking_pixel/pt_decrypt.js.tpl", {
+    secret_key = var.serverless_tracking_secret_key
+  })))
+  imported_libraries = [
+    "gs://.../file.js"
+  ]
+}</code></pre>
+      </div>
+      <style>
+        #MailtrapServerlessPixelFunction2 code {
+          font-size: 0.6rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="MailtrapServerlessPixelFunctionBody2">
+      <div>
+        <pre><code>if (!encodedStr) {
+  return '';
+}
+const [version, encoded, iv, authTag] = encodedStr.split('--');
+if (!version || !encoded || !iv || !authTag) {
+  return '';
+}
+try {
+  const decipher = forge.cipher.createDecipher(
+    'AES-GCM',
+    forge.util.createBuffer(forge.util.decode64("${secret_key}"))
+  );
+  decipher.start({
+    iv: forge.util.createBuffer(forge.util.decode64(iv)),
+    additionalData: '',
+    tagLength: 128,
+    tag: forge.util.createBuffer(forge.util.decode64(authTag))
+  });
+  decipher.update(forge.util.createBuffer(forge.util.decode64(encoded)));
+  const pass = decipher.finish();
+
+  if (pass) {
+    return decipher.output.data;
+  } else {
+    return JSON.stringify({decrypt_error: 'invalid_data'});
+  }
+} catch(e) {
+  return JSON.stringify({decrypt_error: JSON.stringify(e)});
+}</code></pre>
+      </div>
+      <style>
+        #MailtrapServerlessPixelFunctionBody2 code {
+          font-size: 0.5rem;
+        }
+      </style>
+    </section>
+
     <section class="slide" id="MailtrapServerlessPixelCosts">
       <div>
         <h2>Costs</h2>
