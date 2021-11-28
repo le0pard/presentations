@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WASM: Emscripten and Golang</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+      <h1>WASM: Emscripten and Golang</h1>
+      <p>Oleksii Vasyliev, Railsware</p>
+    </header>
+
+    <section class="slide" id="Cover">
+      <h2>WASM: Emscripten and Golang</h2>
+      <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
+          href="http://railsware.com/">Railsware</a></p>
+      <!--
+          To apply styles to the certain slides
+          set slide ID to get needed elements
+          -->
+      <style>
+        #Cover {
+          background-color: #04A05F;
+        }
+
+        #Cover h2 {
+          margin: 50px 0 0;
+          color: #FFF;
+          text-align: left;
+          font-weight: bold;
+          font-size: 66px;
+          line-height: 130%;
+        }
+
+        #Cover p {
+          margin: 50px 0 0;
+          text-align: left;
+          color: #FFF;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover p a {
+          color: #FFF;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="AboutMeSlide">
+      <div>
+        <h2>Oleksii Vasyliev</h2>
+        <ul>
+          <li>Web and Mobile Developer, DevOps</li>
+          <li>Open-Source libs: <a href="https://github.com/certonid/certonid">Certonid</a>, <a
+              href="https://github.com/le0pard/storybook-addon-root-attribute">Storybook Addon Root Attribute</a>, <a
+              href="http://pgtune.leopard.in.ua/">PGTune</a>, <a href="http://sql-joins.leopard.in.ua/">SQL Joins
+              Visualizer</a>, etc</li>
+          <li>Leading <a href="http://www.rwpod.com/">RWpod</a> podcast about Ruby and JavaScript</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="WASMBasicsCover">
+      <h2 class="shout">WebAssembly (WASM)</h2>
+    </section>
+
+    <section class="slide" id="WASMBasicsIntro">
+      <div>
+        <h2>WASM goals</h2>
+        <div class="columns two">
+          <ul>
+            <li>Be fast, efficient, and portable</li>
+            <li>Be readable and debuggable</li>
+            <li>Keep secure</li>
+            <li>Don't break the web</li>
+          </ul>
+          <div>
+            <img src="pictures/wasm.svg" alt="cat explorer" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #WASMBasicsIntro img {
+          width: 250px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WasmVsJs">
+      <div>
+        <h2>WebAssembly is a different language from JavaScript</h2>
+        <ul>
+          <li>JavaScript is a high-level language, flexible and expressive enough to write web applications</li>
+          <li>WebAssembly is a low-level assembly-like language with a compact binary format that runs with near-native performance</li>
+        </ul>
+      </div>
+      <style>
+        #CSSArchitectureIntro img {
+          width: 370px;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="WasmHowTo">
+      <div>
+        <img class="cover" src="pictures/wasm_howto.jpeg" alt="WasmHowTo" />
+      </div>
+    </section>
+
+    <section class="slide" id="WASMKeyConcepts">
+      <div>
+        <h2>Key concepts</h2>
+        <ul>
+          <li><strong>Module</strong>: Represents a WebAssembly binary that has been compiled by the browser into executable
+            machine code. A Module is stateless and thus, like a Blob, can be explicitly shared between windows and workers (via
+            postMessage())</li>
+          <li><strong>Memory</strong>: A resizable ArrayBuffer that contains the linear array of bytes read and written by WebAssembly’s low-level memory access instructions</li>
+          <li><strong>Table</strong>: A resizable typed array of references (e.g. to functions) that could not otherwise be stored as raw bytes in
+          Memory (for safety and portability reasons)</li>
+          <li><strong>Instance</strong>: A Module paired with all the state it uses at runtime including a Memory, Table, and set of imported values</li>
+        </ul>
+      </div>
+      <style>
+        #WASMKeyConcepts li {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="EmscriptenCover">
+      <h2 class="shout">Emscripten</h2>
+    </section>
+
+    <section class="slide" id="EmscriptenConcepts">
+      <div>
+        <h2>Emscripten</h2>
+        <p>The Emscripten tool is able to take just about any C/C++ source code and compile it into a .wasm module, plus the
+          necessary JavaScript "glue" code for loading and running the module, and an HTML document to display the results
+          of the code</p>
+        <img class="place b" src="pictures/emscripten-diagram.png" alt="Emscripten" />
+      </div>
+      <style>
+        #EmscriptenConcepts img {
+          margin: 3rem 0;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="EmscriptenWebp">
+      <div>
+        <h2>Webp Wasm</h2>
+        <ul>
+          <li><a href="https://webp.leopard.in.ua/#/">Application Demo</a></li>
+          <li><a href="https://webp.leopard.in.ua/#/">Application Repo</a></li>
+          <li><a href="https://github.com/le0pard/webp-wasm/blob/master/webpack/lib/wasmWebp.js">JS code</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="GolangCover">
+      <h2 class="shout">Golang</h2>
+    </section>
+
+    <section class="slide" id="GoWasmIntro1">
+      <div>
+        <h2>Go + WASM is an Application, not a Library</h2>
+        <pre><code>package main
+import (
+  "fmt"
+)
+
+func main() {
+  fmt.Println("Hello World")
+  // Prevent the function from returning, which is required in a wasm module
+  <-make(chan bool)
+}</code></pre>
+      </div>
+      <style>
+        #GoWasmIntro1 code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoWasmIntro2">
+      <div>
+        <h2>Go + WASM is an Application, not a Library</h2>
+        <pre><code>cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
+GOOS=js GOARCH=wasm go build -o main.wasm</code></pre>
+      </div>
+      <style>
+        #GoWasmIntro2 code {
+          font-size: 1.3rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoWasmIntro3">
+      <div>
+        <pre><code>const loadWasm = (path) => {
+  const go = new Go()
+
+  return new Promise((resolve, reject) => {
+    WebAssembly.instantiateStreaming(fetch(path), go.importObject)
+    .then(result => {
+      go.run(result.instance)
+      resolve(result.instance)
+    })
+    .catch(error => {
+      reject(error)
+    })
+  })
+}
+// Load the wasm file
+loadWasm("main.wasm").then(wasm => {
+    console.log("main.wasm is loaded ")
+}).catch(error => {
+    console.error("ouch", error)
+}) </code></pre>
+      </div>
+      <style>
+        #GoWasmIntro3 code {
+          font-size: 0.75rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoWasmDom1">
+      <div>
+        <h2>Work with DOM</h2>
+        <pre><code>package main
+import (
+    "syscall/js"
+)
+
+func main() {
+
+  message := "Hello World"
+
+  document := js.Global().Get("document")
+  h2 := document.Call("createElement", "h2")
+  h2.Set("innerHTML", message)
+  document.Get("body").Call("appendChild", h2)
+
+  <-make(chan bool)
+}</code></pre>
+      </div>
+      <style>
+        #GoWasmDom1 code {
+          font-size: 0.8rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoWasmDom2">
+      <div>
+        <h2>Work with DOM</h2>
+        <pre><code>func MyGoFunc() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		// Get the current time as a Go time.Time object
+		now := time.Now()
+		// Get the Date object constructor from JavaScript
+		dateConstructor := js.Global().Get("Date")
+		// Return a new JS "Date" object with the time from the Go "now" variable
+		// We're passing the UNIX timestamp to the "Date" constructor
+		// Because JS uses milliseconds for UNIX timestamp, we need to multiply the timestamp by 1000
+		return dateConstructor.New(now.Unix() * 1000)
+	})
+}</code></pre>
+      </div>
+      <style>
+        #GoWasmDom2 code {
+          font-size: 0.8rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoWasmTypes">
+      <div>
+        <h2>Go types &lt;-&gt; JavaScript types</h2>
+        <pre><code>| Go                     | JavaScript             |
+| ---------------------- | ---------------------- |
+| js.Value               | [its value]            |
+| js.Func                | function               |
+| nil                    | null                   |
+| bool                   | boolean                |
+| integers and floats    | number                 |
+| string                 | string                 |
+| []interface{}          | new array              |
+| map[string]interface{} | new object             |</code></pre>
+      </div>
+      <style>
+        #GoWasmTypes code {
+          font-size: 0.9rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="GoWasmCons">
+      <div>
+        <h2>Unsupported in GO WASM</h2>
+        <ul>
+          <li>no C bindings</li>
+          <li>no system dependencies such as file system or network (database server for example)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="GoWasmVmail">
+      <div>
+        <h2>Vmail Wasm</h2>
+        <ul>
+          <li><a href="https://vmail.leopard.in.ua/">Application Demo</a></li>
+          <li><a href="https://github.com/le0pard/vmail">Application Repo</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="GoWasmOptimizations">
+      <div>
+        <h2>Optimizations</h2>
+        <ul>
+          <li>gzip + <a href="https://github.com/nodeca/pako">pako</a></li>
+          <li><a href="https://tinygo.org/">TinyGo</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="ConclusionCover">
+      <h2 class="shout">Conclusion</h2>
+    </section>
+
+    <section class="slide" id="QuestionsSlide"><div>
+      <h2>&lt;Thank You!&gt; Questions?</h2>
+      <div class="contacts">
+        <h3>Contact information</h3>
+        <ul>
+          <li>web: <a href="http://leopard.in.ua/">leopard.in.ua</a></li>
+          <li>github: <a href="https://github.com/le0pard">le0pard</a></li>
+          <li>twitter: <a href="https://twitter.com/leopard_me">@leopard_me</a></li>
+        </ul>
+      </div>
+      <img src="pictures/questions.png" alt="QuestionsSlide" class="place l b" />
+      <style>
+        #QuestionsSlide .contacts {
+          margin-top: 100px;
+          margin-left: 450px;
+        }
+      </style>
+    </div></section>
+
+    <div class="progress"></div>
+
+    <script src="shower/shower.min.js"></script>
+    <!-- Copyright © 2019 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
