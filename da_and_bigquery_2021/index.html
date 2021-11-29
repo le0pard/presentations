@@ -372,18 +372,6 @@ GROUP BY c.customer_id, c.name, rq.first_order_date;</code></pre>
       </div>
     </section>
 
-    <section class="slide" id="MailtrapRedPandaCosts">
-      <div>
-        <h2>Costs</h2>
-        <ul>
-          <li>Redshift to S3 - free</li>
-          <li>S3 Data transfer = $0.09 per GB</li>
-          <li>GCP Storage Transfer Service = $0.0125 per GB</li>
-          <li>Summary: $0.1025 per GB transfered data, AWS charge 87% from sum :(</li>
-        </ul>
-      </div>
-    </section>
-
     <section class="slide" id="MailtrapRedPandaExample1">
       <div>
         <img class="cover" src="pictures/panda_build.png" alt="MailtrapRedPandaExample1" />
@@ -399,6 +387,18 @@ GROUP BY c.customer_id, c.name, rq.first_order_date;</code></pre>
     <section class="slide" id="MailtrapRedPandaExample3">
       <div>
         <img class="cover" src="pictures/panda_run2.png" alt="MailtrapRedPandaExample3" />
+      </div>
+    </section>
+
+    <section class="slide" id="MailtrapRedPandaCosts">
+      <div>
+        <h2>Costs</h2>
+        <ul>
+          <li>Redshift to S3 - free</li>
+          <li>S3 Data transfer = $0.09 per GB</li>
+          <li>GCP Storage Transfer Service = $0.0125 per GB</li>
+          <li>Summary: $0.1025 per GB transfered data, AWS charge 87% from sum :(</li>
+        </ul>
       </div>
     </section>
 
