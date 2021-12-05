@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>WASM: Emscripten and Golang</title>
+    <title>WASM: Emscripten, Rust and Golang</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="shower/themes/material/styles/styles.css" />
@@ -14,12 +14,12 @@
 <body class="shower list">
 
     <header class="caption">
-      <h1>WASM: Emscripten and Golang</h1>
+      <h1>WASM: Emscripten, Rust and Golang</h1>
       <p>Oleksii Vasyliev, Railsware</p>
     </header>
 
     <section class="slide" id="Cover">
-      <h2>WASM: Emscripten and Golang</h2>
+      <h2>WASM: Emscripten, Rust and Golang</h2>
       <p>Brought to you by <a href="http://leopard.in.ua/">Alexey Vasiliev</a>, <a
           href="http://railsware.com/">Railsware</a></p>
       <!--
@@ -154,15 +154,257 @@
       </style>
     </section>
 
+    <section class="slide" id="EmscriptenCode">
+      <div>
+        <pre><code>#include &lt;emscripten.h&gt;
+
+EMSCRIPTEN_KEEPALIVE
+int fib(int n) {
+  if(n &lt;= 0){
+    return 0;
+  }
+  int i, t, a = 0, b = 1;
+  for (i = 1; i &lt; n; i++) {
+    t = a + b;
+    a = b;
+    b = t;
+  }
+  return b;
+}</code></pre>
+      </div>
+      <style>
+        #EmscriptenCode code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="EmscriptenCompile">
+      <div>
+        <h2>Emcc - Emscripten compiler command</h2>
+        <pre><code>emcc -O3 -s WASM=1 -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]' fib.c</code></pre>
+      </div>
+      <style>
+        #EmscriptenCompile code {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="EmscriptenWeb">
+      <div>
+        <pre><code>&lt;script src=&quot;a.out.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  Module.onRuntimeInitialized = _ =&gt; {
+    const fib = Module.cwrap(&apos;fib&apos;, &apos;number&apos;, [&apos;number&apos;]);
+    console.log(fib(12));
+  };
+&lt;/script&gt;</code></pre>
+      </div>
+      <style>
+        #EmscriptenWeb code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="EmscriptenWeb2">
+      <div>
+        <pre><code>&lt;script&gt;
+  (async function() {
+    const imports = {
+      env: {
+        memory: new WebAssembly.Memory({initial: 1}),
+        STACKTOP: 0,
+      }
+    };
+    const {instance} = await WebAssembly.instantiateStreaming(
+      fetch(&apos;/a.out.wasm&apos;),
+      imports
+    );
+    console.log(instance.exports._fib(12));
+  })();
+&lt;/script&gt;</code></pre>
+      </div>
+      <style>
+        #EmscriptenWeb2 code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="EmscriptenLibs">
+      <div>
+        <h2>Compiling a C library</h2>
+        <pre><code>emcc -O3 -s WASM=1 -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]' \
+    -I libwebp \
+    webp.c \
+    libwebp/src/{dec,dsp,demux,enc,mux,utils}/*.c</code></pre>
+      </div>
+      <style>
+        #EmscriptenLibs code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
     <section class="slide" id="EmscriptenWebp">
       <div>
         <h2>Webp Wasm</h2>
         <ul>
           <li><a href="https://webp.leopard.in.ua/#/">Application Demo</a></li>
-          <li><a href="https://webp.leopard.in.ua/#/">Application Repo</a></li>
+          <li><a href="https://github.com/le0pard/webp-wasm">Application Repo</a></li>
           <li><a href="https://github.com/le0pard/webp-wasm/blob/master/webpack/lib/wasmWebp.js">JS code</a></li>
         </ul>
       </div>
+    </section>
+
+    <section class="slide" id="RustCover">
+      <h2 class="shout">Rust</h2>
+    </section>
+
+    <section class="slide" id="RustInstall">
+      <div>
+        <h2><a href="https://rustwasm.github.io/wasm-pack/">Wasm-pack</a></h2>
+        <div class="columns two">
+          <pre><code>cargo install wasm-pack
+npm install -g wasm-pack
+yarn global add wasm-pack</code></pre>
+          <div>
+            <img src="pictures/wasm-ferris.png" alt="wasm" />
+          </div>
+        </div>
+      </div>
+      <style>
+        #RustInstall code {
+          font-size: 1.4rem;
+        }
+        #RustInstall img {
+          width: 100%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="RustCode">
+      <div>
+        <pre><code>use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+extern {
+    pub fn alert(s: &amp;str);
+}
+
+#[wasm_bindgen]
+pub fn greet(name: &amp;str) {
+    alert(&amp;format!(&quot;Hello, {}!&quot;, name));
+}</code></pre>
+      </div>
+      <style>
+        #RustCode code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="RustBuild">
+      <div>
+        <pre><code>$ wasm-pack build
+[INFO]: 🎯 Checking for the Wasm target...
+[INFO]: 🌀 Compiling to Wasm...
+Compiling proc-macro2 v1.0.32
+Compiling unicode-xid v0.2.2
+Compiling log v0.4.14
+Compiling syn v1.0.82
+Compiling wasm-bindgen-shared v0.2.78
+...
+Compiling js-sys v0.3.55
+Compiling console_error_panic_hook v0.1.7
+Compiling web-sys v0.3.55
+Compiling wasm-game-of-life v0.1.0 (/Users/leo/Downloads/wasm_game_of_life)
+Finished release [optimized] target(s) in 17.17s
+[INFO]: ⬇️ Installing wasm-bindgen...
+[INFO]: Optimizing wasm binaries with `wasm-opt`...
+[INFO]: Optional fields missing from Cargo.toml: 'description', 'repository', and 'license'. These are not necessary,
+but recommended
+[INFO]: ✨ Done in 21.55s</code></pre>
+      </div>
+      <style>
+        #RustBuild code {
+          font-size: 0.8rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="RustJS">
+      <div>
+        <h2>Using the package on the web</h2>
+        <pre><code>&lt;script type=&quot;module&quot;&gt;
+import init, {greet} from &quot;./pkg/hello_wasm.js&quot;;
+init()
+  .then(() =&gt; {
+    greet(&quot;WebAssembly&quot;)
+  });
+&lt;/script&gt;</code></pre>
+      </div>
+      <style>
+        #RustJS code {
+          font-size: 1rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="RustGameOfLife">
+      <div>
+        <h2>Conway's Game of Life</h2>
+        <div class="columns two">
+          <ul>
+            <li><a href="https://github.com/rustwasm/wasm_game_of_life">Application Repo</a></li>
+          </ul>
+          <img src="pictures/game_of_life.png" alt="Conways Game of Life in Rust and WebAssembly" />
+        </div>
+      </div>
+      <style>
+        #RustGameOfLife img {
+          width: 95%;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="RustCrates1">
+      <div>
+        <h2>Rust crates for WASM development</h2>
+        <ul class="columns two">
+          <li><a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a> - high-level interactions between Rust and JavaScript</li>
+          <li><a href="https://github.com/rustwasm/wasm-bindgen/tree/main/crates/futures">wasm-bindgen-futures</a> - bridge connecting JavaScript Promises and Rust Futures</li>
+          <li><a href="https://github.com/rustwasm/wasm-bindgen/tree/main/crates/js-sys">js-sys</a> - imports for all the JavaScript global types and methods, such as Object, Function, eval, etc</li>
+          <li><a href="https://github.com/rustwasm/wasm-bindgen/tree/main/crates/web-sys">web-sys</a> - imports for all the Web's APIs, such as DOM manipulation, setTimeout, Web GL, Web Audio, etc</li>
+          <li><a href="https://github.com/rustwasm/console_error_panic_hook">console_error_panic_hook</a> - lets you debug panics on wasm32-unknown-unknown by providing a panic hook that forwards panic messages to console.error</li>
+          <li><a href="https://github.com/iamcodemaker/console_log">console_log</a> - a backend for the log crate that routes logged messages to the devtools console</li>
+        </ul>
+      </div>
+      <style>
+        #RustCrates1 li {
+          font-size: 1.2rem;
+        }
+      </style>
+    </section>
+
+    <section class="slide" id="RustCrates2">
+      <div>
+        <h2>Rust crates for WASM development</h2>
+        <ul class="columns two">
+          <li><a href="https://github.com/rustwasm/wee_alloc">wee_alloc</a> - the Wasm-Enabled, Elfin Allocator. A small (~1K uncompressed .wasm) allocator implementation for when code size is a
+          greater concern than allocation performance</li>
+          <li><a href="https://github.com/paritytech/parity-wasm">parity-wasm</a> - low-level WebAssembly format library for serializing, deserializing, and building .wasm binaries</li>
+          <li><a href="https://github.com/yurydelendik/wasmparser.rs">wasmparser</a> - a simple, event-driven library for parsing WebAssembly binary files</li>
+          <li><a href="https://github.com/bytecodealliance/wasmtime/tree/main/cranelift">cranelift-wasm</a> - compile WebAssembly to the native host's machine code. Part of the Cranelift (né Cretonne) code generator project</li>
+        </ul>
+      </div>
+      <style>
+        #RustCrates2 li {
+          font-size: 1.2rem;
+        }
+      </style>
     </section>
 
     <section class="slide" id="GolangCover">
